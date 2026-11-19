@@ -23,7 +23,7 @@ export const WeddingCeremonySection = () => {
   return (
     <section
       id="wedding"
-      className="relative min-h-screen w-full flex items-center justify-end py-20 px-6 sm:px-12 md:px-20 overflow-hidden select-none"
+      className="relative min-h-screen w-full flex items-center justify-center md:justify-end py-24 md:py-28 px-6 sm:px-12 md:px-16 lg:px-24 overflow-hidden select-none"
     >
       {/* Background Graphic: 11_wedding_ceremony.png */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
@@ -31,18 +31,21 @@ export const WeddingCeremonySection = () => {
           src="/11_wedding_ceremony.png"
           alt="Royal Wedding Mandap Red Gold Sacred Fire"
           fill
+          priority
           sizes="100vw"
           className="object-cover object-center"
         />
+        {/* Soft atmospheric gradient on mobile to guarantee readability over ceremonial mandap */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#FDF9F2]/95 via-[#FDF9F2]/70 to-transparent md:hidden" />
       </div>
 
       {/* Pure Floating Typography on Right — NO DARK BOXES */}
-      <div className="relative z-10 max-w-lg w-full text-center md:text-left flex flex-col items-center md:items-start pl-0 md:pl-8">
+      <div className="relative z-10 max-w-lg md:max-w-md lg:max-w-lg w-full text-center md:text-left flex flex-col items-center md:items-start pl-0 md:pl-4">
         <span className="text-[11px] sm:text-[12px] font-manrope font-semibold tracking-[0.28em] uppercase text-[#8C232A] mb-2">
           — The Sacred Vows (Saat Phere) —
         </span>
 
-        <h2 className="font-cormorant text-5xl sm:text-7xl font-medium text-[#2A1014] leading-[0.95] tracking-tight mb-2 drop-shadow-xs">
+        <h2 className="font-cormorant text-4xl sm:text-5xl md:text-6xl font-medium text-[#2A1014] leading-[1.0] tracking-tight mb-2 drop-shadow-xs">
           Wedding <br />
           <span className="italic font-serif text-[#4A151C]">Ceremony</span>
         </h2>

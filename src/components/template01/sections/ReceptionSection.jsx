@@ -22,7 +22,7 @@ export const ReceptionSection = () => {
   return (
     <section
       id="reception"
-      className="relative min-h-screen w-full flex items-center justify-end py-20 px-6 sm:px-12 md:px-20 overflow-hidden select-none"
+      className="relative min-h-screen w-full flex items-center justify-center md:justify-end py-24 md:py-28 px-6 sm:px-12 md:px-16 lg:px-24 overflow-hidden select-none"
     >
       {/* Background Graphic: 12_reception.png */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
@@ -30,18 +30,21 @@ export const ReceptionSection = () => {
           src="/12_reception.png"
           alt="Imperial Reception Gala Dining Chandeliers"
           fill
+          priority
           sizes="100vw"
           className="object-cover object-center"
         />
+        {/* Soft atmospheric gradient on mobile to guarantee readability over gala night */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#091321]/95 via-[#091321]/70 to-transparent md:hidden" />
       </div>
 
       {/* Pure Floating Typography on Right — NO DARK BOXES */}
-      <div className="relative z-10 max-w-lg w-full text-center md:text-left flex flex-col items-center md:items-start pl-0 md:pl-8">
+      <div className="relative z-10 max-w-lg md:max-w-md lg:max-w-lg w-full text-center md:text-left flex flex-col items-center md:items-start pl-0 md:pl-4">
         <span className="text-[11px] sm:text-[12px] font-manrope font-semibold tracking-[0.28em] uppercase text-[#E7CEA0] mb-2">
           — An Evening of Celebration —
         </span>
 
-        <h2 className="font-cormorant text-5xl sm:text-7xl font-medium text-[#FFFDF7] leading-[0.95] tracking-tight mb-2 drop-shadow-md">
+        <h2 className="font-cormorant text-4xl sm:text-5xl md:text-6xl font-medium text-[#FFFDF7] leading-[1.0] tracking-tight mb-2 drop-shadow-md">
           Imperial <br />
           <span className="italic font-serif text-[#D6B477]">Reception</span>
         </h2>

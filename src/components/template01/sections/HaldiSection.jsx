@@ -23,26 +23,29 @@ export const HaldiSection = () => {
   return (
     <section
       id="haldi"
-      className="relative min-h-screen w-full flex items-center justify-end py-20 px-6 sm:px-12 md:px-20 overflow-hidden select-none"
+      className="relative min-h-screen w-full flex items-center justify-center md:justify-end py-24 md:py-28 px-6 sm:px-12 md:px-16 lg:px-24 overflow-hidden select-none"
     >
-      {/* Background Graphic: 08_haldi_ceremony.png */}
+      {/* Background Graphic: 16:9 Haldi Ceremony Asset */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <Image
           src="/08_haldi_ceremony.png"
           alt="Haldi Ceremony Marigold Setting"
           fill
+          priority
           sizes="100vw"
           className="object-cover object-center"
         />
+        {/* Soft atmospheric gradient on mobile to guarantee readability over detailed backgrounds */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#FBF6EC]/95 via-[#FBF6EC]/70 to-transparent md:hidden" />
       </div>
 
       {/* Pure Floating Typography on Right — NO DARK BOXES */}
-      <div className="relative z-10 max-w-lg w-full text-center md:text-left flex flex-col items-center md:items-start pl-0 md:pl-8">
+      <div className="relative z-10 max-w-lg md:max-w-md lg:max-w-lg w-full text-center md:text-left flex flex-col items-center md:items-start pl-0 md:pl-4">
         <span className="text-[11px] sm:text-[12px] font-manrope font-semibold tracking-[0.28em] uppercase text-[#8C6527] mb-2">
           — Auspicious Turmeric Ritual —
         </span>
 
-        <h2 className="font-cormorant text-5xl sm:text-7xl font-medium text-[#2C1A0B] leading-[0.95] tracking-tight mb-2 drop-shadow-xs">
+        <h2 className="font-cormorant text-4xl sm:text-5xl md:text-6xl font-medium text-[#2C1A0B] leading-[1.0] tracking-tight mb-2 drop-shadow-xs">
           Haldi <br />
           <span className="italic font-serif text-[#46280E]">Ceremony</span>
         </h2>

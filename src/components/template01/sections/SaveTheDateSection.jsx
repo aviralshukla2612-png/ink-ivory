@@ -60,7 +60,7 @@ export const SaveTheDateSection = () => {
   return (
     <section
       id="countdown"
-      className="relative min-h-screen w-full flex items-center justify-center py-20 px-6 overflow-hidden select-none"
+      className="relative min-h-screen w-full flex items-center justify-center pt-28 pb-16 px-6 overflow-hidden select-none"
     >
       {/* Background Graphic: 06_save_the_date.png */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">

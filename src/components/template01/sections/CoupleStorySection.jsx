@@ -22,7 +22,7 @@ export const CoupleStorySection = () => {
   return (
     <section
       id="story"
-      className="relative min-h-screen w-full flex items-center justify-end py-20 px-6 sm:px-12 md:px-20 overflow-hidden select-none"
+      className="relative min-h-screen w-full flex items-center justify-center md:justify-end py-24 md:py-28 px-6 sm:px-12 md:px-16 lg:px-24 overflow-hidden select-none"
     >
       {/* Background Graphic: 05_couple_story.png */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
@@ -30,18 +30,21 @@ export const CoupleStorySection = () => {
           src="/05_couple_story.png"
           alt="Couple Story Sunset Lake Palace"
           fill
+          priority
           sizes="100vw"
           className="object-cover object-center"
         />
+        {/* Soft atmospheric gradient on mobile */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#FAF4EC]/95 via-[#FAF4EC]/70 to-transparent md:hidden" />
       </div>
 
       {/* Typography on the Right Side (Clear Sky/Water Area) — NO DARK BOXES */}
-      <div className="relative z-10 max-w-xl w-full text-center md:text-left flex flex-col items-center md:items-start pl-0 md:pl-10">
+      <div className="relative z-10 max-w-xl md:max-w-md lg:max-w-xl w-full text-center md:text-left flex flex-col items-center md:items-start pl-0 md:pl-6">
         <span className="text-[11px] sm:text-[12px] font-manrope font-semibold tracking-[0.28em] uppercase text-[#7B5927] mb-2">
           — The Journey of Love —
         </span>
 
-        <h2 className="font-cormorant text-5xl sm:text-7xl lg:text-8xl text-[#26180E] font-medium leading-[0.95] tracking-tight drop-shadow-xs">
+        <h2 className="font-cormorant text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#26180E] font-medium leading-[1.0] tracking-tight drop-shadow-xs">
           Our <br />
           <span className="italic font-serif text-[#3E2512]">Story</span>
         </h2>

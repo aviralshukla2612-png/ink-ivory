@@ -22,7 +22,7 @@ export const ClosingSection = () => {
   return (
     <section
       id="closing"
-      className="relative min-h-screen w-full flex flex-col items-center justify-center py-20 px-6 overflow-hidden select-none"
+      className="relative min-h-screen w-full flex flex-col items-center justify-center pt-28 pb-16 px-6 overflow-hidden select-none"
     >
       {/* Background Graphic: 15_closing_thank_you.png */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
