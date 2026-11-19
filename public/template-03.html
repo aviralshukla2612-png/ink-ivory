@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thirumanam — Karthik &amp; Meenakshi — South Indian Wedding Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Karla:wght@400;500;600;700&family=Noto+Serif+Tamil:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --crimson:#8a1020; --crimson-d:#5e0a14; --wine:#0a3a2c; --night:#06201a;
+  --cream:#f8efd6; --cream2:#eedcae; --paper:#fffaf0;
+  --gold:#d9a521; --gold2:#f4d77a; --brass:#a87a1c; --rose:#d2402a; --ink:#1f2a1c;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Karla',system-ui,-apple-system,sans-serif;
+  --tamil:'Noto Serif Tamil',var(--serif);
+  --bar-h:34px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:var(--bar-h)}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.lock{overflow:hidden}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.1}
+section{padding:clamp(60px,9vw,110px) 20px;text-align:center;position:relative}
+h2{font-size:clamp(2.1rem,5vw,3.3rem)}
+.kick{font-size:.78rem;letter-spacing:.28em;color:var(--brass);margin-bottom:12px;font-weight:600;text-transform:uppercase}
+.sub{font-family:var(--serif);font-style:italic;font-size:1.25rem;opacity:.85;margin:10px auto 34px;max-width:580px;line-height:1.5}
+.dots{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px auto;color:var(--gold)}
+.dots:before,.dots:after{content:"";width:60px;height:1px;background:currentColor}
+.dots i{width:7px;height:7px;background:currentColor;transform:rotate(45deg)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(#e6b559,#c58c2e);color:#2a1200;border:0;border-radius:999px;padding:13px 30px;font:700 1rem var(--sans);cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,0.3);text-decoration:none;transition:transform .2s,filter .2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:inherit;border:1.5px solid currentColor;box-shadow:none}
+.night{background:radial-gradient(ellipse at 50% 0,#124a38,var(--night) 70%);color:var(--cream)}
+.pat:before{content:"";position:absolute;inset:0;background-image:radial-gradient(#d9a52126 1.4px,transparent 1.5px);background-size:26px 26px;pointer-events:none}
+.pat>*{position:relative;z-index:1}
+@keyframes spin{to{transform:rotate(360deg)}}
+.rev{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}.rev.in{opacity:1;transform:none}
+
+/* ---------- PREVIEW BAR ---------- */
+#bar{position:fixed;top:0;left:0;right:0;height:var(--bar-h);z-index:130;display:flex;align-items:center;gap:6px;padding:0 14px;
+  background:linear-gradient(#2d2842,#2d2842e6);backdrop-filter:blur(8px);font-family:var(--sans);font-size:11px;font-weight:600;color:#e9e6f3;
+  transform:translateY(-100%);transition:transform .7s .2s cubic-bezier(.2,.8,.2,1)}
+body.ready #bar{transform:none}
+body.nobar #bar{display:none}
+#bar .nav{display:flex;align-items:center;gap:4px;padding:6px 8px;border-radius:6px;background:none;border:none;color:inherit;cursor:pointer}
+#bar .nav:hover{background:#ffffff14}
+#bar .sp{flex:1}
+#choose{background:linear-gradient(#e6b152,#d29a35);color:#3b2a08;font-weight:700;padding:6px 14px;border-radius:7px;font-size:11px;box-shadow:0 2px 8px #0005;text-decoration:none;display:inline-flex;align-items:center}
+#toast{position:fixed;top:48px;left:50%;transform:translate(-50%,-20px);background:#1c1832;color:#fff;font-family:var(--sans);font-size:12px;padding:10px 18px;border-radius:999px;z-index:140;opacity:0;pointer-events:none;transition:all .4s;box-shadow:0 4px 16px rgba(0,0,0,0.4)}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- LOADER : KOLAM & TEMPLE GLOW ---------- */
+#loader{position:fixed;inset:0;z-index:120;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(circle at 50% 40%,#5e0a14,#04241b 78%);color:var(--gold2);transition:opacity .9s,visibility .9s}
+#loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+#lm{width:min(62vw,250px);height:auto;overflow:visible;animation:spin 26s linear infinite}
+#lm *{fill:none;stroke:#d9a521;stroke-width:.7;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s ease forwards;animation-delay:var(--d)}
+@keyframes draw{to{stroke-dashoffset:0}}
+#loader .lname{font:600 2.2rem var(--serif);letter-spacing:.06em;color:var(--cream);margin-top:10px}
+#loader p{font:italic 1.15rem var(--serif);opacity:.85;text-align:center}
+.lbar{width:190px;height:3px;background:#ffffff22;border-radius:3px;overflow:hidden}
+.lbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transform-origin:left;transform:scaleX(0);animation:fillbar 2.6s ease forwards}
+@keyframes fillbar{to{transform:scaleX(1)}}
+
+/* ---------- GATE : GOPURAM TEMPLE-SILK DOORS ---------- */
+#gate{position:fixed;inset:0;z-index:100;background:var(--cream);display:grid;place-items:center;overflow:hidden;user-select:none}
+#gate .reveal{position:absolute;inset:0;display:grid;place-items:center;text-align:center;background:radial-gradient(circle,#fff8ea,var(--cream2))}
+#gate .reveal h1{font-size:clamp(3rem,11vw,6.5rem);color:var(--wine);letter-spacing:.02em}
+#gate .reveal p{font-family:var(--serif);font-style:italic;font-size:1.3rem;color:var(--brass)}
+.door{position:absolute;top:0;bottom:0;width:50.5%;transition:transform 2s cubic-bezier(.75,0,.2,1);background:var(--crimson);z-index:3}
+.door svg{width:100%;height:100%;display:block}
+.dl{left:0}.dr{right:0}
+#gate.open .dl{transform:translateX(-102%)}#gate.open .dr{transform:translateX(102%)}
+.seal{position:absolute;z-index:4;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;color:var(--cream);transition:opacity .5s;width:min(86vw,360px)}
+.seal .medal{width:96px;height:96px;margin:0 auto 14px;border-radius:50%;background:radial-gradient(#f7dc9a,#a87a1c);border:3px solid var(--cream);display:grid;place-items:center;font:700 2rem var(--serif);color:var(--wine);box-shadow:0 0 0 6px #8a102099,0 10px 30px #000a;animation:pulse 2.2s infinite}
+@keyframes pulse{50%{transform:scale(1.07)}}
+.seal .btn{margin-top:14px}
+.seal p{font-family:var(--serif);font-size:1.5rem;text-shadow:0 2px 8px #000;font-weight:600}
+#gate.open .seal{opacity:0;pointer-events:none}
+#gate.gone{display:none}
+#gate .skip{position:absolute;z-index:5;top:16px;right:16px;background:#0006;color:#fff;border:0;border-radius:999px;padding:8px 14px;font:600 .8rem var(--sans);cursor:pointer;backdrop-filter:blur(4px);transition:background .2s}
+#gate .skip:hover{background:#0009}
+
+.ta{font-family:'Noto Serif Tamil',var(--serif);font-weight:500}
+@keyframes fadein{to{opacity:1}}
+
+/* ---------- HERO : SACRED THORANAM & NAMECARD ---------- */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:140px;padding-bottom:60px;background:linear-gradient(#fbf3e3,var(--cream2))}
+#garland{position:absolute;top:0;left:0;width:100%;height:190px;pointer-events:none;z-index:2}
+.hero-grid{display:flex;align-items:flex-end;justify-content:center;gap:clamp(14px,3vw,40px);flex-wrap:wrap;max-width:1100px;position:relative;z-index:3}
+.frame{width:clamp(150px,19vw,210px);aspect-ratio:3/4.2;border-radius:999px 999px 14px 14px;border:5px solid var(--cream);box-shadow:0 0 0 3px var(--rose),0 14px 30px #0a3a2c55;overflow:hidden;position:relative}
+.frame svg{width:100%;height:100%;display:block}
+.frame b{position:absolute;bottom:8px;left:0;right:0;font:italic 600 1.1rem var(--serif);color:var(--cream);text-shadow:0 1px 6px #000}
+.namecard{width:min(100%,380px);padding:44px 28px 34px;background:#fffaf0;border-radius:999px 999px 18px 18px;border:2px solid var(--gold);box-shadow:inset 0 0 0 7px #fffaf0,inset 0 0 0 8px var(--gold),0 20px 40px #0a3a2c33}
+.namecard .tiny{font-size:.72rem;letter-spacing:.25em;color:var(--crimson);margin-bottom:10px;font-weight:700}
+.namecard h1{font-size:clamp(3rem,8vw,4.6rem);color:var(--wine)}
+.namecard .amp{display:block;font:italic 400 1.9rem var(--serif);color:var(--rose);margin:4px 0}
+.namecard p{margin:14px 0 0;color:#6a4a3c;line-height:1.6}
+.pill{display:inline-block;margin-top:18px;padding:9px 22px;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);font-family:var(--serif);font-size:1.2rem;color:var(--wine);font-weight:600}
+
+/* ---------- SAVE THE DATE ---------- */
+#save{background:linear-gradient(#0d4a38,#06241c)}
+#save h2{color:var(--cream)}
+.cal{width:min(92%,340px);margin:0 auto 24px;background:var(--cream);color:var(--ink);border-radius:16px;padding:20px 18px 14px;box-shadow:0 18px 40px #0007;position:relative}
+.cal:before{content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:70%;height:10px;background:repeating-linear-gradient(90deg,var(--gold) 0 8px,transparent 8px 18px);border-radius:6px}
+.cal h3{font-size:1.4rem;margin-bottom:12px;color:var(--wine)}
+.cal .g{display:grid;grid-template-columns:repeat(7,1fr);gap:6px 0;font-size:.85rem}
+.cal .g span{height:30px;display:grid;place-items:center;border-radius:50%}
+.cal .hd{font-size:.68rem;color:#9a7a60;font-weight:700}
+.cal .on{background:var(--wine);color:#fff;font-weight:700;box-shadow:0 0 0 3px var(--gold);animation:glow 2s infinite}
+@keyframes glow{50%{box-shadow:0 0 0 6px #d9a52166}}
+.cal .ft{margin-top:12px;font-size:.78rem;color:#7a5a48;font-weight:600}
+#save .loc{font-family:var(--serif);font-size:1.4rem;color:var(--gold2);line-height:1.4}
+
+/* ---------- COUNTDOWN ---------- */
+#count h2{color:var(--cream)}
+.cd{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.tile{width:96px;padding:26px 0 14px;background:linear-gradient(var(--cream),var(--cream2));color:var(--wine);border-radius:48px 48px 12px 12px;border:3px solid var(--gold);box-shadow:inset 0 0 0 3px var(--cream),inset 0 0 0 4px var(--crimson),0 10px 24px #0008}
+.tile b{font:700 2.5rem var(--serif);display:block;line-height:1;font-variant-numeric:lining-nums;font-feature-settings:'lnum' 1}.tile small{font-size:.72rem;letter-spacing:.12em;color:var(--brass);font-weight:700}
+
+/* ---------- EVENTS ---------- */
+#events{background:linear-gradient(var(--cream2),#f8efd6)}
+#events h2{color:var(--wine)}
+.tl{max-width:960px;margin:0 auto;position:relative}
+.tl:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(var(--gold),var(--rose),var(--gold))}
+.row{display:grid;grid-template-columns:1fr 90px 1fr;align-items:center;margin-bottom:56px}
+.row .card{grid-column:1}.row .dt{grid-column:2}.row .when{grid-column:3;text-align:left}
+.row:nth-child(even) .card{grid-column:3}.row:nth-child(even) .when{grid-column:1;grid-row:1;text-align:right}
+.row:nth-child(even) .dt{grid-row:1}.row:nth-child(even) .card{grid-row:1}
+.dt{width:70px;height:70px;margin:auto;border-radius:50%;background:radial-gradient(var(--crimson),var(--wine));color:var(--gold2);border:3px solid var(--gold);display:grid;place-items:center;font:700 1.8rem var(--serif);position:relative;z-index:1;box-shadow:0 0 0 6px var(--cream2);font-variant-numeric:lining-nums}
+.when{font-family:var(--serif);font-size:1.5rem;color:var(--wine);padding:0 10px}.when small{display:block;font:italic 400 1.1rem var(--serif);color:var(--brass)}
+.card{position:relative;margin:34px 10px 0;padding:34px 22px 24px;background:#fffaf0;border:1.5px solid var(--gold);border-radius:14px;box-shadow:inset 0 0 0 5px #fffaf0,inset 0 0 0 6px #d9a52188,0 14px 30px #0a3a2c26;text-align:center}
+.card .bells{position:absolute;top:-34px;left:0;right:0;display:flex;justify-content:center;gap:16px}
+.card .bells svg{width:20px;height:34px;transform-origin:top;animation:sway 3s ease-in-out infinite}
+.card .bells svg:nth-child(2n){animation-delay:-1.4s}
+@keyframes sway{50%{transform:rotate(9deg)}}
+.card h3{font-size:2rem;color:var(--crimson)}
+.card p{margin:6px 0;color:#6a4a3c;font-size:.95rem;line-height:1.5}
+.card .acts{margin-top:14px;display:flex;gap:8px;justify-content:center}
+.card .acts a{font-size:.85rem;font-weight:600;color:var(--wine);border:1.5px solid var(--gold);border-radius:999px;padding:7px 16px;text-decoration:none;transition:background .2s}
+.card .acts a:hover{background:var(--gold2)}
+
+/* ---------- FAMILY ---------- */
+#family{background:linear-gradient(#06241c,var(--wine));color:var(--cream)}
+.bar{max-width:640px;margin:0 auto 20px;padding:22px 26px;background:var(--cream);color:var(--wine);border-radius:80px 80px 18px 18px/60px 60px 18px 18px;border:2px solid var(--gold);box-shadow:0 10px 26px #0006}
+.bar small{display:block;font-size:.7rem;letter-spacing:.22em;color:var(--brass);margin-bottom:6px;font-weight:700}
+.bar span{font-family:var(--serif);font-size:1.35rem;font-weight:600}
+.lights{position:absolute;left:0;right:0;bottom:0;height:46px;pointer-events:none}
+
+/* ---------- KUTHUVILAKKU TEMPLE LAMP ---------- */
+#bless h2{color:var(--cream)}
+#bless{overflow:hidden}
+#lantern{position:relative;display:block;width:230px;height:330px;margin:0 auto;cursor:pointer;background:none;border:0}
+#lantern svg{position:relative;z-index:1;width:100%;height:100%;overflow:visible;transition:filter 1s}
+#lantern.lit svg{filter:drop-shadow(0 0 24px #ffb347cc)}
+#lantern .halo{position:absolute;left:50%;top:42%;width:440px;height:440px;margin:-220px 0 0 -220px;border-radius:50%;background:radial-gradient(circle,#ffcf6b66,#ffcf6b00 65%);opacity:0;transition:opacity 1s;pointer-events:none}
+#lantern.lit .halo{opacity:1;animation:breathe 3s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.12)}}
+#lantern .glass{fill:url(#gl);opacity:.25;transition:opacity 1s}
+#lantern.lit .glass{opacity:1}
+#lantern .hole{fill:#ffe3a0;opacity:.2;transition:opacity 1s}
+#lantern.lit .hole{opacity:1}
+#lantern .flame{opacity:0;transform-box:fill-box;transform-origin:50% 100%;transition:opacity .6s}
+#lantern.lit .flame{opacity:1;animation:flick .2s infinite alternate}
+@keyframes flick{to{transform:scale(.92,1.08) rotate(1.5deg)}}
+.star{position:absolute;left:50%;top:38%;width:6px;height:6px;border-radius:50%;background:var(--gold2);box-shadow:0 0 8px var(--gold2);animation:burst 2.4s ease-out forwards}
+@keyframes burst{to{transform:translate(var(--x),var(--y));opacity:0}}
+#msg{min-height:1.6em;font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--gold2);margin-top:14px}
+
+/* ---------- RSVP FORM ---------- */
+form{max-width:480px;width:100%;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:16px;text-align:left}
+label{font-weight:600;font-size:.9rem}
+input,select,textarea{width:100%;min-width:0;max-width:100%;padding:13px 16px;border-radius:12px;border:1.5px solid #cdb585;background:#fffaf0;font:1rem var(--sans);color:var(--ink)}
+#rsvpS label{color:var(--gold2)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px #d9a52144}
+#rsvpS{background:linear-gradient(var(--night),#0b2a20);color:var(--cream)}
+#thanks{display:none;font:600 1.9rem var(--serif);color:var(--gold2);text-align:center}
+
+footer{background:radial-gradient(ellipse at 50% 0,#0b2a20,#04140f 70%);border-top:3px solid var(--gold);color:#cdb892;padding:54px 20px 90px;text-align:center}
+.fm{width:80px;height:80px;margin:0 auto 14px;border-radius:50%;border:2px solid var(--gold);display:grid;place-items:center;font:600 1.6rem var(--serif);color:var(--gold2);box-shadow:0 0 0 6px #d9a52122}
+.fn{font:600 1.1rem var(--serif);letter-spacing:.18em;margin-bottom:18px}
+footer p.big{font:italic 1.6rem var(--serif);color:var(--gold2);margin-bottom:20px}
+
+/* ---------- MUSIC CONTROLLER ---------- */
+#music{position:fixed;right:16px;bottom:16px;z-index:95;width:54px;height:54px;border-radius:50%;border:2px solid var(--gold);background:var(--crimson);display:grid;place-items:center;padding:0;cursor:pointer;box-shadow:0 6px 16px #0007;transition:transform .2s,box-shadow .2s}
+#music:hover{transform:scale(1.06)}
+#music.on{box-shadow:0 0 0 4px rgba(217,165,33,0.4),0 8px 20px rgba(0,0,0,0.6)}
+#music .w{display:none}#music.on .w{display:block}#music.on .x{display:none}
+
+@media(max-width:700px){
+ .tl:before{left:28px}.row{grid-template-columns:56px 1fr;margin-bottom:30px}
+ .dt{width:50px;height:50px;font-size:1.3rem;box-shadow:0 0 0 4px var(--cream2)}
+ .row .dt,.row:nth-child(even) .dt{grid-column:1;grid-row:1}
+ .row .when,.row:nth-child(even) .when{grid-column:2;grid-row:1;text-align:left;font-size:1.2rem}
+ .row .card,.row:nth-child(even) .card{grid-column:2;grid-row:2;margin-top:44px}
+ .frame{display:none}
+ #bar .nav span{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rev{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- ================= PREVIEW BAR ================= -->
+<div id="bar" role="navigation" aria-label="Preview controls">
+  <button class="nav" id="bBack"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M19 12H5m6-6-6 6 6 6"/></svg><span>Back</span></button>
+  <button class="nav" id="bPrev"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 6-6 6 6 6"/></svg><span>Previous</span></button>
+  <button class="nav" id="bNext"><span>Next</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></button>
+  <span class="sp"></span>
+  <a href="/customize/tpl-engagement-garden-03" id="choose">Choose this design &rarr;</a>
+</div>
+<div id="toast" role="status"></div>
+
+<div id="loader" role="status">
+  <svg id="lm" viewBox="-60 -60 120 120" aria-hidden="true"></svg>
+  <div class="lname" id="lName"></div>
+  <p><span class="ta">வணக்கம்</span><br>Preparing your South Indian wedding invitation</p>
+  <div class="lbar"><i></i></div>
+</div>
+
+<!-- ================= GOPURAM TEMPLE-SILK DOORS ================= -->
+<div id="gate" role="button" tabindex="0" aria-label="Open the invitation">
+ <div class="reveal">
+   <div>
+     <p class="ta">ஸ்ரீ கணேசாய நமஹ</p>
+     <h1>Thirumanam</h1>
+     <div class="dots"><i></i></div>
+     <p id="gReveal"></p>
+   </div>
+ </div>
+ <div class="door dl"><svg id="pl" preserveAspectRatio="xMaxYMid slice" viewBox="0 0 200 400"></svg></div>
+ <div class="door dr"><svg id="pr" preserveAspectRatio="xMinYMid slice" viewBox="0 0 200 400"></svg></div>
+ <div class="seal">
+   <div class="medal" id="mono"></div>
+   <p id="gNames"></p>
+   <span class="btn">Open the invitation</span>
+ </div>
+ <button class="skip" id="skip">Skip opening</button>
+</div>
+
+<!-- Real Bollywood Soundtrack: Mast Magan (2 States) -->
+<audio id="song" src="/audio/mast-magan.mp3" loop preload="auto"></audio>
+
+<button id="music" aria-label="Toggle wedding music" title="Play soundtrack: Mast Magan (2 States)">
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#f8efd6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9v6h4l5 4V5L8 9z" fill="#f8efd6"/>
+    <g class="w"><path d="M16 9a4 4 0 010 6"/><path d="M18.5 6.5a8 8 0 010 11"/></g>
+    <g class="x"><path d="M16.5 9.5l4.5 5M21 9.5l-4.5 5"/></g>
+  </svg>
+</button>
+
+<section id="hero" data-sec>
+ <svg id="garland" viewBox="0 0 1000 190" preserveAspectRatio="xMidYMin slice"></svg>
+ <div class="hero-grid">
+  <div class="frame rev">
+    <svg viewBox="0 0 200 280">
+      <defs>
+        <linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7c35a"/><stop offset="1" stop-color="#d2402a"/></linearGradient>
+      </defs>
+      <rect width="200" height="280" fill="url(#sk)"/>
+      <circle cx="100" cy="120" r="46" fill="#fff3c4" opacity=".7"/>
+      <g fill="#5e0a14" stroke="#f4d77a" stroke-width="1.2">
+        <rect x="40" y="236" width="120" height="30"/>
+        <rect x="52" y="208" width="96" height="30"/>
+        <rect x="64" y="180" width="72" height="30"/>
+        <rect x="74" y="154" width="52" height="28"/>
+        <rect x="83" y="130" width="34" height="26"/>
+        <path d="M92 130L100 100l8 30z"/>
+      </g>
+      <circle cx="100" cy="94" r="4" fill="#f4d77a"/>
+      <path d="M0 266h200v14H0z" fill="#06241c"/>
+      <g fill="#f4d77a">
+        <rect x="94" y="244" width="12" height="22" rx="6"/>
+        <rect x="82" y="190" width="10" height="16" rx="5"/>
+        <rect x="108" y="190" width="10" height="16" rx="5"/>
+      </g>
+    </svg>
+    <b id="fA"></b>
+  </div>
+
+  <div class="namecard rev">
+   <p class="ta" style="color:var(--crimson);font-size:1.05rem;margin:0 0 8px;font-weight:700">திருமண அழைப்பிதழ்</p>
+   <p class="tiny">WITH JOY, WE INVITE YOU TO CELEBRATE</p>
+   <h1 id="n1"></h1>
+   <span class="amp">&amp;</span>
+   <h1 id="n2"></h1>
+   <p>Together with their families<br>invite you to celebrate their sacred wedding</p>
+   <div class="pill" id="dateTxt"></div>
+  </div>
+
+  <div class="frame rev">
+    <svg viewBox="0 0 200 280">
+      <rect width="200" height="280" fill="#0b4a37"/>
+      <g fill="#7fb069">
+        <path d="M100 120C60 110 40 70 38 40c36 8 56 40 62 80z"/>
+        <path d="M100 120C140 110 160 70 162 40c-36 8-56 40-62 80z"/>
+        <path d="M100 118C84 90 84 56 100 28c16 28 16 62 0 90z"/>
+      </g>
+      <path d="M100 118C84 90 84 56 100 28" stroke="#3f7d3a" fill="none"/>
+      <circle cx="100" cy="124" r="20" fill="#7a4a1c"/>
+      <path d="M92 112q8 6 16 0" stroke="#c89a5a" fill="none"/>
+      <path d="M78 140h44v10H78z" fill="#d9a521"/>
+      <path d="M72 150h56q18 12 14 44-6 40-42 46-36-6-42-46-4-32 14-44z" fill="#d9a521"/>
+      <path d="M80 170q20 14 40 0" stroke="#a87a1c" stroke-width="3" fill="none"/>
+      <path d="M84 190q16 10 32 0" stroke="#d2402a" stroke-width="3" fill="none"/>
+      <ellipse cx="100" cy="258" rx="52" ry="8" fill="#06241c"/>
+    </svg>
+    <b id="fB"></b>
+  </div>
+ </div>
+</section>
+
+<section id="save" data-sec>
+ <p class="kick" style="color:var(--gold)">MARK YOUR CALENDAR</p>
+ <h2 class="rev">Save the date</h2><div class="dots"><i></i></div><br>
+ <div class="cal rev"><h3 id="calM"></h3><div class="g" id="calG"></div><p class="ft" id="calF"></p></div>
+ <p class="loc rev" id="loc"></p>
+</section>
+
+<section id="count" class="night pat" data-sec>
+ <p class="kick">THE WAIT IS ALMOST OVER</p>
+ <h2 class="rev">Counting down to the big day</h2>
+ <p class="sub rev" id="cdDate"></p>
+ <div class="cd rev">
+   <div class="tile"><b id="d">0</b><small>DAYS</small></div>
+   <div class="tile"><b id="h">0</b><small>HOURS</small></div>
+   <div class="tile"><b id="mi">0</b><small>MINUTES</small></div>
+   <div class="tile"><b id="s">0</b><small>SECONDS</small></div>
+ </div>
+</section>
+
+<section id="events" data-sec>
+ <p class="kick">THE FESTIVITIES</p>
+ <h2 class="rev">The celebrations</h2><div class="dots"><i></i></div>
+ <p class="sub rev">Four days of traditional Vedic rituals, Carnatic music, and joyous celebrations</p>
+ <div class="tl" id="tl"></div>
+</section>
+
+<section id="family" class="pat" data-sec>
+ <p class="kick" style="color:var(--gold)">WITH LOVE FROM THE FAMILY</p>
+ <h2 class="rev">We can't wait to see you</h2>
+ <p class="sub rev">Reach out to us for anything you need</p>
+ <div class="bar rev"><small>WAITING TO WELCOME YOU</small><span id="fam"></span></div>
+ <div class="bar rev"><small>FOR ANY HELP, CALL</small><span id="help"></span></div>
+ <svg class="lights" id="lights" viewBox="0 0 1000 46" preserveAspectRatio="none"></svg>
+</section>
+
+<section id="bless" class="night pat" data-sec>
+ <p class="kick">WITH THE BLESSINGS OF OUR ELDERS</p>
+ <h2 class="rev">Sri Ganeshaya Namaha</h2>
+ <p class="sub rev">Tap the sacred Kuthuvilakku brass lamp to light the flames and shower divine blessings</p>
+ <button id="lantern" aria-label="Light the sacred Kuthuvilakku temple lamp">
+   <div class="halo"></div>
+   <svg viewBox="0 0 240 330">
+     <defs>
+       <linearGradient id="br" x1="0" x2="1">
+         <stop offset="0" stop-color="#6e4210"/>
+         <stop offset=".35" stop-color="#e6b559"/>
+         <stop offset=".5" stop-color="#fff0b0"/>
+         <stop offset=".7" stop-color="#c58c2e"/>
+         <stop offset="1" stop-color="#6a3f0e"/>
+       </linearGradient>
+     </defs>
+     <path d="M50 160C50 70 190 70 190 160" fill="none" stroke="url(#br)" stroke-width="8"/>
+     <g fill="#f4d77a">
+       <circle cx="66" cy="112" r="3"/><circle cx="84" cy="94" r="3"/><circle cx="104" cy="84" r="3"/>
+       <circle cx="136" cy="84" r="3"/><circle cx="156" cy="94" r="3"/><circle cx="174" cy="112" r="3"/>
+     </g>
+     <circle cx="120" cy="74" r="8" fill="url(#br)"/>
+     <path d="M114 66h12l-6-14z" fill="url(#br)"/>
+     <!-- 5 Traditional Oil Lamp Wicks with Golden Glow -->
+     <rect x="53" y="152" width="6" height="8" fill="#6a3f0e"/>
+     <g class="flame"><path d="M56 152c-7-10-7-20 0-26 7 11 7 20 0 26z" fill="#ffb12e"/><path d="M56 150c-3-6-3-12 0-19 3 7 3 13 0 19z" fill="#fff3b0"/></g>
+     <rect x="85" y="152" width="6" height="8" fill="#6a3f0e"/>
+     <g class="flame"><path d="M88 152c-7-10-7-20 0-26 7 11 7 20 0 26z" fill="#ffb12e"/><path d="M88 150c-3-6-3-12 0-19 3 7 3 13 0 19z" fill="#fff3b0"/></g>
+     <rect x="117" y="152" width="6" height="8" fill="#6a3f0e"/>
+     <g class="flame"><path d="M120 152c-9-10-9-20 0-34 9 14 9 24 0 34z" fill="#ffb12e"/><path d="M120 150c-3-6-3-12 0-19 3 7 3 13 0 19z" fill="#fff3b0"/></g>
+     <rect x="149" y="152" width="6" height="8" fill="#6a3f0e"/>
+     <g class="flame"><path d="M152 152c-7-10-7-20 0-26 7 11 7 20 0 26z" fill="#ffb12e"/><path d="M152 150c-3-6-3-12 0-19 3 7 3 13 0 19z" fill="#fff3b0"/></g>
+     <rect x="181" y="152" width="6" height="8" fill="#6a3f0e"/>
+     <g class="flame"><path d="M184 152c-7-10-7-20 0-26 7 11 7 20 0 26z" fill="#ffb12e"/><path d="M184 150c-3-6-3-12 0-19 3 7 3 13 0 19z" fill="#fff3b0"/></g>
+     <path d="M42 160h156q-8 30-78 30T42 160z" fill="url(#br)"/>
+     <ellipse cx="120" cy="160" rx="78" ry="9" fill="#f4d77a"/>
+     <ellipse cx="120" cy="160" rx="68" ry="6" fill="#ffd36b" opacity=".55"/>
+     <rect x="110" y="190" width="20" height="100" fill="url(#br)"/>
+     <ellipse cx="120" cy="198" rx="16" ry="7" fill="url(#br)"/>
+     <ellipse cx="120" cy="232" rx="13" ry="6" fill="url(#br)"/>
+     <ellipse cx="120" cy="262" rx="20" ry="8" fill="url(#br)"/>
+     <path d="M78 296q42-14 84 0l-8-22q-34-8-68 0z" fill="url(#br)"/>
+     <path d="M50 318h140l-12-26H62z" fill="url(#br)"/>
+     <ellipse cx="120" cy="318" rx="70" ry="6" fill="#6a3f0e"/>
+   </svg>
+ </button>
+ <p id="msg" aria-live="polite"></p>
+</section>
+
+<section id="rsvpS" data-sec>
+ <p class="kick">PLEASE REPLY</p>
+ <h2 class="rev" style="color:var(--cream)">Will you join us?</h2>
+ <p class="sub rev">Tell us who is coming so we can set your banana-leaf sadhya seat</p>
+ <form id="rsvp">
+  <div><label for="nm">Your name</label><input id="nm" placeholder="Enter guest name" required></div>
+  <div><label for="gs">Number of guests</label><select id="gs"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></div>
+  <div><label for="ct">Which ceremonies will you attend?</label><select id="ct"><option>All ceremonies &amp; Sadhya</option><option>Nalangu &amp; Jaanavasam</option><option>Muhurtham (Auspicious Thali)</option><option>Reception only</option><option>Sending blessings from afar</option></select></div>
+  <div><label for="ms">Message of blessings for the couple</label><textarea id="ms" rows="3" placeholder="Write your heartfelt blessings..."></textarea></div>
+  <button class="btn" type="submit" style="justify-content:center">Confirm blessings (RSVP)</button>
+ </form>
+ <p id="thanks">மிக்க நன்றி! Thank you! We cannot wait to celebrate with you.</p>
+</section>
+
+<footer>
+ <div class="fm" id="fMono"></div>
+ <p class="fn" id="fN"></p>
+ <div class="dots"><i></i></div>
+ <p class="big">Your presence is the greatest gift. We look forward to celebrating with you.</p>
+ <button class="btn ghost" id="again">Watch the invitation again</button>
+</footer>
+
+<script>
+/* ===== CONFIGURATION: SOUTH INDIAN WEDDING DETAILS ===== */
+const W = {
+  SHOW_PREVIEW_BAR: true,
+  n1: "Karthik", n2: "Meenakshi",
+  date: "2027-02-14T09:00:00",
+  venue: "Sri Meenakshi Kalyana Mandapam, Madurai",
+  family: "Iyer family, Krishnan family and all the cousins",
+  help: "Suresh Iyer +91 98765 43210 · Lakshmi Krishnan +91 98765 43211",
+  labelA: "Karthik", labelB: "Meenakshi",
+  song: {
+    title: "Mast Magan",
+    movie: "2 States",
+    artist: "Arijit Singh, Chinmayi Sripada (T-Series)",
+    source: "/audio/mast-magan.mp3"
+  },
+  events: [
+    { name: "Nalangu", d: 12, when: "Friday, 12 February 2027", time: "10:00 AM", where: "Family home, Madurai", note: "Traditional turmeric, fragrant sandal paste, playful wedding games, and family songs." },
+    { name: "Jaanavasam", d: 13, when: "Saturday, 13 February 2027", time: "5:30 PM", where: "Sri Meenakshi Kalyana Mandapam, Madurai", note: "Grand baraat procession with live Nadaswaram, Carnatic concerts, and exchange of garlands." },
+    { name: "Muhurtham", d: 14, when: "Sunday, 14 February 2027", time: "9:00 AM", where: "Sri Meenakshi Kalyana Mandapam, Madurai", note: "Sacred Thali ceremony (Mangalya Dharanam), Saptapadi around agni, followed by royal banana-leaf Sadhya." },
+    { name: "Reception", d: 14, when: "Sunday, 14 February 2027", time: "7:00 PM", where: "Hotel Heritage Gardens, Madurai", note: "Grand celebratory dinner, musical tributes, and blessings from friends and family." }
+  ]
+};
+
+/* ===== URL PARAMS & STUDIO SYNCHRONIZATION ===== */
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('bar') === 'false' || urlParams.get('mode') === 'demo') {
+  W.SHOW_PREVIEW_BAR = false;
+}
+if (urlParams.get('names')) {
+  const parts = urlParams.get('names').split(/&|\band\b/i).map(s => s.trim());
+  if (parts.length >= 2) {
+    W.n1 = parts[0];
+    W.n2 = parts[1];
+    W.labelA = parts[0];
+    W.labelB = parts[1];
+  }
+}
+if (urlParams.get('date')) {
+  const customD = new Date(urlParams.get('date'));
+  if (!isNaN(customD.getTime())) W.date = customD.toISOString();
+}
+if (urlParams.get('venue')) W.venue = urlParams.get('venue');
+
+if (!W.SHOW_PREVIEW_BAR) {
+  document.body.classList.add('nobar');
+  document.documentElement.style.setProperty('--bar-h', '0px');
+}
+
+const $ = id => document.getElementById(id);
+let D = new Date(W.date);
+
+function updateContent() {
+  D = new Date(W.date);
+  const ds = D.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  $("gNames").textContent = W.n1 + " & " + W.n2;
+  $("gReveal").textContent = W.n1 + " & " + W.n2;
+  $("mono").textContent = (W.n1[0] || 'K') + "/" + (W.n2[0] || 'M');
+  $("n1").textContent = W.n1;
+  $("n2").textContent = W.n2;
+  $("dateTxt").textContent = ds;
+  $("cdDate").textContent = ds;
+  $("loc").textContent = W.venue;
+  $("fam").textContent = W.family;
+  $("help").textContent = W.help;
+  $("fA").textContent = W.labelA;
+  $("fB").textContent = W.labelB;
+  $("lName").textContent = W.n1 + " & " + W.n2;
+  $("fMono").textContent = (W.n1[0] || 'K') + " & " + (W.n2[0] || 'M');
+  $("fN").textContent = (W.n1 + " & " + W.n2).toUpperCase();
+  document.title = "Thirumanam — " + W.n1 + " & " + W.n2 + " — South Indian Wedding";
+}
+updateContent();
+
+/* ===== GOPURAM TEMPLE-SILK DOORS ===== */
+(function() {
+  const build = side => {
+    const j = side ? 0 : 200, bx = side ? 200 : 0, sg = side ? -1 : 1;
+    let s = `<rect width="200" height="400" fill="#7a0f1e"/>`;
+    for (let i = -7; i < 8; i++) s += `<path d="M${i*30} 0L${i*30+200} 400M${i*30+200} 0L${i*30} 400" stroke="#d9a521" stroke-width=".6" opacity=".22"/>`;
+    for (let y = 30; y < 400; y += 60) for (let x = 20; x < 190; x += 44) s += `<circle cx="${x+(y/60%2?22:0)}" cy="${y}" r="2.2" fill="#f4d77a" opacity=".7"/>`;
+    s += `<rect x="${side?186:0}" width="14" height="400" fill="#0b4a37"/><path d="M${side?186:14} 0V400" stroke="#d9a521" stroke-width="2"/>`;
+    for (let y = 4; y < 400; y += 16) s += `<path d="M${bx} ${y}l${14*sg} 8 ${-14*sg} 8z" fill="#d9a521"/>`;
+    for (let i = 0; i < 6; i++) {
+      const w = 176 - i * 26, y = 352 - i * 54, x = side ? 0 : 200 - w;
+      s += `<rect x="${x}" y="${y}" width="${w}" height="46" fill="#5e0a14" stroke="#f4d77a" stroke-width="1.4"/><rect x="${x}" y="${y}" width="${w}" height="7" fill="#d9a521"/>`;
+      for (let k = 1; k < 4; k++) {
+        const cx = side ? w * k / 4.4 : 200 - w * k / 4.4;
+        s += `<path d="M${cx-5} ${y+40}v-14a5 5 0 0110 0v14z" fill="#d9a521" opacity=".85"/>`;
+      }
+    }
+    s += `<path d="M${j} 40L${j+sg*-20} 82H${j}z" fill="#5e0a14" stroke="#f4d77a" stroke-width="1.4"/><circle cx="${j}" cy="36" r="9" fill="#d9a521"/><circle cx="${j}" cy="18" r="5" fill="#f4d77a"/>`;
+    return s;
+  };
+  $("pl").innerHTML = build(0);
+  $("pr").innerHTML = build(1);
+})();
+
+/* ===== JASMINE + MANGO-LEAF THORANAM GARLAND ===== */
+(function() {
+  let s = `<rect width="1000" height="8" fill="#3f7d3a"/>`, col = ["#fffaf0", "#fffaf0", "#f4a21e", "#fffaf0", "#d2402a"];
+  for (let x = 14, n = 0; x < 1000; x += 26, n++) {
+    s += `<path d="M${x-9} 6c-6 18-2 34 9 46c11-12 15-28 9-46z" fill="${n%2?"#3f7d3a":"#2f6a31"}"/>`;
+    const len = 64 + ((n * 37) % 90);
+    s += `<line x1="${x}" y1="44" x2="${x}" y2="${len}" stroke="#5a7a3a" stroke-width="1.4"/>`;
+    for (let y = 54, k = 0; y < len; y += 14, k++) {
+      const c = col[(n + k) % 5];
+      s += `<circle cx="${x}" cy="${y}" r="7" fill="${c}" stroke="#e8d9b0" stroke-width=".6"/><circle cx="${x}" cy="${y}" r="2.4" fill="${c==="#fffaf0"?"#e8c46a":"#fff0c0"}"/>`;
+    }
+    s += `<circle cx="${x}" cy="${len+6}" r="4.5" fill="#d9a521"/>`;
+  }
+  $("garland").innerHTML = s;
+})();
+
+/* ===== FESTIVE STRING LIGHTS ===== */
+(function() {
+  let s = "", c = ["#f4d77a", "#d2402a", "#fff", "#f0a22e"];
+  for (let x = 0; x <= 1000; x += 25) {
+    const y = 22 + Math.sin(x / 80) * 10;
+    s += `<circle cx="${x}" cy="${y}" r="4" fill="${c[(x/25)%4|0]}"/>`;
+  }
+  $("lights").innerHTML = `<path d="M0 22 ${Array.from({length:41},(_,i)=>`L${i*25} ${22+Math.sin(i*25/80)*10}`).join(" ")}" stroke="#7a5a2a" fill="none"/>` + s;
+})();
+
+/* ===== CALENDAR ===== */
+function buildCalendar() {
+  const y = D.getFullYear(), m = D.getMonth(), first = (new Date(y, m, 1).getDay() + 6) % 7, days = new Date(y, m + 1, 0).getDate();
+  let h = "MTWTFSS".split("").map(l => `<span class="hd">${l}</span>`).join("");
+  for (let i = 0; i < first; i++) h += "<span></span>";
+  for (let d = 1; d <= days; d++) h += `<span class="${d === D.getDate() ? "on" : ""}">${d}</span>`;
+  $("calG").innerHTML = h;
+  $("calM").textContent = D.toLocaleString("en", { month: "long" }) + " " + y;
+  $("calF").textContent = D.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+}
+buildCalendar();
+
+/* ===== EVENTS TIMELINE WITH TEMPLE BELLS ===== */
+const bell = `<svg viewBox="0 0 20 34"><path d="M10 0v8" stroke="#a87a1c" stroke-width="1.5"/><path d="M3 24c0-8 2-14 7-14s7 6 7 14z" fill="#d9a521"/><rect x="1" y="24" width="18" height="3" rx="1.5" fill="#a87a1c"/><circle cx="10" cy="31" r="2.6" fill="#a87a1c"/></svg>`;
+function buildEvents() {
+  $("tl").innerHTML = W.events.map(e => `
+    <div class="row rev">
+      <div class="card">
+        <div class="bells">${bell.repeat(4)}</div>
+        <h3>${e.name}</h3>
+        <p>${e.note}</p>
+        <p style="margin-top:6px;color:#2f4a36"><strong>${e.where}</strong></p>
+        <div class="acts">
+          <a href="https://maps.google.com/?q=${encodeURIComponent(e.where)}" target="_blank" rel="noopener">Directions</a>
+          <a href="https://maps.google.com/?q=${encodeURIComponent(e.where)}" target="_blank" rel="noopener">Map</a>
+        </div>
+      </div>
+      <div class="dt">${e.d}</div>
+      <div class="when">${e.when}<small>${e.time}</small></div>
+    </div>
+  `).join("");
+}
+buildEvents();
+
+/* ===== COUNTDOWN TICKER ===== */
+function tick() {
+  const t = Math.max(0, D - Date.now());
+  $("d").textContent = Math.floor(t / 864e5);
+  $("h").textContent = Math.floor(t / 36e5 % 24);
+  $("mi").textContent = Math.floor(t / 6e4 % 60);
+  $("s").textContent = Math.floor(t / 1e3 % 60);
+}
+tick();
+setInterval(tick, 1000);
+
+const io = new IntersectionObserver(a => a.forEach(x => x.isIntersecting && x.target.classList.add("in")), { threshold: .12 });
+document.querySelectorAll(".rev").forEach(e => io.observe(e));
+
+/* ===== REAL BOLLYWOOD SOUNDTRACK: MAST MAGAN (2 STATES) ===== */
+const song = $("song");
+let isPlaying = false;
+
+function toast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+function startMusic() {
+  if (isPlaying) return;
+  isPlaying = true;
+  $("music").classList.add("on");
+  if (song) {
+    song.volume = 0.75;
+    const playP = song.play();
+    if (playP !== undefined) {
+      playP.then(() => {
+        toast("🎵 Now Playing: Mast Magan — 2 States (Arijit Singh & Chinmayi Sripada)");
+      }).catch(err => {
+        console.warn("Audio autoplay blocked by browser policy, will resume on user interaction", err);
+      });
+    }
+  }
+}
+
+function stopMusic() {
+  isPlaying = false;
+  $("music").classList.remove("on");
+  if (song) {
+    song.pause();
+    toast("Music muted");
+  }
+}
+
+$("music").onclick = () => isPlaying ? stopMusic() : startMusic();
+
+/* ===== PRELOADER & KOLAM DRAWING ===== */
+document.body.classList.add("lock");
+(function() {
+  let h = "", d = 0;
+  const add = (t, a) => { h += `<${t} ${a} pathLength="1" style="--d:${(d+=.07).toFixed(2)}s"/>`; };
+  add("circle", 'r="46"');
+  add("path", 'd="M0 -42L42 0L0 42L-42 0z"');
+  for (let i = 0; i < 8; i++) add("ellipse", `cx="0" cy="-24" rx="10" ry="24" transform="rotate(${i*45})"`);
+  add("circle", 'r="12"');
+  [[1,0],[3,1],[5,2],[7,3],[5,4],[3,5],[1,6]].forEach(([n,r]) => {
+    for (let k = 0; k < n; k++) {
+      h += `<circle cx="${(k-(n-1)/2)*12}" cy="${(r-3)*12}" r="1.1" style="fill:#f4d77a;stroke:none;stroke-dasharray:none;stroke-dashoffset:0;opacity:0;animation:fadein .4s forwards;animation-delay:${(1.2+r*.08).toFixed(2)}s"/>`;
+    }
+  });
+  $("lm").innerHTML = h;
+})();
+
+const t0 = performance.now();
+const hideLoader = () => $("loader").classList.add("hide");
+addEventListener("load", () => setTimeout(hideLoader, Math.max(0, 2600 - (performance.now() - t0))));
+setTimeout(hideLoader, 5000);
+
+/* ===== GATE OPENING LOGIC ===== */
+const gate = $("gate");
+function openGate(skip) {
+  if (gate.classList.contains("open")) return;
+  gate.classList.add("open");
+  try { startMusic(); } catch(e) {}
+  setTimeout(() => {
+    gate.classList.add("gone");
+    document.body.classList.remove("lock");
+    document.body.classList.add("ready");
+    if (isAutoPlaying) startAutoScroll();
+  }, skip === true ? 100 : 2000);
+}
+
+gate.onclick = () => openGate();
+gate.onkeydown = e => (e.key === "Enter" || e.key === " ") && openGate();
+$("skip").onclick = e => { e.stopPropagation(); openGate(true); };
+$("again").onclick = () => {
+  gate.classList.remove("open", "gone");
+  document.body.classList.add("lock");
+  document.body.classList.remove("ready");
+  scrollTo(0, 0);
+};
+
+/* ===== KUTHUVILAKKU TEMPLE LAMP LIGHTING ===== */
+$("lantern").onclick = () => {
+  $("lantern").classList.add("lit");
+  for (let i = 0; i < 28; i++) {
+    const s = document.createElement("i");
+    s.className = "star";
+    const a = Math.random() * 6.28, r = 70 + Math.random() * 100;
+    s.style.setProperty("--x", Math.cos(a) * r + "px");
+    s.style.setProperty("--y", Math.sin(a) * r + "px");
+    $("lantern").appendChild(s);
+    setTimeout(() => s.remove(), 2500);
+  }
+  $("msg").textContent = "✨ The auspicious Kuthuvilakku is lit! Divine blessings showered upon the couple.";
+};
+
+$("rsvp").onsubmit = e => {
+  e.preventDefault();
+  e.target.style.display = "none";
+  $("thanks").style.display = "block";
+};
+
+/* ===== PREVIEW BAR NAVIGATION ===== */
+const SECS = () => Array.from(document.querySelectorAll('section[data-sec]'));
+function curIndex() {
+  const y = scrollY + innerHeight * .35;
+  let idx = 0;
+  SECS().forEach((s, i) => { if (s.offsetTop <= y) idx = i; });
+  return idx;
+}
+function goto(i) {
+  const secs = SECS();
+  if (!secs.length) return;
+  const target = secs[Math.max(0, Math.min(secs.length - 1, i))];
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+$("bPrev").onclick = () => goto(curIndex() - 1);
+$("bNext").onclick = () => goto(curIndex() + 1);
+$("bBack").onclick = () => { if (history.length > 1) history.back(); else goto(0); };
+
+/* ===== PHONE AUTO-SCROLL (For Live Demo Phone Mode) ===== */
+let autoScrollTimer = null;
+let isAutoPlaying = urlParams.get('view') === 'phone' || urlParams.get('auto') === '2000' || urlParams.get('auto') === 'true';
+
+function startAutoScroll() {
+  if (autoScrollTimer) clearInterval(autoScrollTimer);
+  if (!isAutoPlaying) return;
+  autoScrollTimer = setInterval(() => {
+    if (document.body.classList.contains('lock')) return;
+    const cur = curIndex();
+    const all = SECS();
+    if (cur >= all.length - 1) {
+      goto(0);
+    } else {
+      goto(cur + 1);
+    }
+  }, 2600);
+}
+
+function stopAutoScroll() {
+  if (autoScrollTimer) clearInterval(autoScrollTimer);
+  autoScrollTimer = null;
+}
+
+window.addEventListener('wheel', () => {
+  stopAutoScroll();
+  setTimeout(() => { if (isAutoPlaying) startAutoScroll(); }, 4000);
+}, { passive: true });
+
+window.addEventListener('touchstart', () => {
+  stopAutoScroll();
+  setTimeout(() => { if (isAutoPlaying) startAutoScroll(); }, 4000);
+}, { passive: true });
+
+/* ===== STUDIO IFRAME MESSAGING ===== */
+window.addEventListener('message', (e) => {
+  if (!e.data) return;
+  if (e.data.action === 'prevSlide') {
+    goto(curIndex() - 1);
+  } else if (e.data.action === 'nextSlide') {
+    goto(curIndex() + 1);
+  } else if (e.data.action === 'toggleAutoPlay') {
+    isAutoPlaying = !isAutoPlaying;
+    if (isAutoPlaying) startAutoScroll(); else stopAutoScroll();
+  } else if (e.data.type === 'INK_IVORY_CUSTOM_UPDATE') {
+    const p = e.data.payload || {};
+    if (p.names) {
+      const parts = p.names.split(/&|\band\b/i).map(s => s.trim());
+      if (parts.length >= 2) {
+        W.n1 = parts[0];
+        W.n2 = parts[1];
+        W.labelA = parts[0];
+        W.labelB = parts[1];
+      } else {
+        W.n1 = p.names;
+        W.n2 = '';
+      }
+      updateContent();
+    }
+    if (p.date) {
+      W.date = p.date;
+      updateContent();
+      buildCalendar();
+    }
+    if (p.venue) {
+      W.venue = p.venue;
+      $("loc").textContent = p.venue;
+    }
+    if (p.audioStartTime !== undefined && song) {
+      song.currentTime = parseFloat(p.audioStartTime);
+    }
+  }
+});
+</script>
+</body>
+</html>
