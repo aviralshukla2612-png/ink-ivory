@@ -1,198 +1,238 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useState, useRef } from 'react';
 
 /**
  * Section 01: Preloader
- * Uses /01_preloader.png
- * - Deep navy full-screen background with gold botanical corner filigree
- * - Elegant animated SVG lotus symbol with stroke reveal & scale
- * - Circular gold progress ring with percentage
- * - Fades smoothly into Section 02 (Grand Entrance)
+ * - Pure luxury deep midnight navy with golden stardust gradient (NO background image)
+ * - Preloads critical gate & intro assets
+ * - Animated sacred gold lotus bloom
+ * - Circular gold progress counter
+ * - Reliable skip functionality with full timer cleanup
  */
 export const Preloader = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [isFadingOut, setIsFadingOut] = useState(false);
+  const onCompleteRef = useRef(onComplete);
 
   useEffect(() => {
-    // Smooth progress counter over 2.2s
-    const startTime = Date.now();
-    const duration = 2200;
-
-    const interval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const pct = Math.min(100, Math.round((elapsed / duration) * 100));
-      setProgress(pct);
-
-      if (pct >= 100) {
-        clearInterval(interval);
-        setTimeout(() => {
-          setIsFadingOut(true);
-          setTimeout(() => {
-            if (typeof onComplete === 'function') {
-              onComplete();
-            }
-          }, 600);
-        }, 300);
-      }
-    }, 25);
-
-    return () => clearInterval(interval);
+    onCompleteRef.current = onComplete;
   }, [onComplete]);
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    // 1. Preload entrance assets in the background
+    const criticalAssets = [
+      '/02_grand_entrance_closed_gate.png',
+      '/04_welcome_intro.png',
+    ];
+
+    criticalAssets.forEach((src) => {
+      if (typeof window !== 'undefined') {
+        const img = new window.Image();
+        img.src = src;
+      }
+    });
+
+    // 2. Smooth progress increment
+    const duration = 1800; // 1.8s
+    const startTime = performance.now();
+
+    const updateProgress = () => {
+      if (isCancelled) return;
+      const elapsed = performance.now() - startTime;
+      const current = Math.min(100, Math.round((elapsed / duration) * 100));
+      setProgress(current);
+
+      if (current < 100) {
+        requestAnimationFrame(updateProgress);
+      } else {
+        const timeoutA = setTimeout(() => {
+          if (isCancelled) return;
+          setIsFadingOut(true);
+
+          const timeoutB = setTimeout(() => {
+            if (isCancelled) return;
+            if (typeof onCompleteRef.current === 'function') {
+              onCompleteRef.current();
+            }
+          }, 500);
+
+          return () => clearTimeout(timeoutB);
+        }, 200);
+
+        return () => clearTimeout(timeoutA);
+      }
+    };
+
+    const animFrame = requestAnimationFrame(updateProgress);
+
+    return () => {
+      isCancelled = true;
+      cancelAnimationFrame(animFrame);
+    };
+  }, []);
 
   const handleSkip = () => {
     setIsFadingOut(true);
     setTimeout(() => {
-      if (typeof onComplete === 'function') {
-        onComplete();
+      if (typeof onCompleteRef.current === 'function') {
+        onCompleteRef.current();
       }
-    }, 300);
+    }, 250);
   };
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#091321] transition-opacity duration-700 select-none ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#091321] transition-opacity duration-600 select-none ${
         isFadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
+      style={{
+        background: 'radial-gradient(circle at center, #0e1e38 0%, #08111e 60%, #040810 100%)',
+      }}
     >
-      {/* Background Graphic: 01_preloader.png */}
-      <div className="absolute inset-0 pointer-events-none">
-        <Image
-          src="/01_preloader.png"
-          alt="Ink & Ivory Preloader"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center opacity-90"
-        />
-        <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#091321]/40 to-[#091321]/80" />
+      {/* Decorative Gold Botanical Corner Flourishes (Pure SVG Vectors) */}
+      <div className="absolute top-6 left-6 w-24 h-24 pointer-events-none opacity-40">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#D6B477" strokeWidth="1.2">
+          <path d="M10 10 H90 M10 10 V90" />
+          <path d="M18 18 H70 M18 18 V70" strokeWidth="0.8" />
+          <circle cx="10" cy="10" r="4" fill="#D6B477" />
+          <path d="M25 25 Q45 10 70 25 Q85 45 70 70" strokeWidth="0.6" strokeDasharray="2 2" />
+        </svg>
+      </div>
+
+      <div className="absolute top-6 right-6 w-24 h-24 pointer-events-none opacity-40 rotate-90">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#D6B477" strokeWidth="1.2">
+          <path d="M10 10 H90 M10 10 V90" />
+          <path d="M18 18 H70 M18 18 V70" strokeWidth="0.8" />
+          <circle cx="10" cy="10" r="4" fill="#D6B477" />
+        </svg>
+      </div>
+
+      <div className="absolute bottom-6 left-6 w-24 h-24 pointer-events-none opacity-40 -rotate-90">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#D6B477" strokeWidth="1.2">
+          <path d="M10 10 H90 M10 10 V90" />
+          <path d="M18 18 H70 M18 18 V70" strokeWidth="0.8" />
+          <circle cx="10" cy="10" r="4" fill="#D6B477" />
+        </svg>
+      </div>
+
+      <div className="absolute bottom-6 right-6 w-24 h-24 pointer-events-none opacity-40 rotate-180">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#D6B477" strokeWidth="1.2">
+          <path d="M10 10 H90 M10 10 V90" />
+          <path d="M18 18 H70 M18 18 V70" strokeWidth="0.8" />
+          <circle cx="10" cy="10" r="4" fill="#D6B477" />
+        </svg>
       </div>
 
       {/* Central Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-md">
         {/* Animated Sacred Lotus Symbol */}
         <div className="relative w-28 h-28 sm:w-32 sm:h-32 mb-6 flex items-center justify-center">
-          {/* Subtle Ambient Pulse Halo */}
           <div className="absolute inset-0 rounded-full bg-[#D6B477]/15 blur-2xl animate-pulse" />
 
-          {/* SVG Lotus */}
           <svg
             viewBox="0 0 100 80"
-            className="w-20 h-20 text-[#D6B477] drop-shadow-[0_0_12px_rgba(214,180,119,0.6)] animate-in zoom-in-75 duration-1000 ease-out"
+            className="w-24 h-24 sm:w-28 sm:h-28 text-[#D6B477] drop-shadow-[0_0_15px_rgba(214,180,119,0.7)]"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             {/* Center Petal */}
             <path
-              d="M50 10 C46 32 42 48 50 65 C58 48 54 32 50 10 Z"
+              d="M50 8 C44 28 40 45 50 64 C60 45 56 28 50 8 Z"
               stroke="#D6B477"
               strokeWidth="1.8"
-              fill="url(#lotusGoldCenter)"
+              fill="rgba(214,180,119,0.25)"
+              className="transition-all duration-700"
             />
-            {/* Inner Left Petal */}
+            {/* Left Inner Petal */}
             <path
-              d="M50 25 C36 36 28 50 42 66 C47 52 48 40 50 25 Z"
+              d="M50 22 C34 33 26 48 40 65 C46 51 47 38 50 22 Z"
               stroke="#D6B477"
-              strokeWidth="1.6"
-              fill="url(#lotusGoldSide)"
+              strokeWidth="1.5"
+              fill="rgba(214,180,119,0.18)"
             />
-            {/* Inner Right Petal */}
+            {/* Right Inner Petal */}
             <path
-              d="M50 25 C64 36 72 50 58 66 C53 52 52 40 50 25 Z"
+              d="M50 22 C66 33 74 48 60 65 C54 51 53 38 50 22 Z"
               stroke="#D6B477"
-              strokeWidth="1.6"
-              fill="url(#lotusGoldSide)"
+              strokeWidth="1.5"
+              fill="rgba(214,180,119,0.18)"
             />
-            {/* Outer Left Petal */}
+            {/* Left Outer Petal */}
             <path
-              d="M45 42 C24 45 12 55 32 70 C39 60 42 50 45 42 Z"
-              stroke="#D6B477"
-              strokeWidth="1.4"
-              fill="url(#lotusGoldSide)"
+              d="M44 38 C26 46 16 58 32 70 C39 58 41 48 44 38 Z"
+              stroke="#E7CEA0"
+              strokeWidth="1.2"
+              fill="rgba(214,180,119,0.12)"
             />
-            {/* Outer Right Petal */}
+            {/* Right Outer Petal */}
             <path
-              d="M55 42 C76 45 88 55 68 70 C61 60 58 50 55 42 Z"
-              stroke="#D6B477"
-              strokeWidth="1.4"
-              fill="url(#lotusGoldSide)"
+              d="M56 38 C74 46 84 58 68 70 C61 58 59 48 56 38 Z"
+              stroke="#E7CEA0"
+              strokeWidth="1.2"
+              fill="rgba(214,180,119,0.12)"
             />
-            {/* Base Ornamental Lotus Cradle */}
+            {/* Base Golden Arc */}
             <path
-              d="M26 69 Q50 78 74 69"
+              d="M24 68 Q50 78 76 68"
               stroke="#E7CEA0"
               strokeWidth="1.8"
               strokeLinecap="round"
             />
-            <circle cx="50" cy="74" r="2" fill="#E7CEA0" />
-
-            <defs>
-              <linearGradient id="lotusGoldCenter" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#E7CEA0" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#D6B477" stopOpacity="0.8" />
-              </linearGradient>
-              <linearGradient id="lotusGoldSide" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#D6B477" stopOpacity="0.15" />
-                <stop offset="100%" stopColor="#D6B477" stopOpacity="0.6" />
-              </linearGradient>
-            </defs>
-          </svg>
-
-          {/* Circular SVG Progress Ring */}
-          <svg className="absolute -inset-2 w-32 h-32 sm:w-36 sm:h-36 -rotate-90">
-            <circle
-              cx="50%"
-              cy="50%"
-              r="46%"
-              stroke="#D6B477"
-              strokeWidth="1.5"
-              strokeOpacity="0.2"
-              fill="none"
-            />
-            <circle
-              cx="50%"
-              cy="50%"
-              r="46%"
-              stroke="url(#progressGrad)"
-              strokeWidth="2"
-              fill="none"
-              strokeLinecap="round"
-              style={{
-                strokeDasharray: 380,
-                strokeDashoffset: 380 - (380 * progress) / 100,
-                transition: 'stroke-dashoffset 40ms linear',
-              }}
-            />
-            <defs>
-              <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#D6B477" />
-                <stop offset="100%" stopColor="#FFF2D6" />
-              </linearGradient>
-            </defs>
           </svg>
         </div>
 
-        {/* Brand & Loading Label */}
-        <span className="text-[11px] font-manrope font-semibold tracking-[0.3em] uppercase text-[#E7CEA0] mb-2">
+        {/* Brand Name */}
+        <h1 className="font-cormorant text-2xl sm:text-3xl font-medium tracking-[0.25em] uppercase text-[#F7F0E3] mb-2 drop-shadow-sm">
           Ink & Ivory
-        </span>
-        <h2 className="font-cormorant text-xl sm:text-2xl text-[#F7F0E3] font-medium tracking-wide mb-3">
-          Royal Wedding Invitation
-        </h2>
+        </h1>
+        <p className="font-serif italic text-xs sm:text-sm text-[#D6B477] tracking-widest uppercase mb-8">
+          Digital Wedding Invitations
+        </p>
 
-        {/* Numeric Counter */}
-        <div className="flex items-center gap-2 text-xs font-manrope text-[#D6B477]/80 mb-5">
-          <span className="w-8 text-right font-medium">{progress}%</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-[#D6B477] animate-ping" />
+        {/* Progress Ring with Percentage */}
+        <div className="flex flex-col items-center gap-3">
+          <div className="relative w-16 h-16 flex items-center justify-center">
+            <svg className="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
+              <circle
+                cx="32"
+                cy="32"
+                r="28"
+                stroke="rgba(214, 180, 119, 0.2)"
+                strokeWidth="2"
+                fill="none"
+              />
+              <circle
+                cx="32"
+                cy="32"
+                r="28"
+                stroke="#D6B477"
+                strokeWidth="2.5"
+                strokeDasharray={175.9}
+                strokeDashoffset={175.9 - (175.9 * progress) / 100}
+                strokeLinecap="round"
+                fill="none"
+                className="transition-all duration-150 ease-out"
+              />
+            </svg>
+            <span className="absolute font-manrope text-xs font-semibold text-[#E7CEA0]">
+              {progress}%
+            </span>
+          </div>
+          <span className="text-[11px] font-manrope text-[#FAF5ED]/70 tracking-widest uppercase">
+            Opening Auspicious Celebration...
+          </span>
         </div>
 
-        {/* Skip button for guests */}
+        {/* Skip Button */}
         <button
+          type="button"
           onClick={handleSkip}
-          className="text-[11px] font-manrope text-[#E7CEA0]/60 hover:text-[#E7CEA0] transition-colors underline-offset-4 hover:underline cursor-pointer"
+          className="mt-8 text-xs font-manrope text-[#D6B477]/70 hover:text-[#FFFDF7] uppercase tracking-widest transition-colors py-1 px-4 border border-[#D6B477]/30 hover:border-[#D6B477] rounded-full cursor-pointer focus:outline-none"
         >
-          Skip intro →
+          Skip Intro
         </button>
       </div>
     </div>

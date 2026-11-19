@@ -22,7 +22,7 @@ export const CoupleStorySection = () => {
   return (
     <section
       id="story"
-      className="relative min-h-screen w-full flex items-center justify-center md:justify-end py-24 md:py-28 px-6 sm:px-12 md:px-16 lg:px-24 overflow-hidden select-none"
+      className="relative min-h-screen w-full flex items-center justify-end py-24 md:py-28 px-6 sm:px-12 md:px-16 lg:px-24 overflow-hidden select-none"
     >
       {/* Background Graphic: 05_couple_story.png */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
@@ -38,8 +38,8 @@ export const CoupleStorySection = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#FAF4EC]/95 via-[#FAF4EC]/70 to-transparent md:hidden" />
       </div>
 
-      {/* Typography on the Right Side (Clear Sky/Water Area) — NO DARK BOXES */}
-      <div className="relative z-10 max-w-xl md:max-w-md lg:max-w-xl w-full text-center md:text-left flex flex-col items-center md:items-start pl-0 md:pl-6">
+      {/* Typography Strictly on the Right Side (Clear Sky/Water Area) — NO DARK BOXES */}
+      <div className="editorial-reveal relative z-10 max-w-xl md:max-w-md lg:max-w-xl w-full ml-auto text-left flex flex-col items-start pr-0 md:pr-4">
         <span className="text-[11px] sm:text-[12px] font-manrope font-semibold tracking-[0.28em] uppercase text-[#7B5927] mb-2">
           — The Journey of Love —
         </span>

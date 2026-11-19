@@ -3,26 +3,20 @@
 import React from 'react';
 import Image from 'next/image';
 import { weddingData } from '@/data/weddingData';
+import { useLenis } from '@/context/LenisContext';
 
 /**
  * Section 07: Wedding Events Overview
- * EXACT MATCH to Image 3 (Tile 07):
- * - Background: /07_wedding_events_overview.png (Deep navy with hanging lanterns & floral arch)
- * - Centered Title:
- *     Wedding
- *     Celebrations
  * - 5 Gold wireframe arched badges side-by-side:
  *     Haldi | Mehendi | Sangeet | Wedding | Reception
- * - Transparent background, delicate gold stroke, one-tap anchor jump
+ * - Smooth scroll via shared Lenis scrollTo
  */
 export const EventsOverviewSection = () => {
   const { events } = weddingData;
+  const { scrollTo } = useLenis();
 
   const handleScrollToEvent = (eventId) => {
-    const el = document.getElementById(eventId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollTo(`#${eventId}`, { duration: 1.2 });
   };
 
   const getEventIcon = (id) => {

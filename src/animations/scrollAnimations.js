@@ -11,62 +11,58 @@ if (typeof window !== 'undefined') {
 }
 
 /**
- * Initializes editorial section reveals with ScrollTrigger
+ * Initializes editorial section reveals with ScrollTrigger inside a GSAP context
+ * @param {HTMLElement|string} scopeRef - optional container to scope selectors
+ * @returns {Function} cleanup function that reverts all triggers
  */
-export const initSectionReveals = () => {
+export const initSectionReveals = (scopeRef = document) => {
   if (typeof window === 'undefined') return () => {};
 
   // Check prefers-reduced-motion
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) return () => {};
 
-  const triggers = [];
-
-  // 1. Reveal editorial cards and headings
-  const revealElements = document.querySelectorAll('.editorial-reveal');
-  revealElements.forEach((el) => {
-    const trigger = gsap.fromTo(
-      el,
-      {
-        y: 45,
-        opacity: 0,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 85%',
-          toggleActions: 'play none none none',
+  const ctx = gsap.context(() => {
+    // 1. Reveal editorial text on right side
+    const revealElements = document.querySelectorAll('.editorial-reveal');
+    revealElements.forEach((el) => {
+      gsap.fromTo(
+        el,
+        {
+          y: 35,
+          opacity: 0,
         },
-      }
-    );
-    triggers.push(trigger);
-  });
-
-  // 2. Parallax background elements
-  const parallaxBgs = document.querySelectorAll('.parallax-layer');
-  parallaxBgs.forEach((bg) => {
-    const trigger = gsap.to(bg, {
-      yPercent: 12,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: bg,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1.2,
-      },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.0,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
     });
-    triggers.push(trigger);
-  });
 
-  // Cleanup handler
+    // 2. Parallax background elements
+    const parallaxBgs = document.querySelectorAll('.parallax-layer');
+    parallaxBgs.forEach((bg) => {
+      gsap.to(bg, {
+        yPercent: 8,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: bg,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.2,
+        },
+      });
+    });
+  }, scopeRef);
+
   return () => {
-    triggers.forEach((t) => {
-      if (t.scrollTrigger) t.scrollTrigger.kill();
-      t.kill();
-    });
+    ctx.revert();
   };
 };

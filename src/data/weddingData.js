@@ -9,13 +9,11 @@ export const weddingData = {
   templateName: 'Cinematic Royal Wedding',
   version: '1.0.0',
 
-  // Master Background Asset Mapping (15 Cinematic Scenes)
+  // Master Background Asset Mapping (15 Cinematic Scenes in 16:9 Widescreen)
   backgrounds: {
     preloader: '/01_preloader.png',
     entranceClosed: '/02_grand_entrance_closed_gate.png',
     entranceOpen: '/03_gate_opening_transition.png',
-    doorLeft: '/gate_door_left.png',
-    doorRight: '/gate_door_right.png',
     welcome: '/04_welcome_intro.png',
     coupleStory: '/05_couple_story.png',
     saveTheDate: '/06_save_the_date.png',

@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Volume2, VolumeX, Menu, X, RotateCcw, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Menu, X, RotateCcw } from 'lucide-react';
+import { useLenis } from '@/context/LenisContext';
 
 /**
  * LuxuryFloatingNav Component
- * Minimal floating luxury control pill:
+ * Floating luxury control pill:
  * - Brand Monogram
- * - Quick Section Navigation Drawer
+ * - Quick Section Navigation Drawer with Lenis scrollTo
  * - Sound toggle
  * - Replay Entrance Gate button
  * - Scroll Progress Indicator
@@ -21,6 +22,7 @@ export const LuxuryFloatingNav = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const { scrollTo } = useLenis();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,26 +44,23 @@ export const LuxuryFloatingNav = ({
     { label: 'Haldi', href: '#haldi' },
     { label: 'Mehendi', href: '#mehendi' },
     { label: 'Sangeet', href: '#sangeet' },
-    { label: 'Wedding (Phere)', href: '#wedding' },
+    { label: 'Wedding Ceremony', href: '#wedding' },
     { label: 'Reception', href: '#reception' },
     { label: 'Family Blessings', href: '#blessings' },
-    { label: 'Venue & Maps', href: '#venue' },
-    { label: 'Thank You', href: '#closing' },
+    { label: 'Venue & Location', href: '#venue' },
+    { label: 'Closing & Wishes', href: '#closing' },
   ];
 
   const handleNavClick = (href) => {
     setIsOpen(false);
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollTo(href, { duration: 1.2 });
   };
 
   return (
     <>
       {/* Floating Glass Pill (Fixed Top Center) */}
       <nav className="fixed top-5 left-1/2 -translate-x-1/2 z-30 select-none animate-in fade-in duration-500">
-        <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2.5 rounded-full bg-[#091321]/80 backdrop-blur-xl border border-[#D6B477]/40 shadow-[0_10px_30px_rgba(0,0,0,0.85),inset_0_0_15px_rgba(214,180,119,0.15)] text-[#FAF5ED]">
+        <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2.5 rounded-full bg-[#091321]/85 backdrop-blur-xl border border-[#D6B477]/40 shadow-[0_10px_30px_rgba(0,0,0,0.85),inset_0_0_15px_rgba(214,180,119,0.15)] text-[#FAF5ED]">
           {/* Brand Monogram */}
           <Link
             href="/"
@@ -109,65 +108,49 @@ export const LuxuryFloatingNav = ({
           </button>
         </div>
 
-        {/* Top Slim Scroll Progress Line */}
-        <div className="w-full h-[2px] bg-white/10 rounded-full mt-1.5 overflow-hidden">
+        {/* Scroll Progress Bar along the bottom of the pill */}
+        <div className="w-full h-[2px] bg-white/10 rounded-full mt-1 overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-[#D6B477] via-[#FFF3D6] to-[#D6B477] transition-all duration-150"
+            className="h-full bg-gradient-to-r from-[#D6B477] via-[#E7CEA0] to-[#D6B477] transition-all duration-100 ease-out"
             style={{ width: `${scrollProgress}%` }}
           />
         </div>
       </nav>
 
-      {/* Slide-in Fullscreen / Modal Navigation Drawer */}
+      {/* Navigation Drawer Overlay */}
       {isOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-40 bg-[#091321]/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 animate-in fade-in duration-300 select-none"
-        >
-          {/* Close Button */}
-          <button
-            type="button"
-            onClick={() => setIsOpen(false)}
-            className="absolute top-6 right-6 p-3 rounded-full bg-[#101B2B] border border-[#D6B477]/40 text-[#D6B477] hover:text-white transition-colors cursor-pointer"
-            aria-label="Close menu"
-          >
-            <X className="w-5 h-5" />
-          </button>
-
-          <span className="text-[11px] font-manrope font-semibold tracking-[0.3em] uppercase text-[#D6B477] mb-2">
-            The Royal Invitation Journey
-          </span>
-          <h3 className="font-cormorant text-3xl sm:text-4xl text-[#F7F0E3] font-medium mb-8">
-            Invitation Sections
-          </h3>
-
-          {/* Links Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-xl w-full">
-            {navLinks.map((link) => (
-              <button
-                key={link.href}
-                type="button"
-                onClick={() => handleNavClick(link.href)}
-                className="p-3.5 rounded-xl bg-[#101B2B]/70 border border-[#D6B477]/30 hover:border-[#D6B477] text-left text-xs sm:text-sm font-manrope text-[#EFE3CD] hover:text-[#FFFDF7] transition-all hover:scale-102 cursor-pointer"
-              >
-                {link.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="mt-8 text-center">
+        <div className="fixed inset-0 z-40 bg-black/75 backdrop-blur-md flex items-center justify-center p-6 select-none animate-in fade-in duration-300">
+          <div className="relative w-full max-w-md bg-[#091321] border border-[#D6B477]/40 rounded-2xl p-6 sm:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.9),inset_0_0_20px_rgba(214,180,119,0.15)] flex flex-col items-center">
+            {/* Close Button */}
             <button
               type="button"
-              onClick={() => {
-                setIsOpen(false);
-                onReplayEntrance();
-              }}
-              className="inline-flex items-center gap-2 text-xs font-manrope text-[#D6B477] hover:text-[#FFFDF7] underline-offset-4 hover:underline cursor-pointer"
+              onClick={() => setIsOpen(false)}
+              className="absolute top-4 right-4 p-2 text-[#E7CEA0] hover:text-[#FFFDF7] rounded-full hover:bg-white/5 cursor-pointer focus:outline-none"
+              aria-label="Close Navigation Drawer"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Replay Entrance Gate Sequence</span>
+              <X className="w-5 h-5" />
             </button>
+
+            <span className="text-[11px] font-manrope font-semibold tracking-[0.25em] uppercase text-[#D6B477] mb-2">
+              Royal Celebration Index
+            </span>
+            <h3 className="font-cormorant text-2xl font-medium text-[#FAF5ED] mb-6">
+              Aarav & Riya
+            </h3>
+
+            {/* Links Grid */}
+            <div className="grid grid-cols-2 gap-2.5 w-full">
+              {navLinks.map((item) => (
+                <button
+                  key={item.href}
+                  type="button"
+                  onClick={() => handleNavClick(item.href)}
+                  className="py-2.5 px-3 rounded-xl border border-white/10 hover:border-[#D6B477]/60 bg-white/5 hover:bg-[#D6B477]/10 text-xs font-manrope text-[#EFE3CD] hover:text-[#FAF5ED] transition-all text-center cursor-pointer focus:outline-none"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       )}

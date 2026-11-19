@@ -23,7 +23,7 @@ export const WeddingCeremonySection = () => {
   return (
     <section
       id="wedding"
-      className="relative min-h-screen w-full flex items-center justify-center md:justify-end py-24 md:py-28 px-6 sm:px-12 md:px-16 lg:px-24 overflow-hidden select-none"
+      className="relative min-h-screen w-full flex items-center justify-end py-24 md:py-28 px-6 sm:px-12 md:px-16 lg:px-24 overflow-hidden select-none"
     >
       {/* Background Graphic: 11_wedding_ceremony.png */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
@@ -39,8 +39,8 @@ export const WeddingCeremonySection = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#FDF9F2]/95 via-[#FDF9F2]/70 to-transparent md:hidden" />
       </div>
 
-      {/* Pure Floating Typography on Right — NO DARK BOXES */}
-      <div className="relative z-10 max-w-lg md:max-w-md lg:max-w-lg w-full text-center md:text-left flex flex-col items-center md:items-start pl-0 md:pl-4">
+      {/* Pure Floating Typography Strictly on Right Side — NO DARK BOXES */}
+      <div className="editorial-reveal relative z-10 max-w-lg md:max-w-md lg:max-w-lg w-full ml-auto text-left flex flex-col items-start pr-0 md:pr-4">
         <span className="text-[11px] sm:text-[12px] font-manrope font-semibold tracking-[0.28em] uppercase text-[#8C232A] mb-2">
           — The Sacred Vows (Saat Phere) —
         </span>
