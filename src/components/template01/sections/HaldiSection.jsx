@@ -17,9 +17,9 @@ export const HaldiSection = () => {
   return (
     <section
       id="haldi"
-      className="relative h-full min-h-screen w-full flex flex-col justify-end sm:justify-center items-center sm:items-end pb-5 sm:pb-0 pt-16 sm:pt-0 px-3.5 sm:px-10 lg:px-16 xl:px-24 overflow-hidden select-none"
+      className="relative h-full min-h-screen w-full flex flex-col justify-end sm:justify-center items-center sm:items-end pb-5 sm:pb-0 pt-16 sm:pt-0 px-3.5 sm:px-8 lg:px-12 xl:px-16 overflow-hidden select-none"
     >
-      {/* Background Graphic: 08_haldi_ceremony.png with responsive focal point */}
+      {/* Background Graphic: 08_haldi_ceremony.png with left-anchored desktop layout */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <Image
           src="/08_haldi_ceremony.png"
@@ -27,14 +27,14 @@ export const HaldiSection = () => {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[22%_center] sm:object-center"
+          className="object-cover object-[22%_center] sm:object-left"
         />
         {/* Soft atmospheric gradient on mobile to guarantee readability while leaving top 50% decor open */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#FBF6EC]/95 via-[#FBF6EC]/40 to-transparent sm:hidden" />
       </div>
 
       {/* Responsive Content Container — Strictly on the right side on desktop ("white side") */}
-      <div className="editorial-reveal relative z-10 w-[calc(100%-20px)] sm:w-[48%] md:w-[40%] lg:w-[34%] xl:w-[30%] max-w-[340px] sm:max-w-[380px] xl:max-w-[420px] mx-auto sm:ml-auto sm:mr-0 text-left flex flex-col items-start bg-[#FBF6EC]/90 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border border-[#8C6527]/20 sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 shadow-xl sm:shadow-none">
+      <div className="editorial-reveal relative z-10 w-[calc(100%-20px)] sm:w-[38%] md:w-[32%] lg:w-[28%] xl:w-[26%] max-w-[340px] sm:max-w-[320px] lg:max-w-[350px] mx-auto sm:ml-auto sm:mr-8 md:sm:mr-14 lg:sm:mr-20 xl:sm:mr-28 text-left flex flex-col items-start bg-[#FBF6EC]/90 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border border-[#8C6527]/20 sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 shadow-xl sm:shadow-none">
         <span className="text-[9px] sm:text-[11px] font-manrope font-semibold tracking-[0.26em] uppercase text-[#8C6527] mb-1">
           — Auspicious Turmeric Ritual —
         </span>

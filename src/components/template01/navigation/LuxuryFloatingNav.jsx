@@ -66,7 +66,7 @@ export const LuxuryFloatingNav = ({
           <button
             type="button"
             onClick={onToggleSound}
-            title={isMuted ? 'Play Royal Shehnai' : 'Mute Music'}
+            title={isMuted ? 'Play Aaj Sajeya' : 'Mute Aaj Sajeya'}
             className="flex items-center gap-1.5 px-2 py-1 rounded-full text-[11px] font-manrope text-[#D6B477] hover:text-[#FFFDF7] hover:bg-white/5 transition-colors cursor-pointer focus:outline-none"
             aria-label="Toggle Background Music"
           >

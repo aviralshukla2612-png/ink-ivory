@@ -290,12 +290,12 @@ export const weddingData = {
     },
   },
 
-  // Audio Atmosphere (Licensed Shehnai / Sitar Instrumental)
+  // Audio Atmosphere: Aaj Sajeya (Alaya F & Goldie Sohel - Saregama Music)
   music: {
     enabled: true,
-    title: 'Ustad Bismillah Khan — Shehnai Royal Wedding Dhun',
-    source: '/audio/indian-wedding-shehnai.mp3',
-    fallbackSource: '/audio/shehnai-wedding.mp3',
+    title: 'Aaj Sajeya — Goldie Sohel (Saregama Music)',
+    source: '/audio/aaj-sajeya.mp3',
+    fallbackSource: '/audio/indian-wedding-shehnai.mp3',
   },
 
   // Theme Settings

@@ -45,9 +45,37 @@ function Template01Content() {
   const audioRef = useRef(null);
   const mainRef = useRef(null);
 
-  // 1. Audio setup and session check
+  // 1. Audio setup, custom data injection and session check
   useEffect(() => {
     if (typeof window === 'undefined') return;
+
+    // Read custom personalization parameters from URL or sessionStorage
+    const params = new URLSearchParams(window.location.search);
+    let custom = {};
+    try {
+      const stored = sessionStorage.getItem('ink_ivory_custom_wedding_data');
+      if (stored) custom = JSON.parse(stored);
+    } catch (e) {}
+
+    const customNames = params.get('names') || custom.names;
+    const customDate = params.get('date') || custom.date;
+    const customTime = params.get('time') || custom.time;
+    const customVenue = params.get('venue') || custom.venue;
+    const customCity = params.get('city') || custom.city;
+    const customBrideParents = params.get('brideParents') || custom.brideParents;
+    const customGroomParents = params.get('groomParents') || custom.groomParents;
+
+    if (customNames) weddingData.couple.names = customNames;
+    if (customDate) weddingData.couple.dateDisplay = customDate;
+    if (customTime) weddingData.couple.timeDisplay = customTime;
+    if (customCity) weddingData.couple.cityDisplay = customCity;
+    if (customVenue) weddingData.venue.name = customVenue;
+    if (customBrideParents && weddingData.families?.brideSide) {
+      weddingData.families.brideSide.parents = customBrideParents;
+    }
+    if (customGroomParents && weddingData.families?.groomSide) {
+      weddingData.families.groomSide.parents = customGroomParents;
+    }
 
     // In demo mode, do NOT skip the gate from sessionStorage
     if (!isDemo) {
@@ -61,11 +89,12 @@ function Template01Content() {
       }
     }
 
-    // Audio setup
-    const audio = new Audio('/audio/indian-wedding-shehnai.mp3');
+    // Audio setup: Aaj Sajeya (Alaya F & Goldie Sohel - Saregama Music)
+    const audioSrc = weddingData.music?.source || '/audio/aaj-sajeya.mp3';
+    const audio = new Audio(audioSrc);
     audio.loop = true;
     audio.preload = 'auto';
-    audio.volume = 0.5;
+    audio.volume = 0.6;
     audioRef.current = audio;
 
     audio.addEventListener('play', () => setIsPlaying(true));

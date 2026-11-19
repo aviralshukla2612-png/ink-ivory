@@ -24,6 +24,9 @@ export interface EditableFields {
   rsvp?: string;
   host?: string;
   photoUrl?: string;
+  brideParents?: string;
+  groomParents?: string;
+  songTitle?: string;
 }
 
 export interface DesignConfig {
