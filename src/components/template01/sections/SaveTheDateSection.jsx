@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { weddingData } from '@/data/weddingData';
 import { Calendar, DownloadCloud } from 'lucide-react';
 import { downloadWeddingCalendar } from '@/utils/calendar';
@@ -20,6 +21,22 @@ import { downloadWeddingCalendar } from '@/utils/calendar';
  */
 export const SaveTheDateSection = () => {
   const { couple } = weddingData;
+  const searchParams = useSearchParams();
+  const queryDate = searchParams?.get('date');
+  const queryTime = searchParams?.get('time');
+  const queryCity = searchParams?.get('city');
+
+  let sessionCustom = {};
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = sessionStorage.getItem('ink_ivory_custom_wedding_data');
+      if (stored) sessionCustom = JSON.parse(stored);
+    } catch (e) {}
+  }
+
+  const dateDisplay = queryDate || sessionCustom.date || couple?.dateDisplay || 'Friday, 18 December 2026';
+  const timeDisplay = queryTime || sessionCustom.time || couple?.timeDisplay || '5:00 PM Onwards';
+  const cityDisplay = queryCity || sessionCustom.city || couple?.cityDisplay || 'Jaipur, Rajasthan';
 
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -90,12 +107,12 @@ export const SaveTheDateSection = () => {
         <div className="flex items-center gap-1.5 text-[#7B5927] my-1 drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
           <Calendar className="w-3.5 h-3.5 text-[#8C6527]" />
           <span className="font-cormorant text-lg sm:text-2xl font-semibold text-[#1C120A]">
-            {couple.dateDisplay}
+            {dateDisplay}
           </span>
         </div>
 
         <p className="font-manrope text-[9px] sm:text-xs font-semibold tracking-[0.14em] uppercase text-[#6B4D1B] mb-3 sm:mb-4 drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
-          {couple.timeDisplay} • {couple.cityDisplay}
+          {timeDisplay} • {cityDisplay}
         </p>
 
         {/* Clean Numerical Countdown Row (Snug width, never hits side pillars) */}

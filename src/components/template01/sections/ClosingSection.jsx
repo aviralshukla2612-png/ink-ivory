@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { weddingData } from '@/data/weddingData';
 import WishLanterns from '../effects/WishLanterns';
 
@@ -19,6 +20,18 @@ import WishLanterns from '../effects/WishLanterns';
  */
 export const ClosingSection = () => {
   const { couple } = weddingData;
+  const searchParams = useSearchParams();
+  const queryNames = searchParams?.get('names');
+
+  let sessionNames = null;
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = sessionStorage.getItem('ink_ivory_custom_wedding_data');
+      if (stored) sessionNames = JSON.parse(stored)?.names;
+    } catch (e) {}
+  }
+
+  const coupleNames = queryNames || sessionNames || couple?.names || 'Aarav & Riya';
 
   return (
     <section
@@ -86,7 +99,7 @@ export const ClosingSection = () => {
 
         {/* Couple Names */}
         <p className="font-cormorant text-xl sm:text-3xl md:text-4xl text-[#FAF5ED] font-semibold mt-1 sm:mt-2 mb-3 sm:mb-6 tracking-wide drop-shadow-md">
-          {couple.names}
+          {coupleNames}
         </p>
 
         {/* Release a Wish Lantern */}

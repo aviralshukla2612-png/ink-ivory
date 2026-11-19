@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { weddingData } from '@/data/weddingData';
 
 /**
@@ -20,6 +21,22 @@ import { weddingData } from '@/data/weddingData';
  */
 export const WelcomeSection = () => {
   const { couple, shloka } = weddingData;
+  const searchParams = useSearchParams();
+  const queryNames = searchParams?.get('names');
+  const queryDate = searchParams?.get('date');
+  const queryCity = searchParams?.get('city');
+
+  let sessionCustom = {};
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = sessionStorage.getItem('ink_ivory_custom_wedding_data');
+      if (stored) sessionCustom = JSON.parse(stored);
+    } catch (e) {}
+  }
+
+  const coupleNames = queryNames || sessionCustom.names || couple?.names || 'Aarav & Riya';
+  const dateDisplay = queryDate || sessionCustom.date || couple?.dateDisplay || 'Friday, 18 December 2026';
+  const cityDisplay = queryCity || sessionCustom.city || couple?.cityDisplay || 'Jaipur, Rajasthan';
 
   return (
     <section
@@ -72,12 +89,12 @@ export const WelcomeSection = () => {
 
         {/* Couple Names — Grand, prominent, royal typography */}
         <h1 className="font-cormorant text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold text-[#1C120A] tracking-tight my-0.5 sm:my-1 drop-shadow-[0_2px_4px_rgba(255,255,255,0.95)]">
-          {couple.names}
+          {coupleNames}
         </h1>
 
         {/* Date & City */}
         <p className="font-manrope text-[10px] sm:text-sm md:text-[15px] font-semibold tracking-[0.22em] uppercase text-[#5A3C21] mt-1 sm:mt-1.5 drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)]">
-          {couple.dateDisplay} • {couple.cityDisplay}
+          {dateDisplay} • {cityDisplay}
         </p>
       </div>
     </section>

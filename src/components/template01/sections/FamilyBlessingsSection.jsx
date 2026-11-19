@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { weddingData } from '@/data/weddingData';
 
 /**
@@ -20,6 +21,20 @@ import { weddingData } from '@/data/weddingData';
 export const FamilyBlessingsSection = () => {
   const { families } = weddingData;
   const { brideSide, groomSide } = families;
+  const searchParams = useSearchParams();
+  const queryBrideParents = searchParams?.get('brideParents');
+  const queryGroomParents = searchParams?.get('groomParents');
+
+  let sessionCustom = {};
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = sessionStorage.getItem('ink_ivory_custom_wedding_data');
+      if (stored) sessionCustom = JSON.parse(stored);
+    } catch (e) {}
+  }
+
+  const brideParents = queryBrideParents || sessionCustom.brideParents || brideSide?.parents;
+  const groomParents = queryGroomParents || sessionCustom.groomParents || groomSide?.parents;
 
   return (
     <section
@@ -64,7 +79,7 @@ export const FamilyBlessingsSection = () => {
               Bride's Family
             </span>
             <h3 className="font-cormorant text-xs sm:text-base md:text-lg font-bold text-[#1C120A] leading-tight">
-              {brideSide.parents}
+              {brideParents}
             </h3>
             <p className="font-serif italic text-[9px] sm:text-xs text-[#5A3C21] mt-0.5 leading-tight">
               Granddaughter of {brideSide.grandparents}
@@ -77,7 +92,7 @@ export const FamilyBlessingsSection = () => {
               Groom's Family
             </span>
             <h3 className="font-cormorant text-xs sm:text-base md:text-lg font-bold text-[#1C120A] leading-tight">
-              {groomSide.parents}
+              {groomParents}
             </h3>
             <p className="font-serif italic text-[9px] sm:text-xs text-[#5A3C21] mt-0.5 leading-tight">
               Grandson of {groomSide.grandparents}

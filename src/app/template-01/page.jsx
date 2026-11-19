@@ -33,6 +33,49 @@ function Template01Content() {
   // In demo mode or if auto=true/phone view, auto-advance slides every 2 seconds
   const shouldAutoAdvance = autoParam === 'true' || autoParam === '2000' || (isDemo && viewMode === 'phone');
 
+  // Synchronously extract custom personalization parameters from searchParams
+  const customNames = searchParams.get('names');
+  const customDate = searchParams.get('date');
+  const customTime = searchParams.get('time');
+  const customVenue = searchParams.get('venue');
+  const customCity = searchParams.get('city');
+  const customBrideParents = searchParams.get('brideParents');
+  const customGroomParents = searchParams.get('groomParents');
+
+  // Synchronously read sessionStorage on client if available
+  let sessionCustom = {};
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = sessionStorage.getItem('ink_ivory_custom_wedding_data');
+      if (stored) sessionCustom = JSON.parse(stored);
+    } catch (e) {}
+  }
+
+  // Derive effective personalized values synchronously before initial render
+  const effectiveNames = customNames || sessionCustom.names || weddingData.couple.names || 'Aarav & Riya';
+  const effectiveDate = customDate || sessionCustom.date || weddingData.couple.dateDisplay;
+  const effectiveTime = customTime || sessionCustom.time || weddingData.couple.timeDisplay;
+  const effectiveCity = customCity || sessionCustom.city || weddingData.couple.cityDisplay;
+  const effectiveVenue = customVenue || sessionCustom.venue || weddingData.venue.name;
+  const effectiveBrideParents = customBrideParents || sessionCustom.brideParents || weddingData.families?.brideSide?.parents;
+  const effectiveGroomParents = customGroomParents || sessionCustom.groomParents || weddingData.families?.groomSide?.parents;
+
+  // Immediately synchronize static singleton so all child modules render updated values on frame 1
+  weddingData.couple.names = effectiveNames;
+  weddingData.couple.dateDisplay = effectiveDate;
+  weddingData.couple.timeDisplay = effectiveTime;
+  weddingData.couple.cityDisplay = effectiveCity;
+  weddingData.venue.name = effectiveVenue;
+  if (weddingData.families?.brideSide) {
+    weddingData.families.brideSide.parents = effectiveBrideParents;
+  }
+  if (weddingData.families?.groomSide) {
+    weddingData.families.groomSide.parents = effectiveGroomParents;
+  }
+
+  // Force re-render state trigger
+  const [, setRenderTrigger] = useState(0);
+
   // ALWAYS start at CLOSED_GATE in demo mode so user experiences the grand gate entrance first!
   // "when user click on this then it all will start"
   const [lifecycleState, setLifecycleState] = useState(() => {
@@ -49,33 +92,36 @@ function Template01Content() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // Read custom personalization parameters from URL or sessionStorage
-    const params = new URLSearchParams(window.location.search);
-    let custom = {};
+    const handleMessage = (e) => {
+      if (e.data?.type === 'INK_IVORY_CUSTOM_UPDATE') {
+        const d = e.data.payload || {};
+        if (d.names) weddingData.couple.names = d.names;
+        if (d.date) weddingData.couple.dateDisplay = d.date;
+        if (d.time) weddingData.couple.timeDisplay = d.time;
+        if (d.city) weddingData.couple.cityDisplay = d.city;
+        if (d.venue) weddingData.venue.name = d.venue;
+        if (d.brideParents && weddingData.families?.brideSide) {
+          weddingData.families.brideSide.parents = d.brideParents;
+        }
+        if (d.groomParents && weddingData.families?.groomSide) {
+          weddingData.families.groomSide.parents = d.groomParents;
+        }
+        setRenderTrigger((v) => v + 1);
+      }
+    };
+    window.addEventListener('message', handleMessage);
+
+    // Check if session storage has newer data and trigger a reactive state update
     try {
       const stored = sessionStorage.getItem('ink_ivory_custom_wedding_data');
-      if (stored) custom = JSON.parse(stored);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.names && parsed.names !== weddingData.couple.names && !customNames) {
+          weddingData.couple.names = parsed.names;
+          setRenderTrigger((v) => v + 1);
+        }
+      }
     } catch (e) {}
-
-    const customNames = params.get('names') || custom.names;
-    const customDate = params.get('date') || custom.date;
-    const customTime = params.get('time') || custom.time;
-    const customVenue = params.get('venue') || custom.venue;
-    const customCity = params.get('city') || custom.city;
-    const customBrideParents = params.get('brideParents') || custom.brideParents;
-    const customGroomParents = params.get('groomParents') || custom.groomParents;
-
-    if (customNames) weddingData.couple.names = customNames;
-    if (customDate) weddingData.couple.dateDisplay = customDate;
-    if (customTime) weddingData.couple.timeDisplay = customTime;
-    if (customCity) weddingData.couple.cityDisplay = customCity;
-    if (customVenue) weddingData.venue.name = customVenue;
-    if (customBrideParents && weddingData.families?.brideSide) {
-      weddingData.families.brideSide.parents = customBrideParents;
-    }
-    if (customGroomParents && weddingData.families?.groomSide) {
-      weddingData.families.groomSide.parents = customGroomParents;
-    }
 
     // In demo mode, do NOT skip the gate from sessionStorage
     if (!isDemo) {

@@ -78,6 +78,7 @@ export default function CustomizePage() {
 
   const cardRef = useRef<HTMLDivElement>(null);
   const audioPreviewRef = useRef<HTMLAudioElement | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const handleFieldChange = (key: keyof EditableFields, value: string) => {
     setFields((prev) => {
@@ -87,6 +88,12 @@ export default function CustomizePage() {
           sessionStorage.setItem('ink_ivory_custom_wedding_data', JSON.stringify(updated));
         } catch (e) {}
       }
+      try {
+        iframeRef.current?.contentWindow?.postMessage(
+          { type: 'INK_IVORY_CUSTOM_UPDATE', payload: updated },
+          '*'
+        );
+      } catch (e) {}
       return updated;
     });
   };
@@ -273,6 +280,7 @@ export default function CustomizePage() {
                 </div>
                 {/* Live Web Invitation Iframe */}
                 <iframe
+                  ref={iframeRef}
                   key={`${fields.names}-${fields.date}-${fields.venue}`}
                   src={`/template-01?mode=demo&view=phone&auto=false&names=${encodeURIComponent(
                     fields.names || ''

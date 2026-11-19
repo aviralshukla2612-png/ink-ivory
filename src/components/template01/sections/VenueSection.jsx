@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { weddingData } from '@/data/weddingData';
 import { MapPin, Navigation, ExternalLink } from 'lucide-react';
 
@@ -18,6 +19,20 @@ import { MapPin, Navigation, ExternalLink } from 'lucide-react';
  */
 export const VenueSection = () => {
   const { venue } = weddingData;
+  const searchParams = useSearchParams();
+  const queryVenue = searchParams?.get('venue');
+  const queryCity = searchParams?.get('city');
+
+  let sessionCustom = {};
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = sessionStorage.getItem('ink_ivory_custom_wedding_data');
+      if (stored) sessionCustom = JSON.parse(stored);
+    } catch (e) {}
+  }
+
+  const venueName = queryVenue || sessionCustom.venue || venue.name;
+  const venueCity = queryCity || sessionCustom.city || venue.city;
 
   return (
     <section
@@ -47,11 +62,11 @@ export const VenueSection = () => {
         </h2>
 
         <h3 className="font-cormorant text-xl sm:text-3xl text-[#D6B477] font-semibold mb-0.5 sm:mb-1 drop-shadow-sm">
-          {venue.name}
+          {venueName}
         </h3>
 
         <p className="font-manrope text-[11px] sm:text-sm text-[#FAF5ED] mb-4 sm:mb-6 drop-shadow-sm">
-          {venue.address}, {venue.city}
+          {venue.address}, {venueCity}
         </p>
 
         {/* View on Maps Button */}

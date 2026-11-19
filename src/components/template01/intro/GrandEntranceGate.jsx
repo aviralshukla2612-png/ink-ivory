@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import gsap from 'gsap';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
@@ -109,7 +110,40 @@ export const GrandEntranceGate = ({
     }
   };
 
-  const couple = weddingData?.couple || { names: 'Aarav & Riya' };
+  const searchParams = useSearchParams();
+  const queryNames = searchParams?.get('names');
+
+  let sessionNames = null;
+  if (typeof window !== 'undefined') {
+    try {
+      const s = sessionStorage.getItem('ink_ivory_custom_wedding_data');
+      if (s) sessionNames = JSON.parse(s)?.names;
+    } catch (e) {}
+  }
+
+  const [liveNames, setLiveNames] = useState('');
+
+  React.useEffect(() => {
+    const handleMsg = (e) => {
+      if (e.data?.type === 'INK_IVORY_CUSTOM_UPDATE' && e.data.payload?.names) {
+        setLiveNames(e.data.payload.names);
+      }
+    };
+    window.addEventListener('message', handleMsg);
+    return () => window.removeEventListener('message', handleMsg);
+  }, []);
+
+  const coupleNames =
+    liveNames ||
+    queryNames ||
+    sessionNames ||
+    weddingData?.couple?.names ||
+    'Aarav & Riya';
+
+  const couple = {
+    ...weddingData?.couple,
+    names: coupleNames,
+  };
 
   return (
     <div
