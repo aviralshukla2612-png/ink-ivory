@@ -33,9 +33,10 @@ function Template01Content() {
   // In demo mode or if auto=true/phone view, auto-advance slides every 2 seconds
   const shouldAutoAdvance = autoParam === 'true' || autoParam === '2000' || (isDemo && viewMode === 'phone');
 
-  // If in demo mode or direct enter, start directly at ENTERED
+  // ALWAYS start at CLOSED_GATE in demo mode so user experiences the grand gate entrance first!
+  // "when user click on this then it all will start"
   const [lifecycleState, setLifecycleState] = useState(() => {
-    return isDemo ? LIFECYCLE.ENTERED : LIFECYCLE.PRELOADER;
+    return isDemo ? LIFECYCLE.CLOSED_GATE : LIFECYCLE.PRELOADER;
   });
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -44,10 +45,11 @@ function Template01Content() {
   const audioRef = useRef(null);
   const mainRef = useRef(null);
 
-  // 1. Check Session Storage on mount
+  // 1. Audio setup and session check
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
+    // In demo mode, do NOT skip the gate from sessionStorage
     if (!isDemo) {
       try {
         const alreadyEntered = sessionStorage.getItem('ink_ivory_gate_opened');
@@ -94,17 +96,21 @@ function Template01Content() {
   };
 
   const handleGateInteraction = () => {
-    if (audioRef.current && !isPlaying) {
+    if (audioRef.current) {
+      audioRef.current.muted = false;
+      setIsMuted(false);
       audioRef.current.play().catch(() => {});
     }
   };
 
   const handleGateOpened = () => {
     setLifecycleState(LIFECYCLE.ENTERED);
-    try {
-      sessionStorage.setItem('ink_ivory_gate_opened', 'true');
-    } catch (e) {
-      // Ignore
+    if (!isDemo) {
+      try {
+        sessionStorage.setItem('ink_ivory_gate_opened', 'true');
+      } catch (e) {
+        // Ignore
+      }
     }
   };
 

@@ -172,29 +172,29 @@ export const GrandEntranceGate = ({
       {/* Central Royal Invitation Badge & Gate Opener CTA */}
       <div
         ref={contentRef}
-        className="relative z-30 flex flex-col items-center justify-center h-full px-6 text-center select-none"
+        className="relative z-30 flex flex-col items-center justify-center h-full px-4 text-center select-none"
       >
-        <div className="max-w-xl w-full flex flex-col items-center p-8 sm:p-10 rounded-2xl bg-[#091321]/80 backdrop-blur-md border border-[#D6B477]/40 shadow-[0_20px_60px_rgba(0,0,0,0.9),inset_0_0_30px_rgba(214,180,119,0.15)] animate-in fade-in zoom-in-95 duration-700">
-          <div className="flex items-center gap-2 px-3.5 py-1 rounded-full border border-[#D6B477]/30 bg-[#D6B477]/10 text-[#E7CEA0] text-[11px] font-manrope font-semibold tracking-[0.28em] uppercase mb-4">
+        <div className="max-w-[340px] sm:max-w-xl w-full flex flex-col items-center p-6 sm:p-10 rounded-2xl bg-[#091321]/85 backdrop-blur-md border border-[#D6B477]/40 shadow-[0_20px_60px_rgba(0,0,0,0.9),inset_0_0_30px_rgba(214,180,119,0.15)] animate-in fade-in zoom-in-95 duration-700">
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-[#D6B477]/30 bg-[#D6B477]/10 text-[#E7CEA0] text-[10px] sm:text-[11px] font-manrope font-semibold tracking-[0.25em] uppercase mb-3">
             <Sparkles className="w-3.5 h-3.5 text-[#D6B477]" />
             <span>Royal Palace Invitation</span>
           </div>
 
-          <p className="font-serif italic text-xs sm:text-sm text-[#D6B477] tracking-widest uppercase mb-2">
+          <p className="font-serif italic text-xs sm:text-sm text-[#D6B477] tracking-widest uppercase mb-1.5">
             The Wedding Celebration of
           </p>
 
-          <h2 className="font-cormorant text-4xl sm:text-6xl text-[#FAF5ED] font-medium leading-[1.0] tracking-tight mb-4 drop-shadow-md">
+          <h2 className="font-cormorant text-3xl sm:text-5xl md:text-6xl text-[#FAF5ED] font-medium leading-[1.0] tracking-tight mb-3 drop-shadow-md">
             {couple.names}
           </h2>
 
-          <div className="flex items-center justify-center gap-3 my-2 mb-6">
-            <div className="h-[1px] w-16 bg-gradient-to-r from-transparent to-[#D6B477]" />
+          <div className="flex items-center justify-center gap-3 my-2 mb-4 sm:mb-6">
+            <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-transparent to-[#D6B477]" />
             <span className="text-xs text-[#D6B477]">✦</span>
-            <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-[#D6B477]" />
+            <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-l from-transparent to-[#D6B477]" />
           </div>
 
-          <p className="font-manrope text-xs sm:text-sm text-[#EFE3CD] leading-relaxed mb-8 max-w-md">
+          <p className="font-manrope text-[11px] sm:text-sm text-[#EFE3CD] leading-relaxed mb-6 sm:mb-8 max-w-xs sm:max-w-md">
             Step through the royal palace gates to immerse in sacred Vedic rituals, riverside festivities, and joyous wedding ceremonies.
           </p>
 
@@ -202,7 +202,7 @@ export const GrandEntranceGate = ({
           <button
             type="button"
             onClick={handleOpenGate}
-            className="group relative inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-[#D6B477] via-[#E7CEA0] to-[#D6B477] text-[#091321] font-manrope text-xs sm:text-sm font-bold tracking-widest uppercase shadow-[0_10px_30px_rgba(214,180,119,0.4)] hover:shadow-[0_15px_40px_rgba(214,180,119,0.6)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none"
+            className="group relative inline-flex items-center justify-center gap-2.5 px-6 sm:px-10 py-3 sm:py-4 rounded-full bg-gradient-to-r from-[#D6B477] via-[#E7CEA0] to-[#D6B477] text-[#091321] font-manrope text-xs sm:text-sm font-bold tracking-widest uppercase shadow-[0_10px_30px_rgba(214,180,119,0.4)] hover:shadow-[0_15px_40px_rgba(214,180,119,0.6)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none"
           >
             <span>Enter Royal Celebration</span>
             <ArrowRight className="w-4 h-4 text-[#091321] group-hover:translate-x-1 transition-transform" />
@@ -212,7 +212,7 @@ export const GrandEntranceGate = ({
           <button
             type="button"
             onClick={handleSkip}
-            className="mt-5 text-[11px] font-manrope text-[#D6B477]/70 hover:text-[#FFFDF7] tracking-widest uppercase transition-colors underline underline-offset-4 cursor-pointer focus:outline-none"
+            className="mt-4 text-[10px] sm:text-[11px] font-manrope text-[#D6B477]/70 hover:text-[#FFFDF7] tracking-widest uppercase transition-colors underline underline-offset-4 cursor-pointer focus:outline-none"
           >
             Direct Access (Skip)
           </button>

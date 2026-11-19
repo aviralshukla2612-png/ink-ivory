@@ -21,64 +21,64 @@ export const HorizontalSlideDeck = () => {
   const { currentSlide, nextSlide, prevSlide, isFirstSlide, isLastSlide } = useSlider();
 
   return (
-    <div className="relative w-full h-full min-h-screen overflow-hidden bg-[#091321] select-none">
+    <div className="relative w-screen h-screen overflow-hidden bg-[#091321] select-none">
       {/* 1. HORIZONTAL SLIDE TRACK (Right to Left 1 page at a time) */}
       <div
         className="flex w-full h-full transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
-        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+        style={{ transform: `translateX(-${currentSlide * 100}vw)` }}
       >
         {/* SLIDE 01: WELCOME / INTRO */}
-        <div className="w-full h-full min-w-full min-h-screen flex-shrink-0 relative overflow-hidden">
+        <div className="w-screen h-screen flex-shrink-0 relative overflow-hidden">
           <WelcomeSection />
         </div>
 
         {/* SLIDE 02: SAVE THE DATE */}
-        <div className="w-full h-full min-w-full min-h-screen flex-shrink-0 relative overflow-hidden">
+        <div className="w-screen h-screen flex-shrink-0 relative overflow-hidden">
           <SaveTheDateSection />
         </div>
 
         {/* SLIDE 03: CELEBRATIONS OVERVIEW */}
-        <div className="w-full h-full min-w-full min-h-screen flex-shrink-0 relative overflow-hidden">
+        <div className="w-screen h-screen flex-shrink-0 relative overflow-hidden">
           <EventsOverviewSection />
         </div>
 
         {/* SLIDE 04: HALDI CEREMONY */}
-        <div className="w-full h-full min-w-full min-h-screen flex-shrink-0 relative overflow-hidden">
+        <div className="w-screen h-screen flex-shrink-0 relative overflow-hidden">
           <HaldiSection />
         </div>
 
         {/* SLIDE 05: MEHENDI CEREMONY */}
-        <div className="w-full h-full min-w-full min-h-screen flex-shrink-0 relative overflow-hidden">
+        <div className="w-screen h-screen flex-shrink-0 relative overflow-hidden">
           <MehendiSection />
         </div>
 
         {/* SLIDE 06: SANGEET NIGHT */}
-        <div className="w-full h-full min-w-full min-h-screen flex-shrink-0 relative overflow-hidden">
+        <div className="w-screen h-screen flex-shrink-0 relative overflow-hidden">
           <SangeetSection />
         </div>
 
         {/* SLIDE 07: WEDDING CEREMONY */}
-        <div className="w-full h-full min-w-full min-h-screen flex-shrink-0 relative overflow-hidden">
+        <div className="w-screen h-screen flex-shrink-0 relative overflow-hidden">
           <WeddingCeremonySection />
         </div>
 
         {/* SLIDE 08: IMPERIAL RECEPTION */}
-        <div className="w-full h-full min-w-full min-h-screen flex-shrink-0 relative overflow-hidden">
+        <div className="w-screen h-screen flex-shrink-0 relative overflow-hidden">
           <ReceptionSection />
         </div>
 
         {/* SLIDE 09: FAMILY BLESSINGS */}
-        <div className="w-full h-full min-w-full min-h-screen flex-shrink-0 relative overflow-hidden">
+        <div className="w-screen h-screen flex-shrink-0 relative overflow-hidden">
           <FamilyBlessingsSection />
         </div>
 
         {/* SLIDE 10: VENUE & LOCATION */}
-        <div className="w-full h-full min-w-full min-h-screen flex-shrink-0 relative overflow-hidden">
+        <div className="w-screen h-screen flex-shrink-0 relative overflow-hidden">
           <VenueSection />
         </div>
 
         {/* SLIDE 11: CLOSING & WISH LANTERNS */}
-        <div className="w-full h-full min-w-full min-h-screen flex-shrink-0 relative overflow-hidden">
+        <div className="w-screen h-screen flex-shrink-0 relative overflow-hidden">
           <ClosingSection />
         </div>
       </div>
