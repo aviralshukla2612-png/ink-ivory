@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Aarav & Riya — Royal Wedding Celebration | Ink & Ivory</title>
+  
+  <!--
+  =============================================================================
+  UNIVERSAL WEDDING WEBSITE MASTER PROMPT — TEMPLATE 01
+  Ink & Ivory: Luxury Royal Wedding Invitation Website
+  Couple: Aarav & Riya
+  Date: Friday, 18 December 2026, 5:00 PM IST (+05:30)
+  Venue: The Heritage Palace & Gardens, Jaipur, Rajasthan, India
+  =============================================================================
+  STYLE DNA
+  a. Mood: Regal, Cinematic, Architectural, Ethereal, Heirloom.
+  b. Palette:
+     - Page Background: #101624 (Deep Navy)
+     - Gate & Shell: #0A0E18 (Navy Black)
+     - Section Tints: #131A2B (Muted Midnight Card)
+     - Headings: #F7F3EB (Royal Ivory)
+     - Subtitles / Accents: #D8C39A (Soft Gold)
+     - Primary Ornament / Button: #C5A46D (Champagne Gold)
+     - Secondary Accents: #8B1D2C (Royal Crimson Velvet)
+  c. Typography:
+     - Display / Couple Names: Cormorant Garamond (Light 300 / Regular 400)
+     - Script Ampersand / Flourish: Great Vibes (Script)
+     - Subtitles / Editorial: Playfair Display (Italic 400)
+     - Body / Labels: Manrope (Regular 400 / Semibold 600)
+  d. Backgrounds & Textures: Layered radial vignettes, subtle starlit jaali lattice, warm gold torchlight glow.
+  e. Layout Rhythm: Max 1180px content width, generous editorial breathing space, 1-col on mobile, 2/4-col on desktop.
+  f. Components: Cusped Rajput arches, double hairline gold borders, brass lotus knocker medallions, pill badges.
+  g. Imagery: Editorial photography + handcrafted Indian wedding caricatures.
+  h. Section Order: Gate Reveal -> Hero -> Couple -> Story -> Countdown -> Events -> Album -> Venue -> RSVP -> Footer.
+  i. Motion: 3D gate swing with particle burst, S-curve paper plane with heart trail, falling rose petals, candle-glow cursor.
+  =============================================================================
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Great+Vibes&family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-dark: #101624;
+      --bg-navy-black: #0A0E18;
+      --bg-card: #131A2B;
+      --ivory: #F7F3EB;
+      --ivory-warm: #FAF5ED;
+      --gold-champagne: #C5A46D;
+      --gold-soft: #D8C39A;
+      --gold-dark: #8C6D37;
+      --crimson: #8B1D2C;
+      --text-muted: #89857E;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-script: 'Great Vibes', cursive;
+      --font-editorial: 'Playfair Display', Georgia, serif;
+      --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html, body {
+      background-color: var(--bg-dark);
+      color: var(--ivory);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: clip;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    ::selection {
+      background: var(--gold-champagne);
+      color: var(--bg-dark);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* Fixed Effect Layers */
+    #paper-plane-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+      z-index: 25;
+      overflow: hidden;
+    }
+
+    #petals-canvas, #glitter-layer, #cursor-canvas, #lanterns-layer {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 20;
+    }
+    #cursor-canvas { z-index: 40; }
+    #lanterns-layer { z-index: 50; }
+
+    /* Gate Entrance Overlay */
+    #gate-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background-color: var(--bg-navy-black);
+      overflow: hidden;
+      perspective: 1400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #gate-loader.hidden-gate {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .gate-doors {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      pointer-events: none;
+    }
+
+    .gate-door {
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(180deg, #0D1322 0%, #101726 50%, #0A0E18 100%);
+      position: relative;
+      overflow: hidden;
+      transition: transform 2.2s cubic-bezier(0.77, 0, 0.175, 1);
+      will-change: transform;
+    }
+
+    .gate-left {
+      border-right: 2px solid var(--gold-champagne);
+      transform-origin: left center;
+      box-shadow: inset -15px 0 35px rgba(0,0,0,0.9);
+    }
+
+    .gate-right {
+      border-left: 2px solid var(--gold-champagne);
+      transform-origin: right center;
+      box-shadow: inset 15px 0 35px rgba(0,0,0,0.9);
+    }
+
+    .gate-opened .gate-left {
+      transform: translateX(-105%) rotateY(-50deg);
+    }
+    .gate-opened .gate-right {
+      transform: translateX(105%) rotateY(50deg);
+    }
+
+    /* Gate Architectural Detailing */
+    .gate-arch-frame {
+      position: absolute;
+      inset: 20px;
+      border: 2px solid rgba(197, 164, 109, 0.5);
+      border-top-left-radius: 120px;
+      border-top-right-radius: 120px;
+      pointer-events: none;
+    }
+
+    .gate-medallion {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-soft);
+      background: radial-gradient(circle, #1C2842 0%, #0A0E18 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.9);
+    }
+    .gate-left .gate-medallion { right: 24px; }
+    .gate-right .gate-medallion { left: 24px; }
+
+    .gate-initial {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold-champagne);
+    }
+
+    /* Gate Center Card */
+    .gate-card {
+      position: relative;
+      z-index: 10;
+      max-width: 480px;
+      width: 90%;
+      padding: 44px 32px;
+      border-radius: 28px;
+      background: rgba(16, 22, 36, 0.95);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(197, 164, 109, 0.65);
+      box-shadow: 0 25px 80px rgba(0,0,0,0.95), 0 0 35px rgba(197, 164, 109, 0.25);
+      text-align: center;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+    .gate-opened .gate-card {
+      transform: translateY(-40px) scale(0.95);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .brand-cartouche {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 20px;
+      border-radius: 9999px;
+      background: var(--ivory-warm);
+      border: 1px solid var(--gold-champagne);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 15px rgba(197, 164, 109, 0.35);
+      margin-bottom: 20px;
+    }
+    .brand-cartouche span {
+      font-family: var(--font-editorial);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: #2C2114;
+      text-transform: uppercase;
+    }
+
+    .gate-names {
+      font-family: var(--font-display);
+      font-size: clamp(38px, 6vw, 54px);
+      font-weight: 300;
+      color: var(--ivory-warm);
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+    .gate-ampersand {
+      font-family: var(--font-script);
+      font-size: clamp(36px, 5.5vw, 48px);
+      color: var(--gold-champagne);
+      display: inline-block;
+      transform: rotate(-6deg);
+      margin: 0 8px;
+    }
+
+    .btn-gold {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 36px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #C5A46D 0%, #D8C39A 50%, #C5A46D 100%);
+      color: var(--bg-navy-black);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 25px rgba(197, 164, 109, 0.45);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .btn-gold:hover {
+      transform: scale(1.04);
+      box-shadow: 0 6px 35px rgba(197, 164, 109, 0.65);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      background: radial-gradient(circle at 50% 40%, rgba(20, 30, 52, 0.9) 0%, rgba(16, 22, 36, 0.98) 100%);
+      overflow: hidden;
+    }
+
+    .hero-blessing {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 9999px;
+      background: rgba(23, 32, 57, 0.8);
+      border: 1px solid rgba(197, 164, 109, 0.4);
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: var(--ivory-warm);
+      margin-bottom: 24px;
+    }
+
+    .hero-names {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 10vw, 108px);
+      font-weight: 300;
+      color: var(--ivory-warm);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-editorial);
+      font-style: italic;
+      font-size: clamp(16px, 2.5vw, 22px);
+      color: rgba(247, 243, 235, 0.85);
+      max-width: 620px;
+      margin: 0 auto 28px;
+      line-height: 1.6;
+    }
+
+    .hero-date-pill {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-soft);
+      margin-bottom: 40px;
+    }
+
+    /* Section Global */
+    section {
+      position: relative;
+      padding: 110px 24px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold-champagne);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .section-eyebrow::before, .section-eyebrow::after {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-champagne));
+    }
+    .section-eyebrow::after {
+      background: linear-gradient(90deg, var(--gold-champagne), transparent);
+    }
+
+    .section-title {
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 300;
+      color: var(--ivory);
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-family: var(--font-editorial);
+      font-style: italic;
+      font-size: 15px;
+      color: var(--gold-soft);
+      max-width: 580px;
+      margin: 0 auto 50px;
+    }
+
+    /* Couple Cards Grid */
+    .couple-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+    }
+
+    .couple-card {
+      background: rgba(19, 26, 43, 0.85);
+      border: 1px solid rgba(197, 164, 109, 0.3);
+      border-radius: 24px;
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: 0 15px 45px rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      transition: transform 0.4s ease, border-color 0.4s ease;
+    }
+    .couple-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--gold-champagne);
+    }
+
+    .caricature-wrap {
+      width: 100%;
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    /* Countdown Grid */
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    @media (max-width: 600px) {
+      .countdown-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .countdown-box {
+      background: rgba(19, 26, 43, 0.9);
+      border: 1px solid rgba(197, 164, 109, 0.35);
+      border-radius: 18px;
+      padding: 24px 16px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .countdown-num {
+      font-family: var(--font-display);
+      font-size: clamp(38px, 6vw, 64px);
+      font-weight: 300;
+      color: var(--ivory-warm);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .countdown-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold-champagne);
+    }
+
+    /* Events Vertical Timeline */
+    .timeline-wrap {
+      position: relative;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+    .timeline-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 24px;
+      width: 2px;
+      background: linear-gradient(180deg, transparent 0%, var(--gold-champagne) 10%, var(--gold-champagne) 90%, transparent 100%);
+    }
+    @media (min-width: 768px) {
+      .timeline-wrap::before { left: 50%; transform: translateX(-50%); }
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 48px;
+      display: flex;
+      flex-direction: column;
+    }
+    @media (min-width: 768px) {
+      .timeline-item:nth-child(odd) { align-items: flex-start; padding-right: calc(50% + 36px); }
+      .timeline-item:nth-child(even) { align-items: flex-end; padding-left: calc(50% + 36px); }
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: 12px;
+      top: 20px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      border: 2px solid var(--gold-champagne);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-champagne);
+      font-size: 11px;
+      font-weight: bold;
+      z-index: 5;
+    }
+    @media (min-width: 768px) {
+      .timeline-marker { left: 50%; transform: translateX(-50%); }
+    }
+
+    .timeline-card {
+      background: rgba(19, 26, 43, 0.9);
+      border: 1px solid rgba(197, 164, 109, 0.25);
+      border-radius: 20px;
+      padding: 28px;
+      margin-left: 54px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.5);
+    }
+    @media (min-width: 768px) {
+      .timeline-card { margin-left: 0; width: 100%; }
+    }
+
+    /* Photo Album Grid */
+    .album-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .album-item {
+      position: relative;
+      aspect-ratio: 4/5;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(197, 164, 109, 0.3);
+      cursor: pointer;
+    }
+    .album-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .album-item:hover img {
+      transform: scale(1.06);
+    }
+
+    /* Lightbox */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 14, 24, 0.96);
+      z-index: 120;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    #lightbox.active { display: flex; }
+    #lightbox-img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 16px;
+      border: 1px solid var(--gold-champagne);
+      object-fit: contain;
+    }
+    .lightbox-close, .lightbox-prev, .lightbox-next {
+      position: absolute;
+      color: var(--ivory);
+      font-size: 28px;
+      cursor: pointer;
+      background: rgba(16, 22, 36, 0.8);
+      border: 1px solid var(--gold-champagne);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .lightbox-close { top: 24px; right: 24px; }
+    .lightbox-prev { left: 24px; top: 50%; transform: translateY(-50%); }
+    .lightbox-next { right: 24px; top: 50%; transform: translateY(-50%); }
+
+    /* Footer */
+    footer {
+      position: relative;
+      background: #0B0F18;
+      border-top: 1px solid rgba(197, 164, 109, 0.25);
+      padding: 90px 24px 40px;
+      text-align: center;
+    }
+
+    /* Reduced Motion Compliance */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      #paper-plane-layer, #petals-canvas, #glitter-layer, #cursor-canvas { display: none !important; }
+      #gate-loader { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================= -->
+  <!-- 5.1 CINEMATIC OPENING REVEAL (Double Palace Gates + Royal Wax Seal)       -->
+  <!-- ========================================================================= -->
+  <div id="gate-loader">
+    <!-- Double Gate Doors -->
+    <div class="gate-doors">
+      <!-- Left Gate Door with Monogram "A" -->
+      <div class="gate-door gate-left">
+        <div class="gate-arch-frame"></div>
+        <div class="gate-medallion">
+          <span class="gate-initial">A</span>
+        </div>
+      </div>
+      <!-- Right Gate Door with Monogram "R" -->
+      <div class="gate-door gate-right">
+        <div class="gate-arch-frame"></div>
+        <div class="gate-medallion">
+          <span class="gate-initial">R</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Floating Royal Seal Card -->
+    <div class="gate-card">
+      <div class="brand-cartouche">
+        <span>Ink &amp; Ivory</span>
+      </div>
+      <p style="font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-soft); margin-bottom: 8px;">
+        Together with their families
+      </p>
+      <h1 class="gate-names">
+        Aarav <span class="gate-ampersand">&amp;</span> Riya
+      </h1>
+      <p style="font-family: var(--font-editorial); font-style: italic; font-size: 14px; color: var(--gold-soft); margin-bottom: 24px;">
+        &ldquo;Invite you to celebrate the beginning of their forever&rdquo;
+      </p>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; color: var(--gold-soft); margin-bottom: 30px; letter-spacing: 0.2em; text-transform: uppercase;">
+        <span>✦</span>
+        <span>Friday, 18 December 2026</span>
+        <span>✦</span>
+      </div>
+      <button id="open-gate-btn" class="btn-gold" type="button" aria-label="Open Invitation">
+        <span>Open Invitation</span>
+        <span>→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 5.9 S-CURVE PAPER PLANE FLIGHT PATH WITH HEART TRAIL                      -->
+  <!-- ========================================================================= -->
+  <div id="paper-plane-layer" aria-hidden="true">
+    <svg id="plane-svg" width="100%" height="100%" style="position: absolute; top: 0; left: 0;">
+      <defs>
+        <linearGradient id="activeFlightGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#C5A46D" stop-opacity="0.9" />
+          <stop offset="100%" stop-color="#FAF5ED" stop-opacity="0.7" />
+        </linearGradient>
+      </defs>
+      <!-- Base dotted flight path (3.4px dots, 15px apart, 40% opacity) -->
+      <path id="base-flight-path" fill="none" stroke="#C5A46D" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="0.1 15" stroke-opacity="0.35" />
+      <!-- Traveled dashed stretch -->
+      <path id="active-flight-path" fill="none" stroke="url(#activeFlightGrad)" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="12 8" />
+    </svg>
+    <!-- Traveling Airplane with tiny Heart -->
+    <div id="airplane-elem" style="position: absolute; top: 0; left: 0; width: 68px; height: 42px; margin-left: -34px; margin-top: -21px; pointer-events: none; opacity: 0.65; will-change: transform;">
+      <svg viewBox="0 0 68 42" fill="none" style="filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6));">
+        <polygon points="64,21 4,4 20,21" fill="#FAF5ED" stroke="#C5A46D" stroke-width="1.2" />
+        <polygon points="64,21 20,21 4,38" fill="#EADBC0" stroke="#C5A46D" stroke-width="1.2" />
+        <polygon points="64,21 16,21 20,28" fill="#D4B67F" stroke="#A88B54" stroke-width="0.8" />
+        <line x1="4" y1="4" x2="64" y2="21" stroke="#C5A46D" stroke-width="1" />
+      </svg>
+      <!-- Trailing Heart -->
+      <div style="position: absolute; left: -12px; top: 14px; width: 14px; height: 14px;">
+        <svg viewBox="0 0 24 24" fill="#C5A46D" stroke="#FAF5ED" stroke-width="1">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.10 Falling Rose Petals Canvas -->
+  <canvas id="petals-canvas" aria-hidden="true"></canvas>
+
+  <!-- 5.11 Subtle Glitter Stars Layer -->
+  <div id="glitter-layer" aria-hidden="true"></div>
+
+  <!-- 5.12 Candle-Glow Cursor Canvas -->
+  <canvas id="cursor-canvas" aria-hidden="true"></canvas>
+
+  <!-- 5.8 Floating Wish Lanterns Container -->
+  <div id="lanterns-layer" aria-hidden="true"></div>
+
+  <!-- ========================================================================= -->
+  <!-- 5.2 HERO SECTION                                                          -->
+  <!-- ========================================================================= -->
+  <header class="hero-section" id="hero">
+    <div>
+      <!-- Blessing Line -->
+      <div class="hero-blessing">
+        <span>✦</span>
+        <span>॥ श्री गणेशाय नमः ॥ Shree Ganeshaya Namah</span>
+        <span>✦</span>
+      </div>
+
+      <p style="font-size: 12px; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold-soft); margin-bottom: 12px;">
+        Together with their families
+      </p>
+
+      <h1 class="hero-names">
+        Aarav <span style="font-family: var(--font-script); color: var(--gold-champagne);">&amp;</span> Riya
+      </h1>
+
+      <p class="hero-subtitle">
+        &ldquo;Invite you to celebrate the beginning of their forever amidst royal palace splendor.&rdquo;
+      </p>
+
+      <div class="hero-date-pill">
+        <span>✦ Friday, 18 December 2026</span>
+        <span>•</span>
+        <span>Jaipur, Rajasthan ✦</span>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
+        <a href="#countdown" class="btn-gold">
+          <span>Save The Date</span>
+        </a>
+        <a href="#events" style="display: inline-flex; align-items: center; justify-content: center; padding: 14px 34px; border-radius: 9999px; border: 1px solid rgba(197, 164, 109, 0.6); color: var(--ivory); font-size: 12px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; backdrop-filter: blur(8px);">
+          <span>Celebration Schedule</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 5.3 & 6 THE COUPLE WITH HANDCRAFTED CARICATURES                           -->
+  <!-- ========================================================================= -->
+  <section id="couple">
+    <div class="section-eyebrow">The Happy Couple</div>
+    <h2 class="section-title">Two Souls, One Destiny</h2>
+    <p class="section-subtitle">Joined together in love, laughter, and lifelong devotion.</p>
+
+    <div class="couple-grid">
+      <!-- Groom Card -->
+      <div class="couple-card">
+        <div class="caricature-wrap">
+          <svg viewBox="0 0 200 240" width="180" height="216" fill="none">
+            <circle cx="100" cy="115" r="88" fill="#C5A46D" fill-opacity="0.12"/>
+            <path d="M 45 235 L 55 168 C 65 152, 135 152, 145 168 L 155 235 Z" fill="#FAF5ED" stroke="#C5A46D" stroke-width="1.5"/>
+            <path d="M 82 152 L 82 165 C 82 170, 118 170, 118 165 L 118 152 Z" fill="#D8C39A" stroke="#8C6D37" stroke-width="1"/>
+            <circle cx="100" cy="178" r="2.5" fill="#C5A46D"/>
+            <circle cx="100" cy="192" r="2.5" fill="#C5A46D"/>
+            <rect x="88" y="138" width="24" height="20" rx="6" fill="#D8A882"/>
+            <circle cx="58" cy="98" r="8.5" fill="#D8A882"/>
+            <circle cx="142" cy="98" r="8.5" fill="#D8A882"/>
+            <path d="M 64 82 C 60 120, 72 144, 100 144 C 128 144, 140 120, 136 82 C 136 50, 64 50, 64 82 Z" fill="#D8A882"/>
+            <path d="M 66 98 C 66 128, 76 142, 100 142 C 124 142, 134 128, 134 98 C 126 106, 114 110, 100 110 C 86 110, 74 106, 66 98 Z" fill="#2A2421" fill-opacity="0.88"/>
+            <path d="M 88 120 Q 100 128 112 120" stroke="#FAF5ED" stroke-width="2.5" stroke-linecap="round"/>
+            <ellipse cx="82" cy="92" rx="4.5" ry="5.5" fill="#1C140E"/>
+            <ellipse cx="118" cy="92" rx="4.5" ry="5.5" fill="#1C140E"/>
+            <circle cx="83.5" cy="90.5" r="1.5" fill="#FFF"/>
+            <circle cx="119.5" cy="90.5" r="1.5" fill="#FFF"/>
+            <path d="M 60 76 C 58 48, 80 32, 100 32 C 126 32, 144 48, 140 76 C 132 58, 116 52, 100 52 C 82 52, 68 60, 60 76 Z" fill="#1C140E"/>
+          </svg>
+        </div>
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-champagne); display: block; margin-bottom: 6px;">The Groom</span>
+        <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; color: var(--ivory); margin-bottom: 8px;">Aarav Singhania</h3>
+        <p style="font-size: 13px; color: var(--gold-soft); font-style: italic; margin-bottom: 14px;">Son of Mrs. Sunita &amp; Mr. Vikramaditya Singhania</p>
+        <p style="font-size: 14px; color: rgba(247, 243, 235, 0.85); line-height: 1.6;">&ldquo;A passionate architect with an eye for heritage and classical soul. To Aarav, Riya is the serendipitous muse who brought lifelong joy into his world.&rdquo;</p>
+      </div>
+
+      <!-- Bride Card -->
+      <div class="couple-card">
+        <div class="caricature-wrap">
+          <svg viewBox="0 0 200 240" width="180" height="216" fill="none">
+            <circle cx="100" cy="115" r="88" fill="#C5A46D" fill-opacity="0.12"/>
+            <path d="M 48 235 L 58 172 C 68 156, 132 156, 142 172 L 152 235 Z" fill="#8B1D2C" stroke="#C5A46D" stroke-width="1.5"/>
+            <path d="M 78 162 Q 100 178 122 162" stroke="#C5A46D" stroke-width="4" stroke-linecap="round"/>
+            <rect x="89" y="138" width="22" height="20" rx="6" fill="#E4BA97"/>
+            <circle cx="60" cy="102" r="7.5" fill="#E4BA97"/>
+            <circle cx="140" cy="102" r="7.5" fill="#E4BA97"/>
+            <path d="M 66 84 C 62 122, 74 142, 100 142 C 126 142, 138 122, 134 84 C 134 52, 66 52, 66 84 Z" fill="#E4BA97"/>
+            <ellipse cx="76" cy="112" rx="7" ry="4" fill="#E88B8B" fill-opacity="0.5"/>
+            <ellipse cx="124" cy="112" rx="7" ry="4" fill="#E88B8B" fill-opacity="0.5"/>
+            <path d="M 88 122 Q 100 132 112 122" stroke="#A8283B" stroke-width="3" stroke-linecap="round" fill="#C94459"/>
+            <circle cx="95" cy="107" r="3.2" stroke="#C5A46D" stroke-width="1"/>
+            <ellipse cx="82" cy="94" rx="5" ry="6" fill="#1C140E"/>
+            <ellipse cx="118" cy="94" rx="5" ry="6" fill="#1C140E"/>
+            <circle cx="83.5" cy="92.5" r="1.8" fill="#FFF"/>
+            <circle cx="119.5" cy="92.5" r="1.8" fill="#FFF"/>
+            <circle cx="100" cy="85" r="2.2" fill="#8B1D2C"/>
+            <path d="M 60 76 C 58 44, 78 34, 100 34 C 122 34, 142 44, 140 76 C 132 56, 116 50, 100 50 C 84 50, 68 56, 60 76 Z" fill="#1C140E"/>
+            <line x1="100" y1="36" x2="100" y2="72" stroke="#C5A46D" stroke-width="1.5"/>
+            <circle cx="100" cy="74" r="4.5" fill="#C5A46D" stroke="#FAF5ED" stroke-width="1"/>
+          </svg>
+        </div>
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-champagne); display: block; margin-bottom: 6px;">The Bride</span>
+        <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; color: var(--ivory); margin-bottom: 8px;">Riya Kapoor</h3>
+        <p style="font-size: 13px; color: var(--gold-soft); font-style: italic; margin-bottom: 14px;">Daughter of Mrs. Gayatri &amp; Dr. Harshvardhan Kapoor</p>
+        <p style="font-size: 14px; color: rgba(247, 243, 235, 0.85); line-height: 1.6;">&ldquo;An editorial stylist with a deep love for literature and classical grace. In Aarav, Riya found the steadfast warmth, gentle humor, and eternal love she always dreamed of.&rdquo;</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 5.4 LIVE COUNTDOWN (Fixed +05:30 IST Offset -> Just Married)              -->
+  <!-- ========================================================================= -->
+  <section id="countdown" style="text-align: center;">
+    <div class="section-eyebrow">Awaiting The Auspicious Moment</div>
+    <h2 class="section-title">Counting Down Every Heartbeat</h2>
+    <p class="section-subtitle">Until we take our sacred vows under the starlit Jaipur skies.</p>
+
+    <div class="countdown-grid" id="countdown-container">
+      <div class="countdown-box">
+        <div class="countdown-num" id="cd-days">--</div>
+        <div class="countdown-label">Days</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-num" id="cd-hours">--</div>
+        <div class="countdown-label">Hours</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-num" id="cd-mins">--</div>
+        <div class="countdown-label">Minutes</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-num" id="cd-secs">--</div>
+        <div class="countdown-label">Seconds</div>
+      </div>
+    </div>
+    <div id="just-married-banner" style="display: none; padding: 30px; background: rgba(19,26,43,0.9); border: 1px solid var(--gold-champagne); border-radius: 20px; max-width: 600px; margin: 0 auto;">
+      <h3 style="font-family: var(--font-display); font-size: 44px; color: var(--gold-soft);">✦ Just Married ✦</h3>
+      <p style="font-family: var(--font-editorial); font-style: italic; color: var(--ivory);">Aarav &amp; Riya have united in sacred matrimony. Thank you for your heartfelt blessings!</p>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 5.6 WEDDING EVENTS TIMELINE                                               -->
+  <!-- ========================================================================= -->
+  <section id="events">
+    <div class="section-eyebrow">Sacred Festivities</div>
+    <h2 class="section-title">The Wedding Celebrations</h2>
+    <p class="section-subtitle">Every ceremony thoughtfully curated with timeless royal tradition.</p>
+
+    <div class="timeline-wrap">
+      <!-- Event 1: Mehndi -->
+      <div class="timeline-item">
+        <div class="timeline-marker">1</div>
+        <div class="timeline-card">
+          <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-champagne); display: block; margin-bottom: 6px;">Wednesday, 16 December 2026 • 7:00 PM</span>
+          <h3 style="font-family: var(--font-display); font-size: 28px; font-weight: 400; color: var(--ivory); margin-bottom: 6px;">Mehndi &amp; Welcome Sangeet</h3>
+          <p style="font-size: 13px; color: var(--gold-soft); margin-bottom: 12px;"><strong>Venue:</strong> Lotus Pavilion &amp; Lakeside Lawn | <strong>Dress Code:</strong> Pastel Florals &amp; Royal Botanicals</p>
+          <p style="font-size: 14px; color: rgba(247, 243, 235, 0.85);">Intricate henna artistry adorned with heirloom motifs, fragrant jasmine garlands, cocktails, and joyful dhol beats.</p>
+        </div>
+      </div>
+
+      <!-- Event 2: Haldi -->
+      <div class="timeline-item">
+        <div class="timeline-marker">2</div>
+        <div class="timeline-card">
+          <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-champagne); display: block; margin-bottom: 6px;">Thursday, 17 December 2026 • 10:00 AM</span>
+          <h3 style="font-family: var(--font-display); font-size: 28px; font-weight: 400; color: var(--ivory); margin-bottom: 6px;">Haldi &amp; Phoolon Ki Holi</h3>
+          <p style="font-size: 13px; color: var(--gold-soft); margin-bottom: 12px;"><strong>Venue:</strong> Sunlit Marble Courtyard | <strong>Dress Code:</strong> Sunshine Yellows &amp; Festive Ivories</p>
+          <p style="font-size: 14px; color: rgba(247, 243, 235, 0.85);">Auspicious turmeric blessings, fragrant rose and marigold flower showers, and traditional Rajasthani folk rhythms.</p>
+        </div>
+      </div>
+
+      <!-- Event 3: Sangeet Extravaganza -->
+      <div class="timeline-item">
+        <div class="timeline-marker">3</div>
+        <div class="timeline-card">
+          <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-champagne); display: block; margin-bottom: 6px;">Thursday, 17 December 2026 • 7:30 PM</span>
+          <h3 style="font-family: var(--font-display); font-size: 28px; font-weight: 400; color: var(--ivory); margin-bottom: 6px;">Sangeet Extravaganza</h3>
+          <p style="font-size: 13px; color: var(--gold-soft); margin-bottom: 12px;"><strong>Venue:</strong> Sheesh Mahal Grand Ballroom | <strong>Dress Code:</strong> Indo-Western Glitz &amp; Velvet Elegance</p>
+          <p style="font-size: 14px; color: rgba(247, 243, 235, 0.85);">Heartfelt family performances, acoustic ghazals, high-energy Bollywood dance, and celebratory toasts under chandelier glow.</p>
+        </div>
+      </div>
+
+      <!-- Event 4: The Royal Wedding -->
+      <div class="timeline-item">
+        <div class="timeline-marker">4</div>
+        <div class="timeline-card">
+          <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-champagne); display: block; margin-bottom: 6px;">Friday, 18 December 2026 • 5:00 PM</span>
+          <h3 style="font-family: var(--font-display); font-size: 28px; font-weight: 400; color: var(--ivory); margin-bottom: 6px;">The Royal Vedic Wedding (Saat Phere)</h3>
+          <p style="font-size: 13px; color: var(--gold-soft); margin-bottom: 12px;"><strong>Venue:</strong> Central Lakeside Mandap | <strong>Dress Code:</strong> Regal Traditional Indian • Ivory, Navy &amp; Gold</p>
+          <p style="font-size: 14px; color: rgba(247, 243, 235, 0.85);">The Baraat procession followed by the eternal seven sacred vows around the holy agni as dusk falls over the palace hills.</p>
+        </div>
+      </div>
+
+      <!-- Event 5: Imperial Reception -->
+      <div class="timeline-item">
+        <div class="timeline-marker">5</div>
+        <div class="timeline-card">
+          <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-champagne); display: block; margin-bottom: 6px;">Saturday, 19 December 2026 • 7:30 PM</span>
+          <h3 style="font-family: var(--font-display); font-size: 28px; font-weight: 400; color: var(--ivory); margin-bottom: 6px;">The Imperial Reception &amp; Symphony</h3>
+          <p style="font-size: 13px; color: var(--gold-soft); margin-bottom: 12px;"><strong>Venue:</strong> Maharaja Royal Banquet Terraces | <strong>Dress Code:</strong> Black Tie / Royal Formal Elegance</p>
+          <p style="font-size: 14px; color: rgba(247, 243, 235, 0.85);">A grand celebratory dinner, live orchestral symphony, cake cutting, and starlit dancing beneath the moonlit Rajasthan sky.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 5.7 PHOTO ALBUM WITH RESPONSIVE LIGHTBOX                                  -->
+  <!-- ========================================================================= -->
+  <section id="gallery">
+    <div class="section-eyebrow">Moments in Forever</div>
+    <h2 class="section-title">Our Visual Chronicle</h2>
+    <p class="section-subtitle">Glimpses of love, serenity, and stolen smiles.</p>
+
+    <div class="album-grid">
+      <div class="album-item" onclick="openLightbox(0)">
+        <img src="photo1.jpg" alt="Aarav & Riya Moment 1">
+      </div>
+      <div class="album-item" onclick="openLightbox(1)">
+        <img src="photo2.jpg" alt="Aarav & Riya Moment 2">
+      </div>
+      <div class="album-item" onclick="openLightbox(2)">
+        <img src="photo3.jpg" alt="Aarav & Riya Moment 3">
+      </div>
+      <div class="album-item" onclick="openLightbox(3)">
+        <img src="photo4.jpg" alt="Aarav & Riya Moment 4">
+      </div>
+      <div class="album-item" onclick="openLightbox(4)">
+        <img src="photo5.jpg" alt="Aarav & Riya Moment 5">
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox Modal (Escape to close, prev, next, counter) -->
+  <div id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox(event)" aria-label="Close Lightbox">&times;</button>
+    <button class="lightbox-prev" onclick="prevPhoto(event)" aria-label="Previous Photo">&#8249;</button>
+    <div style="text-align: center;">
+      <img id="lightbox-img" src="" alt="Enlarged wedding moment">
+      <div id="lightbox-counter" style="margin-top: 12px; font-size: 13px; letter-spacing: 0.2em; color: var(--gold-soft);">1 / 5</div>
+    </div>
+    <button class="lightbox-next" onclick="nextPhoto(event)" aria-label="Next Photo">&#8250;</button>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 5.5 VENUE DETAILS WITH .ICS DOWNLOAD & ILLUSTRATED SVG MAP CARD           -->
+  <!-- ========================================================================= -->
+  <section id="venue">
+    <div class="section-eyebrow">Destination &amp; Hospitality</div>
+    <h2 class="section-title">The Royal Venue</h2>
+    <p class="section-subtitle">Steeped in 18th-century Rajput majesty, carved stone arches, and starlit courtyards.</p>
+
+    <!-- Detail Cards -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 36px;">
+      <div style="background: rgba(19,26,43,0.85); border: 1px solid rgba(197,164,109,0.3); border-radius: 20px; padding: 24px; text-align: center;">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-champagne); display: block; margin-bottom: 6px;">Date</span>
+        <h4 style="font-family: var(--font-display); font-size: 22px; color: var(--ivory);">18 December 2026</h4>
+      </div>
+      <div style="background: rgba(19,26,43,0.85); border: 1px solid rgba(197,164,109,0.3); border-radius: 20px; padding: 24px; text-align: center;">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-champagne); display: block; margin-bottom: 6px;">Time</span>
+        <h4 style="font-family: var(--font-display); font-size: 22px; color: var(--ivory);">5:00 PM Onwards</h4>
+      </div>
+      <div style="background: rgba(19,26,43,0.85); border: 1px solid rgba(197,164,109,0.3); border-radius: 20px; padding: 24px; text-align: center;">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-champagne); display: block; margin-bottom: 6px;">Venue</span>
+        <h4 style="font-family: var(--font-display); font-size: 22px; color: var(--ivory);">The Heritage Palace</h4>
+      </div>
+      <div style="background: rgba(19,26,43,0.85); border: 1px solid rgba(197,164,109,0.3); border-radius: 20px; padding: 24px; text-align: center;">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-champagne); display: block; margin-bottom: 6px;">Dress Code</span>
+        <h4 style="font-family: var(--font-display); font-size: 22px; color: var(--ivory);">Royal Indian • Ivory &amp; Gold</h4>
+      </div>
+    </div>
+
+    <!-- Illustrated SVG Map Card (Clickable to Google Maps) -->
+    <a href="https://maps.google.com/?q=The+Heritage+Palace+Jaipur" target="_blank" rel="noopener noreferrer" style="display: block; width: 100%; border-radius: 24px; overflow: hidden; border: 1px solid var(--gold-champagne); box-shadow: 0 15px 50px rgba(0,0,0,0.8); margin-bottom: 28px; position: relative; background: #0E1524;">
+      <svg viewBox="0 0 600 320" width="100%" height="auto" style="display: block;">
+        <rect width="600" height="320" fill="#101726"/>
+        <!-- Topographical lines -->
+        <path d="M 0 50 Q 150 30 300 70 T 600 40" stroke="#C5A46D" stroke-width="1" stroke-opacity="0.15" fill="none"/>
+        <path d="M 0 100 Q 180 80 320 120 T 600 85" stroke="#C5A46D" stroke-width="1" stroke-opacity="0.12" fill="none"/>
+        <!-- Lake -->
+        <path d="M 30 200 Q 80 170 150 190 Q 210 210 190 270 Q 170 320 90 320 Q 20 320 10 270 Z" fill="#132B3A" stroke="#C5A46D" stroke-width="1" stroke-opacity="0.4"/>
+        <text x="80" y="260" fill="#7C9DAF" font-size="10" font-family="sans-serif" letter-spacing="2">MAOTA LAKE</text>
+        <!-- Highway Roads -->
+        <path d="M 0 290 Q 180 220 300 140 T 580 30" stroke="#C5A46D" stroke-width="6" stroke-opacity="0.3" fill="none"/>
+        <path d="M 0 290 Q 180 220 300 140 T 580 30" stroke="#D8C39A" stroke-width="1" stroke-dasharray="8 6" fill="none"/>
+        <!-- Palace Grounds -->
+        <rect x="270" y="50" width="180" height="110" rx="12" fill="#1A2438" stroke="#C5A46D" stroke-width="1.8" stroke-dasharray="6 3"/>
+        <text x="360" y="90" fill="#FAF5ED" font-size="13" font-family="serif" text-anchor="middle" font-weight="bold">THE HERITAGE PALACE</text>
+        <text x="360" y="106" fill="#D8C39A" font-size="9" font-family="sans-serif" text-anchor="middle" letter-spacing="1.5">JAIPUR, RAJASTHAN</text>
+        <!-- Pulsing Pin -->
+        <circle cx="360" cy="128" r="7" fill="#C5A46D"/>
+        <circle cx="360" cy="128" r="3" fill="#101624"/>
+      </svg>
+      <div style="position: absolute; bottom: 16px; left: 16px; padding: 8px 18px; border-radius: 9999px; background: rgba(16,22,36,0.9); border: 1px solid var(--gold-champagne); font-size: 11px; color: var(--gold-soft); letter-spacing: 0.15em; text-transform: uppercase;">
+        📍 Open Live Navigation in Google Maps ↗
+      </div>
+    </a>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
+      <button class="btn-gold" type="button" onclick="downloadIcsFile()">
+        <span>📅 Add to Calendar (.ics)</span>
+      </button>
+      <a href="https://maps.google.com/?q=The+Heritage+Palace+Jaipur" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; padding: 14px 34px; border-radius: 9999px; border: 1px solid var(--gold-champagne); color: var(--ivory); font-size: 12px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; background: rgba(23,32,57,0.85);">
+        <span>🧭 Get Directions</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 5.8 FOOTER WITH WHATSAPP RSVP & RELEASE WISH LANTERN                      -->
+  <!-- ========================================================================= -->
+  <footer>
+    <!-- Full-length couple caricature illustration (Section 6) -->
+    <div style="display: flex; justify-content: center; margin-bottom: 24px;">
+      <svg viewBox="0 0 280 220" width="220" height="172" fill="none">
+        <!-- Groom + Bride together -->
+        <g transform="translate(40, 0)">
+          <path d="M 20 210 L 30 148 C 40 134, 100 134, 110 148 L 120 210 Z" fill="#FAF5ED" stroke="#C5A46D" stroke-width="1.2"/>
+          <circle cx="70" cy="80" r="38" fill="#D8A882"/>
+          <path d="M 38 68 C 36 40, 56 24, 72 24 C 92 24, 106 38, 102 64 Z" fill="#1C140E"/>
+          <path d="M 58 102 Q 70 108 82 102" stroke="#FFF" stroke-width="2" fill="none"/>
+        </g>
+        <g transform="translate(110, 0)">
+          <path d="M 20 210 L 30 152 C 40 138, 96 138, 106 152 L 116 210 Z" fill="#8B1D2C" stroke="#C5A46D" stroke-width="1.2"/>
+          <circle cx="68" cy="82" r="36" fill="#E4BA97"/>
+          <path d="M 38 70 C 36 42, 54 32, 70 32 C 88 32, 104 42, 102 68 Z" fill="#1C140E"/>
+          <circle cx="68" cy="74" r="2.5" fill="#8B1D2C"/>
+          <circle cx="68" cy="62" r="3.5" fill="#C5A46D"/>
+        </g>
+      </svg>
+    </div>
+
+    <h2 style="font-family: var(--font-display); font-size: clamp(36px, 6vw, 60px); font-weight: 300; color: var(--ivory); margin-bottom: 12px;">
+      Aarav <span style="font-family: var(--font-script); color: var(--gold-champagne);">&amp;</span> Riya
+    </h2>
+    <p style="font-family: var(--font-editorial); font-style: italic; font-size: 16px; color: var(--gold-soft); margin-bottom: 12px;">
+      Friday, 18 December 2026 • The Heritage Palace, Jaipur
+    </p>
+    <p style="font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-champagne); margin-bottom: 30px;">
+      With love, the Singhania &amp; Kapoor families
+    </p>
+
+    <!-- Action Buttons: WhatsApp RSVP & Release Wish Lantern -->
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-bottom: 50px;">
+      <a href="https://wa.me/919876543210?text=Hi%2C%20I%20will%20attend%20the%20wedding%20of%20Aarav%20and%20Riya." target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; border-radius: 9999px; background: #1A5336; border: 1px solid #25D366; color: #FAF5ED; font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;">
+        <span>💬 RSVP on WhatsApp</span>
+      </a>
+
+      <button type="button" class="btn-gold" onclick="releaseWishLanterns()">
+        <span>🏮 Release a Wish Lantern</span>
+      </button>
+    </div>
+
+    <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(216, 195, 154, 0.5);">
+      Powered by Ink &amp; Ivory Digital Wedding Invitations
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: ALL SIGNATURE FEATURES & DYNAMICS                             -->
+  <!-- ========================================================================= -->
+  <script>
+    // 1. OPENING REVEAL INTERACTION (Feature 5.1)
+    const gateLoader = document.getElementById('gate-loader');
+    const openGateBtn = document.getElementById('open-gate-btn');
+
+    function openGate() {
+      if (!gateLoader || gateLoader.classList.contains('gate-opened')) return;
+      gateLoader.classList.add('gate-opened');
+      setTimeout(() => {
+        gateLoader.classList.add('hidden-gate');
+      }, 2300);
+    }
+
+    if (openGateBtn) {
+      openGateBtn.addEventListener('click', openGate);
+    }
+    // Keyboard support (Enter or Space)
+    window.addEventListener('keydown', (e) => {
+      if (gateLoader && !gateLoader.classList.contains('gate-opened') && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault();
+        openGate();
+      }
+    });
+
+    // 2. LIVE COUNTDOWN (Feature 5.4: Fixed +05:30 IST Offset)
+    function updateCountdown() {
+      // 18 December 2026, 17:00 IST
+      const targetTime = new Date('2026-12-18T17:00:00+05:30').getTime();
+      const now = new Date().getTime();
+      const diff = targetTime - now;
+
+      const container = document.getElementById('countdown-container');
+      const justMarried = document.getElementById('just-married-banner');
+
+      if (diff <= 0) {
+        if (container) container.style.display = 'none';
+        if (justMarried) justMarried.style.display = 'block';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+      document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
+      document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // 3. PAPER PLANE FLIGHT PATH (Feature 5.9)
+    const planeSvg = document.getElementById('plane-svg');
+    const basePath = document.getElementById('base-flight-path');
+    const activePath = document.getElementById('active-flight-path');
+    const airplane = document.getElementById('airplane-elem');
+    const planeLayer = document.getElementById('paper-plane-layer');
+
+    let totalPathLength = 0;
+
+    function buildSPath() {
+      const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      const docWidth = window.innerWidth;
+      if (planeLayer) planeLayer.style.height = docHeight + 'px';
+      if (planeSvg) planeSvg.setAttribute('height', docHeight);
+
+      const pointsCount = Math.max(8, Math.floor(docHeight / 800));
+      const stepY = docHeight / (pointsCount - 1);
+      const points = [];
+
+      for (let i = 0; i < pointsCount; i++) {
+        const y = i * stepY;
+        const isRight = i % 2 === 1;
+        const minX = docWidth < 600 ? docWidth * 0.18 : docWidth * 0.12;
+        const maxX = docWidth < 600 ? docWidth * 0.82 : docWidth * 0.88;
+        points.push({ x: isRight ? maxX : minX, y });
+      }
+
+      let d = `M ${points[0].x} ${points[0].y}`;
+      for (let i = 0; i < points.length - 1; i++) {
+        const p0 = points[i];
+        const p1 = points[i + 1];
+        const cpYOffset = (p1.y - p0.y) * 0.5;
+        d += ` C ${p0.x} ${p0.y + cpYOffset}, ${p1.x} ${p1.y - cpYOffset}, ${p1.x} ${p1.y}`;
+      }
+
+      if (basePath) basePath.setAttribute('d', d);
+      if (activePath) activePath.setAttribute('d', d);
+      if (basePath) totalPathLength = basePath.getTotalLength();
+    }
+
+    function updateAirplaneOnScroll() {
+      if (!basePath || totalPathLength <= 0) return;
+      const scrollY = window.scrollY || window.pageYOffset;
+      const windowH = window.innerHeight;
+      const docH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      const targetScreenY = scrollY + windowH * 0.42;
+      const progress = Math.min(1, Math.max(0, targetScreenY / docH));
+      const currentLen = progress * totalPathLength;
+
+      try {
+        const p = basePath.getPointAtLength(currentLen);
+        const pNext = basePath.getPointAtLength(Math.min(totalPathLength, currentLen + 2));
+        const pPrev = basePath.getPointAtLength(Math.max(0, currentLen - 2));
+        const angle = Math.atan2(pNext.y - pPrev.y, pNext.x - pPrev.x) * (180 / Math.PI);
+
+        if (airplane) {
+          airplane.style.transform = `translate3d(${p.x}px, ${p.y}px, 0px) rotate(${angle}deg)`;
+        }
+        if (activePath) {
+          activePath.style.strokeDasharray = `${currentLen} ${totalPathLength}`;
+        }
+      } catch (e) {}
+    }
+
+    window.addEventListener('resize', () => {
+      buildSPath();
+      updateAirplaneOnScroll();
+    });
+    window.addEventListener('scroll', updateAirplaneOnScroll, { passive: true });
+    setTimeout(() => {
+      buildSPath();
+      updateAirplaneOnScroll();
+    }, 200);
+
+    // 4. FALLING PETALS CANVAS (Feature 5.10: 10 on phone, 18 on desktop)
+    const petalsCanvas = document.getElementById('petals-canvas');
+    if (petalsCanvas) {
+      const pCtx = petalsCanvas.getContext('2d');
+      let pW = (petalsCanvas.width = window.innerWidth);
+      let pH = (petalsCanvas.height = window.innerHeight);
+
+      window.addEventListener('resize', () => {
+        pW = petalsCanvas.width = window.innerWidth;
+        pH = petalsCanvas.height = window.innerHeight;
+      });
+
+      const pCount = window.innerWidth < 600 ? 10 : 18;
+      const petalsArray = Array.from({ length: pCount }, () => ({
+        x: Math.random() * pW,
+        y: Math.random() * pH,
+        r: 6 + Math.random() * 8,
+        vx: (Math.random() - 0.5) * 1.2,
+        vy: 0.8 + Math.random() * 1.4,
+        rot: Math.random() * Math.PI * 2,
+        vRot: 0.02 + Math.random() * 0.03,
+        color: Math.random() > 0.4 ? 'rgba(139, 29, 44, 0.65)' : 'rgba(197, 164, 109, 0.6)',
+      }));
+
+      function renderPetals() {
+        pCtx.clearRect(0, 0, pW, pH);
+        petalsArray.forEach((p) => {
+          p.x += p.vx + Math.sin(p.y * 0.01) * 0.6;
+          p.y += p.vy;
+          p.rot += p.vRot;
+
+          if (p.y > pH + 20) {
+            p.y = -20;
+            p.x = Math.random() * pW;
+          }
+
+          pCtx.save();
+          pCtx.translate(p.x, p.y);
+          pCtx.rotate(p.rot);
+          pCtx.fillStyle = p.color;
+          pCtx.beginPath();
+          pCtx.ellipse(0, 0, p.r, p.r * 1.4, 0, 0, Math.PI * 2);
+          pCtx.fill();
+          pCtx.restore();
+        });
+        requestAnimationFrame(renderPetals);
+      }
+      renderPetals();
+    }
+
+    // 5. CANDLE-GLOW CURSOR (Feature 5.12)
+    const cursorCanvas = document.getElementById('cursor-canvas');
+    if (cursorCanvas) {
+      const cCtx = cursorCanvas.getContext('2d');
+      let cW = (cursorCanvas.width = window.innerWidth);
+      let cH = (cursorCanvas.height = window.innerHeight);
+
+      window.addEventListener('resize', () => {
+        cW = cursorCanvas.width = window.innerWidth;
+        cH = cursorCanvas.height = window.innerHeight;
+      });
+
+      const trail = [];
+      window.addEventListener('mousemove', (e) => {
+        trail.push({ x: e.clientX, y: e.clientY, alpha: 0.5, r: 16 });
+        if (trail.length > 20) trail.shift();
+      });
+
+      function renderCursorGlow() {
+        cCtx.clearRect(0, 0, cW, cH);
+        for (let i = trail.length - 1; i >= 0; i--) {
+          const t = trail[i];
+          t.alpha -= 0.025;
+          t.r *= 0.96;
+          if (t.alpha <= 0 || t.r <= 1) {
+            trail.splice(i, 1);
+            continue;
+          }
+          const grad = cCtx.createRadialGradient(t.x, t.y, 0, t.x, t.y, t.r);
+          grad.addColorStop(0, `rgba(255, 240, 210, ${t.alpha * 0.6})`);
+          grad.addColorStop(0.5, `rgba(197, 164, 109, ${t.alpha * 0.3})`);
+          grad.addColorStop(1, 'rgba(16, 22, 36, 0)');
+          cCtx.fillStyle = grad;
+          cCtx.beginPath();
+          cCtx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
+          cCtx.fill();
+        }
+        requestAnimationFrame(renderCursorGlow);
+      }
+      renderCursorGlow();
+    }
+
+    // 6. PHOTO ALBUM LIGHTBOX (Feature 5.7)
+    const photos = ['photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg', 'photo5.jpg'];
+    let currentPhotoIdx = 0;
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCounter = document.getElementById('lightbox-counter');
+
+    function openLightbox(idx) {
+      currentPhotoIdx = idx;
+      lightboxImg.src = photos[currentPhotoIdx];
+      lightboxCounter.textContent = `${currentPhotoIdx + 1} / ${photos.length}`;
+      lightbox.classList.add('active');
+    }
+
+    function closeLightbox(e) {
+      if (e.target === lightbox || e.target.classList.contains('lightbox-close')) {
+        lightbox.classList.remove('active');
+      }
+    }
+
+    function prevPhoto(e) {
+      e.stopPropagation();
+      currentPhotoIdx = (currentPhotoIdx - 1 + photos.length) % photos.length;
+      openLightbox(currentPhotoIdx);
+    }
+
+    function nextPhoto(e) {
+      e.stopPropagation();
+      currentPhotoIdx = (currentPhotoIdx + 1) % photos.length;
+      openLightbox(currentPhotoIdx);
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') lightbox.classList.remove('active');
+      if (e.key === 'ArrowLeft') prevPhoto(e);
+      if (e.key === 'ArrowRight') nextPhoto(e);
+    });
+
+    // 7. DOWNLOAD .ICS CALENDAR FILE (Feature 5.5)
+    function downloadIcsFile() {
+      const icsData = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Ink & Ivory//Wedding Template 01//EN',
+        'X-WR-CALNAME:Aarav & Riya Royal Wedding',
+        'BEGIN:VEVENT',
+        'UID:wedding-aarav-riya@inkivory.com',
+        'DTSTART:20261218T113000Z',
+        'DTEND:20261218T173000Z',
+        'SUMMARY:Aarav & Riya Wedding (Saat Phere)',
+        'DESCRIPTION:The Vedic royal wedding ceremony at The Heritage Palace, Jaipur.',
+        'LOCATION:The Heritage Palace & Gardens, Jaipur, Rajasthan, India',
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ].join('\r\n');
+
+      const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute('download', 'aarav-riya-royal-wedding.ics');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // 8. RELEASE WISH LANTERN (Feature 5.8)
+    function releaseWishLanterns() {
+      const layer = document.getElementById('lanterns-layer');
+      if (!layer) return;
+
+      for (let i = 0; i < 3; i++) {
+        const lantern = document.createElement('div');
+        const startLeft = 38 + Math.random() * 24; // %
+        const duration = 9 + Math.random() * 4;
+
+        lantern.style.cssText = `
+          position: absolute;
+          bottom: -60px;
+          left: ${startLeft}%;
+          width: 44px;
+          height: 58px;
+          border-radius: 12px;
+          background: radial-gradient(circle at 50% 70%, #FFF4D4 0%, #FFC872 45%, #D98A2C 85%, #8C4A11 100%);
+          box-shadow: 0 0 25px rgba(255, 200, 100, 0.9);
+          opacity: 0.9;
+          transition: transform ${duration}s cubic-bezier(0.35, 0.2, 0.4, 0.95), opacity ${duration}s ease;
+          pointer-events: none;
+        `;
+        layer.appendChild(lantern);
+
+        setTimeout(() => {
+          lantern.style.transform = `translate3d(${(Math.random() - 0.5) * 80}px, -115vh, 0) scale(0.6)`;
+          lantern.style.opacity = '0';
+        }, 50);
+
+        setTimeout(() => {
+          if (lantern.parentNode) lantern.parentNode.removeChild(lantern);
+        }, duration * 1000);
+      }
+    }
+  </script>
+</body>
+</html>

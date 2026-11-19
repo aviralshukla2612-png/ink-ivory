@@ -1,0 +1,27 @@
+# Dependencies
+/node_modules
+/.pnpm-store
+
+# Next.js build output
+/.next
+/out
+
+# Production
+/build
+
+# Misc
+*.pem
+.DS_Store
+*.log
+.env*.local
+*.mp4
+*.ps1
+check.js
+test_routes.js
+*-path.txt
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+
