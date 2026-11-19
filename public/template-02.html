@@ -6,7 +6,7 @@
 <title>Arjun &amp; Sia — Wedding Invitation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Karla:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
   --cream:#f8f2e2; --cream2:#f1e7cc; --paper:#fbf6e8;
@@ -131,12 +131,12 @@ section{position:relative;min-height:100vh;display:flex;flex-direction:column;al
 .bottom-g{position:absolute;bottom:0;left:0;right:0;height:56px;background-repeat:repeat-x;background-size:auto 100%;opacity:.95}
 
 /* ---------- save the date ---------- */
-#s-save{padding:90px 16px 60px;gap:6px}
+#s-save{padding:44px 16px 32px;gap:4px;justify-content:center}
 #s-save .h2{color:#26402e}
 #s-save .eyebrow{color:#7b5d2a}
 .frame-l,.frame-r{position:absolute;top:0;bottom:0;width:10px;border-left:1px solid #d8c288;border-right:1px solid #d8c288;opacity:.8}
 .frame-l{left:8px}.frame-r{right:8px}
-#mandala{width:min(380px,82vw);height:auto;margin:14px 0 8px;overflow:visible}
+#mandala{width:min(330px,78vw,45vh);height:auto;margin:6px 0;overflow:visible}
 #mandala .pop{transform-box:fill-box;transform-origin:center;transform:scale(0);opacity:0}
 .in #mandala .pop{animation:pop .7s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:calc(1.8s + var(--i)*.07s)}
 @keyframes pop{to{transform:scale(1);opacity:1}}
@@ -151,7 +151,7 @@ section{position:relative;min-height:100vh;display:flex;flex-direction:column;al
 #mandala .core{opacity:0}
 .in #mandala .core{animation:fade 1s 1s forwards}
 @keyframes fade{to{opacity:1}}
-.venue{font-size:1.25rem;color:#2f3f33;margin-top:4px}
+.venue{font-size:clamp(1.05rem,2.4vw,1.25rem);color:#2f3f33;margin-top:2px}
 .fp{position:absolute;top:-20px;width:9px;height:12px;border-radius:70% 0 70% 0;opacity:.85;animation:fall linear infinite;animation-play-state:paused}
 .in .fp{animation-play-state:running}
 @keyframes fall{0%{transform:translate3d(0,-30px,0) rotate(0)}50%{transform:translate3d(30px,55vh,0) rotate(200deg)}100%{transform:translate3d(-20px,110vh,0) rotate(420deg)}}
@@ -450,10 +450,26 @@ if (urlParams.get('names')) {
     CONFIG.bride = partsArr[1];
   }
 }
+function syncDateParts(str) {
+  const text = str || CONFIG.dateText;
+  if (!text) return;
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const m = months.find(item => new RegExp(`\\b${item}\\b`, 'i').test(text));
+  if (m) CONFIG.month = m;
+  const d = text.match(/\b([0-2]?[1-9]|10|20|30|31)\b/);
+  if (d) CONFIG.day = d[1];
+  const y = text.match(/\b(20\d\d)\b/);
+  if (y) CONFIG.year = y[1];
+}
+
 if (urlParams.get('groom')) CONFIG.groom = urlParams.get('groom');
 if (urlParams.get('bride')) CONFIG.bride = urlParams.get('bride');
-if (urlParams.get('date')) CONFIG.dateText = urlParams.get('date');
+if (urlParams.get('date')) {
+  CONFIG.dateText = urlParams.get('date');
+  syncDateParts(CONFIG.dateText);
+}
 if (urlParams.get('venue')) CONFIG.venue = urlParams.get('venue');
+syncDateParts();
 
 /* =====================================================================
    HELPERS
@@ -568,11 +584,20 @@ function buildMandala(){
     }
   }
   for(let i=0;i<48;i++){const a=i/48*6.2832,x=200+Math.cos(a)*190,y=200+Math.sin(a)*190;h+=`<circle class="pop" style="--i:${i/3}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2" fill="#e0a43a"/>`}
-  h+=`<g class="core"><circle cx="200" cy="200" r="78" fill="#fbf6e8" stroke="#c9a85a" stroke-width="3"/><circle cx="200" cy="200" r="70" fill="none" stroke="#c9a85a" stroke-width="1"/></g>`;
-  h+=`<g class="core" font-family="Cormorant Garamond,Georgia,serif" text-anchor="middle">
-    <text x="200" y="162" font-size="11" letter-spacing="3.5" fill="#a52346" font-family="Karla,sans-serif">${CONFIG.month.toUpperCase()}</text>
-    <text x="200" y="228" font-size="68" font-weight="500" fill="#26402e">${CONFIG.day}</text>
-    <text x="200" y="252" font-size="12" letter-spacing="3.5" fill="#a52346" font-family="Karla,sans-serif">${CONFIG.year}</text></g>`;
+  h+=`<g class="core" text-anchor="middle">
+    <circle cx="200" cy="200" r="78" fill="#fbf6e8" stroke="#c9a85a" stroke-width="3"/>
+    <circle cx="200" cy="200" r="70" fill="none" stroke="#c9a85a" stroke-width="1"/>
+    <!-- Month -->
+    <text x="200" y="156" font-size="10" font-weight="700" letter-spacing="4" fill="#8a1c38" font-family="'Karla', sans-serif">${CONFIG.month.toUpperCase()}</text>
+    <!-- Top divider line -->
+    <line x1="172" y1="166" x2="228" y2="166" stroke="#d9a441" stroke-width="0.8" stroke-opacity="0.6"/>
+    <!-- Day Number in lining numbers: 1 and 3 sit on the exact same baseline and match perfectly in height -->
+    <text x="200" y="212" font-size="52" font-weight="600" fill="#26402e" font-family="'Playfair Display', 'Cormorant Garamond', Georgia, serif" style="font-variant-numeric: lining-nums; font-feature-settings: 'lnum' 1;">${CONFIG.day}</text>
+    <!-- Bottom divider line -->
+    <line x1="172" y1="225" x2="228" y2="225" stroke="#d9a441" stroke-width="0.8" stroke-opacity="0.6"/>
+    <!-- Year -->
+    <text x="200" y="244" font-size="11" font-weight="700" letter-spacing="4" fill="#8a1c38" font-family="'Karla', sans-serif">${CONFIG.year}</text>
+  </g>`;
   svg.innerHTML=h;
   // falling petals
   const P=$('#petals'),r=rng(4);const cols=['#c4244d','#e0a43a','#a3162d','#f08a14'];
@@ -1039,8 +1064,10 @@ window.addEventListener('message', (e) => {
     }
     if (p.date) {
       CONFIG.dateText = p.date;
+      syncDateParts(p.date);
       $('#invDate').textContent = p.date;
       $('#cDate').textContent = p.date;
+      buildMandala();
     }
     if (p.venue) {
       CONFIG.venue = p.venue;

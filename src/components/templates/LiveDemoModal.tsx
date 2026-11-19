@@ -93,7 +93,7 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
     >
       {/* 1. TOP CONTROL BAR (Matching User's Reference Screenshot) */}
       <header className="h-16 px-4 sm:px-8 border-b border-[#232F46] bg-[#0E1524]/90 flex items-center justify-between gap-4 z-20 shrink-0">
-        
+
         {/* Left: Back + Navigation Arrows */}
         <div className="flex items-center gap-2 sm:gap-4">
           <button
@@ -131,11 +131,10 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
         <div className="flex items-center bg-[#131B2C] p-1 rounded-full border border-[#263450] shadow-inner">
           <button
             onClick={() => setDevice('phone')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
-              device === 'phone'
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${device === 'phone'
                 ? 'bg-[#E5A842] text-[#0E1524] font-semibold shadow-md'
                 : 'text-[#94A3B8] hover:text-[#E2D5BE]'
-            }`}
+              }`}
           >
             <Smartphone className="w-3.5 h-3.5" />
             <span>Phone</span>
@@ -146,11 +145,10 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
 
           <button
             onClick={() => setDevice('laptop')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
-              device === 'laptop'
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${device === 'laptop'
                 ? 'bg-[#E5A842] text-[#0E1524] font-semibold shadow-md'
                 : 'text-[#94A3B8] hover:text-[#E2D5BE]'
-            }`}
+              }`}
           >
             <Laptop className="w-3.5 h-3.5" />
             <span>Laptop</span>
@@ -175,7 +173,7 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
 
       {/* 2. MAIN PREVIEW VIEWPORT */}
       <main className="flex-1 overflow-hidden relative flex flex-col items-center justify-center p-3 sm:p-6 bg-radial from-[#121B2C]/80 via-[#09101C] to-[#05080E]">
-        
+
         {/* Background Ambient Glow */}
         <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
           <div className="w-[500px] h-[500px] bg-[#E5A842]/10 rounded-full blur-[140px]" />
@@ -186,10 +184,10 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
             ========================================================================= */}
         {device === 'phone' && (
           <div className="flex flex-col items-center justify-center h-full max-h-full">
-            
+
             {/* Realistic iPhone / Smartphone Frame */}
             <div className="relative w-[340px] sm:w-[380px] h-[680px] sm:h-[750px] max-h-[78vh] rounded-[48px] border-[10px] border-[#181F2C] shadow-[0_25px_60px_rgba(0,0,0,0.9),0_0_35px_rgba(229,168,66,0.15)] bg-black overflow-hidden flex flex-col">
-              
+
               {/* Dynamic Island / Speaker Pill */}
               <div className="absolute top-2.5 left-1/2 -translate-x-1/2 z-30 w-24 h-4 bg-[#181F2C] rounded-full flex items-center justify-end px-3">
                 <div className="w-2 h-2 rounded-full bg-[#0E1524]" />
@@ -235,10 +233,10 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
             ========================================================================= */}
         {device === 'laptop' && (
           <div className="flex flex-col items-center justify-center w-full h-full max-h-full max-w-6xl">
-            
+
             {/* Widescreen Laptop Screen Mockup */}
             <div className="relative w-full h-[80vh] max-h-[80vh] rounded-2xl border-[6px] border-[#1C2536] shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_40px_rgba(229,168,66,0.12)] bg-[#091321] overflow-hidden flex flex-col">
-              
+
               {/* Laptop Top Bezel with Camera */}
               <div className="h-5 bg-[#1C2536] flex items-center justify-center px-4 shrink-0">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#0F172A]" />
