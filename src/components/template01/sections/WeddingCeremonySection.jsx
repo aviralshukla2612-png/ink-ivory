@@ -8,7 +8,7 @@ import { Calendar, MapPin } from 'lucide-react';
 /**
  * Section 11: Wedding Ceremony (Saat Phere)
  * - Background: /11_wedding_ceremony.png (Traditional red and champagne-gold mandap, sacred fire)
- * - Mobile portrait: Beautifully docked at bottom leaving mandap & sacred fire open
+ * - Mobile portrait: Focused on royal mandap (object-[30%_center]), card snugly docked at bottom
  * - Desktop: Floats cleanly on open right-side negative space
  */
 export const WeddingCeremonySection = () => {
@@ -17,9 +17,9 @@ export const WeddingCeremonySection = () => {
   return (
     <section
       id="wedding"
-      className="relative min-h-screen w-full flex flex-col justify-end sm:justify-center items-center sm:items-end pb-8 sm:pb-0 pt-20 sm:pt-0 px-4 sm:px-8 lg:px-12 xl:px-16 overflow-hidden select-none"
+      className="relative min-h-screen w-full flex flex-col justify-end sm:justify-center items-center sm:items-end pb-5 sm:pb-0 pt-16 sm:pt-0 px-3.5 sm:px-8 lg:px-12 xl:px-16 overflow-hidden select-none"
     >
-      {/* Background Graphic: 11_wedding_ceremony.png */}
+      {/* Background Graphic: 11_wedding_ceremony.png with responsive focal point */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <Image
           src="/11_wedding_ceremony.png"
@@ -27,15 +27,15 @@ export const WeddingCeremonySection = () => {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-[30%_center] sm:object-center"
         />
         {/* Soft atmospheric gradient on mobile to guarantee readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#FDF9F2]/95 via-[#FDF9F2]/50 to-transparent sm:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#FDF9F2]/95 via-[#FDF9F2]/45 to-transparent sm:hidden" />
       </div>
 
-      {/* Responsive Content Container */}
-      <div className="editorial-reveal relative z-10 w-full sm:w-[48%] md:w-[38%] lg:w-[32%] xl:w-[28%] max-w-sm sm:max-w-[340px] xl:max-w-[380px] sm:ml-auto text-left flex flex-col items-start bg-[#FDF9F2]/90 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border border-[#8C232A]/20 sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 shadow-xl sm:shadow-none">
-        <span className="text-[10px] sm:text-[11px] font-manrope font-semibold tracking-[0.26em] uppercase text-[#8C232A] mb-1">
+      {/* Responsive Content Container - Snugly bounded inside phone, never clipped on right */}
+      <div className="editorial-reveal relative z-10 w-[calc(100%-20px)] sm:w-[48%] md:w-[38%] lg:w-[32%] xl:w-[28%] max-w-[340px] sm:max-w-[340px] xl:max-w-[380px] mx-auto sm:ml-auto text-left flex flex-col items-start bg-[#FDF9F2]/90 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border border-[#8C232A]/20 sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 shadow-xl sm:shadow-none">
+        <span className="text-[9px] sm:text-[11px] font-manrope font-semibold tracking-[0.24em] uppercase text-[#8C232A] mb-1">
           — The Sacred Vows (Saat Phere) —
         </span>
 

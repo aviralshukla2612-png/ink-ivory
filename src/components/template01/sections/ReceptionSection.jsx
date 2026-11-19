@@ -7,9 +7,9 @@ import { Calendar, MapPin } from 'lucide-react';
 
 /**
  * Section 12: Reception Gala
- * - Background: /12_reception.png (Dining tables, floral centerpieces, chandeliers, lake)
- * - Mobile portrait: Beautifully docked at bottom leaving top chandeliers & lake open
- * - Desktop: Floats cleanly on open right-side negative space
+ * - Background: /12_reception.png
+ * - Desktop: Placed purely on the right ("midnight sky side"), leaving left lake & illuminated palace terrace open
+ * - Mobile portrait: Focused on royal terrace (object-[32%_center]), card snugly docked at bottom
  */
 export const ReceptionSection = () => {
   const reception = weddingData.events.find((e) => e.id === 'reception') || weddingData.events[4];
@@ -17,9 +17,9 @@ export const ReceptionSection = () => {
   return (
     <section
       id="reception"
-      className="relative min-h-screen w-full flex flex-col justify-end sm:justify-center items-center sm:items-end pb-8 sm:pb-0 pt-20 sm:pt-0 px-4 sm:px-8 lg:px-12 xl:px-16 overflow-hidden select-none"
+      className="relative h-full min-h-screen w-full flex flex-col justify-end sm:justify-center items-center sm:items-end pb-5 sm:pb-0 pt-16 sm:pt-0 px-3.5 sm:px-10 lg:px-16 xl:px-24 overflow-hidden select-none"
     >
-      {/* Background Graphic: 12_reception.png */}
+      {/* Background Graphic: 12_reception.png with responsive focal point */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <Image
           src="/12_reception.png"
@@ -27,15 +27,15 @@ export const ReceptionSection = () => {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-[32%_center] sm:object-center"
         />
-        {/* Soft atmospheric gradient on mobile to guarantee readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#091321]/95 via-[#091321]/50 to-transparent sm:hidden" />
+        {/* Soft atmospheric gradient on mobile to guarantee readability while leaving top 50% palace open */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#091321]/95 via-[#091321]/40 to-transparent sm:hidden" />
       </div>
 
-      {/* Responsive Content Container */}
-      <div className="editorial-reveal relative z-10 w-full sm:w-[48%] md:w-[38%] lg:w-[32%] xl:w-[28%] max-w-sm sm:max-w-[340px] xl:max-w-[380px] sm:ml-auto text-left flex flex-col items-start bg-[#091321]/85 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border border-[#D6B477]/30 sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 shadow-xl sm:shadow-none">
-        <span className="text-[10px] sm:text-[11px] font-manrope font-semibold tracking-[0.26em] uppercase text-[#E7CEA0] mb-1">
+      {/* Responsive Content Container — Strictly on the right side on desktop */}
+      <div className="editorial-reveal relative z-10 w-[calc(100%-20px)] sm:w-[48%] md:w-[40%] lg:w-[34%] xl:w-[30%] max-w-[340px] sm:max-w-[380px] xl:max-w-[420px] mx-auto sm:ml-auto sm:mr-0 text-left flex flex-col items-start bg-[#091321]/90 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border border-[#D6B477]/30 sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 shadow-xl sm:shadow-none">
+        <span className="text-[9px] sm:text-[11px] font-manrope font-semibold tracking-[0.26em] uppercase text-[#E7CEA0] mb-1">
           — An Evening of Celebration —
         </span>
 
@@ -55,26 +55,32 @@ export const ReceptionSection = () => {
           {reception.description}
         </p>
 
-        {/* Date & Time */}
-        <div className="flex items-center gap-2 text-[#FFFDF7] mb-1.5">
-          <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D6B477] flex-shrink-0" />
-          <span className="font-manrope text-[11px] sm:text-sm font-semibold tracking-wide">
-            {reception.date} • {reception.time}
-          </span>
+        {/* Ceremony Details Card */}
+        <div className="space-y-2 w-full text-xs font-manrope text-[#FDF9F2]">
+          <div className="flex items-center gap-2">
+            <Calendar className="w-3.5 h-3.5 text-[#D6B477] shrink-0" />
+            <span className="font-medium text-[11px] sm:text-xs text-[#FFFDF7]">
+              {reception.date} • {reception.time}
+            </span>
+          </div>
+
+          <div className="flex items-start gap-2">
+            <MapPin className="w-3.5 h-3.5 text-[#D6B477] shrink-0 mt-0.5" />
+            <span className="font-medium text-[11px] sm:text-xs text-[#FAF5ED] leading-tight">
+              {reception.venue}
+            </span>
+          </div>
         </div>
 
-        {/* Venue */}
-        <div className="flex items-center gap-2 text-[#FFFDF7] mb-2.5">
-          <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D6B477] flex-shrink-0" />
-          <span className="font-manrope text-[11px] sm:text-sm font-semibold tracking-wide">
-            {reception.venue}, The Heritage Palace
-          </span>
-        </div>
-
-        {/* Dress Code */}
-        <div className="pt-1.5 border-t border-[#D6B477]/30 text-[10px] sm:text-xs font-manrope text-[#E7CEA0]">
-          Dress Code: <strong className="text-[#FFFDF7] font-semibold">{reception.dressCode}</strong>
-        </div>
+        {/* Dress Code Accent */}
+        {reception.dressCode && (
+          <div className="mt-3 pt-2.5 border-t border-[#D6B477]/25 w-full">
+            <span className="text-[10px] sm:text-[11px] font-manrope text-[#D6B477] font-semibold tracking-wider">
+              Dress Code:{' '}
+              <span className="font-medium text-[#FFFDF7]">{reception.dressCode}</span>
+            </span>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -22,7 +22,7 @@ export const VenueSection = () => {
   return (
     <section
       id="venue"
-      className="relative min-h-screen w-full flex items-end justify-center pb-24 sm:pb-28 px-6 overflow-hidden select-none"
+      className="relative h-full min-h-screen w-full flex items-end justify-center pb-12 sm:pb-24 px-4 sm:px-6 overflow-hidden select-none"
     >
       {/* Background Graphic: 14_venue_location.png */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
@@ -33,24 +33,24 @@ export const VenueSection = () => {
           sizes="100vw"
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#091321]/80 via-transparent to-[#091321]/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#091321]/85 via-transparent to-[#091321]/30" />
       </div>
 
       {/* Pure Floating Typography & CTA — NO DARK BOXES */}
       <div className="relative z-10 max-w-xl w-full mx-auto text-center flex flex-col items-center">
-        <span className="text-[11px] sm:text-[12px] font-manrope font-semibold tracking-[0.3em] uppercase text-[#E7CEA0] mb-2 drop-shadow-md">
+        <span className="text-[9px] sm:text-[12px] font-manrope font-semibold tracking-[0.3em] uppercase text-[#E7CEA0] mb-1 sm:mb-2 drop-shadow-md">
           — The Royal Destination —
         </span>
 
-        <h2 className="font-cormorant text-5xl sm:text-7xl font-medium text-[#FFFDF7] leading-[0.95] tracking-tight mb-2 drop-shadow-md">
+        <h2 className="font-cormorant text-3xl sm:text-7xl font-medium text-[#FFFDF7] leading-[0.95] tracking-tight mb-1 sm:mb-2 drop-shadow-md">
           Venue
         </h2>
 
-        <h3 className="font-cormorant text-2xl sm:text-3xl text-[#D6B477] font-semibold mb-1 drop-shadow-sm">
+        <h3 className="font-cormorant text-xl sm:text-3xl text-[#D6B477] font-semibold mb-0.5 sm:mb-1 drop-shadow-sm">
           {venue.name}
         </h3>
 
-        <p className="font-manrope text-xs sm:text-sm text-[#FAF5ED] mb-6 drop-shadow-sm">
+        <p className="font-manrope text-[11px] sm:text-sm text-[#FAF5ED] mb-4 sm:mb-6 drop-shadow-sm">
           {venue.address}, {venue.city}
         </p>
 
@@ -59,11 +59,11 @@ export const VenueSection = () => {
           href={venue.googleMapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-gradient-to-r from-[#D6B477] via-[#E7CEA0] to-[#D6B477] text-[#091321] font-manrope text-xs sm:text-sm font-bold tracking-widest uppercase shadow-[0_6px_25px_rgba(214,180,119,0.5)] hover:shadow-[0_8px_35px_rgba(214,180,119,0.7)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+          className="inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#D6B477] hover:bg-[#E7CEA0] text-[#091321] font-manrope font-semibold text-xs sm:text-sm tracking-wider uppercase shadow-[0_4px_20px_rgba(214,180,119,0.35)] transition-all transform hover:scale-105 active:scale-95"
         >
-          <Navigation className="w-4 h-4" />
+          <Navigation className="w-3.5 h-3.5" />
           <span>View on Maps</span>
-          <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          <ExternalLink className="w-3.5 h-3.5 ml-0.5 opacity-80" />
         </a>
       </div>
     </section>

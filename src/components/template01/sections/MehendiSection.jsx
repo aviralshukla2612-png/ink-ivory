@@ -7,9 +7,9 @@ import { Calendar, MapPin } from 'lucide-react';
 
 /**
  * Section 09: Mehendi Ceremony
- * - Background: /09_mehendi_ceremony.png (Green fabric drapes, traditional seating, flowers)
- * - Mobile portrait: Beautifully docked at bottom leaving top greens open
- * - Desktop: Floats cleanly on open right-side negative space
+ * - Background: /09_mehendi_ceremony.png
+ * - Desktop: Placed purely on the right ("white / ivory side"), leaving left green canopy & seating open
+ * - Mobile portrait: Focused on royal henna lounge (object-[28%_center]), card snugly docked at bottom
  */
 export const MehendiSection = () => {
   const mehendi = weddingData.events.find((e) => e.id === 'mehendi') || weddingData.events[1];
@@ -17,9 +17,9 @@ export const MehendiSection = () => {
   return (
     <section
       id="mehendi"
-      className="relative min-h-screen w-full flex flex-col justify-end sm:justify-center items-center sm:items-end pb-8 sm:pb-0 pt-20 sm:pt-0 px-4 sm:px-8 lg:px-12 xl:px-16 overflow-hidden select-none"
+      className="relative h-full min-h-screen w-full flex flex-col justify-end sm:justify-center items-center sm:items-end pb-5 sm:pb-0 pt-16 sm:pt-0 px-3.5 sm:px-10 lg:px-16 xl:px-24 overflow-hidden select-none"
     >
-      {/* Background Graphic: 09_mehendi_ceremony.png */}
+      {/* Background Graphic: 09_mehendi_ceremony.png with responsive focal point */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <Image
           src="/09_mehendi_ceremony.png"
@@ -27,15 +27,15 @@ export const MehendiSection = () => {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-[28%_center] sm:object-center"
         />
-        {/* Soft atmospheric gradient on mobile to guarantee readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#FAF6EE]/95 via-[#FAF6EE]/50 to-transparent sm:hidden" />
+        {/* Soft atmospheric gradient on mobile to guarantee readability while leaving top 50% decor open */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#FAF6EE]/95 via-[#FAF6EE]/40 to-transparent sm:hidden" />
       </div>
 
-      {/* Responsive Content Container */}
-      <div className="editorial-reveal relative z-10 w-full sm:w-[48%] md:w-[38%] lg:w-[32%] xl:w-[28%] max-w-sm sm:max-w-[340px] xl:max-w-[380px] sm:ml-auto text-left flex flex-col items-start bg-[#FAF6EE]/90 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border border-[#8C6527]/20 sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 shadow-xl sm:shadow-none">
-        <span className="text-[10px] sm:text-[11px] font-manrope font-semibold tracking-[0.26em] uppercase text-[#6B5024] mb-1">
+      {/* Responsive Content Container — Strictly on the right side on desktop ("white side") */}
+      <div className="editorial-reveal relative z-10 w-[calc(100%-20px)] sm:w-[48%] md:w-[40%] lg:w-[34%] xl:w-[30%] max-w-[340px] sm:max-w-[380px] xl:max-w-[420px] mx-auto sm:ml-auto sm:mr-0 text-left flex flex-col items-start bg-[#FAF6EE]/90 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border border-[#8C6527]/20 sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 shadow-xl sm:shadow-none">
+        <span className="text-[9px] sm:text-[11px] font-manrope font-semibold tracking-[0.26em] uppercase text-[#6B5024] mb-1">
           — Sacred Henna Soirée —
         </span>
 
@@ -55,26 +55,32 @@ export const MehendiSection = () => {
           {mehendi.description}
         </p>
 
-        {/* Date & Time */}
-        <div className="flex items-center gap-2 text-[#22160C] mb-1.5">
-          <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#8C6527] flex-shrink-0" />
-          <span className="font-manrope text-[11px] sm:text-sm font-semibold tracking-wide">
-            {mehendi.date} • {mehendi.time}
-          </span>
+        {/* Ceremony Details Card */}
+        <div className="space-y-2 w-full text-xs font-manrope text-[#22160C]">
+          <div className="flex items-center gap-2">
+            <Calendar className="w-3.5 h-3.5 text-[#6B5024] shrink-0" />
+            <span className="font-medium text-[11px] sm:text-xs text-[#22160C]">
+              {mehendi.date} • {mehendi.time}
+            </span>
+          </div>
+
+          <div className="flex items-start gap-2">
+            <MapPin className="w-3.5 h-3.5 text-[#6B5024] shrink-0 mt-0.5" />
+            <span className="font-medium text-[11px] sm:text-xs text-[#22160C] leading-tight">
+              {mehendi.venue}
+            </span>
+          </div>
         </div>
 
-        {/* Venue */}
-        <div className="flex items-center gap-2 text-[#22160C] mb-2.5">
-          <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#8C6527] flex-shrink-0" />
-          <span className="font-manrope text-[11px] sm:text-sm font-semibold tracking-wide">
-            {mehendi.venue}, The Heritage Palace
-          </span>
-        </div>
-
-        {/* Dress Code */}
-        <div className="pt-1.5 border-t border-[#8C6527]/30 text-[10px] sm:text-xs font-manrope text-[#4C331B]">
-          Dress Code: <strong className="text-[#22160C] font-semibold">{mehendi.dressCode}</strong>
-        </div>
+        {/* Dress Code Accent */}
+        {mehendi.dressCode && (
+          <div className="mt-3 pt-2.5 border-t border-[#6B5024]/25 w-full">
+            <span className="text-[10px] sm:text-[11px] font-manrope text-[#5C3F1B] font-semibold tracking-wider">
+              Dress Code:{' '}
+              <span className="font-medium text-[#22160C]">{mehendi.dressCode}</span>
+            </span>
+          </div>
+        )}
       </div>
     </section>
   );
