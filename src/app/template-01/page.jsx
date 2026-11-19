@@ -1,13 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import Lenis from 'lenis';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
 import { weddingData } from '@/data/weddingData';
-import { LenisProvider, useLenis } from '@/context/LenisContext';
-import { initSectionReveals } from '@/animations/scrollAnimations';
+import { SliderProvider } from '@/context/SliderContext';
 
 // Section 01: Preloader (Clean CSS radial gradient, no image file)
 import Preloader from '@/components/template01/intro/Preloader';
@@ -18,22 +13,8 @@ import GrandEntranceGate from '@/components/template01/intro/GrandEntranceGate';
 // Floating Luxury Navigation
 import LuxuryFloatingNav from '@/components/template01/navigation/LuxuryFloatingNav';
 
-// Sections 04–06: Core Invitation & Save the Date
-import WelcomeSection from '@/components/template01/sections/WelcomeSection';
-import SaveTheDateSection from '@/components/template01/sections/SaveTheDateSection';
-import EventsOverviewSection from '@/components/template01/sections/EventsOverviewSection';
-
-// Sections 08–12: Five Sacred Ceremonies (Right-side editorial text)
-import HaldiSection from '@/components/template01/sections/HaldiSection';
-import MehendiSection from '@/components/template01/sections/MehendiSection';
-import SangeetSection from '@/components/template01/sections/SangeetSection';
-import WeddingCeremonySection from '@/components/template01/sections/WeddingCeremonySection';
-import ReceptionSection from '@/components/template01/sections/ReceptionSection';
-
-// Sections 13–15: Blessings, Destination & Closing (NO RSVP)
-import FamilyBlessingsSection from '@/components/template01/sections/FamilyBlessingsSection';
-import VenueSection from '@/components/template01/sections/VenueSection';
-import ClosingSection from '@/components/template01/sections/ClosingSection';
+// Horizontal Presentation: 1 Page At A Time (Right to Left Slider)
+import HorizontalSlideDeck from '@/components/template01/presentation/HorizontalSlideDeck';
 
 // Lifecycle State Machine Constants
 const LIFECYCLE = {
@@ -48,9 +29,7 @@ function Template01Content() {
   const [isMuted, setIsMuted] = useState(false);
 
   const audioRef = useRef(null);
-  const lenisInstanceRef = useRef(null);
   const mainRef = useRef(null);
-  const { setLenis } = useLenis();
 
   // 1. Check Session Storage on mount
   useEffect(() => {
@@ -83,61 +62,16 @@ function Template01Content() {
     };
   }, []);
 
-  // 2. Lock / Unlock body scroll based on lifecycleState
+  // 2. Lock body scroll — Template 01 is a full-screen horizontal slide deck (1 page at a time)
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
-    if (lifecycleState !== LIFECYCLE.ENTERED) {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-    }
-
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
     };
-  }, [lifecycleState]);
-
-  // 3. Initialize single shared Lenis & ScrollTrigger ONLY after entering
-  useEffect(() => {
-    if (typeof window === 'undefined' || lifecycleState !== LIFECYCLE.ENTERED) return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      smoothWheel: true,
-    });
-    lenisInstanceRef.current = lenis;
-    setLenis(lenis);
-
-    lenis.on('scroll', ScrollTrigger.update);
-
-    const updateLenis = (time) => {
-      lenis.raf(time * 1000);
-    };
-
-    gsap.ticker.add(updateLenis);
-    gsap.ticker.lagSmoothing(0);
-
-    // Initialize editorial scroll reveals once
-    const cleanupScrollAnimations = initSectionReveals(mainRef.current || document);
-
-    // Refresh ScrollTrigger after DOM renders
-    ScrollTrigger.refresh();
-
-    return () => {
-      cleanupScrollAnimations();
-      gsap.ticker.remove(updateLenis);
-      lenis.destroy();
-      setLenis(null);
-    };
-  }, [lifecycleState, setLenis]);
+  }, []);
 
   // Transition handlers
   const handlePreloaderComplete = () => {
@@ -160,11 +94,6 @@ function Template01Content() {
   };
 
   const handleReplayEntrance = () => {
-    if (lenisInstanceRef.current) {
-      lenisInstanceRef.current.scrollTo(0, { immediate: true });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    }
     setLifecycleState(LIFECYCLE.CLOSED_GATE);
   };
 
@@ -201,10 +130,10 @@ function Template01Content() {
         />
       )}
 
-      {/* RENDER INVITATION & NAVIGATION ONLY AFTER ENTERING */}
+      {/* RENDER INVITATION HORIZONTAL SLIDER & NAVIGATION ONLY AFTER ENTERING */}
       {lifecycleState === LIFECYCLE.ENTERED && (
-        <>
-          {/* FLOATING LUXURY CONTROLS (Brand, Menu, Sound, Replay, Progress) */}
+        <SliderProvider active={lifecycleState === LIFECYCLE.ENTERED}>
+          {/* FLOATING LUXURY CONTROLS (Brand, Menu, Sound, Replay) */}
           <LuxuryFloatingNav
             isPlaying={isPlaying}
             isMuted={isMuted}
@@ -212,48 +141,14 @@ function Template01Content() {
             onReplayEntrance={handleReplayEntrance}
           />
 
-          {/* SECTION 04 — WELCOME / INTRODUCTION */}
-          <WelcomeSection />
-
-          {/* SECTION 05 — SAVE THE DATE & LIVE COUNTDOWN */}
-          <SaveTheDateSection />
-
-          {/* SECTION 07 — WEDDING EVENTS OVERVIEW (5 ARTIFACT BADGES) */}
-          <EventsOverviewSection />
-
-          {/* SECTION 08 — HALDI CEREMONY (Right Side Text) */}
-          <HaldiSection />
-
-          {/* SECTION 09 — MEHENDI CEREMONY (Right Side Text) */}
-          <MehendiSection />
-
-          {/* SECTION 10 — SANGEET NIGHT (Right Side Text) */}
-          <SangeetSection />
-
-          {/* SECTION 11 — WEDDING CEREMONY (Right Side Text) */}
-          <WeddingCeremonySection />
-
-          {/* SECTION 12 — RECEPTION GALA (Right Side Text) */}
-          <ReceptionSection />
-
-          {/* SECTION 13 — OUR FAMILIES / BLESSINGS */}
-          <FamilyBlessingsSection />
-
-          {/* SECTION 14 — VENUE & LOCATION (GOOGLE MAPS) */}
-          <VenueSection />
-
-          {/* SECTION 15 — CLOSING / THANK YOU (WITH WISH LANTERNS) */}
-          <ClosingSection />
-        </>
+          {/* HORIZONTAL SLIDE DECK (1 PAGE AT A TIME, RIGHT TO LEFT SLIDER) */}
+          <HorizontalSlideDeck />
+        </SliderProvider>
       )}
     </main>
   );
 }
 
 export default function Template01Page() {
-  return (
-    <LenisProvider>
-      <Template01Content />
-    </LenisProvider>
-  );
+  return <Template01Content />;
 }

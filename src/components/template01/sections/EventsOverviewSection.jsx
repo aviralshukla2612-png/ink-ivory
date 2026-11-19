@@ -3,20 +3,29 @@
 import React from 'react';
 import Image from 'next/image';
 import { weddingData } from '@/data/weddingData';
-import { useLenis } from '@/context/LenisContext';
+import { useSlider } from '@/context/SliderContext';
 
 /**
  * Section 07: Wedding Events Overview
  * - 5 Gold wireframe arched badges side-by-side:
  *     Haldi | Mehendi | Sangeet | Wedding | Reception
- * - Smooth scroll via shared Lenis scrollTo
+ * - Clicking any ceremony slides directly to that page in the horizontal presentation
  */
 export const EventsOverviewSection = () => {
   const { events } = weddingData;
-  const { scrollTo } = useLenis();
+  const { goToSlide } = useSlider();
 
   const handleScrollToEvent = (eventId) => {
-    scrollTo(`#${eventId}`, { duration: 1.2 });
+    const slideMap = {
+      haldi: 3,
+      mehendi: 4,
+      sangeet: 5,
+      wedding: 6,
+      reception: 7,
+    };
+    if (slideMap[eventId] !== undefined) {
+      goToSlide(slideMap[eventId]);
+    }
   };
 
   const getEventIcon = (id) => {
