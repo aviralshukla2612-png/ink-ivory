@@ -73,32 +73,32 @@ export const SaveTheDateSection = () => {
         />
       </div>
 
-      {/* Pure Floating Typography inside the Arch — NO DARK BOXES */}
-      <div className="relative z-10 max-w-xl w-full mx-auto text-center flex flex-col items-center pt-10 sm:pt-14">
-        <p className="font-manrope text-[11px] sm:text-[12px] font-semibold tracking-[0.3em] uppercase text-[#7B5927] mb-2">
+      {/* Pure Floating Typography inside the Arch — Snugly framed inside central arch opening */}
+      <div className="relative z-10 max-w-[340px] sm:max-w-[380px] md:max-w-[420px] w-full mx-auto text-center flex flex-col items-center pt-8 sm:pt-12">
+        <p className="font-manrope text-[10px] sm:text-[11px] font-semibold tracking-[0.26em] uppercase text-[#7B5927] mb-1.5 drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
           — Mark Your Calendar —
         </p>
 
         {/* Heading: Save the Date */}
-        <h2 className="font-cormorant text-5xl sm:text-7xl font-medium text-[#26180E] leading-[0.95] tracking-tight mb-3 drop-shadow-xs">
+        <h2 className="font-cormorant text-4xl sm:text-5xl md:text-6xl font-medium text-[#26180E] leading-[0.95] tracking-tight mb-2 drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)]">
           Save <br />
           <span className="italic font-serif text-[#3E2512]">the Date</span>
         </h2>
 
         {/* Calendar Icon & Date */}
-        <div className="flex items-center gap-2 text-[#7B5927] my-2">
-          <Calendar className="w-5 h-5 text-[#8C6527]" />
-          <span className="font-cormorant text-2xl sm:text-3xl font-semibold text-[#1C120A]">
+        <div className="flex items-center gap-2 text-[#7B5927] my-1.5 drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
+          <Calendar className="w-4 h-4 text-[#8C6527]" />
+          <span className="font-cormorant text-xl sm:text-2xl font-semibold text-[#1C120A]">
             {couple.dateDisplay}
           </span>
         </div>
 
-        <p className="font-manrope text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-[#6B4D1B] mb-8">
+        <p className="font-manrope text-[10px] sm:text-xs font-semibold tracking-[0.16em] uppercase text-[#6B4D1B] mb-4 drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
           {couple.timeDisplay} • {couple.cityDisplay}
         </p>
 
-        {/* Clean Numerical Countdown Row (No dark boxes, pure elegant typography) */}
-        <div className="flex items-center justify-center gap-4 sm:gap-8 my-4 text-center">
+        {/* Clean Numerical Countdown Row (Snug width, never hits side pillars) */}
+        <div className="flex items-center justify-center gap-2.5 sm:gap-4 my-2 text-center w-full max-w-[320px] sm:max-w-[360px]">
           {[
             { label: 'Days', val: timeLeft.days },
             { label: 'Hours', val: timeLeft.hours },
@@ -107,15 +107,15 @@ export const SaveTheDateSection = () => {
           ].map((item, idx) => (
             <React.Fragment key={item.label}>
               {idx > 0 && (
-                <span className="font-cormorant text-2xl sm:text-4xl text-[#A87B36] opacity-60 pb-4">
+                <span className="font-cormorant text-lg sm:text-2xl text-[#A87B36] opacity-50 pb-2">
                   :
                 </span>
               )}
               <div className="flex flex-col items-center">
-                <span className="font-cormorant text-3xl sm:text-5xl font-semibold text-[#26180E] leading-none mb-1">
+                <span className="font-cormorant text-2xl sm:text-3xl md:text-4xl font-semibold text-[#26180E] leading-none mb-0.5 drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)]">
                   {String(item.val).padStart(2, '0')}
                 </span>
-                <span className="text-[10px] sm:text-[11px] font-manrope font-semibold tracking-[0.2em] uppercase text-[#7B5927]">
+                <span className="text-[9px] sm:text-[10px] font-manrope font-semibold tracking-[0.15em] uppercase text-[#7B5927]">
                   {item.label}
                 </span>
               </div>
@@ -127,11 +127,11 @@ export const SaveTheDateSection = () => {
         <button
           type="button"
           onClick={handleDownloadCalendar}
-          className="mt-8 group inline-flex items-center gap-2.5 px-6 sm:px-8 py-3 rounded-full bg-[#3B2513] hover:bg-[#2A180A] text-[#FAF5ED] font-manrope text-xs font-semibold tracking-widest uppercase shadow-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+          className="mt-5 group inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 rounded-full bg-[#3B2513] hover:bg-[#2A180A] text-[#FAF5ED] font-manrope text-[11px] font-semibold tracking-wider uppercase shadow-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
         >
-          <Calendar className="w-4 h-4 text-[#E7CEA0]" />
+          <Calendar className="w-3.5 h-3.5 text-[#E7CEA0]" />
           <span>Add to Calendar</span>
-          <DownloadCloud className="w-4 h-4 text-[#E7CEA0] group-hover:translate-y-0.5 transition-transform" />
+          <DownloadCloud className="w-3.5 h-3.5 text-[#E7CEA0] group-hover:translate-y-0.5 transition-transform" />
         </button>
       </div>
     </section>

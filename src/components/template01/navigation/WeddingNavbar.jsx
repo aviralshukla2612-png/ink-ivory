@@ -13,7 +13,6 @@ export default function WeddingNavbar({ onReplayEntrance }) {
 
   const navLinks = [
     { label: 'Couple', href: '#couple' },
-    { label: 'Story', href: '#story' },
     { label: 'Events', href: '#events' },
     { label: 'Countdown', href: '#countdown' },
     { label: 'Gallery', href: '#gallery' },

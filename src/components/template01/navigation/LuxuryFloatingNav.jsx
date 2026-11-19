@@ -38,7 +38,6 @@ export const LuxuryFloatingNav = ({
 
   const navLinks = [
     { label: 'Welcome', href: '#welcome' },
-    { label: 'Our Story', href: '#story' },
     { label: 'Save the Date', href: '#countdown' },
     { label: 'Events Overview', href: '#events' },
     { label: 'Haldi', href: '#haldi' },

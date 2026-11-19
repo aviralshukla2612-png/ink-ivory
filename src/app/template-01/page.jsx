@@ -18,9 +18,8 @@ import GrandEntranceGate from '@/components/template01/intro/GrandEntranceGate';
 // Floating Luxury Navigation
 import LuxuryFloatingNav from '@/components/template01/navigation/LuxuryFloatingNav';
 
-// Sections 04–07: Core Invitation & Story
+// Sections 04–06: Core Invitation & Save the Date
 import WelcomeSection from '@/components/template01/sections/WelcomeSection';
-import CoupleStorySection from '@/components/template01/sections/CoupleStorySection';
 import SaveTheDateSection from '@/components/template01/sections/SaveTheDateSection';
 import EventsOverviewSection from '@/components/template01/sections/EventsOverviewSection';
 
@@ -216,10 +215,7 @@ function Template01Content() {
           {/* SECTION 04 — WELCOME / INTRODUCTION */}
           <WelcomeSection />
 
-          {/* SECTION 05 — MEET THE COUPLE / OUR STORY (Right Side Text) */}
-          <CoupleStorySection />
-
-          {/* SECTION 06 — SAVE THE DATE & LIVE COUNTDOWN */}
+          {/* SECTION 05 — SAVE THE DATE & LIVE COUNTDOWN */}
           <SaveTheDateSection />
 
           {/* SECTION 07 — WEDDING EVENTS OVERVIEW (5 ARTIFACT BADGES) */}
