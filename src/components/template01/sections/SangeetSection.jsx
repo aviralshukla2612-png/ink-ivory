@@ -23,7 +23,7 @@ export const SangeetSection = () => {
   return (
     <section
       id="sangeet"
-      className="relative min-h-screen w-full flex items-center justify-end py-24 md:py-28 px-6 sm:px-12 md:px-16 lg:px-24 overflow-hidden select-none"
+      className="relative min-h-screen w-full flex items-center justify-end pt-32 pb-16 sm:py-28 md:py-32 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 overflow-hidden select-none"
     >
       {/* Background Graphic: 10_sangeet_night.png */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
@@ -35,50 +35,50 @@ export const SangeetSection = () => {
           sizes="100vw"
           className="object-cover object-center"
         />
-        {/* Soft atmospheric gradient on mobile to guarantee readability over night celebrations */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#091321]/95 via-[#091321]/70 to-transparent md:hidden" />
+        {/* Soft atmospheric gradient on mobile to guarantee readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#091321]/95 via-[#091321]/60 to-transparent sm:hidden" />
       </div>
 
-      {/* Pure Floating Typography Strictly on Right Side — NO DARK BOXES */}
-      <div className="editorial-reveal relative z-10 max-w-lg md:max-w-md lg:max-w-lg w-full ml-auto text-left flex flex-col items-start pr-0 md:pr-4">
-        <span className="text-[11px] sm:text-[12px] font-manrope font-semibold tracking-[0.28em] uppercase text-[#E7CEA0] mb-2">
+      {/* Pure Floating Typography Strictly on Right-Side Starry Navy Sky (Decor is on left 0-58%) */}
+      <div className="editorial-reveal relative z-10 w-full sm:w-[50%] md:w-[40%] lg:w-[32%] xl:w-[28%] max-w-sm sm:max-w-[340px] xl:max-w-[380px] ml-auto text-left flex flex-col items-start bg-[#091321]/90 sm:bg-transparent backdrop-blur-sm sm:backdrop-blur-none border border-[#D6B477]/30 sm:border-0 rounded-2xl sm:rounded-none p-5 sm:p-0 shadow-lg sm:shadow-none">
+        <span className="text-[10px] sm:text-[11px] font-manrope font-semibold tracking-[0.28em] uppercase text-[#E7CEA0] mb-1.5">
           — An Evening of Music & Dance —
         </span>
 
-        <h2 className="font-cormorant text-4xl sm:text-5xl md:text-6xl font-medium text-[#FFFDF7] leading-[1.0] tracking-tight mb-2 drop-shadow-md">
+        <h2 className="font-cormorant text-3xl sm:text-4xl lg:text-4xl xl:text-5xl font-medium text-[#FFFDF7] leading-[1.0] tracking-tight mb-2 drop-shadow-md">
           Sangeet <br />
           <span className="italic font-serif text-[#D6B477]">Night</span>
         </h2>
 
         {/* Delicate Gold Divider */}
-        <div className="flex items-center gap-3 my-3">
-          <div className="h-[1px] w-12 bg-gradient-to-r from-[#D6B477] to-transparent" />
+        <div className="flex items-center gap-3 my-2">
+          <div className="h-[1px] w-10 bg-gradient-to-r from-[#D6B477] to-transparent" />
           <span className="text-xs text-[#D6B477]">✦</span>
-          <div className="h-[1px] w-12 bg-gradient-to-l from-[#D6B477] to-transparent" />
+          <div className="h-[1px] w-10 bg-gradient-to-l from-[#D6B477] to-transparent" />
         </div>
 
-        <p className="font-serif italic text-sm sm:text-base text-[#EFE3CD] leading-relaxed mb-6 max-w-sm drop-shadow-sm">
+        <p className="font-serif italic text-xs sm:text-sm text-[#EFE3CD] leading-relaxed mb-4 max-w-xs drop-shadow-sm">
           {sangeet.description}
         </p>
 
         {/* Date & Time */}
-        <div className="flex items-center gap-3 text-[#FFFDF7] mb-3">
-          <Calendar className="w-5 h-5 text-[#D6B477] flex-shrink-0" />
+        <div className="flex items-center gap-2.5 text-[#FFFDF7] mb-2">
+          <Calendar className="w-4 h-4 text-[#D6B477] flex-shrink-0" />
           <span className="font-manrope text-xs sm:text-sm font-semibold tracking-wide">
             {sangeet.date} • {sangeet.time}
           </span>
         </div>
 
         {/* Venue */}
-        <div className="flex items-center gap-3 text-[#FFFDF7] mb-5">
-          <MapPin className="w-5 h-5 text-[#D6B477] flex-shrink-0" />
+        <div className="flex items-center gap-2.5 text-[#FFFDF7] mb-3.5">
+          <MapPin className="w-4 h-4 text-[#D6B477] flex-shrink-0" />
           <span className="font-manrope text-xs sm:text-sm font-semibold tracking-wide">
             {sangeet.venue}, The Heritage Palace
           </span>
         </div>
 
         {/* Dress Code */}
-        <div className="pt-3 border-t border-[#D6B477]/30 text-xs font-manrope text-[#E7CEA0]">
+        <div className="pt-2 border-t border-[#D6B477]/30 text-xs font-manrope text-[#E7CEA0]">
           Dress Code: <strong className="text-[#FFFDF7] font-semibold">{sangeet.dressCode}</strong>
         </div>
       </div>

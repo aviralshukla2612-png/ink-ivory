@@ -17,8 +17,8 @@ import { useLenis } from '@/context/LenisContext';
 export const LuxuryFloatingNav = ({
   isPlaying = false,
   isMuted = false,
-  onToggleSound = () => {},
-  onReplayEntrance = () => {},
+  onToggleSound = () => { },
+  onReplayEntrance = () => { },
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
