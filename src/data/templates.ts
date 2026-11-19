@@ -34,6 +34,7 @@ export const templatesData: Template[] = [
       brideParents: 'Mrs. Gayatri & Dr. Harshvardhan Kapoor',
       groomParents: 'Mrs. Sunita & Mr. Vikramaditya Singhania',
       songTitle: 'Aaj Sajeya — Goldie Sohel (Saregama Music)',
+      audioStartTime: 4,
     },
     designConfig: {
       themeColor: '#121E35',

@@ -17,7 +17,7 @@ export const SangeetSection = () => {
   return (
     <section
       id="sangeet"
-      className="relative h-full min-h-screen w-full flex flex-col justify-end sm:justify-center items-center sm:items-end pb-5 sm:pb-0 pt-16 sm:pt-0 px-3.5 sm:px-8 lg:px-12 xl:px-16 overflow-hidden select-none"
+      className="relative h-full min-h-screen w-full flex flex-col justify-end sm:justify-center items-center sm:items-end pb-6 sm:pb-10 pt-20 sm:pt-28 md:sm:pt-32 px-3.5 sm:px-8 lg:px-12 xl:px-16 overflow-hidden select-none"
     >
       {/* Background Graphic: 10_sangeet_night.png with left-anchored desktop layout */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
@@ -34,14 +34,14 @@ export const SangeetSection = () => {
       </div>
 
       {/* Responsive Content Container — Strictly on the right side on desktop */}
-      <div className="editorial-reveal relative z-10 w-[calc(100%-20px)] sm:w-[38%] md:w-[32%] lg:w-[28%] xl:w-[26%] max-w-[340px] sm:max-w-[320px] lg:max-w-[350px] mx-auto sm:ml-auto sm:mr-8 md:sm:mr-14 lg:sm:mr-20 xl:sm:mr-28 text-left flex flex-col items-start bg-[#091321]/90 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border border-[#D6B477]/30 sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 shadow-xl sm:shadow-none">
+      <div className="editorial-reveal relative z-10 w-[calc(100%-20px)] sm:w-[40%] md:w-[35%] lg:w-[30%] xl:w-[27%] max-w-[360px] sm:max-w-[360px] lg:max-w-[390px] mx-auto sm:ml-auto sm:mr-8 md:sm:mr-14 lg:sm:mr-20 xl:sm:mr-28 text-left flex flex-col items-start bg-[#091321]/90 sm:bg-[#091321]/60 backdrop-blur-md border border-[#D6B477]/30 sm:border-[#D6B477]/20 rounded-2xl p-4 sm:p-6 shadow-xl sm:shadow-[0_10px_35px_rgba(0,0,0,0.6)]">
         <span className="text-[9px] sm:text-[11px] font-manrope font-semibold tracking-[0.26em] uppercase text-[#E7CEA0] mb-1">
           — An Evening of Music &amp; Dance —
         </span>
 
-        <h2 className="font-cormorant text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-[#FFFDF7] leading-[1.0] tracking-tight mb-1.5 drop-shadow-md">
+        <h2 className="font-cormorant text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-[#FFFDF7] leading-[1.05] tracking-tight mb-2 drop-shadow-md">
           Sangeet <br />
-          <span className="italic font-serif text-[#D6B477]">Night</span>
+          <span className="italic font-cormorant text-[#D6B477]">Night</span>
         </h2>
 
         {/* Delicate Gold Divider */}
@@ -51,21 +51,21 @@ export const SangeetSection = () => {
           <div className="h-[1px] w-8 sm:w-10 bg-gradient-to-l from-[#D6B477] to-transparent" />
         </div>
 
-        <p className="font-serif italic text-[11px] sm:text-sm text-[#EFE3CD] leading-relaxed mb-3 max-w-xs drop-shadow-sm">
+        <p className="font-serif italic text-xs sm:text-sm md:text-[15px] text-[#EFE3CD] leading-relaxed mb-3.5 max-w-xs drop-shadow-sm">
           {sangeet.description}
         </p>
 
         {/* Ceremony Details Card */}
         <div className="space-y-2 w-full text-xs font-manrope text-[#FDF9F2]">
           <div className="flex items-center gap-2">
-            <Calendar className="w-3.5 h-3.5 text-[#D6B477] shrink-0" />
+            <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D6B477] shrink-0" />
             <span className="font-medium text-[11px] sm:text-xs text-[#FFFDF7]">
               {sangeet.date} • {sangeet.time}
             </span>
           </div>
 
           <div className="flex items-start gap-2">
-            <MapPin className="w-3.5 h-3.5 text-[#D6B477] shrink-0 mt-0.5" />
+            <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D6B477] shrink-0 mt-0.5" />
             <span className="font-medium text-[11px] sm:text-xs text-[#FAF5ED] leading-tight">
               {sangeet.venue}
             </span>

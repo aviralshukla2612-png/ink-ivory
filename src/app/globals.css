@@ -86,3 +86,11 @@ body {
 .border-gold-subtle {
   border-color: rgba(167, 123, 53, 0.25);
 }
+
+.font-cormorant {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-manrope {
+  font-family: 'Manrope', 'Inter', sans-serif;
+}

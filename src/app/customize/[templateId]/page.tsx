@@ -70,15 +70,22 @@ export default function CustomizePage() {
   });
 
   const [activeTab, setActiveTab] = useState<'text' | 'typography' | 'colors' | 'photo'>('text');
-  const [previewMode, setPreviewMode] = useState<'live' | 'card'>(isTemplate01 ? 'live' : 'card');
   const [zoomLevel, setZoomLevel] = useState<number>(100);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [isSavedToCart, setIsSavedToCart] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [audioCurrentTime, setAudioCurrentTime] = useState<number>(() => Number(fields.audioStartTime) || 4);
+  const audioDuration = 253; // Full 4:09 uncropped song
 
   const cardRef = useRef<HTMLDivElement>(null);
   const audioPreviewRef = useRef<HTMLAudioElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  const formatSeconds = (sec: number) => {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
 
   const handleFieldChange = (key: keyof EditableFields, value: string) => {
     setFields((prev) => {
@@ -98,10 +105,39 @@ export default function CustomizePage() {
     });
   };
 
-  const toggleAudioPreview = () => {
+  const handleSeekAudio = (startSec: number) => {
+    handleFieldChange('audioStartTime', String(startSec));
+    setAudioCurrentTime(startSec);
     if (!audioPreviewRef.current) {
       audioPreviewRef.current = new Audio('/audio/aaj-sajeya.mp3');
       audioPreviewRef.current.volume = 0.6;
+      audioPreviewRef.current.ontimeupdate = () => {
+        if (audioPreviewRef.current) {
+          setAudioCurrentTime(audioPreviewRef.current.currentTime);
+        }
+      };
+      audioPreviewRef.current.onended = () => setIsPlayingAudio(false);
+    }
+    audioPreviewRef.current.currentTime = startSec;
+    if (!isPlayingAudio) {
+      audioPreviewRef.current
+        .play()
+        .then(() => setIsPlayingAudio(true))
+        .catch(() => {});
+    }
+  };
+
+  const toggleAudioPreview = () => {
+    const startSec = Number(fields.audioStartTime) || 4;
+    if (!audioPreviewRef.current) {
+      audioPreviewRef.current = new Audio('/audio/aaj-sajeya.mp3');
+      audioPreviewRef.current.volume = 0.6;
+      audioPreviewRef.current.currentTime = startSec;
+      audioPreviewRef.current.ontimeupdate = () => {
+        if (audioPreviewRef.current) {
+          setAudioCurrentTime(audioPreviewRef.current.currentTime);
+        }
+      };
       audioPreviewRef.current.onended = () => setIsPlayingAudio(false);
     }
 
@@ -109,6 +145,9 @@ export default function CustomizePage() {
       audioPreviewRef.current.pause();
       setIsPlayingAudio(false);
     } else {
+      if (Math.abs(audioPreviewRef.current.currentTime - startSec) > 30) {
+        audioPreviewRef.current.currentTime = startSec;
+      }
       audioPreviewRef.current
         .play()
         .then(() => setIsPlayingAudio(true))
@@ -166,7 +205,9 @@ export default function CustomizePage() {
     fields.venue || ''
   )}&city=${encodeURIComponent(fields.city || '')}&brideParents=${encodeURIComponent(
     fields.brideParents || ''
-  )}&groomParents=${encodeURIComponent(fields.groomParents || '')}`;
+  )}&groomParents=${encodeURIComponent(fields.groomParents || '')}&audioStart=${encodeURIComponent(
+    String(fields.audioStartTime || 4)
+  )}`;
 
   return (
     <div className="w-full min-h-screen bg-[#F4EFE6] flex flex-col select-none">
@@ -244,84 +285,48 @@ export default function CustomizePage() {
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
         {/* LEFT / CENTER: Interactive Canvas Viewport (Col 7) */}
         <div className="lg:col-span-7 bg-[#0B1220] p-4 sm:p-6 flex flex-col items-center justify-between overflow-y-auto relative min-h-[550px]">
-          {/* Dual Mode Switcher: Live Interactive Web Page vs Card Stationery */}
-          <div className="flex items-center gap-1 bg-[#152136] p-1 rounded-full border border-[#2B3A59] shadow-lg mb-3 z-10">
-            <button
-              onClick={() => setPreviewMode('live')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-                previewMode === 'live'
-                  ? 'bg-[#E5A842] text-[#0E1524] shadow-md'
-                  : 'text-[#94A3B8] hover:text-[#FAF5ED]'
-              }`}
-            >
-              <Smartphone className="w-3.5 h-3.5" />
-              <span>📱 Live Website Preview</span>
-            </button>
-            <button
-              onClick={() => setPreviewMode('card')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-                previewMode === 'card'
-                  ? 'bg-[#E5A842] text-[#0E1524] shadow-md'
-                  : 'text-[#94A3B8] hover:text-[#FAF5ED]'
-              }`}
-            >
-              <Maximize2 className="w-3.5 h-3.5" />
-              <span>🖼 Card Stationery View</span>
-            </button>
+          {/* Header Status Badge */}
+          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#152136] border border-[#2B3A59] shadow-lg mb-3 z-10 text-xs font-semibold text-[#E7CEA0]">
+            <Smartphone className="w-3.5 h-3.5 text-[#E5A842]" />
+            <span>📱 Live Smartphone Invitation • Interactive Web Preview</span>
           </div>
 
-          {/* VIEW 1: LIVE INTERACTIVE SMARTPHONE MOCKUP */}
-          {previewMode === 'live' ? (
-            <div className="flex flex-col items-center my-auto">
-              <div className="relative w-[320px] sm:w-[360px] h-[640px] sm:h-[680px] max-h-[70vh] rounded-[44px] border-[10px] border-[#181F2C] shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(229,168,66,0.18)] bg-black overflow-hidden flex flex-col">
-                {/* Dynamic Island */}
-                <div className="absolute top-2.5 left-1/2 -translate-x-1/2 z-30 w-24 h-4 bg-[#181F2C] rounded-full flex items-center justify-end px-3">
-                  <div className="w-2 h-2 rounded-full bg-[#0E1524]" />
-                </div>
-                {/* Live Web Invitation Iframe */}
-                <iframe
-                  ref={iframeRef}
-                  key={`${fields.names}-${fields.date}-${fields.venue}`}
-                  src={`/template-01?mode=demo&view=phone&auto=false&names=${encodeURIComponent(
-                    fields.names || ''
-                  )}&date=${encodeURIComponent(fields.date || '')}&venue=${encodeURIComponent(
-                    fields.venue || ''
-                  )}&city=${encodeURIComponent(fields.city || '')}&brideParents=${encodeURIComponent(
-                    fields.brideParents || ''
-                  )}&groomParents=${encodeURIComponent(fields.groomParents || '')}`}
-                  title="Live Personalized Mobile Invitation"
-                  className="w-full h-full border-none bg-[#091321]"
-                />
+          {/* LIVE INTERACTIVE SMARTPHONE MOCKUP */}
+          <div className="flex flex-col items-center my-auto">
+            <div className="relative w-[320px] sm:w-[360px] h-[640px] sm:h-[680px] max-h-[70vh] rounded-[44px] border-[10px] border-[#181F2C] shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(229,168,66,0.18)] bg-black overflow-hidden flex flex-col">
+              {/* Dynamic Island */}
+              <div className="absolute top-2.5 left-1/2 -translate-x-1/2 z-30 w-24 h-4 bg-[#181F2C] rounded-full flex items-center justify-end px-3">
+                <div className="w-2 h-2 rounded-full bg-[#0E1524]" />
               </div>
+              {/* Live Web Invitation Iframe */}
+              <iframe
+                ref={iframeRef}
+                key={`${fields.names}-${fields.date}-${fields.venue}-${fields.audioStartTime || 4}`}
+                src={`/template-01?mode=demo&view=phone&auto=false&names=${encodeURIComponent(
+                  fields.names || ''
+                )}&date=${encodeURIComponent(fields.date || '')}&venue=${encodeURIComponent(
+                  fields.venue || ''
+                )}&city=${encodeURIComponent(fields.city || '')}&brideParents=${encodeURIComponent(
+                  fields.brideParents || ''
+                )}&groomParents=${encodeURIComponent(fields.groomParents || '')}&audioStart=${encodeURIComponent(
+                  String(fields.audioStartTime || 4)
+                )}`}
+                title="Live Personalized Mobile Invitation"
+                className="w-full h-full border-none bg-[#091321]"
+              />
+            </div>
 
-              {/* External Fullscreen Link */}
-              <a
-                href={fullInvitationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 px-4 py-1.5 rounded-full bg-[#1A263E] hover:bg-[#253552] border border-[#D6B477]/50 text-[#E7CEA0] hover:text-[#FFFDF7] text-xs font-manrope font-semibold flex items-center gap-1.5 shadow-md transition-all"
-              >
-                <span>Open Fullscreen Invitation with 'Aaj Sajeya'</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          ) : (
-            /* VIEW 2: SCALABLE CARD STATIONERY PREVIEW */
-            <div
-              ref={cardRef}
-              className="my-auto transition-transform duration-200 origin-center flex items-center justify-center"
-              style={{ transform: `scale(${zoomLevel / 100})` }}
+            {/* External Fullscreen Link */}
+            <a
+              href={fullInvitationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 px-4 py-1.5 rounded-full bg-[#1A263E] hover:bg-[#253552] border border-[#D6B477]/50 text-[#E7CEA0] hover:text-[#FFFDF7] text-xs font-manrope font-semibold flex items-center gap-1.5 shadow-md transition-all"
             >
-              <div className="w-[340px] sm:w-[420px] max-w-full">
-                <CardPreview
-                  template={baseTemplate}
-                  customization={fields}
-                  designConfig={design}
-                  className="rounded-2xl shadow-luxury-lg border border-[#A77B35]/40"
-                />
-              </div>
-            </div>
-          )}
+              <span>Open Fullscreen Invitation with 'Aaj Sajeya'</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
 
           {/* Bottom status note */}
           <div className="mt-3 text-center">
@@ -490,29 +495,123 @@ export default function CustomizePage() {
                 </div>
               </div>
 
-              {/* Royal Wedding Soundtrack Accent Card */}
-              <div className="p-3.5 rounded-xl bg-[#FAF6EE] border border-[#D6B477]/50 flex items-center justify-between gap-3 shadow-xs">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-full bg-[#091321] text-[#D6B477] flex items-center justify-center font-bold text-xs shadow-sm">
-                    🎵
+              {/* Instagram Story-Style Live Music Cropper & Trimmer */}
+              <div className="p-4 rounded-2xl bg-gradient-to-b from-[#182338] to-[#0E1524] border border-[#D6B477]/40 text-[#FAF5ED] shadow-luxury space-y-3">
+                {/* Header: Title, Play/Pause */}
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-full bg-[#D6B477] text-[#091321] flex items-center justify-center font-bold text-sm shadow-md">
+                      <Music className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-[#FFFDF7] tracking-wide">
+                          Aaj Sajeya — Goldie Sohel
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded-full bg-[#D6B477]/20 border border-[#D6B477]/40 text-[9px] font-semibold text-[#E7CEA0]">
+                          Story Trimmer
+                        </span>
+                      </div>
+                      <span className="text-[10px] text-[#A7B5CC]">
+                        Saregama Music • Full Uncut Song (4:09)
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="block text-xs font-semibold text-[#1C120A]">
-                      Aaj Sajeya — Goldie Sohel
-                    </span>
-                    <span className="text-[10px] text-[#7A634E]">
-                      Saregama Music • Official Template 01 Soundscape
-                    </span>
+
+                  <button
+                    type="button"
+                    onClick={toggleAudioPreview}
+                    className="px-3.5 py-1.5 rounded-full bg-[#D6B477] hover:bg-[#E7CEA0] text-[#091321] text-xs font-bold flex items-center gap-1.5 shadow-md transition-all cursor-pointer active:scale-95"
+                  >
+                    <span>{isPlayingAudio ? '⏸ Pause' : '▶ Play'}</span>
+                  </button>
+                </div>
+
+                {/* Visual Audio Waveform Track (Instagram Story Style) */}
+                <div className="relative pt-2 pb-1">
+                  {/* Waveform graphic bars */}
+                  <div className="h-9 flex items-center justify-between gap-[2px] px-1 pointer-events-none opacity-85">
+                    {[
+                      35, 45, 20, 60, 80, 50, 90, 40, 75, 95, 30, 85, 100, 70, 90,
+                      60, 40, 80, 100, 85, 60, 95, 75, 50, 90, 100, 80, 65, 45, 30,
+                      85, 95, 70, 90, 100, 60, 85, 40, 60, 35
+                    ].map((height, i) => {
+                      const barTime = (i / 40) * audioDuration;
+                      const selectedStart = Number(fields.audioStartTime) || 4;
+                      const isHighlighted = barTime >= selectedStart && barTime <= selectedStart + 35;
+                      const isPlayed = barTime <= audioCurrentTime;
+                      return (
+                        <div
+                          key={i}
+                          className={`flex-1 rounded-full transition-all duration-150 ${
+                            isPlayed
+                              ? 'bg-[#E5A842] shadow-[0_0_8px_rgba(229,168,66,0.8)]'
+                              : isHighlighted
+                              ? 'bg-[#D6B477]/70'
+                              : 'bg-white/20'
+                          }`}
+                          style={{ height: `${height}%` }}
+                        />
+                      );
+                    })}
+                  </div>
+
+                  {/* Range Scrubber (Sliding Start Position) */}
+                  <input
+                    type="range"
+                    min="0"
+                    max="230"
+                    step="1"
+                    value={Number(fields.audioStartTime) || 4}
+                    onChange={(e) => handleSeekAudio(Number(e.target.value))}
+                    className="w-full h-2 bg-[#253552] rounded-lg appearance-none cursor-pointer accent-[#E5A842] mt-2"
+                  />
+
+                  {/* Timestamps */}
+                  <div className="flex items-center justify-between text-[10px] text-[#A7B5CC] font-mono mt-1">
+                    <span>Crop Start: <strong className="text-[#E5A842]">{formatSeconds(Number(fields.audioStartTime) || 4)}</strong></span>
+                    <span>Playing: <strong className="text-[#FFFDF7]">{formatSeconds(audioCurrentTime)}</strong> / {formatSeconds(audioDuration)}</span>
                   </div>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={toggleAudioPreview}
-                  className="px-3 py-1.5 rounded-lg bg-[#D6B477] hover:bg-[#C5A46D] text-[#091321] text-xs font-semibold flex items-center gap-1 shadow-sm transition-all cursor-pointer"
-                >
-                  <span>{isPlayingAudio ? '⏸ Pause' : '▶ Preview Song'}</span>
-                </button>
+                {/* Quick Instagram Story Crop Presets */}
+                <div>
+                  <span className="block text-[10px] font-semibold text-[#D6B477] uppercase tracking-wider mb-1.5">
+                    ⚡ Quick Crop Moments (Like Insta Story):
+                  </span>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                    {[
+                      { label: 'Intro (0:04)', time: 4, note: 'Opening hook' },
+                      { label: 'Verse (0:24)', time: 24, note: 'Vocals start' },
+                      { label: 'Chorus (0:46)', time: 46, note: 'Hook drop' },
+                      { label: 'Dhol (1:12)', time: 72, note: 'Bhangra beat' },
+                    ].map((preset) => {
+                      const isSelected = (Number(fields.audioStartTime) || 4) === preset.time;
+                      return (
+                        <button
+                          key={preset.time}
+                          type="button"
+                          onClick={() => handleSeekAudio(preset.time)}
+                          className={`px-2 py-1.5 rounded-lg text-[11px] font-semibold text-center transition-all cursor-pointer border ${
+                            isSelected
+                              ? 'bg-[#E5A842] text-[#0E1524] border-[#E5A842] shadow-sm font-bold scale-[1.02]'
+                              : 'bg-[#152136] text-[#E2D5BE] border-[#2B3A59] hover:border-[#D6B477]/60 hover:bg-[#1E2E4A]'
+                          }`}
+                        >
+                          <div>{preset.label}</div>
+                          <div className={`text-[9px] ${isSelected ? 'text-[#0E1524]/80' : 'text-[#8A9DBA]'}`}>
+                            {preset.note}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="text-[10px] text-[#8A9DBA] flex items-center gap-1.5 pt-1 border-t border-[#2B3A59]">
+                  <Sparkles className="w-3 h-3 text-[#E5A842]" />
+                  <span>Your wedding invitation will start playing the music from your chosen live crop!</span>
+                </div>
               </div>
 
               {/* Personal Invitation Message / Blessing */}

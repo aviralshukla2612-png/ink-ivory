@@ -41,6 +41,7 @@ function Template01Content() {
   const customCity = searchParams.get('city');
   const customBrideParents = searchParams.get('brideParents');
   const customGroomParents = searchParams.get('groomParents');
+  const customAudioStart = searchParams.get('audioStart');
 
   // Synchronously read sessionStorage on client if available
   let sessionCustom = {};
@@ -59,6 +60,7 @@ function Template01Content() {
   const effectiveVenue = customVenue || sessionCustom.venue || weddingData.venue.name;
   const effectiveBrideParents = customBrideParents || sessionCustom.brideParents || weddingData.families?.brideSide?.parents;
   const effectiveGroomParents = customGroomParents || sessionCustom.groomParents || weddingData.families?.groomSide?.parents;
+  const effectiveAudioStart = Number(customAudioStart) || Number(sessionCustom.audioStartTime) || 4;
 
   // Immediately synchronize static singleton so all child modules render updated values on frame 1
   weddingData.couple.names = effectiveNames;
@@ -105,6 +107,9 @@ function Template01Content() {
         }
         if (d.groomParents && weddingData.families?.groomSide) {
           weddingData.families.groomSide.parents = d.groomParents;
+        }
+        if (d.audioStartTime !== undefined && audioRef.current) {
+          audioRef.current.currentTime = Number(d.audioStartTime);
         }
         setRenderTrigger((v) => v + 1);
       }
@@ -174,6 +179,9 @@ function Template01Content() {
     if (audioRef.current) {
       audioRef.current.muted = false;
       setIsMuted(false);
+      if (audioRef.current.currentTime < 1) {
+        audioRef.current.currentTime = effectiveAudioStart;
+      }
       audioRef.current.play().catch(() => {});
     }
   };
@@ -199,6 +207,9 @@ function Template01Content() {
       audioRef.current.muted = false;
       setIsMuted(false);
       if (!isPlaying) {
+        if (audioRef.current.currentTime < 1) {
+          audioRef.current.currentTime = effectiveAudioStart;
+        }
         audioRef.current.play().catch(() => {});
       }
     } else {

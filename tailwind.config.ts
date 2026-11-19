@@ -42,6 +42,9 @@ const config: Config = {
       },
       fontFamily: {
         serif: ["'Playfair Display'", "'Cormorant Garamond'", "Georgia", "Cambria", "serif"],
+        cormorant: ["'Cormorant Garamond'", "Georgia", "serif"],
+        cinzel: ["'Cinzel'", "serif"],
+        manrope: ["'Manrope'", "'Inter'", "sans-serif"],
         script: ["'Alex Brush'", "'Great Vibes'", "'Brush Script MT'", "'Snell Roundhand'", "cursive"],
         sans: ["'Inter'", "'DM Sans'", "system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
       },
