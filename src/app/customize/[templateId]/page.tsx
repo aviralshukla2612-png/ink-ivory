@@ -7,25 +7,75 @@ import {
   ArrowLeft,
   Type,
   Palette,
-  Image as ImageIcon,
   Sparkles,
-  RotateCcw,
-  ZoomIn,
-  ZoomOut,
-  Maximize2,
   Check,
   ShoppingBag,
-  Download,
-  Eye,
   Sliders,
   Smartphone,
   Music,
   ExternalLink,
+  Upload,
+  Link as LinkIcon,
+  Play,
+  Pause,
+  Heart,
+  Volume2,
 } from 'lucide-react';
 import { templatesData } from '@/data/templates';
 import { EditableFields, DesignConfig } from '@/types';
-import { CardPreview } from '@/components/cards/CardPreview';
 import { useCart } from '@/context/CartContext';
+
+// Curated library of iconic soundtracks
+const SONG_LIBRARY = [
+  {
+    id: 'aaj-sajeya',
+    title: 'Aaj Sajeya — Goldie Sohel',
+    artist: 'Saregama Music • Romantic Wedding Anthem',
+    source: '/audio/aaj-sajeya.mp3',
+    duration: 249,
+    tag: 'Wedding Favorite',
+  },
+  {
+    id: 'kudmayi',
+    title: 'Kudmayi (Film Version) — Shahid Mallya',
+    artist: 'Pritam, Saregama • Rocky Aur Rani',
+    source: '/audio/kudmayi.mp3',
+    duration: 274,
+    tag: 'Cinematic Royal',
+  },
+  {
+    id: 'mast-magan',
+    title: 'Mast Magan — Arijit Singh & Chinmayi',
+    artist: 'T-Series • 2 States South Indian Anthem',
+    source: '/audio/mast-magan.mp3',
+    duration: 232,
+    tag: 'South Indian & Bollywood',
+  },
+  {
+    id: 'valentine-theme',
+    title: 'Until I Found You — Stephen Sanchez',
+    artist: 'Mercury Records • Romantic Acoustic',
+    source: '/audio/valentine-theme.mp3',
+    duration: 177,
+    tag: 'Valentine Romance',
+  },
+  {
+    id: 'shehnai',
+    title: 'Indian Wedding Shehnai & Dhol',
+    artist: 'Traditional Auspicious Vedic Shehnai',
+    source: '/audio/indian-wedding-shehnai.mp3',
+    duration: 360,
+    tag: 'Traditional Sacred',
+  },
+  {
+    id: 'kashi-theme',
+    title: 'Kashi Heritage Sitar & Flute',
+    artist: 'Traditional Indian Classical Harmony',
+    source: '/audio/kashi-theme.mp3',
+    duration: 180,
+    tag: 'Serene Sitar',
+  },
+];
 
 export default function CustomizePage() {
   const params = useParams();
@@ -37,29 +87,56 @@ export default function CustomizePage() {
       (t) =>
         t.id === templateId ||
         t.slug === templateId ||
-        templateId === 'template-01' ||
-        t.liveDemoUrl?.includes(templateId)
+        t.liveDemoUrl?.includes(templateId) ||
+        (templateId === 'valentine' && t.liveDemoUrl === '/valentine') ||
+        (templateId === 'template-02' && t.liveDemoUrl === '/template-02') ||
+        (templateId === 'template-03' && t.liveDemoUrl === '/template-03')
     ) || templatesData[0];
 
-  const isTemplate01 =
-    templateId === 'template-01' ||
-    templateId === 'tpl-wedding-navy-01' ||
-    baseTemplate?.id === 'tpl-wedding-navy-01' ||
-    baseTemplate?.liveDemoUrl?.includes('template-01');
+  // Resolve template key
+  const getTemplateKey = () => {
+    if (
+      templateId === 'template-02' ||
+      templateId === 'tpl-anniversary-gold-02' ||
+      baseTemplate.id === 'tpl-anniversary-gold-02' ||
+      baseTemplate.liveDemoUrl === '/template-02'
+    ) {
+      return 'template-02';
+    }
+    if (
+      templateId === 'template-03' ||
+      templateId === 'tpl-engagement-garden-03' ||
+      baseTemplate.id === 'tpl-engagement-garden-03' ||
+      baseTemplate.liveDemoUrl === '/template-03'
+    ) {
+      return 'template-03';
+    }
+    if (
+      templateId === 'valentine' ||
+      templateId === 'tpl-valentine-velvet-05' ||
+      baseTemplate.id === 'tpl-valentine-velvet-05' ||
+      baseTemplate.liveDemoUrl === '/valentine'
+    ) {
+      return 'valentine';
+    }
+    return 'template-01';
+  };
 
+  const templateKey = getTemplateKey();
   const { addToCart } = useCart();
 
-  // State for editable fields (with sessionStorage restore)
+  // State for editable fields
   const [fields, setFields] = useState<EditableFields>(() => {
     let saved: Partial<EditableFields> = {};
     if (typeof window !== 'undefined') {
       try {
-        const stored = sessionStorage.getItem('ink_ivory_custom_wedding_data');
+        const stored = sessionStorage.getItem(`ink_ivory_custom_${templateKey}`);
         if (stored) saved = JSON.parse(stored);
       } catch (e) {}
     }
     return {
       ...baseTemplate.defaultFields,
+      audioSource: baseTemplate.defaultFields.audioSource || '/audio/aaj-sajeya.mp3',
       ...saved,
     };
   });
@@ -69,17 +146,16 @@ export default function CustomizePage() {
     ...baseTemplate.designConfig,
   });
 
-  const [activeTab, setActiveTab] = useState<'text' | 'typography' | 'colors' | 'photo'>('text');
-  const [zoomLevel, setZoomLevel] = useState<number>(100);
-  const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [activeTab, setActiveTab] = useState<'text' | 'music' | 'typography' | 'colors'>('text');
   const [isSavedToCart, setIsSavedToCart] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [audioCurrentTime, setAudioCurrentTime] = useState<number>(() => Number(fields.audioStartTime) || 4);
-  const audioDuration = 253; // Full 4:09 uncropped song
+  const [audioCurrentTime, setAudioCurrentTime] = useState<number>(() => Number(fields.audioStartTime) || 0);
+  const [customUrlInput, setCustomUrlInput] = useState('');
+  const [audioDuration, setAudioDuration] = useState<number>(240);
 
-  const cardRef = useRef<HTMLDivElement>(null);
   const audioPreviewRef = useRef<HTMLAudioElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const formatSeconds = (sec: number) => {
     const m = Math.floor(sec / 60);
@@ -87,12 +163,13 @@ export default function CustomizePage() {
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
-  const handleFieldChange = (key: keyof EditableFields, value: string) => {
+  // Broadcast field updates to live preview iframe & sessionStorage
+  const handleFieldChange = (key: keyof EditableFields, value: any) => {
     setFields((prev) => {
       const updated = { ...prev, [key]: value };
       if (typeof window !== 'undefined') {
         try {
-          sessionStorage.setItem('ink_ivory_custom_wedding_data', JSON.stringify(updated));
+          sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated));
         } catch (e) {}
       }
       try {
@@ -105,19 +182,72 @@ export default function CustomizePage() {
     });
   };
 
+  // Change active song (from library or custom upload)
+  const handleSelectSong = (song: { title: string; source: string; artist?: string }) => {
+    handleFieldChange('songTitle', song.title);
+    handleFieldChange('audioSource', song.source);
+    handleFieldChange('audioStartTime', 0);
+    setAudioCurrentTime(0);
+
+    if (audioPreviewRef.current) {
+      audioPreviewRef.current.pause();
+      audioPreviewRef.current.src = song.source;
+      audioPreviewRef.current.currentTime = 0;
+      audioPreviewRef.current.load();
+      audioPreviewRef.current
+        .play()
+        .then(() => setIsPlayingAudio(true))
+        .catch(() => {});
+    }
+  };
+
+  // Handle custom audio file upload (MP3/WAV/AAC)
+  const handleAudioUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const objUrl = URL.createObjectURL(file);
+      const cleanName = file.name.replace(/\.[^/.]+$/, '');
+      handleSelectSong({
+        title: cleanName,
+        source: objUrl,
+        artist: 'Custom Uploaded Song',
+      });
+    }
+  };
+
+  // Handle custom audio URL submit
+  const handleCustomUrlSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customUrlInput.trim()) return;
+    handleSelectSong({
+      title: 'Custom Audio Stream',
+      source: customUrlInput.trim(),
+      artist: 'Custom Web Track',
+    });
+    setCustomUrlInput('');
+  };
+
+  // Audio seek & live cropping
   const handleSeekAudio = (startSec: number) => {
-    handleFieldChange('audioStartTime', String(startSec));
+    handleFieldChange('audioStartTime', startSec);
     setAudioCurrentTime(startSec);
+
     if (!audioPreviewRef.current) {
-      audioPreviewRef.current = new Audio('/audio/aaj-sajeya.mp3');
+      audioPreviewRef.current = new Audio(fields.audioSource || '/audio/aaj-sajeya.mp3');
       audioPreviewRef.current.volume = 0.6;
       audioPreviewRef.current.ontimeupdate = () => {
         if (audioPreviewRef.current) {
           setAudioCurrentTime(audioPreviewRef.current.currentTime);
         }
       };
+      audioPreviewRef.current.onloadedmetadata = () => {
+        if (audioPreviewRef.current) {
+          setAudioDuration(audioPreviewRef.current.duration || 240);
+        }
+      };
       audioPreviewRef.current.onended = () => setIsPlayingAudio(false);
     }
+
     audioPreviewRef.current.currentTime = startSec;
     if (!isPlayingAudio) {
       audioPreviewRef.current
@@ -128,9 +258,11 @@ export default function CustomizePage() {
   };
 
   const toggleAudioPreview = () => {
-    const startSec = Number(fields.audioStartTime) || 4;
+    const src = fields.audioSource || '/audio/aaj-sajeya.mp3';
+    const startSec = Number(fields.audioStartTime) || 0;
+
     if (!audioPreviewRef.current) {
-      audioPreviewRef.current = new Audio('/audio/aaj-sajeya.mp3');
+      audioPreviewRef.current = new Audio(src);
       audioPreviewRef.current.volume = 0.6;
       audioPreviewRef.current.currentTime = startSec;
       audioPreviewRef.current.ontimeupdate = () => {
@@ -138,16 +270,21 @@ export default function CustomizePage() {
           setAudioCurrentTime(audioPreviewRef.current.currentTime);
         }
       };
+      audioPreviewRef.current.onloadedmetadata = () => {
+        if (audioPreviewRef.current) {
+          setAudioDuration(audioPreviewRef.current.duration || 240);
+        }
+      };
       audioPreviewRef.current.onended = () => setIsPlayingAudio(false);
+    } else if (audioPreviewRef.current.src !== src) {
+      audioPreviewRef.current.src = src;
+      audioPreviewRef.current.currentTime = startSec;
     }
 
     if (isPlayingAudio) {
       audioPreviewRef.current.pause();
       setIsPlayingAudio(false);
     } else {
-      if (Math.abs(audioPreviewRef.current.currentTime - startSec) > 30) {
-        audioPreviewRef.current.currentTime = startSec;
-      }
       audioPreviewRef.current
         .play()
         .then(() => setIsPlayingAudio(true))
@@ -169,7 +306,7 @@ export default function CustomizePage() {
       setFields({ ...baseTemplate.defaultFields });
       setDesign({ ...baseTemplate.designConfig });
       if (typeof window !== 'undefined') {
-        sessionStorage.removeItem('ink_ivory_custom_wedding_data');
+        sessionStorage.removeItem(`ink_ivory_custom_${templateKey}`);
       }
     }
   };
@@ -190,24 +327,67 @@ export default function CustomizePage() {
     }, 2500);
   };
 
+  // Build dynamic live preview URL based on templateKey
+  const getPreviewUrl = () => {
+    const params = new URLSearchParams();
+    params.set('mode', 'demo');
+    params.set('view', 'phone');
+    params.set('auto', 'false');
+
+    if (templateKey === 'valentine') {
+      params.set('names', fields.names || 'Aarav & Riya');
+      params.set('headline', fields.headline || 'Will You Be My Valentine?');
+      params.set('message', fields.message || '');
+      if (fields.letterMessage) params.set('letterMessage', fields.letterMessage);
+      if (fields.audioSource) params.set('audioSource', fields.audioSource);
+      if (fields.audioStartTime) params.set('audioStart', String(fields.audioStartTime));
+      return `/valentine?${params.toString()}`;
+    }
+
+    if (templateKey === 'template-03') {
+      params.set('names', fields.names || 'Karthik & Meenakshi');
+      params.set('date', fields.date || 'Sunday, 14 February 2027');
+      params.set('venue', fields.venue || 'Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai');
+      params.set('city', fields.city || 'Madurai, Tamil Nadu');
+      if (fields.host) params.set('family', fields.host);
+      if (fields.audioSource) params.set('audioSource', fields.audioSource);
+      if (fields.audioStartTime) params.set('audioStart', String(fields.audioStartTime));
+      return `/template-03.html?${params.toString()}`;
+    }
+
+    if (templateKey === 'template-02') {
+      params.set('names', fields.names || 'Arjun & Sia');
+      params.set('date', fields.date || 'Saturday, 13 February 2027');
+      params.set('venue', fields.venue || 'Rambagh Palace, Jaipur');
+      params.set('city', fields.city || 'Jaipur, Rajasthan');
+      if (fields.rsvp) params.set('rsvp', fields.rsvp);
+      if (fields.audioSource) params.set('audioSource', fields.audioSource);
+      if (fields.audioStartTime) params.set('audioStart', String(fields.audioStartTime));
+      return `/template-02.html?${params.toString()}`;
+    }
+
+    // Default: template-01
+    params.set('names', fields.names || 'Aarav & Riya');
+    params.set('date', fields.date || 'Friday, 18 December 2026');
+    params.set('venue', fields.venue || 'The Heritage Palace & Gardens');
+    params.set('city', fields.city || 'Jaipur, Rajasthan');
+    if (fields.brideParents) params.set('brideParents', fields.brideParents);
+    if (fields.groomParents) params.set('groomParents', fields.groomParents);
+    if (fields.audioSource) params.set('audioSource', fields.audioSource);
+    if (fields.audioStartTime) params.set('audioStart', String(fields.audioStartTime));
+    return `/template-01?${params.toString()}`;
+  };
+
+  const fullInvitationUrl = getPreviewUrl().replace('&mode=demo&view=phone&auto=false', '');
+
   const colorPalettes = [
     { name: 'Royal Navy & Gold', theme: '#121E35', text: '#EDE2CF', accent: '#D7B875' },
     { name: 'Warm Ivory & Bronze', theme: '#FDFBF7', text: '#49341F', accent: '#A77B35' },
-    { name: 'Deep Burgundy & Rose', theme: '#361219', text: '#FAF4EC', accent: '#E5B869' },
+    { name: 'South Indian Crimson & Gold', theme: '#4A0715', text: '#F8EFD6', accent: '#D9A521' },
+    { name: 'Valentine Rose & Wine', theme: '#FFF4F0', text: '#4B3035', accent: '#B51F3B' },
     { name: 'Dark Emerald & Gold', theme: '#0E241B', text: '#F8F4EC', accent: '#D7B875' },
-    { name: 'Midnight Charcoal', theme: '#1A1817', text: '#FAF7F0', accent: '#D4AF37' },
     { name: 'Blush & Champagne', theme: '#FAF2EE', text: '#3E2A1E', accent: '#B88E4B' },
   ];
-
-  const fullInvitationUrl = `/template-01?names=${encodeURIComponent(
-    fields.names || ''
-  )}&date=${encodeURIComponent(fields.date || '')}&venue=${encodeURIComponent(
-    fields.venue || ''
-  )}&city=${encodeURIComponent(fields.city || '')}&brideParents=${encodeURIComponent(
-    fields.brideParents || ''
-  )}&groomParents=${encodeURIComponent(fields.groomParents || '')}&audioStart=${encodeURIComponent(
-    String(fields.audioStartTime || 4)
-  )}`;
 
   return (
     <div className="w-full min-h-screen bg-[#F4EFE6] flex flex-col select-none">
@@ -227,7 +407,7 @@ export default function CustomizePage() {
               <span className="font-serif italic text-[#8F6E3B]">{baseTemplate.title}</span>
             </h1>
             <p className="text-[10px] text-[#7A634E] hidden sm:block">
-              {baseTemplate.occasion} • Digital Invitation Web Page &amp; Ceremony Suite
+              {baseTemplate.occasion} • Full Digital Invitation Suite &amp; Live Music Studio
             </p>
           </div>
         </div>
@@ -239,34 +419,22 @@ export default function CustomizePage() {
             className="px-3 py-1.5 text-xs text-[#6B533E] hover:text-[#2C2114] flex items-center gap-1 rounded-lg hover:bg-[#EFE6D5] transition-colors"
             title="Reset to Template Defaults"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Reset</span>
+            <span>Reset</span>
           </button>
-
-          <a
-            href={fullInvitationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-3 py-1.5 text-xs font-medium text-[#49341F] bg-white border border-[#DFCEAF] rounded-lg hover:bg-[#FAF7F2] flex items-center gap-1.5 shadow-sm transition-colors"
-            title="Open Live Fullscreen Invitation"
-          >
-            <Eye className="w-3.5 h-3.5 text-[#8F6E3B]" />
-            <span>Full Preview ↗</span>
-          </a>
 
           <button
             onClick={handleSaveToCartOnly}
-            className="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-white border border-[#8F6E3B] text-[#8F6E3B] hover:bg-[#FAF7F2] flex items-center gap-1.5 transition-colors"
+            className="px-3.5 py-1.5 text-xs font-semibold rounded-lg border border-[#A77B35] text-[#5C4523] bg-white hover:bg-[#FAF7F0] flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             {isSavedToCart ? (
               <>
-                <Check className="w-3.5 h-3.5 text-[#2E6B3F]" />
-                <span className="text-[#2E6B3F]">Saved in Cart</span>
+                <Check className="w-3.5 h-3.5 text-green-600" />
+                <span className="text-green-700">Saved to Cart!</span>
               </>
             ) : (
               <>
                 <ShoppingBag className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Save to Cart</span>
+                <span>Save to Cart</span>
               </>
             )}
           </button>
@@ -283,36 +451,32 @@ export default function CustomizePage() {
 
       {/* Main Studio Work Area */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
-        {/* LEFT / CENTER: Interactive Canvas Viewport (Col 7) */}
+        {/* LEFT / CENTER: Interactive Live Mockup Viewport (Col 7) */}
         <div className="lg:col-span-7 bg-[#0B1220] p-4 sm:p-6 flex flex-col items-center justify-between overflow-y-auto relative min-h-[550px]">
           {/* Header Status Badge */}
           <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#152136] border border-[#2B3A59] shadow-lg mb-3 z-10 text-xs font-semibold text-[#E7CEA0]">
             <Smartphone className="w-3.5 h-3.5 text-[#E5A842]" />
-            <span>📱 Live Smartphone Invitation • Interactive Web Preview</span>
+            <span>
+              📱 Live Mobile Invitation • {templateKey.toUpperCase()} Real-Time Preview
+            </span>
           </div>
 
-          {/* LIVE INTERACTIVE SMARTPHONE MOCKUP */}
-          <div className="flex flex-col items-center my-auto">
+          {/* SMARTPHONE MOCKUP */}
+          <div className="flex flex-col items-center my-auto w-full">
             <div className="relative w-[320px] sm:w-[360px] h-[640px] sm:h-[680px] max-h-[70vh] rounded-[44px] border-[10px] border-[#181F2C] shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(229,168,66,0.18)] bg-black overflow-hidden flex flex-col">
               {/* Dynamic Island */}
               <div className="absolute top-2.5 left-1/2 -translate-x-1/2 z-30 w-24 h-4 bg-[#181F2C] rounded-full flex items-center justify-end px-3">
                 <div className="w-2 h-2 rounded-full bg-[#0E1524]" />
               </div>
-              {/* Live Web Invitation Iframe */}
+
+              {/* Dynamic Live Invitation Iframe */}
               <iframe
                 ref={iframeRef}
-                key={`${fields.names}-${fields.date}-${fields.venue}-${fields.audioStartTime || 4}`}
-                src={`/template-01?mode=demo&view=phone&auto=false&names=${encodeURIComponent(
-                  fields.names || ''
-                )}&date=${encodeURIComponent(fields.date || '')}&venue=${encodeURIComponent(
-                  fields.venue || ''
-                )}&city=${encodeURIComponent(fields.city || '')}&brideParents=${encodeURIComponent(
-                  fields.brideParents || ''
-                )}&groomParents=${encodeURIComponent(fields.groomParents || '')}&audioStart=${encodeURIComponent(
-                  String(fields.audioStartTime || 4)
-                )}`}
-                title="Live Personalized Mobile Invitation"
+                key={`${templateKey}-${fields.names}-${fields.audioSource}-${fields.audioStartTime || 0}`}
+                src={getPreviewUrl()}
+                title="Live Mobile Invitation Preview"
                 className="w-full h-full border-none bg-[#091321]"
+                allow="autoplay; encrypted-media"
               />
             </div>
 
@@ -323,7 +487,7 @@ export default function CustomizePage() {
               rel="noopener noreferrer"
               className="mt-3 px-4 py-1.5 rounded-full bg-[#1A263E] hover:bg-[#253552] border border-[#D6B477]/50 text-[#E7CEA0] hover:text-[#FFFDF7] text-xs font-manrope font-semibold flex items-center gap-1.5 shadow-md transition-all"
             >
-              <span>Open Fullscreen Invitation with 'Aaj Sajeya'</span>
+              <span>Open Fullscreen Invitation ({fields.songTitle || 'Selected Song'})</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
@@ -332,7 +496,7 @@ export default function CustomizePage() {
           <div className="mt-3 text-center">
             <p className="text-[11px] text-[#A7B5CC] flex items-center justify-center gap-1.5">
               <Sparkles className="w-3 h-3 text-[#E5A842]" />
-              <span>Real-time instant preview • Your personalized wedding invitation is ready to publish</span>
+              <span>Real-time instant synchronization • All edits update your live page immediately</span>
             </p>
           </div>
         </div>
@@ -350,7 +514,19 @@ export default function CustomizePage() {
               }`}
             >
               <Type className="w-3.5 h-3.5" />
-              <span>Wedding Details</span>
+              <span>Details</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('music')}
+              className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border-b-2 cursor-pointer ${
+                activeTab === 'music'
+                  ? 'border-[#8F6E3B] text-[#8F6E3B] bg-white'
+                  : 'border-transparent text-[#6B533E] hover:text-[#2C2114]'
+              }`}
+            >
+              <Music className="w-3.5 h-3.5" />
+              <span>Music Freedom</span>
             </button>
 
             <button
@@ -376,128 +552,486 @@ export default function CustomizePage() {
               <Palette className="w-3.5 h-3.5" />
               <span>Palette</span>
             </button>
-
-            <button
-              onClick={() => setActiveTab('photo')}
-              className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border-b-2 cursor-pointer ${
-                activeTab === 'photo'
-                  ? 'border-[#8F6E3B] text-[#8F6E3B] bg-white'
-                  : 'border-transparent text-[#6B533E] hover:text-[#2C2114]'
-              }`}
-            >
-              <ImageIcon className="w-3.5 h-3.5" />
-              <span>Photo</span>
-            </button>
           </div>
 
-          {/* Tab 1: Wedding Details Form Content */}
+          {/* TAB 1: DETAILS (DYNAMIC FOR TEMPLATE 1, 2, 3 & VALENTINE) */}
           {activeTab === 'text' && (
             <div className="p-6 space-y-4">
               <div className="text-xs text-[#7A634E] pb-2 border-b border-[#F2ECE0]">
-                Enter the couple's names, event dates, palace venue, and family details. All updates appear instantly on the live website preview!
+                Customize the names, dates, venue, and heartfelt messages. All changes reflect instantly on the live preview!
               </div>
 
-              {/* Couple / Honoree Names (Primary Focus) */}
-              <div>
-                <label className="block text-xs font-semibold text-[#8F6E3B] mb-1">
-                  Couple's Names (Primary Focus)
+              {/* Template-Specific Form Fields */}
+              {templateKey === 'valentine' ? (
+                <>
+                  {/* Valentine: Names */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1">
+                        Your Name (Sender)
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.names ? fields.names.split('&')[0]?.trim() : 'Aarav'}
+                        onChange={(e) => {
+                          const other = fields.names ? fields.names.split('&')[1]?.trim() || 'Riya' : 'Riya';
+                          handleFieldChange('names', `${e.target.value} & ${other}`);
+                        }}
+                        placeholder="e.g. Aarav"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1">
+                        Their Name (Recipient)
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.names ? fields.names.split('&')[1]?.trim() || '' : 'Riya'}
+                        onChange={(e) => {
+                          const first = fields.names ? fields.names.split('&')[0]?.trim() || 'Aarav' : 'Aarav';
+                          handleFieldChange('names', `${first} & ${e.target.value}`);
+                        }}
+                        placeholder="e.g. Riya"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Proposal Question Heading */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Proposal Question
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.headline || 'Will You Be My Valentine?'}
+                      onChange={(e) => handleFieldChange('headline', e.target.value)}
+                      placeholder="e.g. Will You Be My Valentine?"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  {/* Proposal Subtitle Message */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Proposal Subtitle / Love Note
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={fields.message || ''}
+                      onChange={(e) => handleFieldChange('message', e.target.value)}
+                      placeholder="e.g. A little question from my heart to yours..."
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  {/* Wax-Sealed Love Letter Content */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Wax-Sealed Love Letter Paragraph
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={fields.letterMessage || 'From the very first moment you smiled at me, you brought a warmth into my world that I never knew I was missing.'}
+                      onChange={(e) => handleFieldChange('letterMessage', e.target.value)}
+                      placeholder="Write your personal love letter here..."
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+                </>
+              ) : templateKey === 'template-03' ? (
+                <>
+                  {/* Template 3: South Indian Temple Wedding */}
+                  <div>
+                    <label className="block text-xs font-semibold text-[#8F6E3B] mb-1">
+                      Couple&apos;s Names (Groom &amp; Bride)
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.names || 'Karthik & Meenakshi'}
+                      onChange={(e) => handleFieldChange('names', e.target.value)}
+                      placeholder="e.g. Karthik & Meenakshi"
+                      className="w-full px-3.5 py-2.5 text-sm font-serif font-medium rounded-lg border border-[#A77B35]/50 bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        Muhurtham Date
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.date || 'Sunday, 14 February 2027'}
+                        onChange={(e) => handleFieldChange('date', e.target.value)}
+                        placeholder="e.g. Sunday, 14 February 2027"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        Kalyana Mandapam City
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.city || 'Madurai, Tamil Nadu'}
+                        onChange={(e) => handleFieldChange('city', e.target.value)}
+                        placeholder="e.g. Madurai, Tamil Nadu"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Kalyana Mandapam Temple Venue
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.venue || 'Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai'}
+                      onChange={(e) => handleFieldChange('venue', e.target.value)}
+                      placeholder="e.g. Sri Meenakshi Sundareswarar Kalyana Mandapam"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Family &amp; Host Lineages
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.host || 'Sundaram & Kalyani / Ramanathan & Saraswathi Families'}
+                      onChange={(e) => handleFieldChange('host', e.target.value)}
+                      placeholder="e.g. Sundaram & Kalyani Families"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Invitation Blessings Message
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={fields.message || ''}
+                      onChange={(e) => handleFieldChange('message', e.target.value)}
+                      placeholder="Invitation message..."
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+                </>
+              ) : templateKey === 'template-02' ? (
+                <>
+                  {/* Template 2: Arjun & Sia Royal Heritage */}
+                  <div>
+                    <label className="block text-xs font-semibold text-[#8F6E3B] mb-1">
+                      Couple&apos;s Names
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.names || 'Arjun & Sia'}
+                      onChange={(e) => handleFieldChange('names', e.target.value)}
+                      placeholder="e.g. Arjun & Sia"
+                      className="w-full px-3.5 py-2.5 text-sm font-serif font-medium rounded-lg border border-[#A77B35]/50 bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        Wedding Date
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.date || 'Saturday, 13 February 2027'}
+                        onChange={(e) => handleFieldChange('date', e.target.value)}
+                        placeholder="e.g. Saturday, 13 February 2027"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        City &amp; State
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.city || 'Jaipur, Rajasthan'}
+                        onChange={(e) => handleFieldChange('city', e.target.value)}
+                        placeholder="e.g. Jaipur, Rajasthan"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Royal Palace Venue
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.venue || 'Rambagh Palace, Jaipur'}
+                      onChange={(e) => handleFieldChange('venue', e.target.value)}
+                      placeholder="e.g. Rambagh Palace, Jaipur"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      RSVP / WhatsApp Line
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.rsvp || 'RSVP on WhatsApp (+91 919876543210)'}
+                      onChange={(e) => handleFieldChange('rsvp', e.target.value)}
+                      placeholder="RSVP details..."
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Personal Message
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={fields.message || ''}
+                      onChange={(e) => handleFieldChange('message', e.target.value)}
+                      placeholder="Personal message..."
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Template 1: The Royal Navy Wedding */}
+                  <div>
+                    <label className="block text-xs font-semibold text-[#8F6E3B] mb-1">
+                      Couple&apos;s Names
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.names || 'Aarav & Riya'}
+                      onChange={(e) => handleFieldChange('names', e.target.value)}
+                      placeholder="e.g. Aarav & Riya"
+                      className="w-full px-3.5 py-2.5 text-sm font-serif font-medium rounded-lg border border-[#A77B35]/50 bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        Wedding Date
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.date || 'Friday, 18 December 2026'}
+                        onChange={(e) => handleFieldChange('date', e.target.value)}
+                        placeholder="e.g. Friday, 18 December 2026"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        Muhurat / Time
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.time || '5:00 PM Onwards'}
+                        onChange={(e) => handleFieldChange('time', e.target.value)}
+                        placeholder="e.g. 5:00 PM Onwards"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        Royal Venue
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.venue || 'The Heritage Palace & Gardens'}
+                        onChange={(e) => handleFieldChange('venue', e.target.value)}
+                        placeholder="e.g. The Heritage Palace"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        City &amp; State
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.city || 'Jaipur, Rajasthan'}
+                        onChange={(e) => handleFieldChange('city', e.target.value)}
+                        placeholder="e.g. Jaipur, Rajasthan"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        Bride&apos;s Parents
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.brideParents || ''}
+                        onChange={(e) => handleFieldChange('brideParents', e.target.value)}
+                        placeholder="Mrs. Gayatri & Dr. Harshvardhan Kapoor"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        Groom&apos;s Parents
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.groomParents || ''}
+                        onChange={(e) => handleFieldChange('groomParents', e.target.value)}
+                        placeholder="Mrs. Sunita & Mr. Vikramaditya Singhania"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Personal Invitation Message
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={fields.message || ''}
+                      onChange={(e) => handleFieldChange('message', e.target.value)}
+                      placeholder="Invitation message..."
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* TAB 2: MUSIC FREEDOM ("USE WHATEVER SONG WE WANT") */}
+          {activeTab === 'music' && (
+            <div className="p-6 space-y-6">
+              {/* Introduction Note */}
+              <div className="p-4 rounded-xl bg-[#FAF7F0] border border-[#E8DFC8] space-y-2">
+                <div className="flex items-center gap-2 text-xs font-bold text-[#8F6E3B] uppercase tracking-wider">
+                  <Music className="w-4 h-4" />
+                  <span>Music Freedom Studio</span>
+                </div>
+                <p className="text-xs text-[#5C4523] leading-relaxed">
+                  Choose from our curated iconic soundtracks, <strong>upload your own song</strong> from your device, or paste any audio URL. Crop the start time just like an Instagram Story!
+                </p>
+              </div>
+
+              {/* SECTION A: Upload Custom Song */}
+              <div className="space-y-3">
+                <label className="block text-xs font-bold text-[#2C2114] uppercase tracking-wider">
+                  📁 Option 1: Upload Your Own Song (MP3 / Audio)
                 </label>
                 <input
-                  type="text"
-                  value={fields.names || ''}
-                  onChange={(e) => handleFieldChange('names', e.target.value)}
-                  placeholder="e.g. Aarav & Riya"
-                  className="w-full px-3.5 py-2.5 text-sm font-serif font-medium rounded-lg border border-[#A77B35]/50 bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35] shadow-xs"
+                  type="file"
+                  ref={fileInputRef}
+                  accept="audio/*"
+                  onChange={handleAudioUpload}
+                  className="hidden"
                 />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full p-4 rounded-xl border-2 border-dashed border-[#A77B35] bg-[#FFFDF9] hover:bg-[#FAF5EA] text-[#5C4523] flex flex-col items-center justify-center gap-2 transition-all cursor-pointer group"
+                >
+                  <Upload className="w-6 h-6 text-[#A77B35] group-hover:scale-110 transition-transform" />
+                  <span className="text-xs font-bold text-[#2C2114]">
+                    Choose Song From Your Device
+                  </span>
+                  <span className="text-[11px] text-[#7A634E]">
+                    Supports MP3, WAV, AAC, M4A &bull; Plays instantly
+                  </span>
+                </button>
               </div>
 
-              {/* Wedding Date & Time */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-[#49341F] mb-1">
-                    Wedding Date &amp; Day
-                  </label>
+              {/* SECTION B: Custom Web Audio URL */}
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-[#2C2114] uppercase tracking-wider">
+                  🔗 Option 2: Paste Any Direct Audio Link
+                </label>
+                <form onSubmit={handleCustomUrlSubmit} className="flex gap-2">
                   <input
-                    type="text"
-                    value={fields.date || ''}
-                    onChange={(e) => handleFieldChange('date', e.target.value)}
-                    placeholder="e.g. Friday, 18 December 2026"
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    type="url"
+                    value={customUrlInput}
+                    onChange={(e) => setCustomUrlInput(e.target.value)}
+                    placeholder="https://example.com/your-song.mp3"
+                    className="flex-1 px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                   />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-[#49341F] mb-1">
-                    Wedding Time / Muhurat
-                  </label>
-                  <input
-                    type="text"
-                    value={fields.time || ''}
-                    onChange={(e) => handleFieldChange('time', e.target.value)}
-                    placeholder="e.g. 5:00 PM Onwards"
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                  />
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded-lg bg-[#8F6E3B] text-white text-xs font-semibold hover:bg-[#7D5F31] transition-colors"
+                  >
+                    Apply
+                  </button>
+                </form>
+              </div>
+
+              {/* SECTION C: Curated Iconic Library */}
+              <div className="space-y-3">
+                <label className="block text-xs font-bold text-[#2C2114] uppercase tracking-wider">
+                  ✨ Option 3: Curated Master Soundtracks
+                </label>
+                <div className="space-y-2">
+                  {SONG_LIBRARY.map((song) => {
+                    const isSelected = fields.audioSource === song.source;
+                    return (
+                      <button
+                        key={song.id}
+                        type="button"
+                        onClick={() => handleSelectSong(song)}
+                        className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer ${
+                          isSelected
+                            ? 'bg-[#FAF7F0] border-[#8F6E3B] ring-1 ring-[#8F6E3B] shadow-sm'
+                            : 'bg-white border-[#E8DFC8] hover:bg-[#FAF7F2]'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+                              isSelected
+                                ? 'bg-[#8F6E3B] text-white'
+                                : 'bg-[#F2ECE0] text-[#6B533E]'
+                            }`}
+                          >
+                            <Music className="w-3.5 h-3.5" />
+                          </div>
+                          <div>
+                            <span className="block text-xs font-bold text-[#2C2114]">
+                              {song.title}
+                            </span>
+                            <span className="text-[10px] text-[#7A634E]">
+                              {song.artist}
+                            </span>
+                          </div>
+                        </div>
+                        {isSelected && (
+                          <span className="px-2 py-0.5 rounded-full bg-[#8F6E3B]/10 text-[#8F6E3B] text-[10px] font-bold">
+                            Active
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Venue & City */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-[#49341F] mb-1">
-                    Royal Venue Name
-                  </label>
-                  <input
-                    type="text"
-                    value={fields.venue || ''}
-                    onChange={(e) => handleFieldChange('venue', e.target.value)}
-                    placeholder="e.g. The Heritage Palace &amp; Gardens"
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-[#49341F] mb-1">
-                    City &amp; State
-                  </label>
-                  <input
-                    type="text"
-                    value={fields.city || ''}
-                    onChange={(e) => handleFieldChange('city', e.target.value)}
-                    placeholder="e.g. Jaipur, Rajasthan"
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                  />
-                </div>
-              </div>
-
-              {/* Family Lineages / Parents */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                <div>
-                  <label className="block text-xs font-medium text-[#49341F] mb-1">
-                    Bride's Parents
-                  </label>
-                  <input
-                    type="text"
-                    value={fields.brideParents || ''}
-                    onChange={(e) => handleFieldChange('brideParents', e.target.value)}
-                    placeholder="e.g. Mrs. Gayatri &amp; Dr. Harshvardhan Kapoor"
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-[#49341F] mb-1">
-                    Groom's Parents
-                  </label>
-                  <input
-                    type="text"
-                    value={fields.groomParents || ''}
-                    onChange={(e) => handleFieldChange('groomParents', e.target.value)}
-                    placeholder="e.g. Mrs. Sunita &amp; Mr. Vikramaditya Singhania"
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                  />
-                </div>
-              </div>
-
-              {/* Instagram Story-Style Live Music Cropper & Trimmer */}
+              {/* SECTION D: Instagram Story-Style Live Trimmer & Scrubber */}
               <div className="p-4 rounded-2xl bg-gradient-to-b from-[#182338] to-[#0E1524] border border-[#D6B477]/40 text-[#FAF5ED] shadow-luxury space-y-3">
-                {/* Header: Title, Play/Pause */}
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2.5">
                     <div className="w-9 h-9 rounded-full bg-[#D6B477] text-[#091321] flex items-center justify-center font-bold text-sm shadow-md">
@@ -506,14 +1040,14 @@ export default function CustomizePage() {
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-bold text-[#FFFDF7] tracking-wide">
-                          Aaj Sajeya — Goldie Sohel
+                          {fields.songTitle || 'Current Soundtrack'}
                         </span>
                         <span className="px-1.5 py-0.5 rounded-full bg-[#D6B477]/20 border border-[#D6B477]/40 text-[9px] font-semibold text-[#E7CEA0]">
                           Story Trimmer
                         </span>
                       </div>
                       <span className="text-[10px] text-[#A7B5CC]">
-                        Saregama Music • Full Uncut Song (4:09)
+                        Live Audio Cropping &bull; Instant Preview
                       </span>
                     </div>
                   </div>
@@ -523,13 +1057,22 @@ export default function CustomizePage() {
                     onClick={toggleAudioPreview}
                     className="px-3.5 py-1.5 rounded-full bg-[#D6B477] hover:bg-[#E7CEA0] text-[#091321] text-xs font-bold flex items-center gap-1.5 shadow-md transition-all cursor-pointer active:scale-95"
                   >
-                    <span>{isPlayingAudio ? '⏸ Pause' : '▶ Play'}</span>
+                    {isPlayingAudio ? (
+                      <>
+                        <Pause className="w-3.5 h-3.5" />
+                        <span>Pause</span>
+                      </>
+                    ) : (
+                      <>
+                        <Play className="w-3.5 h-3.5" />
+                        <span>Play</span>
+                      </>
+                    )}
                   </button>
                 </div>
 
-                {/* Visual Audio Waveform Track (Instagram Story Style) */}
+                {/* Waveform graphic */}
                 <div className="relative pt-2 pb-1">
-                  {/* Waveform graphic bars */}
                   <div className="h-9 flex items-center justify-between gap-[2px] px-1 pointer-events-none opacity-85">
                     {[
                       35, 45, 20, 60, 80, 50, 90, 40, 75, 95, 30, 85, 100, 70, 90,
@@ -537,7 +1080,7 @@ export default function CustomizePage() {
                       85, 95, 70, 90, 100, 60, 85, 40, 60, 35
                     ].map((height, i) => {
                       const barTime = (i / 40) * audioDuration;
-                      const selectedStart = Number(fields.audioStartTime) || 4;
+                      const selectedStart = Number(fields.audioStartTime) || 0;
                       const isHighlighted = barTime >= selectedStart && barTime <= selectedStart + 35;
                       const isPlayed = barTime <= audioCurrentTime;
                       return (
@@ -556,37 +1099,46 @@ export default function CustomizePage() {
                     })}
                   </div>
 
-                  {/* Range Scrubber (Sliding Start Position) */}
                   <input
                     type="range"
                     min="0"
-                    max="230"
+                    max={Math.max(60, audioDuration - 15)}
                     step="1"
-                    value={Number(fields.audioStartTime) || 4}
+                    value={Number(fields.audioStartTime) || 0}
                     onChange={(e) => handleSeekAudio(Number(e.target.value))}
                     className="w-full h-2 bg-[#253552] rounded-lg appearance-none cursor-pointer accent-[#E5A842] mt-2"
                   />
 
-                  {/* Timestamps */}
                   <div className="flex items-center justify-between text-[10px] text-[#A7B5CC] font-mono mt-1">
-                    <span>Crop Start: <strong className="text-[#E5A842]">{formatSeconds(Number(fields.audioStartTime) || 4)}</strong></span>
-                    <span>Playing: <strong className="text-[#FFFDF7]">{formatSeconds(audioCurrentTime)}</strong> / {formatSeconds(audioDuration)}</span>
+                    <span>
+                      Crop Start:{' '}
+                      <strong className="text-[#E5A842]">
+                        {formatSeconds(Number(fields.audioStartTime) || 0)}
+                      </strong>
+                    </span>
+                    <span>
+                      Playing:{' '}
+                      <strong className="text-[#FFFDF7]">
+                        {formatSeconds(audioCurrentTime)}
+                      </strong>{' '}
+                      / {formatSeconds(audioDuration)}
+                    </span>
                   </div>
                 </div>
 
-                {/* Quick Instagram Story Crop Presets */}
+                {/* Quick Presets */}
                 <div>
                   <span className="block text-[10px] font-semibold text-[#D6B477] uppercase tracking-wider mb-1.5">
-                    ⚡ Quick Crop Moments (Like Insta Story):
+                    ⚡ Quick Crop Moments:
                   </span>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
                     {[
-                      { label: 'Intro (0:04)', time: 4, note: 'Opening hook' },
-                      { label: 'Verse (0:24)', time: 24, note: 'Vocals start' },
-                      { label: 'Chorus (0:46)', time: 46, note: 'Hook drop' },
-                      { label: 'Dhol (1:12)', time: 72, note: 'Bhangra beat' },
+                      { label: 'Start (0:00)', time: 0, note: 'Intro hook' },
+                      { label: 'Vocals (0:15)', time: 15, note: 'Opening verse' },
+                      { label: 'Chorus (0:45)', time: 45, note: 'Drop / Climax' },
+                      { label: 'BGM (1:15)', time: 75, note: 'Orchestral' },
                     ].map((preset) => {
-                      const isSelected = (Number(fields.audioStartTime) || 4) === preset.time;
+                      const isSelected = (Number(fields.audioStartTime) || 0) === preset.time;
                       return (
                         <button
                           key={preset.time}
@@ -607,47 +1159,28 @@ export default function CustomizePage() {
                     })}
                   </div>
                 </div>
-
-                <div className="text-[10px] text-[#8A9DBA] flex items-center gap-1.5 pt-1 border-t border-[#2B3A59]">
-                  <Sparkles className="w-3 h-3 text-[#E5A842]" />
-                  <span>Your wedding invitation will start playing the music from your chosen live crop!</span>
-                </div>
-              </div>
-
-              {/* Personal Invitation Message / Blessing */}
-              <div>
-                <label className="block text-xs font-medium text-[#49341F] mb-1">
-                  Personal Invitation Message / Blessing
-                </label>
-                <textarea
-                  rows={3}
-                  value={fields.message || ''}
-                  onChange={(e) => handleFieldChange('message', e.target.value)}
-                  placeholder="Request the honour of your graceful presence and pious blessings to celebrate this eternal union."
-                  className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                />
               </div>
             </div>
           )}
 
-          {/* Tab 2: Typography & Alignment */}
+          {/* TAB 3: TYPOGRAPHY */}
           {activeTab === 'typography' && (
             <div className="p-6 space-y-6">
               <div>
                 <label className="block text-xs font-semibold text-[#49341F] mb-2">
-                  Headings Typography Style
+                  Headline Typography Pair
                 </label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {[
-                    { id: 'serif', name: 'Playfair Display', desc: 'Regal, Editorial Serif' },
-                    { id: 'script', name: 'Alex Brush', desc: 'Graceful Calligraphy Script' },
-                    { id: 'sans', name: 'Inter Modern', desc: 'Clean Minimalist Sans' },
-                    { id: 'modern', name: 'Cormorant Luxury', desc: 'Classic Roman Lettering' },
+                    { id: 'serif', name: 'Classic Editorial Serif', desc: 'Cormorant Garamond' },
+                    { id: 'display', name: 'Royal Grand Display', desc: 'Playfair Display' },
+                    { id: 'script', name: 'Handwritten Romance', desc: 'Allura & Script' },
+                    { id: 'sans', name: 'Clean Modern Minimal', desc: 'Karla & Inter' },
                   ].map((f) => (
                     <button
                       key={f.id}
                       onClick={() => setDesign({ ...design, fontFamily: f.id as any })}
-                      className={`p-3 rounded-xl border text-left transition-all ${
+                      className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                         design.fontFamily === f.id
                           ? 'border-[#8F6E3B] bg-[#FAF7F0] ring-1 ring-[#8F6E3B]'
                           : 'border-[#E8DFC8] bg-white hover:bg-[#FAF7F2]'
@@ -668,13 +1201,13 @@ export default function CustomizePage() {
                   {[
                     { id: 'gold-floral', name: 'Gold Foil Botanicals' },
                     { id: 'minimal-gold', name: 'Clean Gold Border' },
-                    { id: 'modern-double', name: 'Double Modern Lines' },
-                    { id: 'botanical', name: 'Classic Flourishes' },
+                    { id: 'temple-silk', name: 'Temple Silk Brocade' },
+                    { id: 'ornate', name: 'Classic Flourishes' },
                   ].map((b) => (
                     <button
                       key={b.id}
                       onClick={() => setDesign({ ...design, borderStyle: b.id as any })}
-                      className={`px-3 py-2 text-xs rounded-lg border text-center transition-all ${
+                      className={`px-3 py-2 text-xs rounded-lg border text-center transition-all cursor-pointer ${
                         design.borderStyle === b.id
                           ? 'border-[#8F6E3B] bg-[#FAF7F0] font-semibold text-[#8F6E3B]'
                           : 'border-[#E8DFC8] bg-white text-[#574330]'
@@ -688,7 +1221,7 @@ export default function CustomizePage() {
             </div>
           )}
 
-          {/* Tab 3: Colors & Palettes */}
+          {/* TAB 4: PALETTES & COLORS */}
           {activeTab === 'colors' && (
             <div className="p-6 space-y-6">
               <div>
@@ -707,7 +1240,7 @@ export default function CustomizePage() {
                           accentColor: p.accent,
                         })
                       }
-                      className={`w-full p-3 rounded-xl border flex items-center justify-between transition-all ${
+                      className={`w-full p-3 rounded-xl border flex items-center justify-between transition-all cursor-pointer ${
                         design.themeColor === p.theme
                           ? 'border-[#8F6E3B] bg-[#FAF7F2] ring-1 ring-[#8F6E3B]'
                           : 'border-[#E8DFC8] bg-white hover:bg-[#FAF7F2]'
@@ -753,87 +1286,6 @@ export default function CustomizePage() {
               </div>
             </div>
           )}
-
-          {/* Tab 4: Photo Upload Option */}
-          {activeTab === 'photo' && (
-            <div className="p-6 space-y-4">
-              <label className="block text-xs font-semibold text-[#49341F] mb-1">
-                Upload Personal Couple / Celebrant Photo
-              </label>
-              <p className="text-xs text-[#7A634E] leading-relaxed">
-                Add an optional personal portrait or memory to be woven into the invitation.
-              </p>
-
-              <div className="border-2 border-dashed border-[#DFCEAF] rounded-2xl p-6 text-center bg-[#FCFAF6] hover:bg-[#FAF7F2] transition-colors cursor-pointer">
-                <ImageIcon className="w-8 h-8 text-[#A77B35] mx-auto mb-2 opacity-70" />
-                <p className="text-xs font-medium text-[#2C2114]">
-                  Click to browse or drag and drop
-                </p>
-                <p className="text-[10px] text-[#8C7359] mt-1">
-                  JPG, PNG or WEBP up to 10MB (High-Resolution Recommended)
-                </p>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const url = URL.createObjectURL(file);
-                      setFields((prev) => ({ ...prev, photoUrl: url }));
-                      alert('Photo loaded for preview!');
-                    }
-                  }}
-                  className="hidden"
-                  id="photo-upload"
-                />
-                <label
-                  htmlFor="photo-upload"
-                  className="mt-4 inline-block px-4 py-1.5 rounded-full bg-[#8F6E3B] text-white text-xs font-medium cursor-pointer"
-                >
-                  Choose Image
-                </label>
-              </div>
-
-              {fields.photoUrl && (
-                <div className="flex items-center justify-between p-3 rounded-xl bg-[#E8F3EA] text-[#2E6B3F] text-xs">
-                  <span>Photo selected and applied!</span>
-                  <button
-                    onClick={() => setFields((prev) => ({ ...prev, photoUrl: undefined }))}
-                    className="text-red-600 hover:underline"
-                  >
-                    Remove
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Sticky Purchase Bar at Bottom of Controls */}
-          <div className="mt-auto p-4 sm:p-5 border-t border-[#DFCEAF] bg-[#FAF7F2] flex items-center justify-between gap-3">
-            <div>
-              <span className="text-[10px] text-[#8C7359] uppercase tracking-wider block">
-                Digital Edition Price
-              </span>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-lg font-serif font-bold text-[#2C2114]">
-                  {baseTemplate.isFree ? 'Free' : `₹${baseTemplate.price}`}
-                </span>
-                {!baseTemplate.isFree && (
-                  <span className="text-[11px] text-[#99816B] line-through">
-                    ₹{baseTemplate.price + 200}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <button
-              onClick={handleAddToCartAndProceed}
-              className="py-3 px-6 rounded-xl bg-[#8F6E3B] hover:bg-[#7D5F31] text-white text-xs sm:text-sm font-semibold shadow-gold flex items-center gap-2 transition-all cursor-pointer"
-            >
-              <span>Instant Checkout</span>
-              <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
-            </button>
-          </div>
         </div>
       </div>
     </div>

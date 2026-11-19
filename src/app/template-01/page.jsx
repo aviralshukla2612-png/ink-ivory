@@ -42,6 +42,7 @@ function Template01Content() {
   const customBrideParents = searchParams.get('brideParents');
   const customGroomParents = searchParams.get('groomParents');
   const customAudioStart = searchParams.get('audioStart');
+  const customAudioSource = searchParams.get('audioSource');
 
   // Synchronously read sessionStorage on client if available
   let sessionCustom = {};
@@ -111,6 +112,16 @@ function Template01Content() {
         if (d.audioStartTime !== undefined && audioRef.current) {
           audioRef.current.currentTime = Number(d.audioStartTime);
         }
+        if (d.audioSource && audioRef.current && !audioRef.current.src.endsWith(d.audioSource)) {
+          audioRef.current.src = d.audioSource;
+          audioRef.current.load();
+          if (d.audioStartTime !== undefined) {
+            audioRef.current.currentTime = Number(d.audioStartTime);
+          }
+          if (!isMuted) {
+            audioRef.current.play().catch(() => {});
+          }
+        }
         setRenderTrigger((v) => v + 1);
       }
     };
@@ -140,8 +151,8 @@ function Template01Content() {
       }
     }
 
-    // Audio setup: Aaj Sajeya (Alaya F & Goldie Sohel - Saregama Music)
-    const audioSrc = weddingData.music?.source || '/audio/aaj-sajeya.mp3';
+    // Audio setup: Aaj Sajeya (Alaya F & Goldie Sohel - Saregama Music) or custom user selection
+    const audioSrc = customAudioSource || sessionCustom.audioSource || weddingData.music?.source || '/audio/aaj-sajeya.mp3';
     const audio = new Audio(audioSrc);
     audio.loop = true;
     audio.preload = 'auto';

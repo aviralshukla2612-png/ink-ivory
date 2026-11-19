@@ -27,7 +27,10 @@ export interface EditableFields {
   brideParents?: string;
   groomParents?: string;
   songTitle?: string;
+  audioSource?: string;
   audioStartTime?: number;
+  letterMessage?: string;
+  reasonsText?: string;
 }
 
 export interface DesignConfig {

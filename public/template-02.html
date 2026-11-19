@@ -469,6 +469,10 @@ if (urlParams.get('date')) {
   syncDateParts(CONFIG.dateText);
 }
 if (urlParams.get('venue')) CONFIG.venue = urlParams.get('venue');
+if (urlParams.get('audioSource')) {
+  CONFIG.song = CONFIG.song || {};
+  CONFIG.song.source = urlParams.get('audioSource');
+}
 syncDateParts();
 
 /* =====================================================================
@@ -1075,6 +1079,14 @@ window.addEventListener('message', (e) => {
     }
     if (p.audioStartTime !== undefined && audioEl) {
       audioEl.currentTime = parseFloat(p.audioStartTime);
+    }
+    if (p.audioSource && audioEl && !audioEl.src.endsWith(p.audioSource)) {
+      audioEl.src = p.audioSource;
+      audioEl.load();
+      if (p.audioStartTime !== undefined) {
+        audioEl.currentTime = parseFloat(p.audioStartTime);
+      }
+      try { audioEl.play(); } catch(err) {}
     }
   }
 });

@@ -34,6 +34,7 @@ export const templatesData: Template[] = [
       brideParents: 'Mrs. Gayatri & Dr. Harshvardhan Kapoor',
       groomParents: 'Mrs. Sunita & Mr. Vikramaditya Singhania',
       songTitle: 'Aaj Sajeya — Goldie Sohel (Saregama Music)',
+      audioSource: '/audio/aaj-sajeya.mp3',
       audioStartTime: 4,
     },
     designConfig: {
@@ -247,6 +248,9 @@ export const templatesData: Template[] = [
       message: 'Someone has a very special question for you. A sealed digital love letter waiting to be opened with all the tenderness in the world.',
       rsvp: 'Say Yes ♡',
       host: 'With all my love, Aarav',
+      songTitle: 'Until I Found You — Stephen Sanchez',
+      audioSource: '/audio/valentine-theme.mp3',
+      audioStartTime: 0,
     },
     designConfig: {
       themeColor: '#FFF4F0',

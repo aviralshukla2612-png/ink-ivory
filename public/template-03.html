@@ -930,6 +930,15 @@ document.querySelectorAll(".rev").forEach(e => io.observe(e));
 
 /* ===== REAL BOLLYWOOD SOUNDTRACK: MAST MAGAN (2 STATES) ===== */
 const song = $("song");
+if (song) {
+  if (urlParams.get('audioSource')) {
+    song.src = urlParams.get('audioSource');
+  }
+  const seekParam = urlParams.get('audioStart');
+  if (seekParam && !isNaN(seekParam)) {
+    song.currentTime = parseFloat(seekParam);
+  }
+}
 let isPlaying = false;
 
 function toast(msg) {
@@ -1112,6 +1121,14 @@ window.addEventListener('message', (e) => {
     populateData();
     if (p.audioStartTime !== undefined && song) {
       song.currentTime = parseFloat(p.audioStartTime);
+    }
+    if (p.audioSource && song && !song.src.endsWith(p.audioSource)) {
+      song.src = p.audioSource;
+      song.load();
+      if (p.audioStartTime !== undefined) {
+        song.currentTime = parseFloat(p.audioStartTime);
+      }
+      try { song.play(); } catch(err) {}
     }
   }
 });
