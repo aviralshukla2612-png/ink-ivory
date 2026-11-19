@@ -65,10 +65,11 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
 
   if (!isOpen || !mounted) return null;
 
+  const baseUrl = template.liveDemoUrl || '/template-01';
   const demoUrl =
     device === 'phone'
-      ? `/template-01?mode=demo&view=phone&auto=${isAutoPlaying ? '2000' : 'false'}`
-      : `/template-01?mode=demo&view=laptop`;
+      ? `${baseUrl}?mode=demo&view=phone&auto=${isAutoPlaying ? '2000' : 'false'}`
+      : `${baseUrl}?mode=demo&view=laptop`;
 
   const handlePrev = () => {
     iframeRef.current?.contentWindow?.postMessage({ action: 'prevSlide' }, '*');

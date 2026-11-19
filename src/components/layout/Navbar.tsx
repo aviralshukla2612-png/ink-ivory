@@ -60,8 +60,14 @@ export const Navbar: React.FC = () => {
   const { totalItems } = useCart();
   const { totalWishlist } = useWishlist();
 
-  // Hide global e-commerce navbar on standalone cinematic template preview pages
-  if (pathname && (pathname.startsWith('/template-01') || pathname.startsWith('/preview'))) {
+  // Hide global e-commerce navbar on standalone cinematic template preview pages and customize studio
+  if (
+    pathname &&
+    (pathname.startsWith('/template-01') ||
+      pathname.startsWith('/template-02') ||
+      pathname.startsWith('/preview') ||
+      pathname.startsWith('/customize'))
+  ) {
     return null;
   }
 

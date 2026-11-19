@@ -8,46 +8,29 @@ import { Sparkles, ArrowUpRight } from 'lucide-react';
 export const Footer: React.FC = () => {
   const pathname = usePathname();
 
-  // Hide global e-commerce footer on standalone cinematic template preview pages
-  if (pathname && (pathname.startsWith('/template-01') || pathname.startsWith('/preview'))) {
+  // Hide global e-commerce footer on standalone cinematic template preview pages and customize studio
+  if (
+    pathname &&
+    (pathname.startsWith('/template-01') ||
+      pathname.startsWith('/template-02') ||
+      pathname.startsWith('/preview') ||
+      pathname.startsWith('/customize'))
+  ) {
     return null;
   }
-  // Pure unified SVG path data for "CARDLY" in bold geometric sans (zero internal crossing lines)
-  const cardlyPath =
-    'M192.56 157.94Q175.13 157.94 160.33 152.27Q145.52 146.60 134.71 136.41Q123.89 126.23 117.80 112.27Q111.71 98.30 111.71 81.50Q111.71 64.70 117.80 50.73Q123.89 36.77 134.71 26.59Q145.52 16.40 160.33 10.73Q175.13 5.06 192.56 5.06Q212.94 5.06 229 12.20Q245.06 19.34 255.77 32.78L229.31 56.72Q222.38 48.32 213.77 43.91Q205.16 39.50 194.66 39.50Q182.48 39.50 173.35 44.75Q164.21 50 158.96 59.45Q153.71 68.90 153.71 81.50Q153.71 94.10 158.96 103.55Q164.21 113 173.35 118.25Q182.48 123.50 194.66 123.50Q205.16 123.50 213.77 119.09Q222.38 114.68 229.31 106.28L255.77 130.22Q245.06 143.66 229 150.80Q212.94 157.94 192.56 157.94 M311.36 155L268.94 155L333.82 8L374.77 8L439.88 155L396.62 155L385.06 126.44L322.90 126.44L311.36 155M353.99 48.74L335.08 95.78L372.88 95.78 M507.22 155L465.63 155L465.63 8L531.37 8Q563.71 8 580.92 22.59Q598.14 37.19 598.14 62.39Q598.14 78.56 590.59 90.42Q583.02 102.29 569.16 108.80L601.09 155L556.57 155L529.89 115.94L507.22 115.94L507.22 155M507.22 40.76L507.22 83.81L530.32 83.81Q543.34 83.81 549.74 78.14Q556.14 72.47 556.14 62.39Q556.14 52.10 549.74 46.43Q543.34 40.76 530.32 40.76 M704.55 155L635.04 155L635.04 8L704.55 8Q728.90 8 747.38 17.03Q765.87 26.06 776.26 42.55Q786.65 59.03 786.65 81.50Q786.65 103.97 776.26 120.45Q765.87 136.94 747.38 145.97Q728.90 155 704.55 155M676.62 41.18L676.62 121.82L702.87 121.82Q721.56 121.82 733.11 111.11Q744.65 100.40 744.65 81.50Q744.65 62.60 733.11 51.89Q721.56 41.18 702.87 41.18 M934.22 155L822.50 155L822.50 8L864.08 8L864.08 122.03L934.22 122.03 M1043.35 155L1001.77 155L1001.77 101.87L945.70 8L989.59 8L1024.24 66.38L1059.31 8L1099.63 8L1043.35 102.29';
 
   return (
-    <footer
-      id="footer"
-      className="relative w-full bg-[#F8F4EC] text-[#382719] pt-8 sm:pt-10 pb-5 sm:pb-6 border-t border-[#EDE2CF] overflow-hidden select-none"
-    >
-      {/* Top Subtle Luxury Satin Ribbon Graphic */}
-      <div className="absolute top-0 inset-x-0 h-5 pointer-events-none opacity-35 select-none overflow-hidden z-0">
-        <svg viewBox="0 0 1440 20" fill="none" className="w-full h-full preserve-3d">
-          <path
-            d="M0,10 C320,20 480,-2 720,8 C960,20 1120,-2 1440,12 L1440,0 L0,0 Z"
-            fill="url(#footerTopWaveGrad)"
-          />
-          <defs>
-            <linearGradient id="footerTopWaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#DFCEAF" stopOpacity="0.4" />
-              <stop offset="50%" stopColor="#C5A059" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="#DFCEAF" stopOpacity="0.4" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <footer className="w-full bg-[#FAF7F2] border-t border-[#E8DFD1] text-[#23180D] pt-10 pb-6 px-4 sm:px-8 lg:px-14 overflow-hidden relative">
+      <div className="max-w-7xl mx-auto flex flex-col">
         {/* ========================================================================= */}
         {/* TOP ROW: LOGO ON TOP LEFT + SOCIAL LINKS IN BIG FONT ON TOP RIGHT         */}
         {/* ========================================================================= */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3 sm:pb-4">
-          {/* Top Left: Cardly Luxury Script Logo */}
+          {/* Top Left: Ink & Ivory Luxury Script Logo */}
           <div className="flex items-center">
             <Link href="/" className="inline-flex items-center gap-2 group focus:outline-none">
-              <span className="font-script-luxury text-3xl sm:text-4xl lg:text-[44px] text-[#23180D] group-hover:text-[#8C6837] transition-colors leading-none">
-                Cardly
+              <span className="font-serif italic font-bold text-3xl sm:text-4xl lg:text-[44px] text-[#23180D] group-hover:text-[#8C6837] transition-colors leading-none tracking-tight">
+                Ink &amp; Ivory
               </span>
               <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-[#C5A059] fill-[#C5A059]/20 -mt-2 animate-pulse" />
             </Link>
@@ -86,8 +69,8 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* ========================================================================= */}
-        {/* CENTER: GIANT OVERSIZED LIQUID TYPOGRAPHY "CARDLY"                         */}
-        {/* Clean, monolithic geometric vector path with continuous Royal Navy wave    */}
+        {/* CENTER: GIANT OVERSIZED LIQUID TYPOGRAPHY "INK & IVORY"                   */}
+        {/* Regal serif typography with continuous Royal Navy wave                     */}
         {/* ========================================================================= */}
         <div className="w-full relative my-1 sm:my-2 select-none">
           <svg
@@ -151,26 +134,41 @@ export const Footer: React.FC = () => {
                 "
               />
 
-              {/* Pure Monolithic Vector Path for CARDLY */}
-              <path id="cardlyCleanGlyphs" d={cardlyPath} />
-
-              {/* Clip Mask strictly inside the clean letter boundaries */}
-              <clipPath id="cardlyLiquidClip">
-                <use href="#cardlyCleanGlyphs" />
+              {/* Clip Mask strictly inside the text boundaries */}
+              <clipPath id="inkIvoryLiquidClip">
+                <text
+                  x="50%"
+                  y="125"
+                  textAnchor="middle"
+                  fontFamily="'Cormorant Garamond', 'Cinzel', 'Playfair Display', Georgia, serif"
+                  fontSize="122"
+                  fontWeight="800"
+                  letterSpacing="0.12em"
+                >
+                  INK &amp; IVORY
+                </text>
               </clipPath>
             </defs>
 
-            {/* Layer 1: Solid Luxury Base Fill with Crisp Outer Dark Outline (zero crossing lines) */}
-            <use
-              href="#cardlyCleanGlyphs"
+            {/* Layer 1: Solid Luxury Base Fill with Crisp Outer Dark Outline */}
+            <text
+              x="50%"
+              y="125"
+              textAnchor="middle"
+              fontFamily="'Cormorant Garamond', 'Cinzel', 'Playfair Display', Georgia, serif"
+              fontSize="122"
+              fontWeight="800"
+              letterSpacing="0.12em"
               fill="url(#letterBaseGrad)"
               stroke="#382719"
               strokeWidth="2.2"
               strokeLinejoin="round"
-            />
+            >
+              INK &amp; IVORY
+            </text>
 
-            {/* Layer 2: Liquid Wave Rising from Bottom to Top (Never completely blank) */}
-            <g clipPath="url(#cardlyLiquidClip)">
+            {/* Layer 2: Liquid Wave Rising from Bottom to Top */}
+            <g clipPath="url(#inkIvoryLiquidClip)">
               <g className="cardly-liquid-rise">
                 {/* Secondary Wave for depth & dimension */}
                 <use
@@ -188,14 +186,22 @@ export const Footer: React.FC = () => {
             </g>
 
             {/* Layer 3: Razor-sharp outer perimeter outline on top */}
-            <use
-              href="#cardlyCleanGlyphs"
+            <text
+              x="50%"
+              y="125"
+              textAnchor="middle"
+              fontFamily="'Cormorant Garamond', 'Cinzel', 'Playfair Display', Georgia, serif"
+              fontSize="122"
+              fontWeight="800"
+              letterSpacing="0.12em"
               fill="none"
               stroke="#382719"
               strokeWidth="2.2"
               strokeLinejoin="round"
               opacity="0.95"
-            />
+            >
+              INK &amp; IVORY
+            </text>
           </svg>
         </div>
 
@@ -203,13 +209,13 @@ export const Footer: React.FC = () => {
         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#C5A059]/35 to-transparent my-3 sm:my-4" />
 
         {/* ========================================================================= */}
-        {/* DOWN SIDE: NAVBAR THING BENEATH BIG CARDLY                                */}
+        {/* DOWN SIDE: NAVBAR THING BENEATH BIG INK & IVORY                            */}
         {/* Copyright notice on left + Navigation links on right                      */}
         {/* ========================================================================= */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4 text-xs font-medium text-[#49341F] pt-1">
           {/* Copyright Notice */}
           <p className="text-[11.5px] sm:text-xs text-[#7A644E]">
-            &copy; {new Date().getFullYear()} Cardly. All rights reserved. Exclusively digital stationery.
+            &copy; {new Date().getFullYear()} Ink &amp; Ivory. All rights reserved. Bespoke luxury digital stationery.
           </p>
 
           {/* Navigation Links ("navbar thing") */}
@@ -220,7 +226,7 @@ export const Footer: React.FC = () => {
             <Link href="/templates" className="hover:text-[#8C6837] transition-colors">
               Templates
             </Link>
-            <Link href="/customize/tpl-wedding-navy-01" className="hover:text-[#8C6837] transition-colors">
+            <Link href="/customize/template-01" className="hover:text-[#8C6837] transition-colors">
               Custom Studio
             </Link>
             <Link href="/pricing" className="hover:text-[#8C6837] transition-colors">
@@ -268,22 +274,22 @@ export const Footer: React.FC = () => {
         */
         @keyframes liquidRiseCycle {
           0% {
-            transform: translateY(75px); /* 35% filled - rich liquid always active */
+            transform: translateY(75px);
           }
           35% {
-            transform: translateY(18px); /* 75% filled */
+            transform: translateY(18px);
           }
           55% {
-            transform: translateY(-38px); /* 100% completely full */
+            transform: translateY(-38px);
           }
           75% {
-            transform: translateY(-38px); /* Glistening full state */
+            transform: translateY(-38px);
           }
           90% {
-            transform: translateY(30px); /* Smooth ebb */
+            transform: translateY(30px);
           }
           100% {
-            transform: translateY(75px); /* Back to baseline */
+            transform: translateY(75px);
           }
         }
 
