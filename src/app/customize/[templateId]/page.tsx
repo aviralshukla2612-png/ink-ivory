@@ -119,6 +119,15 @@ export default function CustomizePage() {
     ) {
       return 'valentine';
     }
+    if (
+      templateId === 'birthday' ||
+      templateId === 'tpl-birthday-botanical-04' ||
+      templateId === 'interactive-birthday-celebration' ||
+      baseTemplate.id === 'tpl-birthday-botanical-04' ||
+      baseTemplate.liveDemoUrl === '/birthday'
+    ) {
+      return 'birthday';
+    }
     return 'template-01';
   };
 
@@ -342,6 +351,16 @@ export default function CustomizePage() {
       if (fields.audioSource) params.set('audioSource', fields.audioSource);
       if (fields.audioStartTime) params.set('audioStart', String(fields.audioStartTime));
       return `/valentine?${params.toString()}`;
+    }
+
+    if (templateKey === 'birthday') {
+      params.set('names', fields.names || 'Ananya & Kabir');
+      params.set('heading', fields.headline || 'Birthday');
+      params.set('message', fields.message || 'To the one who makes life more special, may your day be as beautiful, kind and happy as you are.');
+      if (fields.letterMessage) params.set('letterMessage', fields.letterMessage);
+      if (fields.audioSource) params.set('audioSource', fields.audioSource);
+      if (fields.audioStartTime) params.set('audioStart', String(fields.audioStartTime));
+      return `/birthday?${params.toString()}`;
     }
 
     if (templateKey === 'template-03') {
@@ -636,6 +655,84 @@ export default function CustomizePage() {
                       value={fields.letterMessage || 'From the very first moment you smiled at me, you brought a warmth into my world that I never knew I was missing.'}
                       onChange={(e) => handleFieldChange('letterMessage', e.target.value)}
                       placeholder="Write your personal love letter here..."
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+                </>
+              ) : templateKey === 'birthday' ? (
+                <>
+                  {/* Birthday: Recipient & Sender Names */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1">
+                        Birthday Star (Recipient Name)
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.names ? fields.names.split('&')[0]?.trim() : 'Ananya'}
+                        onChange={(e) => {
+                          const other = fields.names ? fields.names.split('&')[1]?.trim() || 'Kabir' : 'Kabir';
+                          handleFieldChange('names', `${e.target.value} & ${other}`);
+                        }}
+                        placeholder="e.g. Ananya"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1">
+                        From (Sender Name)
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.names ? fields.names.split('&')[1]?.trim() || '' : 'Kabir'}
+                        onChange={(e) => {
+                          const first = fields.names ? fields.names.split('&')[0]?.trim() || 'Ananya' : 'Ananya';
+                          handleFieldChange('names', `${first} & ${e.target.value}`);
+                        }}
+                        placeholder="e.g. Kabir"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Birthday Hero Heading */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Hero Script Heading
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.headline || 'Birthday'}
+                      onChange={(e) => handleFieldChange('headline', e.target.value)}
+                      placeholder="e.g. Birthday"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  {/* Birthday Heartfelt Message */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Hero Heartfelt Wish / Subtitle
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={fields.message || 'To the one who makes life more special, may your day be as beautiful, kind and happy as you are.'}
+                      onChange={(e) => handleFieldChange('message', e.target.value)}
+                      placeholder="e.g. To the one who makes life more special..."
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  {/* Wax-Sealed Birthday Letter Content */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Wax-Sealed Love Note / Birthday Letter
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={fields.letterMessage || 'Today is all about celebrating you. I hope your life is always filled with laughter, beautiful memories, exciting adventures, and people who make you feel as special as you truly are. Never stop dreaming and smiling!'}
+                      onChange={(e) => handleFieldChange('letterMessage', e.target.value)}
+                      placeholder="Write your heartfelt birthday letter here..."
                       className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                     />
                   </div>

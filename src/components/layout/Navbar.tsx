@@ -67,6 +67,7 @@ export const Navbar: React.FC = () => {
       pathname.startsWith('/template-02') ||
       pathname.startsWith('/template-03') ||
       pathname.startsWith('/valentine') ||
+      pathname.startsWith('/birthday') ||
       pathname.startsWith('/preview') ||
       pathname.startsWith('/customize'))
   ) {
