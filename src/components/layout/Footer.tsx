@@ -14,6 +14,7 @@ export const Footer: React.FC = () => {
     (pathname.startsWith('/template-01') ||
       pathname.startsWith('/template-02') ||
       pathname.startsWith('/template-03') ||
+      pathname.startsWith('/valentine') ||
       pathname.startsWith('/preview') ||
       pathname.startsWith('/customize'))
   ) {
