@@ -3,16 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Thirumanam — Karthik &amp; Meenakshi — South Indian Wedding Invitation</title>
+<title>Thirumanam — Karthik &amp; Meenakshi — South Indian Temple Wedding Invitation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Karla:wght@400;500;600;700&family=Noto+Serif+Tamil:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Karla:wght@400;500;600;700&family=Noto+Serif+Tamil:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --crimson:#8a1020; --crimson-d:#5e0a14; --wine:#0a3a2c; --night:#06201a;
-  --cream:#f8efd6; --cream2:#eedcae; --paper:#fffaf0;
-  --gold:#d9a521; --gold2:#f4d77a; --brass:#a87a1c; --rose:#d2402a; --ink:#1f2a1c;
+  --crimson:#6a0d20; --crimson-d:#38050e; --crimson-darker:#1a0206;
+  --wine:#0d382c; --night:#062018;
+  --cream:#fbf5e6; --cream2:#f2e5c6; --paper:#fffaf0;
+  --gold:#d9a521; --gold2:#f7de8a; --brass:#a87819; --vermilion:#c92a3e; --ink:#1f2a1c;
   --serif:'Cormorant Garamond',Georgia,serif;
+  --display:'Playfair Display',Georgia,serif;
   --sans:'Karla',system-ui,-apple-system,sans-serif;
   --tamil:'Noto Serif Tamil',var(--serif);
   --bar-h:34px;
@@ -24,14 +26,14 @@ body.lock{overflow:hidden}
 h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.1}
 section{padding:clamp(60px,9vw,110px) 20px;text-align:center;position:relative}
 h2{font-size:clamp(2.1rem,5vw,3.3rem)}
-.kick{font-size:.78rem;letter-spacing:.28em;color:var(--brass);margin-bottom:12px;font-weight:600;text-transform:uppercase}
+.kick{font-size:.78rem;letter-spacing:.28em;color:var(--brass);margin-bottom:12px;font-weight:700;text-transform:uppercase}
 .sub{font-family:var(--serif);font-style:italic;font-size:1.25rem;opacity:.85;margin:10px auto 34px;max-width:580px;line-height:1.5}
 .dots{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px auto;color:var(--gold)}
 .dots:before,.dots:after{content:"";width:60px;height:1px;background:currentColor}
 .dots i{width:7px;height:7px;background:currentColor;transform:rotate(45deg)}
 :focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(#e6b559,#c58c2e);color:#2a1200;border:0;border-radius:999px;padding:13px 30px;font:700 1rem var(--sans);cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,0.3);text-decoration:none;transition:transform .2s,filter .2s}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(#f7de8a,#d9a521,#a87819);color:#240409;border:0;border-radius:999px;padding:14px 32px;font:700 1rem var(--sans);cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,0.35);text-decoration:none;transition:transform .2s,filter .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 10px 26px rgba(0,0,0,0.45)}
 .btn.ghost{background:transparent;color:inherit;border:1.5px solid currentColor;box-shadow:none}
 .night{background:radial-gradient(ellipse at 50% 0,#124a38,var(--night) 70%);color:var(--cream)}
 .pat:before{content:"";position:absolute;inset:0;background-image:radial-gradient(#d9a52126 1.4px,transparent 1.5px);background-size:26px 26px;pointer-events:none}
@@ -48,55 +50,135 @@ body.nobar #bar{display:none}
 #bar .nav{display:flex;align-items:center;gap:4px;padding:6px 8px;border-radius:6px;background:none;border:none;color:inherit;cursor:pointer}
 #bar .nav:hover{background:#ffffff14}
 #bar .sp{flex:1}
-#choose{background:linear-gradient(#e6b152,#d29a35);color:#3b2a08;font-weight:700;padding:6px 14px;border-radius:7px;font-size:11px;box-shadow:0 2px 8px #0005;text-decoration:none;display:inline-flex;align-items:center}
+#choose{background:linear-gradient(#f7de8a,#d9a521);color:#240409;font-weight:700;padding:6px 14px;border-radius:7px;font-size:11px;box-shadow:0 2px 8px #0005;text-decoration:none;display:inline-flex;align-items:center}
 #toast{position:fixed;top:48px;left:50%;transform:translate(-50%,-20px);background:#1c1832;color:#fff;font-family:var(--sans);font-size:12px;padding:10px 18px;border-radius:999px;z-index:140;opacity:0;pointer-events:none;transition:all .4s;box-shadow:0 4px 16px rgba(0,0,0,0.4)}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 
-/* ---------- LOADER : KOLAM & TEMPLE GLOW ---------- */
-#loader{position:fixed;inset:0;z-index:120;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(circle at 50% 40%,#5e0a14,#04241b 78%);color:var(--gold2);transition:opacity .9s,visibility .9s}
+/* ---------- LOADER : AURA & TAMIL BLESSING ---------- */
+#loader{position:fixed;inset:0;z-index:120;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(circle at 50% 40%,#590919,#062018 82%);color:var(--gold2);transition:opacity .9s,visibility .9s}
 #loader.hide{opacity:0;visibility:hidden;pointer-events:none}
-#lm{width:min(62vw,250px);height:auto;overflow:visible;animation:spin 26s linear infinite}
-#lm *{fill:none;stroke:#d9a521;stroke-width:.7;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s ease forwards;animation-delay:var(--d)}
+#lm{width:min(62vw,240px);height:auto;overflow:visible;animation:spin 28s linear infinite}
+#lm *{fill:none;stroke:#d9a521;stroke-width:.8;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s ease forwards;animation-delay:var(--d)}
 @keyframes draw{to{stroke-dashoffset:0}}
 #loader .lname{font:600 2.2rem var(--serif);letter-spacing:.06em;color:var(--cream);margin-top:10px}
-#loader p{font:italic 1.15rem var(--serif);opacity:.85;text-align:center}
+#loader p{font:italic 1.15rem var(--serif);opacity:.9;text-align:center;line-height:1.5}
 .lbar{width:190px;height:3px;background:#ffffff22;border-radius:3px;overflow:hidden}
 .lbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transform-origin:left;transform:scaleX(0);animation:fillbar 2.6s ease forwards}
 @keyframes fillbar{to{transform:scaleX(1)}}
 
-/* ---------- GATE : GOPURAM TEMPLE-SILK DOORS ---------- */
-#gate{position:fixed;inset:0;z-index:100;background:var(--cream);display:grid;place-items:center;overflow:hidden;user-select:none}
-#gate .reveal{position:absolute;inset:0;display:grid;place-items:center;text-align:center;background:radial-gradient(circle,#fff8ea,var(--cream2))}
-#gate .reveal h1{font-size:clamp(3rem,11vw,6.5rem);color:var(--wine);letter-spacing:.02em}
-#gate .reveal p{font-family:var(--serif);font-style:italic;font-size:1.3rem;color:var(--brass)}
-.door{position:absolute;top:0;bottom:0;width:50.5%;transition:transform 2s cubic-bezier(.75,0,.2,1);background:var(--crimson);z-index:3}
-.door svg{width:100%;height:100%;display:block}
-.dl{left:0}.dr{right:0}
-#gate.open .dl{transform:translateX(-102%)}#gate.open .dr{transform:translateX(102%)}
-.seal{position:absolute;z-index:4;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;color:var(--cream);transition:opacity .5s;width:min(86vw,360px)}
-.seal .medal{width:96px;height:96px;margin:0 auto 14px;border-radius:50%;background:radial-gradient(#f7dc9a,#a87a1c);border:3px solid var(--cream);display:grid;place-items:center;font:700 2rem var(--serif);color:var(--wine);box-shadow:0 0 0 6px #8a102099,0 10px 30px #000a;animation:pulse 2.2s infinite}
-@keyframes pulse{50%{transform:scale(1.07)}}
-.seal .btn{margin-top:14px}
-.seal p{font-family:var(--serif);font-size:1.5rem;text-shadow:0 2px 8px #000;font-weight:600}
+/* ========================================================================= */
+/* ---------- GATE : ROYAL KANJEEVARAM SILK & GOLD TEMPLE DOORS ---------- */
+/* ========================================================================= */
+#gate{position:fixed;inset:0;z-index:100;background:#0d0205;display:grid;place-items:center;overflow:hidden;user-select:none}
+#gate .reveal{position:absolute;inset:0;display:grid;place-items:center;text-align:center;
+  background:radial-gradient(ellipse 90vmax 70vmax at 50% 50%,#fffaf0,#f5e6c4 65%,#e8d3a2 100%)}
+#gate .reveal h1{font-size:clamp(3.2rem,11vw,6.5rem);color:var(--crimson);letter-spacing:.02em;font-weight:700}
+#gate .reveal p{font-family:var(--serif);font-style:italic;font-size:1.35rem;color:var(--wine);max-width:540px;line-height:1.5}
+#gate .reveal .ta{font-size:1.6rem;color:var(--vermilion);margin-bottom:8px;font-weight:700}
+
+/* The Grand Doors */
+.door{position:absolute;top:0;bottom:0;width:50.5%;transition:transform 1.9s cubic-bezier(.75,0,.2,1);z-index:3;overflow:hidden}
+.door.dl{left:0;background:radial-gradient(ellipse 95vmax 75vmax at 100% 45%,#6a0d20,#38050e 55%,#160104)}
+.door.dr{right:0;background:radial-gradient(ellipse 95vmax 75vmax at 0% 45%,#6a0d20,#38050e 55%,#160104)}
+
+/* Subtle Zari Brocade Damask Weave Texture on Silk */
+.door::before{content:"";position:absolute;inset:0;opacity:.28;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='none' stroke='%23f7de8a' stroke-width='.6'%3E%3Cpath d='M45 5 C30 20, 20 30, 20 45 C20 60, 30 70, 45 85 C60 70, 70 60, 70 45 C70 30, 60 20, 45 5 Z'/%3E%3Ccircle cx='45' cy='45' r='14'/%3E%3Ccircle cx='45' cy='45' r='6' fill='%23f7de8a' fill-opacity='.15'/%3E%3Cpath d='M0 45h90M45 0v90' stroke-dasharray='2,3' opacity='.5'/%3E%3Ccircle cx='0' cy='0' r='5' fill='%23f7de8a' fill-opacity='.3'/%3E%3Ccircle cx='90' cy='0' r='5' fill='%23f7de8a' fill-opacity='.3'/%3E%3Ccircle cx='0' cy='90' r='5' fill='%23f7de8a' fill-opacity='.3'/%3E%3Ccircle cx='90' cy='90' r='5' fill='%23f7de8a' fill-opacity='.3'/%3E%3C/g%3E%3C/svg%3E")}
+
+/* 24K Gold Seam down the center */
+.door::after{content:"";position:absolute;top:0;bottom:0;width:4px;
+  background:linear-gradient(transparent,#f7de8a 12%,#d9a521 50%,#f7de8a 88%,transparent);
+  box-shadow:0 0 16px rgba(247,222,138,0.7);opacity:.95}
+.door.dl::after{right:0}
+.door.dr::after{left:0}
+
+/* Open doors animation */
+#gate.open .dl{transform:translateX(-102%)}
+#gate.open .dr{transform:translateX(102%)}
+
+/* Door architectural relief overlay */
+.door-art{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* Floating Flower Petals Canvas on Gate */
+#gateCv{position:absolute;inset:0;z-index:2;pointer-events:none}
+
+/* ---------- CENTERPIECE : SACRED MANDALA & TEMPLE SEAL ---------- */
+.seal{position:absolute;z-index:4;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;color:var(--cream);transition:opacity .6s ease;width:min(90vw,440px)}
 #gate.open .seal{opacity:0;pointer-events:none}
 #gate.gone{display:none}
-#gate .skip{position:absolute;z-index:5;top:16px;right:16px;background:#0006;color:#fff;border:0;border-radius:999px;padding:8px 14px;font:600 .8rem var(--sans);cursor:pointer;backdrop-filter:blur(4px);transition:background .2s}
-#gate .skip:hover{background:#0009}
+
+/* Glowing Divine Aura */
+.seal-halo{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);width:min(78vmin,380px);height:min(78vmin,380px);border-radius:50%;
+  background:radial-gradient(circle,#f7de8a45,#d9a52120 48%,transparent 72%);pointer-events:none;animation:haloBreathe 4s ease-in-out infinite alternate}
+@keyframes haloBreathe{0%{transform:translate(-50%,-50%) scale(.92);opacity:.75}100%{transform:translate(-50%,-50%) scale(1.08);opacity:1}}
+
+/* Concentric Animated Kolam / Lotus Rangoli */
+.seal-kolam{position:relative;width:clamp(160px,26vmin,220px);aspect-ratio:1;margin:0 auto 16px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.65))}
+.seal-kolam svg{width:100%;height:100%;overflow:visible}
+.spin-slow{transform-box:view-box;transform-origin:100px 100px;animation:spin 90s linear infinite}
+.spin-rev{transform-box:view-box;transform-origin:100px 100px;animation:spin 120s linear infinite reverse}
+
+/* 24K Gold Medallion */
+.seal-medallion{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:clamp(86px,14vmin,112px);height:clamp(86px,14vmin,112px);border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#a8203d,#4a0715 70%);
+  border:3px solid #f7de8a;
+  box-shadow:0 0 0 4px #d9a52188,0 0 24px rgba(247,222,138,0.6),inset 0 0 16px rgba(0,0,0,0.7);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#fffaf0;cursor:pointer;transition:transform .3s ease}
+.seal-medallion:hover{transform:translate(-50%,-50%) scale(1.06)}
+.seal-medallion .initials{font-family:'Cinzel Decorative',var(--serif);font-size:clamp(22px,3.8vmin,30px);font-weight:700;letter-spacing:1px;
+  background:linear-gradient(135deg,#fff,#f7de8a,#d9a521);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6))}
+.seal-medallion .mini-ta{font-family:'Noto Serif Tamil',var(--serif);font-size:10px;color:#f7de8a;letter-spacing:.05em;margin-top:2px}
+
+/* Invitation presentation card below medallion */
+.seal-card{background:rgba(26,2,6,0.85);backdrop-filter:blur(10px);border:1.5px solid #d9a521;border-radius:18px;
+  padding:20px 24px 22px;box-shadow:0 14px 40px rgba(0,0,0,0.65),inset 0 0 0 1px rgba(247,222,138,0.25)}
+.seal-card .eyebrow-seal{font-size:.74rem;letter-spacing:.28em;color:var(--gold2);font-weight:700;text-transform:uppercase;margin-bottom:8px}
+.seal-card .names-seal{font-family:var(--serif);font-size:clamp(2rem,5vw,2.9rem);font-weight:600;line-height:1.1;color:#fffaf0;margin:4px 0 8px;
+  text-shadow:0 2px 10px rgba(0,0,0,0.7)}
+.seal-card .names-seal span{color:var(--gold2);font-style:italic;margin:0 4px}
+.seal-card .sub-seal{font-family:var(--serif);font-style:italic;font-size:1.15rem;color:#f2e5c6;opacity:.92;line-height:1.4;margin-bottom:18px}
+
+/* Luxury Shimmering Gold Button */
+.btn-enter{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px 24px;border-radius:12px;
+  background:linear-gradient(135deg,#fae6a2 0%,#d9a521 50%,#a87819 100%);
+  color:#240409;font:700 1.05rem var(--sans);cursor:pointer;text-decoration:none;
+  box-shadow:0 8px 24px rgba(0,0,0,0.5),0 0 20px rgba(217,165,33,0.35);
+  border:1px solid #ffe8aa;position:relative;overflow:hidden;transition:transform .2s,filter .2s}
+.btn-enter:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn-enter::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);
+  transform:skewX(-24deg);animation:btnShine 3.2s infinite}
+@keyframes btnShine{0%,60%{left:-70%}100%{left:140%}}
+
+#gate .skip{position:absolute;z-index:5;top:16px;right:16px;background:rgba(26,2,6,0.65);color:#fffaf0;
+  border:1px solid rgba(247,222,138,0.35);border-radius:999px;padding:8px 16px;font:600 .82rem var(--sans);
+  cursor:pointer;backdrop-filter:blur(6px);transition:background .2s,border-color .2s}
+#gate .skip:hover{background:rgba(26,2,6,0.9);border-color:#f7de8a}
 
 .ta{font-family:'Noto Serif Tamil',var(--serif);font-weight:500}
-@keyframes fadein{to{opacity:1}}
 
 /* ---------- HERO : SACRED THORANAM & NAMECARD ---------- */
 #hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:140px;padding-bottom:60px;background:linear-gradient(#fbf3e3,var(--cream2))}
 #garland{position:absolute;top:0;left:0;width:100%;height:190px;pointer-events:none;z-index:2}
-.hero-grid{display:flex;align-items:flex-end;justify-content:center;gap:clamp(14px,3vw,40px);flex-wrap:wrap;max-width:1100px;position:relative;z-index:3}
-.frame{width:clamp(150px,19vw,210px);aspect-ratio:3/4.2;border-radius:999px 999px 14px 14px;border:5px solid var(--cream);box-shadow:0 0 0 3px var(--rose),0 14px 30px #0a3a2c55;overflow:hidden;position:relative}
-.frame svg{width:100%;height:100%;display:block}
-.frame b{position:absolute;bottom:8px;left:0;right:0;font:italic 600 1.1rem var(--serif);color:var(--cream);text-shadow:0 1px 6px #000}
-.namecard{width:min(100%,380px);padding:44px 28px 34px;background:#fffaf0;border-radius:999px 999px 18px 18px;border:2px solid var(--gold);box-shadow:inset 0 0 0 7px #fffaf0,inset 0 0 0 8px var(--gold),0 20px 40px #0a3a2c33}
+.hero-grid{display:flex;align-items:flex-end;justify-content:center;gap:clamp(14px,3vw,36px);flex-wrap:wrap;max-width:1100px;position:relative;z-index:3}
+
+/* Ornate South Indian Brass Temple Arches (Prabhavali) */
+.frame{width:clamp(160px,21vw,230px);aspect-ratio:3/4.4;border-radius:110px 110px 14px 14px;
+  background:radial-gradient(circle at 50% 35%,#fffdf7,#f5e6c4 75%);
+  border:3px solid var(--gold);box-shadow:0 0 0 4px #590919,0 16px 36px rgba(10,58,44,0.35);
+  overflow:hidden;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:14px}
+.frame svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.frame b{position:relative;z-index:2;font:italic 700 1.25rem var(--serif);color:#240409;
+  background:rgba(255,250,240,0.92);padding:4px 18px;border-radius:999px;border:1px solid var(--gold);box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+
+.namecard{width:min(100%,390px);padding:44px 28px 34px;background:#fffaf0;border-radius:999px 999px 18px 18px;
+  border:2px solid var(--gold);box-shadow:inset 0 0 0 7px #fffaf0,inset 0 0 0 8px var(--gold),0 20px 40px #0a3a2c33}
 .namecard .tiny{font-size:.72rem;letter-spacing:.25em;color:var(--crimson);margin-bottom:10px;font-weight:700}
 .namecard h1{font-size:clamp(3rem,8vw,4.6rem);color:var(--wine)}
-.namecard .amp{display:block;font:italic 400 1.9rem var(--serif);color:var(--rose);margin:4px 0}
+.namecard .amp{display:block;font:italic 400 1.9rem var(--serif);color:var(--vermilion);margin:4px 0}
 .namecard p{margin:14px 0 0;color:#6a4a3c;line-height:1.6}
 .pill{display:inline-block;margin-top:18px;padding:9px 22px;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);font-family:var(--serif);font-size:1.2rem;color:var(--wine);font-weight:600}
 
@@ -109,8 +191,8 @@ body.nobar #bar{display:none}
 .cal .g{display:grid;grid-template-columns:repeat(7,1fr);gap:6px 0;font-size:.85rem}
 .cal .g span{height:30px;display:grid;place-items:center;border-radius:50%}
 .cal .hd{font-size:.68rem;color:#9a7a60;font-weight:700}
-.cal .on{background:var(--wine);color:#fff;font-weight:700;box-shadow:0 0 0 3px var(--gold);animation:glow 2s infinite}
-@keyframes glow{50%{box-shadow:0 0 0 6px #d9a52166}}
+.cal .on{background:var(--vermilion);color:#fff;font-weight:700;box-shadow:0 0 0 3px var(--gold);animation:glow 2s infinite}
+@keyframes glow{50%{box-shadow:0 0 0 6px #d9a52188}}
 .cal .ft{margin-top:12px;font-size:.78rem;color:#7a5a48;font-weight:600}
 #save .loc{font-family:var(--serif);font-size:1.4rem;color:var(--gold2);line-height:1.4}
 
@@ -124,7 +206,7 @@ body.nobar #bar{display:none}
 #events{background:linear-gradient(var(--cream2),#f8efd6)}
 #events h2{color:var(--wine)}
 .tl{max-width:960px;margin:0 auto;position:relative}
-.tl:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(var(--gold),var(--rose),var(--gold))}
+.tl:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(var(--gold),var(--vermilion),var(--gold))}
 .row{display:grid;grid-template-columns:1fr 90px 1fr;align-items:center;margin-bottom:56px}
 .row .card{grid-column:1}.row .dt{grid-column:2}.row .when{grid-column:3;text-align:left}
 .row:nth-child(even) .card{grid-column:3}.row:nth-child(even) .when{grid-column:1;grid-row:1;text-align:right}
@@ -158,10 +240,6 @@ body.nobar #bar{display:none}
 #lantern .halo{position:absolute;left:50%;top:42%;width:440px;height:440px;margin:-220px 0 0 -220px;border-radius:50%;background:radial-gradient(circle,#ffcf6b66,#ffcf6b00 65%);opacity:0;transition:opacity 1s;pointer-events:none}
 #lantern.lit .halo{opacity:1;animation:breathe 3s ease-in-out infinite}
 @keyframes breathe{50%{transform:scale(1.12)}}
-#lantern .glass{fill:url(#gl);opacity:.25;transition:opacity 1s}
-#lantern.lit .glass{opacity:1}
-#lantern .hole{fill:#ffe3a0;opacity:.2;transition:opacity 1s}
-#lantern.lit .hole{opacity:1}
 #lantern .flame{opacity:0;transform-box:fill-box;transform-origin:50% 100%;transition:opacity .6s}
 #lantern.lit .flame{opacity:1;animation:flick .2s infinite alternate}
 @keyframes flick{to{transform:scale(.92,1.08) rotate(1.5deg)}}
@@ -190,18 +268,18 @@ footer p.big{font:italic 1.6rem var(--serif);color:var(--gold2);margin-bottom:20
 #music .w{display:none}#music.on .w{display:block}#music.on .x{display:none}
 
 @media(max-width:700px){
- .tl:before{left:28px}.row{grid-template-columns:56px 1fr;margin-bottom:30px}
- .dt{width:50px;height:50px;font-size:1.3rem;box-shadow:0 0 0 4px var(--cream2)}
- .row .dt,.row:nth-child(even) .dt{grid-column:1;grid-row:1}
- .row .when,.row:nth-child(even) .when{grid-column:2;grid-row:1;text-align:left;font-size:1.2rem}
- .row .card,.row:nth-child(even) .card{grid-column:2;grid-row:2;margin-top:44px}
- .frame{display:none}
- #bar .nav span{display:none}
+  .tl:before{left:28px}.row{grid-template-columns:56px 1fr;margin-bottom:30px}
+  .dt{width:50px;height:50px;font-size:1.3rem;box-shadow:0 0 0 4px var(--cream2)}
+  .row .dt,.row:nth-child(even) .dt{grid-column:1;grid-row:1}
+  .row .when,.row:nth-child(even) .when{grid-column:2;grid-row:1;text-align:left;font-size:1.2rem}
+  .row .card,.row:nth-child(even) .card{grid-column:2;grid-row:2;margin-top:44px}
+  .frame{display:none}
+  #bar .nav span{display:none}
+  .seal{width:94vw}
 }
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rev{opacity:1;transform:none}}
 </style>
 </head>
-<body>
+<body class="lock">
 
 <!-- ================= PREVIEW BAR ================= -->
 <div id="bar" role="navigation" aria-label="Preview controls">
@@ -213,31 +291,194 @@ footer p.big{font:italic 1.6rem var(--serif);color:var(--gold2);margin-bottom:20
 </div>
 <div id="toast" role="status"></div>
 
+<!-- ================= PRELOADER ================= -->
 <div id="loader" role="status">
   <svg id="lm" viewBox="-60 -60 120 120" aria-hidden="true"></svg>
-  <div class="lname" id="lName"></div>
-  <p><span class="ta">வணக்கம்</span><br>Preparing your South Indian wedding invitation</p>
+  <div class="lname" id="lName">Karthik &amp; Meenakshi</div>
+  <p><span class="ta" style="color:var(--gold2);font-size:1.3rem">வணக்கம்</span><br>Preparing your South Indian temple wedding invitation</p>
   <div class="lbar"><i></i></div>
 </div>
 
-<!-- ================= GOPURAM TEMPLE-SILK DOORS ================= -->
+<!-- ================= GRAND KANJEEVARAM SILK & GOLD TEMPLE DOORS ================= -->
 <div id="gate" role="button" tabindex="0" aria-label="Open the invitation">
  <div class="reveal">
    <div>
-     <p class="ta">ஸ்ரீ கணேசாய நமஹ</p>
+     <p class="ta">ஸ்ரீரஸ்து • சுபமஸ்து • கல்யாணம்</p>
      <h1>Thirumanam</h1>
      <div class="dots"><i></i></div>
-     <p id="gReveal"></p>
+     <p id="gReveal">Together with their families, invite you to celebrate the sacred union of Karthik &amp; Meenakshi</p>
    </div>
  </div>
- <div class="door dl"><svg id="pl" preserveAspectRatio="xMaxYMid slice" viewBox="0 0 200 400"></svg></div>
- <div class="door dr"><svg id="pr" preserveAspectRatio="xMinYMid slice" viewBox="0 0 200 400"></svg></div>
- <div class="seal">
-   <div class="medal" id="mono"></div>
-   <p id="gNames"></p>
-   <span class="btn">Open the invitation</span>
+
+ <!-- Left Door with Ornate Gold Carvings -->
+ <div class="door dl">
+   <svg class="door-art" viewBox="0 0 300 600" preserveAspectRatio="none">
+     <defs>
+       <linearGradient id="goldG1" x1="0" y1="0" x2="1" y2="1">
+         <stop offset="0%" stop-color="#fff0b0"/><stop offset="50%" stop-color="#d9a521"/><stop offset="100%" stop-color="#8a5a0c"/>
+       </linearGradient>
+       <linearGradient id="silkDark" x1="0" y1="0" x2="1" y2="0">
+         <stop offset="0%" stop-color="#140206"/><stop offset="100%" stop-color="#4a0715"/>
+       </linearGradient>
+     </defs>
+     <!-- Outer Frame and Carved Temple Border -->
+     <rect x="10" y="10" width="280" height="580" rx="6" fill="none" stroke="url(#goldG1)" stroke-width="2"/>
+     <rect x="18" y="18" width="264" height="564" rx="4" fill="none" stroke="url(#goldG1)" stroke-width=".8" stroke-dasharray="4,3" opacity=".7"/>
+     
+     <!-- Top Carved Relief Panel: Temple Gopuram Arch with Kalash -->
+     <rect x="28" y="32" width="244" height="150" rx="8" fill="url(#silkDark)" stroke="url(#goldG1)" stroke-width="1.4"/>
+     <path d="M50 160 C50 70, 250 70, 250 160" fill="none" stroke="url(#goldG1)" stroke-width="2"/>
+     <path d="M70 160 C70 95, 230 95, 230 160" fill="none" stroke="url(#goldG1)" stroke-width="1" stroke-dasharray="3,3"/>
+     <!-- Sacred Kalash Motif -->
+     <path d="M136 128 h28 l4 16 q-18 12 -36 0 l4 -16 z" fill="url(#goldG1)"/>
+     <circle cx="150" cy="116" r="10" fill="#f7de8a"/>
+     <path d="M150 102 l-6 12 h12 z" fill="#f7de8a"/>
+     <!-- Temple Bells hanging -->
+     <path d="M90 70 v40 M90 110 l-6 10 h12 z" stroke="url(#goldG1)" fill="url(#goldG1)" stroke-width="1.2"/>
+     <path d="M210 70 v40 M210 110 l-6 10 h12 z" stroke="url(#goldG1)" fill="url(#goldG1)" stroke-width="1.2"/>
+
+     <!-- Middle Carved Relief Panel: Royal South Indian Peacock (Mayil) -->
+     <rect x="28" y="200" width="244" height="210" rx="8" fill="url(#silkDark)" stroke="url(#goldG1)" stroke-width="1.4"/>
+     <!-- Lotus base -->
+     <path d="M90 380 q60 -18 120 0 q-60 22 -120 0 z" fill="url(#goldG1)"/>
+     <!-- Dancing Peacock Contour -->
+     <path d="M150 240 c-18 0 -30 16 -24 38 c6 22 24 38 24 64 c0 -26 18 -42 24 -64 c6 -22 -6 -38 -24 -38 z" fill="none" stroke="url(#goldG1)" stroke-width="1.8"/>
+     <circle cx="150" cy="232" r="7" fill="url(#goldG1)"/>
+     <path d="M150 225 l-2 -8 M150 225 l3 -8" stroke="url(#goldG1)" stroke-width="1.5"/>
+     <!-- Feather plumes -->
+     <path d="M150 290 c-40 -40 -70 -20 -80 20 c30 -10 60 0 80 -20 z" fill="url(#goldG1)" opacity=".8"/>
+     <path d="M150 290 c40 -40 70 -20 80 20 c-30 -10 -60 0 -80 -20 z" fill="url(#goldG1)" opacity=".8"/>
+
+     <!-- Bottom Carved Relief Panel: Sacred Temple Elephant (Gaja) -->
+     <rect x="28" y="428" width="244" height="142" rx="8" fill="url(#silkDark)" stroke="url(#goldG1)" stroke-width="1.4"/>
+     <circle cx="150" cy="490" r="32" fill="none" stroke="url(#goldG1)" stroke-width="1.5"/>
+     <circle cx="150" cy="490" r="24" fill="none" stroke="url(#goldG1)" stroke-width=".8" stroke-dasharray="2,2"/>
+     <!-- Lotus in center of medallion -->
+     <path d="M150 472 c-12 12 -8 24 0 36 c8 -12 12 -24 0 -36 z" fill="url(#goldG1)"/>
+     <path d="M136 490 c12 -8 24 -8 36 0 c-12 8 -24 8 -36 0 z" fill="url(#goldG1)"/>
+
+     <!-- Brass Door Handle Ring at Center Edge -->
+     <circle cx="288" cy="300" r="16" fill="none" stroke="url(#goldG1)" stroke-width="3"/>
+     <circle cx="288" cy="300" r="6" fill="url(#goldG1)"/>
+   </svg>
  </div>
- <button class="skip" id="skip">Skip opening</button>
+
+ <!-- Right Door with Matching Ornate Gold Carvings -->
+ <div class="door dr">
+   <svg class="door-art" viewBox="0 0 300 600" preserveAspectRatio="none">
+     <defs>
+       <linearGradient id="goldG2" x1="1" y1="0" x2="0" y2="1">
+         <stop offset="0%" stop-color="#fff0b0"/><stop offset="50%" stop-color="#d9a521"/><stop offset="100%" stop-color="#8a5a0c"/>
+       </linearGradient>
+     </defs>
+     <!-- Outer Frame and Carved Temple Border -->
+     <rect x="10" y="10" width="280" height="580" rx="6" fill="none" stroke="url(#goldG2)" stroke-width="2"/>
+     <rect x="18" y="18" width="264" height="564" rx="4" fill="none" stroke="url(#goldG2)" stroke-width=".8" stroke-dasharray="4,3" opacity=".7"/>
+     
+     <!-- Top Carved Relief Panel: Temple Gopuram Arch with Kalash -->
+     <rect x="28" y="32" width="244" height="150" rx="8" fill="url(#silkDark)" stroke="url(#goldG2)" stroke-width="1.4"/>
+     <path d="M50 160 C50 70, 250 70, 250 160" fill="none" stroke="url(#goldG2)" stroke-width="2"/>
+     <path d="M70 160 C70 95, 230 95, 230 160" fill="none" stroke="url(#goldG2)" stroke-width="1" stroke-dasharray="3,3"/>
+     <!-- Sacred Kalash Motif -->
+     <path d="M136 128 h28 l4 16 q-18 12 -36 0 l4 -16 z" fill="url(#goldG2)"/>
+     <circle cx="150" cy="116" r="10" fill="#f7de8a"/>
+     <path d="M150 102 l-6 12 h12 z" fill="#f7de8a"/>
+     <!-- Temple Bells hanging -->
+     <path d="M90 70 v40 M90 110 l-6 10 h12 z" stroke="url(#goldG2)" fill="url(#goldG2)" stroke-width="1.2"/>
+     <path d="M210 70 v40 M210 110 l-6 10 h12 z" stroke="url(#goldG2)" fill="url(#goldG2)" stroke-width="1.2"/>
+
+     <!-- Middle Carved Relief Panel: Royal South Indian Peacock (Mayil) -->
+     <rect x="28" y="200" width="244" height="210" rx="8" fill="url(#silkDark)" stroke="url(#goldG2)" stroke-width="1.4"/>
+     <!-- Lotus base -->
+     <path d="M90 380 q60 -18 120 0 q-60 22 -120 0 z" fill="url(#goldG2)"/>
+     <!-- Dancing Peacock Contour -->
+     <path d="M150 240 c-18 0 -30 16 -24 38 c6 22 24 38 24 64 c0 -26 18 -42 24 -64 c6 -22 -6 -38 -24 -38 z" fill="none" stroke="url(#goldG2)" stroke-width="1.8"/>
+     <circle cx="150" cy="232" r="7" fill="url(#goldG2)"/>
+     <path d="M150 225 l-2 -8 M150 225 l3 -8" stroke="url(#goldG2)" stroke-width="1.5"/>
+     <!-- Feather plumes -->
+     <path d="M150 290 c-40 -40 -70 -20 -80 20 c30 -10 60 0 80 -20 z" fill="url(#goldG2)" opacity=".8"/>
+     <path d="M150 290 c40 -40 70 -20 80 20 c-30 -10 -60 0 -80 -20 z" fill="url(#goldG2)" opacity=".8"/>
+
+     <!-- Bottom Carved Relief Panel -->
+     <rect x="28" y="428" width="244" height="142" rx="8" fill="url(#silkDark)" stroke="url(#goldG2)" stroke-width="1.4"/>
+     <circle cx="150" cy="490" r="32" fill="none" stroke="url(#goldG2)" stroke-width="1.5"/>
+     <circle cx="150" cy="490" r="24" fill="none" stroke="url(#goldG2)" stroke-width=".8" stroke-dasharray="2,2"/>
+     <!-- Lotus in center of medallion -->
+     <path d="M150 472 c-12 12 -8 24 0 36 c8 -12 12 -24 0 -36 z" fill="url(#goldG2)"/>
+     <path d="M136 490 c12 -8 24 -8 36 0 c-12 8 -24 8 -36 0 z" fill="url(#goldG2)"/>
+
+     <!-- Brass Door Handle Ring at Center Edge -->
+     <circle cx="12" cy="300" r="16" fill="none" stroke="url(#goldG2)" stroke-width="3"/>
+     <circle cx="12" cy="300" r="6" fill="url(#goldG2)"/>
+   </svg>
+ </div>
+
+ <!-- Drifting Jasmine & Marigold Petals Canvas -->
+ <canvas id="gateCv"></canvas>
+
+ <!-- Centerpiece Sacred Temple Seal & Presentation Card -->
+ <div class="seal">
+   <!-- Radiant Halo -->
+   <div class="seal-halo"></div>
+
+   <!-- Concentric Rotating Gold Kolam Mandala -->
+   <div class="seal-kolam" id="kolamWrap" aria-hidden="true">
+     <svg viewBox="0 0 200 200">
+       <defs>
+         <linearGradient id="kgold" x1="0" y1="0" x2="1" y2="1">
+           <stop offset="0%" stop-color="#fff8db"/><stop offset="50%" stop-color="#d9a521"/><stop offset="100%" stop-color="#8a5a0c"/>
+         </linearGradient>
+       </defs>
+       <!-- Outer ring of 24 Deepam Oil Lamps -->
+       <g class="spin-slow">
+         <circle cx="100" cy="100" r="92" fill="none" stroke="url(#kgold)" stroke-width=".8" stroke-dasharray="2,4"/>
+         <circle cx="100" cy="100" r="86" fill="none" stroke="url(#kgold)" stroke-width="1.2"/>
+         <!-- 24 Small Golden Flames -->
+         <g fill="#f7de8a">
+           <circle cx="100" cy="11" r="2.6"/><circle cx="123" cy="14" r="2.2"/><circle cx="145" cy="23" r="2.2"/>
+           <circle cx="163" cy="37" r="2.2"/><circle cx="177" cy="55" r="2.2"/><circle cx="186" cy="77" r="2.2"/>
+           <circle cx="189" cy="100" r="2.6"/><circle cx="186" cy="123" r="2.2"/><circle cx="177" cy="145" r="2.2"/>
+           <circle cx="163" cy="163" r="2.2"/><circle cx="145" cy="177" r="2.2"/><circle cx="123" cy="186" r="2.2"/>
+           <circle cx="100" cy="189" r="2.6"/><circle cx="77" cy="186" r="2.2"/><circle cx="55" cy="177" r="2.2"/>
+           <circle cx="37" cy="163" r="2.2"/><circle cx="23" cy="145" r="2.2"/><circle cx="14" cy="123" r="2.2"/>
+           <circle cx="11" cy="100" r="2.6"/><circle cx="14" cy="77" r="2.2"/><circle cx="23" cy="55" r="2.2"/>
+           <circle cx="37" cy="37" r="2.2"/><circle cx="55" cy="23" r="2.2"/><circle cx="77" cy="14" r="2.2"/>
+         </g>
+       </g>
+       <!-- Middle Counter-Rotating Sacred Padma Petals -->
+       <g class="spin-rev">
+         <circle cx="100" cy="100" r="72" fill="none" stroke="url(#kgold)" stroke-width=".8"/>
+         <path d="M100 28 C90 55, 90 75, 100 100 C110 75, 110 55, 100 28 Z" fill="url(#kgold)" opacity=".3"/>
+         <path d="M100 172 C90 145, 90 125, 100 100 C110 125, 110 145, 100 172 Z" fill="url(#kgold)" opacity=".3"/>
+         <path d="M28 100 C55 90, 75 90, 100 100 C75 110, 55 110, 28 100 Z" fill="url(#kgold)" opacity=".3"/>
+         <path d="M172 100 C145 90, 125 90, 100 100 C125 110, 145 110, 172 100 Z" fill="url(#kgold)" opacity=".3"/>
+         <path d="M49 49 C72 65, 86 78, 100 100 C78 86, 65 72, 49 49 Z" fill="url(#kgold)" opacity=".3"/>
+         <path d="M151 151 C128 135, 114 122, 100 100 C122 114, 135 128, 151 151 Z" fill="url(#kgold)" opacity=".3"/>
+         <path d="M151 49 C135 72, 122 86, 100 100 C114 78, 128 65, 151 49 Z" fill="url(#kgold)" opacity=".3"/>
+         <path d="M49 151 C65 128, 78 114, 100 100 C86 122, 72 135, 49 151 Z" fill="url(#kgold)" opacity=".3"/>
+       </g>
+     </svg>
+
+     <!-- 24K Gold Coin Medallion with Interlocking Royal Monogram -->
+     <div class="seal-medallion" id="sealMedallion" title="Click to open invitation">
+       <span class="initials" id="mono">K❦M</span>
+       <span class="mini-ta">ஸ்ரீ கணேசாய நமஹ</span>
+     </div>
+   </div>
+
+   <!-- Invitation Presentation Card -->
+   <div class="seal-card">
+     <div class="eyebrow-seal">✨ திருமண அழைப்பிதழ் • WEDDING INVITATION ✨</div>
+     <div class="names-seal" id="gNames">Karthik <span>&amp;</span> Meenakshi</div>
+     <div class="sub-seal" id="gDetails">Sunday, 14 February 2027<br>Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai</div>
+     <button class="btn-enter" id="btnEnter">
+       <span>✨ ENTER THE CELEBRATION</span>
+       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg>
+     </button>
+   </div>
+ </div>
+
+ <button class="skip" id="skip">Skip opening ✕</button>
 </div>
 
 <!-- Real Bollywood Soundtrack: Mast Magan (2 States) -->
@@ -251,78 +492,103 @@ footer p.big{font:italic 1.6rem var(--serif);color:var(--gold2);margin-bottom:20
   </svg>
 </button>
 
+<!-- ================= HERO : JASMINE THORANAM & NAMECARD ================= -->
 <section id="hero" data-sec>
  <svg id="garland" viewBox="0 0 1000 190" preserveAspectRatio="xMidYMin slice"></svg>
  <div class="hero-grid">
+  <!-- Groom's Ornate Temple Arch Frame -->
   <div class="frame rev">
-    <svg viewBox="0 0 200 280">
+    <svg viewBox="0 0 220 300">
       <defs>
-        <linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7c35a"/><stop offset="1" stop-color="#d2402a"/></linearGradient>
+        <linearGradient id="silkBg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fff8ea"/><stop offset="100%" stop-color="#f5dfb8"/>
+        </linearGradient>
+        <linearGradient id="archGold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#f7de8a"/><stop offset="50%" stop-color="#d9a521"/><stop offset="100%" stop-color="#8a5a0c"/>
+        </linearGradient>
       </defs>
-      <rect width="200" height="280" fill="url(#sk)"/>
-      <circle cx="100" cy="120" r="46" fill="#fff3c4" opacity=".7"/>
-      <g fill="#5e0a14" stroke="#f4d77a" stroke-width="1.2">
-        <rect x="40" y="236" width="120" height="30"/>
-        <rect x="52" y="208" width="96" height="30"/>
-        <rect x="64" y="180" width="72" height="30"/>
-        <rect x="74" y="154" width="52" height="28"/>
-        <rect x="83" y="130" width="34" height="26"/>
-        <path d="M92 130L100 100l8 30z"/>
-      </g>
-      <circle cx="100" cy="94" r="4" fill="#f4d77a"/>
-      <path d="M0 266h200v14H0z" fill="#06241c"/>
-      <g fill="#f4d77a">
-        <rect x="94" y="244" width="12" height="22" rx="6"/>
-        <rect x="82" y="190" width="10" height="16" rx="5"/>
-        <rect x="108" y="190" width="10" height="16" rx="5"/>
+      <rect width="220" height="300" fill="url(#silkBg)"/>
+      <!-- Brass Prabhavali Temple Archway -->
+      <path d="M30 300 V130 C30 60, 190 60, 190 130 V300" fill="none" stroke="url(#archGold)" stroke-width="6"/>
+      <path d="M42 300 V135 C42 75, 178 75, 178 135 V300" fill="none" stroke="url(#archGold)" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <!-- Peacock Crest on top of Arch -->
+      <circle cx="110" cy="50" r="10" fill="url(#archGold)"/>
+      <path d="M110 38 l-6 -10 h12 z" fill="url(#archGold)"/>
+      <!-- Groom Traditional Silk Veshti & Angavastram Silhouette -->
+      <g fill="#0d382c">
+        <!-- Shoulders / Torso -->
+        <path d="M70 270 c0 -40 25 -65 40 -65 s40 25 40 65 z"/>
+        <!-- Golden Angavastram Stole -->
+        <path d="M85 208 c10 20 20 50 25 70" stroke="#d9a521" stroke-width="4" fill="none"/>
+        <path d="M135 208 c-10 20 -20 50 -25 70" stroke="#d9a521" stroke-width="4" fill="none"/>
+        <!-- Neck & Head -->
+        <rect x="103" y="185" width="14" height="20" rx="4" fill="#d9a521"/>
+        <circle cx="110" cy="168" r="22" fill="#0d382c"/>
+        <!-- Sacred Vibhuti / Chandanam mark -->
+        <path d="M104 162 h12" stroke="#fff" stroke-width="1.5"/>
+        <circle cx="110" cy="166" r="1.5" fill="#c92a3e"/>
       </g>
     </svg>
-    <b id="fA"></b>
+    <b id="fA">Karthik</b>
   </div>
 
+  <!-- Center Luxury Invitation Namecard -->
   <div class="namecard rev">
-   <p class="ta" style="color:var(--crimson);font-size:1.05rem;margin:0 0 8px;font-weight:700">திருமண அழைப்பிதழ்</p>
-   <p class="tiny">WITH JOY, WE INVITE YOU TO CELEBRATE</p>
-   <h1 id="n1"></h1>
+   <p class="ta" style="color:var(--vermilion);font-size:1.15rem;margin:0 0 8px;font-weight:700">திருமண அழைப்பிதழ்</p>
+   <p class="tiny">WITH JOY &amp; SACRED BLESSINGS, WE INVITE YOU</p>
+   <h1 id="n1">Karthik</h1>
    <span class="amp">&amp;</span>
-   <h1 id="n2"></h1>
-   <p>Together with their families<br>invite you to celebrate their sacred wedding</p>
-   <div class="pill" id="dateTxt"></div>
+   <h1 id="n2">Meenakshi</h1>
+   <p>Together with their families<br>request the honour of your presence at their wedding celebration</p>
+   <div class="pill" id="dateTxt">Sunday, 14 February 2027</div>
   </div>
 
+  <!-- Bride's Ornate Temple Arch Frame -->
   <div class="frame rev">
-    <svg viewBox="0 0 200 280">
-      <rect width="200" height="280" fill="#0b4a37"/>
-      <g fill="#7fb069">
-        <path d="M100 120C60 110 40 70 38 40c36 8 56 40 62 80z"/>
-        <path d="M100 120C140 110 160 70 162 40c-36 8-56 40-62 80z"/>
-        <path d="M100 118C84 90 84 56 100 28c16 28 16 62 0 90z"/>
+    <svg viewBox="0 0 220 300">
+      <rect width="220" height="300" fill="url(#silkBg)"/>
+      <!-- Brass Prabhavali Temple Archway -->
+      <path d="M30 300 V130 C30 60, 190 60, 190 130 V300" fill="none" stroke="url(#archGold)" stroke-width="6"/>
+      <path d="M42 300 V135 C42 75, 178 75, 178 135 V300" fill="none" stroke="url(#archGold)" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <!-- Peacock Crest on top of Arch -->
+      <circle cx="110" cy="50" r="10" fill="url(#archGold)"/>
+      <path d="M110 38 l-6 -10 h12 z" fill="url(#archGold)"/>
+      <!-- Bride Traditional Kanjeevaram Silk Saree Silhouette -->
+      <g fill="#6a0d20">
+        <!-- Shoulders / Saree Pallu -->
+        <path d="M70 270 c0 -38 25 -62 40 -62 s40 24 40 62 z"/>
+        <!-- Gold Zari Saree Border -->
+        <path d="M78 270 c15 -25 25 -40 32 -60" stroke="#d9a521" stroke-width="5" fill="none"/>
+        <!-- Neck & Head -->
+        <rect x="103" y="185" width="14" height="20" rx="4" fill="#d9a521"/>
+        <circle cx="110" cy="168" r="22" fill="#6a0d20"/>
+        <!-- Jasmine Flowers (Gajra) in hair -->
+        <circle cx="128" cy="166" r="6" fill="#fffaf0" stroke="#d9a521" stroke-width=".8"/>
+        <circle cx="131" cy="176" r="6" fill="#fffaf0" stroke="#d9a521" stroke-width=".8"/>
+        <circle cx="130" cy="186" r="6" fill="#fffaf0" stroke="#d9a521" stroke-width=".8"/>
+        <!-- Maang Tikka & Bindi -->
+        <circle cx="110" cy="155" r="2" fill="#d9a521"/>
+        <circle cx="110" cy="166" r="2" fill="#c92a3e"/>
       </g>
-      <path d="M100 118C84 90 84 56 100 28" stroke="#3f7d3a" fill="none"/>
-      <circle cx="100" cy="124" r="20" fill="#7a4a1c"/>
-      <path d="M92 112q8 6 16 0" stroke="#c89a5a" fill="none"/>
-      <path d="M78 140h44v10H78z" fill="#d9a521"/>
-      <path d="M72 150h56q18 12 14 44-6 40-42 46-36-6-42-46-4-32 14-44z" fill="#d9a521"/>
-      <path d="M80 170q20 14 40 0" stroke="#a87a1c" stroke-width="3" fill="none"/>
-      <path d="M84 190q16 10 32 0" stroke="#d2402a" stroke-width="3" fill="none"/>
-      <ellipse cx="100" cy="258" rx="52" ry="8" fill="#06241c"/>
     </svg>
-    <b id="fB"></b>
+    <b id="fB">Meenakshi</b>
   </div>
  </div>
 </section>
 
+<!-- ================= SAVE THE DATE ================= -->
 <section id="save" data-sec>
  <p class="kick" style="color:var(--gold)">MARK YOUR CALENDAR</p>
  <h2 class="rev">Save the date</h2><div class="dots"><i></i></div><br>
- <div class="cal rev"><h3 id="calM"></h3><div class="g" id="calG"></div><p class="ft" id="calF"></p></div>
- <p class="loc rev" id="loc"></p>
+ <div class="cal rev"><h3 id="calM">February 2027</h3><div class="g" id="calG"></div><p class="ft" id="calF">Sunday, 14 February</p></div>
+ <p class="loc rev" id="loc">Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai</p>
 </section>
 
+<!-- ================= COUNTDOWN ================= -->
 <section id="count" class="night pat" data-sec>
  <p class="kick">THE WAIT IS ALMOST OVER</p>
  <h2 class="rev">Counting down to the big day</h2>
- <p class="sub rev" id="cdDate"></p>
+ <p class="sub rev" id="cdDate">Sunday, 14 February 2027</p>
  <div class="cd rev">
    <div class="tile"><b id="d">0</b><small>DAYS</small></div>
    <div class="tile"><b id="h">0</b><small>HOURS</small></div>
@@ -331,6 +597,7 @@ footer p.big{font:italic 1.6rem var(--serif);color:var(--gold2);margin-bottom:20
  </div>
 </section>
 
+<!-- ================= EVENTS TIMELINE ================= -->
 <section id="events" data-sec>
  <p class="kick">THE FESTIVITIES</p>
  <h2 class="rev">The celebrations</h2><div class="dots"><i></i></div>
@@ -338,15 +605,17 @@ footer p.big{font:italic 1.6rem var(--serif);color:var(--gold2);margin-bottom:20
  <div class="tl" id="tl"></div>
 </section>
 
+<!-- ================= FAMILY & BLESSINGS ================= -->
 <section id="family" class="pat" data-sec>
  <p class="kick" style="color:var(--gold)">WITH LOVE FROM THE FAMILY</p>
  <h2 class="rev">We can't wait to see you</h2>
  <p class="sub rev">Reach out to us for anything you need</p>
- <div class="bar rev"><small>WAITING TO WELCOME YOU</small><span id="fam"></span></div>
- <div class="bar rev"><small>FOR ANY HELP, CALL</small><span id="help"></span></div>
+ <div class="bar rev"><small>WAITING TO WELCOME YOU</small><span id="fam">Sundaram &amp; Kalyani Families</span></div>
+ <div class="bar rev"><small>FOR ANY HELP, CALL</small><span id="help">Sundaram Iyer +91 94440 12345 · Ramanathan +91 94440 67890</span></div>
  <svg class="lights" id="lights" viewBox="0 0 1000 46" preserveAspectRatio="none"></svg>
 </section>
 
+<!-- ================= KUTHUVILAKKU TEMPLE LAMP ================= -->
 <section id="bless" class="night pat" data-sec>
  <p class="kick">WITH THE BLESSINGS OF OUR ELDERS</p>
  <h2 class="rev">Sri Ganeshaya Namaha</h2>
@@ -396,6 +665,7 @@ footer p.big{font:italic 1.6rem var(--serif);color:var(--gold2);margin-bottom:20
  <p id="msg" aria-live="polite"></p>
 </section>
 
+<!-- ================= RSVP FORM ================= -->
 <section id="rsvpS" data-sec>
  <p class="kick">PLEASE REPLY</p>
  <h2 class="rev" style="color:var(--cream)">Will you join us?</h2>
@@ -411,22 +681,24 @@ footer p.big{font:italic 1.6rem var(--serif);color:var(--gold2);margin-bottom:20
 </section>
 
 <footer>
- <div class="fm" id="fMono"></div>
- <p class="fn" id="fN"></p>
+ <div class="fm" id="fMono">K❦M</div>
+ <p class="fn" id="fN">KARTHIK &amp; MEENAKSHI</p>
  <div class="dots"><i></i></div>
- <p class="big">Your presence is the greatest gift. We look forward to celebrating with you.</p>
+ <p class="big">Your gracious presence and blessings mean everything to us.</p>
  <button class="btn ghost" id="again">Watch the invitation again</button>
 </footer>
 
 <script>
+const $ = id => document.getElementById(id);
+
 /* ===== CONFIGURATION: SOUTH INDIAN WEDDING DETAILS ===== */
 const W = {
   SHOW_PREVIEW_BAR: true,
   n1: "Karthik", n2: "Meenakshi",
   date: "2027-02-14T09:00:00",
-  venue: "Sri Meenakshi Kalyana Mandapam, Madurai",
-  family: "Iyer family, Krishnan family and all the cousins",
-  help: "Suresh Iyer +91 98765 43210 · Lakshmi Krishnan +91 98765 43211",
+  venue: "Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai",
+  family: "Sundaram & Kalyani / Ramanathan & Saraswathi Families",
+  help: "Sundaram Iyer +91 94440 12345 · Ramanathan +91 94440 67890",
   labelA: "Karthik", labelB: "Meenakshi",
   song: {
     title: "Mast Magan",
@@ -435,10 +707,10 @@ const W = {
     source: "/audio/mast-magan.mp3"
   },
   events: [
-    { name: "Nalangu", d: 12, when: "Friday, 12 February 2027", time: "10:00 AM", where: "Family home, Madurai", note: "Traditional turmeric, fragrant sandal paste, playful wedding games, and family songs." },
-    { name: "Jaanavasam", d: 13, when: "Saturday, 13 February 2027", time: "5:30 PM", where: "Sri Meenakshi Kalyana Mandapam, Madurai", note: "Grand baraat procession with live Nadaswaram, Carnatic concerts, and exchange of garlands." },
-    { name: "Muhurtham", d: 14, when: "Sunday, 14 February 2027", time: "9:00 AM", where: "Sri Meenakshi Kalyana Mandapam, Madurai", note: "Sacred Thali ceremony (Mangalya Dharanam), Saptapadi around agni, followed by royal banana-leaf Sadhya." },
-    { name: "Reception", d: 14, when: "Sunday, 14 February 2027", time: "7:00 PM", where: "Hotel Heritage Gardens, Madurai", note: "Grand celebratory dinner, musical tributes, and blessings from friends and family." }
+    { name: "Nalangu", d: 12, when: "Friday, 12 February 2027", time: "10:00 AM", where: "Family ancestral home, Madurai", note: "Traditional turmeric paste, sandalwood fragrance, playful bridal games, and festive folk songs." },
+    { name: "Jaanavasam", d: 13, when: "Saturday, 13 February 2027", time: "5:30 PM", where: "Sri Meenakshi Kalyana Mandapam, Madurai", note: "Grand baraat procession with live Nadaswaram, Carnatic music, and ceremonial garland exchange." },
+    { name: "Muhurtham", d: 14, when: "Sunday, 14 February 2027", time: "9:00 AM", where: "Sri Meenakshi Kalyana Mandapam, Madurai", note: "Sacred Mangalya Dharanam (Thali tying), Saptapadi around agni, followed by royal banana-leaf Sadhya feast." },
+    { name: "Reception", d: 14, when: "Sunday, 14 February 2027", time: "7:00 PM", where: "Hotel Heritage Grand Ballroom, Madurai", note: "Grand celebratory dinner, musical tributes, and blessings from friends and family." }
   ]
 };
 
@@ -456,85 +728,80 @@ if (urlParams.get('names')) {
     W.labelB = parts[1];
   }
 }
-if (urlParams.get('date')) {
-  const customD = new Date(urlParams.get('date'));
-  if (!isNaN(customD.getTime())) W.date = customD.toISOString();
-}
 if (urlParams.get('venue')) W.venue = urlParams.get('venue');
+if (urlParams.get('date')) W.date = urlParams.get('date');
 
+/* Hide bar if disabled */
 if (!W.SHOW_PREVIEW_BAR) {
   document.body.classList.add('nobar');
-  document.documentElement.style.setProperty('--bar-h', '0px');
 }
 
-const $ = id => document.getElementById(id);
-let D = new Date(W.date);
+const D = new Date(W.date);
 
-function updateContent() {
-  D = new Date(W.date);
-  const ds = D.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-  $("gNames").textContent = W.n1 + " & " + W.n2;
-  $("gReveal").textContent = W.n1 + " & " + W.n2;
-  $("mono").textContent = (W.n1[0] || 'K') + "/" + (W.n2[0] || 'M');
-  $("n1").textContent = W.n1;
-  $("n2").textContent = W.n2;
-  $("dateTxt").textContent = ds;
-  $("cdDate").textContent = ds;
-  $("loc").textContent = W.venue;
-  $("fam").textContent = W.family;
-  $("help").textContent = W.help;
-  $("fA").textContent = W.labelA;
-  $("fB").textContent = W.labelB;
-  $("lName").textContent = W.n1 + " & " + W.n2;
-  $("fMono").textContent = (W.n1[0] || 'K') + " & " + (W.n2[0] || 'M');
-  $("fN").textContent = (W.n1 + " & " + W.n2).toUpperCase();
-  document.title = "Thirumanam — " + W.n1 + " & " + W.n2 + " — South Indian Wedding";
+/* Populate dynamic text */
+function populateData() {
+  const initials = `${W.n1.charAt(0)}❦${W.n2.charAt(0)}`;
+  if ($("mono")) $("mono").textContent = initials;
+  if ($("fMono")) $("fMono").textContent = initials;
+  if ($("lName")) $("lName").textContent = `${W.n1} & ${W.n2}`;
+  if ($("gNames")) $("gNames").innerHTML = `${W.n1} <span>&amp;</span> ${W.n2}`;
+  if ($("fN")) $("fN").textContent = `${W.n1.toUpperCase()} & ${W.n2.toUpperCase()}`;
+  if ($("n1")) $("n1").textContent = W.n1;
+  if ($("n2")) $("n2").textContent = W.n2;
+  if ($("fA")) $("fA").textContent = W.labelA;
+  if ($("fB")) $("fB").textContent = W.labelB;
+  if ($("loc")) $("loc").textContent = W.venue;
+  if ($("fam")) $("fam").textContent = W.family;
+  if ($("help")) $("help").textContent = W.help;
+  if ($("gReveal")) $("gReveal").textContent = `Together with their families, cordially invite you to celebrate the sacred union of ${W.n1} & ${W.n2}`;
+
+  const dateOpts = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
+  const dStr = D.toLocaleDateString("en-GB", dateOpts);
+  if ($("dateTxt")) $("dateTxt").textContent = dStr;
+  if ($("cdDate")) $("cdDate").textContent = dStr;
+  if ($("gDetails")) $("gDetails").innerHTML = `${dStr}<br>${W.venue}`;
 }
-updateContent();
+populateData();
 
-/* ===== GOPURAM TEMPLE-SILK DOORS ===== */
+/* ===== LOADER SCRIPT ===== */
 (function() {
-  const build = side => {
-    const j = side ? 0 : 200, bx = side ? 200 : 0, sg = side ? -1 : 1;
-    let s = `<rect width="200" height="400" fill="#7a0f1e"/>`;
-    for (let i = -7; i < 8; i++) s += `<path d="M${i*30} 0L${i*30+200} 400M${i*30+200} 0L${i*30} 400" stroke="#d9a521" stroke-width=".6" opacity=".22"/>`;
-    for (let y = 30; y < 400; y += 60) for (let x = 20; x < 190; x += 44) s += `<circle cx="${x+(y/60%2?22:0)}" cy="${y}" r="2.2" fill="#f4d77a" opacity=".7"/>`;
-    s += `<rect x="${side?186:0}" width="14" height="400" fill="#0b4a37"/><path d="M${side?186:14} 0V400" stroke="#d9a521" stroke-width="2"/>`;
-    for (let y = 4; y < 400; y += 16) s += `<path d="M${bx} ${y}l${14*sg} 8 ${-14*sg} 8z" fill="#d9a521"/>`;
-    for (let i = 0; i < 6; i++) {
-      const w = 176 - i * 26, y = 352 - i * 54, x = side ? 0 : 200 - w;
-      s += `<rect x="${x}" y="${y}" width="${w}" height="46" fill="#5e0a14" stroke="#f4d77a" stroke-width="1.4"/><rect x="${x}" y="${y}" width="${w}" height="7" fill="#d9a521"/>`;
-      for (let k = 1; k < 4; k++) {
-        const cx = side ? w * k / 4.4 : 200 - w * k / 4.4;
-        s += `<path d="M${cx-5} ${y+40}v-14a5 5 0 0110 0v14z" fill="#d9a521" opacity=".85"/>`;
-      }
-    }
-    s += `<path d="M${j} 40L${j+sg*-20} 82H${j}z" fill="#5e0a14" stroke="#f4d77a" stroke-width="1.4"/><circle cx="${j}" cy="36" r="9" fill="#d9a521"/><circle cx="${j}" cy="18" r="5" fill="#f4d77a"/>`;
-    return s;
-  };
-  $("pl").innerHTML = build(0);
-  $("pr").innerHTML = build(1);
+  const t0 = performance.now();
+  let s = `<circle cx="0" cy="0" r="48"/><circle cx="0" cy="0" r="32"/><circle cx="0" cy="0" r="14"/>`;
+  for (let i = 0; i < 16; i++) {
+    const a = i * Math.PI / 8, x = Math.cos(a) * 48, y = Math.sin(a) * 48;
+    s += `<path d="M0 0 L${x} ${y}" style="--d:${(i*.08).toFixed(2)}s"/>`;
+    s += `<circle cx="${x}" cy="${y}" r="3" fill="#d9a521" style="--d:${(i*.08+.2).toFixed(2)}s"/>`;
+  }
+  $("lm").innerHTML = s;
+
+  function hideLoader() {
+    $("loader").classList.add("hide");
+  }
+  window.addEventListener("load", () => {
+    setTimeout(hideLoader, Math.max(0, 2400 - (performance.now() - t0)));
+  });
+  setTimeout(hideLoader, 5000);
 })();
 
-/* ===== JASMINE + MANGO-LEAF THORANAM GARLAND ===== */
+/* ===== JASMINE + MARIGOLD DRAPING GARLAND ===== */
 (function() {
-  let s = `<rect width="1000" height="8" fill="#3f7d3a"/>`, col = ["#fffaf0", "#fffaf0", "#f4a21e", "#fffaf0", "#d2402a"];
+  let s = `<rect width="1000" height="9" fill="#2d6e35"/>`, col = ["#fffaf0", "#fffaf0", "#f4a21e", "#fffaf0", "#c92a3e"];
   for (let x = 14, n = 0; x < 1000; x += 26, n++) {
-    s += `<path d="M${x-9} 6c-6 18-2 34 9 46c11-12 15-28 9-46z" fill="${n%2?"#3f7d3a":"#2f6a31"}"/>`;
-    const len = 64 + ((n * 37) % 90);
-    s += `<line x1="${x}" y1="44" x2="${x}" y2="${len}" stroke="#5a7a3a" stroke-width="1.4"/>`;
+    s += `<path d="M${x-9} 6c-6 20-2 36 9 50c11-14 15-30 9-50z" fill="${n%2?"#2d6e35":"#1f5326"}"/>`;
+    const len = 64 + ((n * 37) % 94);
+    s += `<line x1="${x}" y1="44" x2="${x}" y2="${len}" stroke="#4a7032" stroke-width="1.6"/>`;
     for (let y = 54, k = 0; y < len; y += 14, k++) {
       const c = col[(n + k) % 5];
-      s += `<circle cx="${x}" cy="${y}" r="7" fill="${c}" stroke="#e8d9b0" stroke-width=".6"/><circle cx="${x}" cy="${y}" r="2.4" fill="${c==="#fffaf0"?"#e8c46a":"#fff0c0"}"/>`;
+      s += `<circle cx="${x}" cy="${y}" r="7" fill="${c}" stroke="#e8d9b0" stroke-width=".6"/><circle cx="${x}" cy="${y}" r="2.4" fill="${c==="#fffaf0"?"#f4d77a":"#fff0c0"}"/>`;
     }
-    s += `<circle cx="${x}" cy="${len+6}" r="4.5" fill="#d9a521"/>`;
+    s += `<circle cx="${x}" cy="${len+6}" r="5" fill="#d9a521"/>`;
   }
   $("garland").innerHTML = s;
 })();
 
 /* ===== FESTIVE STRING LIGHTS ===== */
 (function() {
-  let s = "", c = ["#f4d77a", "#d2402a", "#fff", "#f0a22e"];
+  let s = "", c = ["#f7de8a", "#c92a3e", "#fff", "#f5a623"];
   for (let x = 0; x <= 1000; x += 25) {
     const y = 22 + Math.sin(x / 80) * 10;
     s += `<circle cx="${x}" cy="${y}" r="4" fill="${c[(x/25)%4|0]}"/>`;
@@ -542,7 +809,78 @@ updateContent();
   $("lights").innerHTML = `<path d="M0 22 ${Array.from({length:41},(_,i)=>`L${i*25} ${22+Math.sin(i*25/80)*10}`).join(" ")}" stroke="#7a5a2a" fill="none"/>` + s;
 })();
 
-/* ===== CALENDAR ===== */
+/* ===== DRIFTING JASMINE & MARIGOLD PETALS ON ENTRANCE GATE ===== */
+(function() {
+  const cv = $("gateCv");
+  if (!cv) return;
+  const ctx = cv.getContext("2d");
+  let w = cv.width = window.innerWidth;
+  let h = cv.height = window.innerHeight;
+  window.addEventListener("resize", () => {
+    w = cv.width = window.innerWidth;
+    h = cv.height = window.innerHeight;
+  });
+
+  const petals = [];
+  const P_TYPES = ["jasmine", "marigold", "spark"];
+  for (let i = 0; i < 40; i++) {
+    petals.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      size: 4 + Math.random() * 8,
+      speedY: 0.6 + Math.random() * 1.2,
+      speedX: (Math.random() - 0.5) * 0.8,
+      rot: Math.random() * 360,
+      rotSpeed: (Math.random() - 0.5) * 2,
+      type: P_TYPES[i % 3],
+      opacity: 0.4 + Math.random() * 0.5
+    });
+  }
+
+  function renderPetals() {
+    if ($("gate").classList.contains("gone")) return;
+    ctx.clearRect(0, 0, w, h);
+    for (let p of petals) {
+      p.y += p.speedY;
+      p.x += p.speedX + Math.sin(p.y * 0.015) * 0.5;
+      p.rot += p.rotSpeed;
+      if (p.y > h + 20) { p.y = -20; p.x = Math.random() * w; }
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.globalAlpha = p.opacity;
+
+      if (p.type === "jasmine") {
+        ctx.fillStyle = "#fffaf0";
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.size * 0.6, p.size, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#f7de8a";
+        ctx.beginPath();
+        ctx.arc(0, p.size * 0.5, p.size * 0.2, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (p.type === "marigold") {
+        ctx.fillStyle = "#f5a623";
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.size * 0.8, p.size * 1.2, 0, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.fillStyle = "#f7de8a";
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = "#f7de8a";
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size * 0.35, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+    requestAnimationFrame(renderPetals);
+  }
+  requestAnimationFrame(renderPetals);
+})();
+
+/* ===== CALENDAR BUILDER ===== */
 function buildCalendar() {
   const y = D.getFullYear(), m = D.getMonth(), first = (new Date(y, m, 1).getDay() + 6) % 7, days = new Date(y, m + 1, 0).getDate();
   let h = "MTWTFSS".split("").map(l => `<span class="hd">${l}</span>`).join("");
@@ -555,7 +893,7 @@ function buildCalendar() {
 buildCalendar();
 
 /* ===== EVENTS TIMELINE WITH TEMPLE BELLS ===== */
-const bell = `<svg viewBox="0 0 20 34"><path d="M10 0v8" stroke="#a87a1c" stroke-width="1.5"/><path d="M3 24c0-8 2-14 7-14s7 6 7 14z" fill="#d9a521"/><rect x="1" y="24" width="18" height="3" rx="1.5" fill="#a87a1c"/><circle cx="10" cy="31" r="2.6" fill="#a87a1c"/></svg>`;
+const bell = `<svg viewBox="0 0 20 34"><path d="M10 0v8" stroke="#a87819" stroke-width="1.5"/><path d="M3 24c0-8 2-14 7-14s7 6 7 14z" fill="#d9a521"/><rect x="1" y="24" width="18" height="3" rx="1.5" fill="#a87819"/><circle cx="10" cy="31" r="2.6" fill="#a87819"/></svg>`;
 function buildEvents() {
   $("tl").innerHTML = W.events.map(e => `
     <div class="row rev">
@@ -563,7 +901,7 @@ function buildEvents() {
         <div class="bells">${bell.repeat(4)}</div>
         <h3>${e.name}</h3>
         <p>${e.note}</p>
-        <p style="margin-top:6px;color:#2f4a36"><strong>${e.where}</strong></p>
+        <p style="margin-top:6px;color:#0d382c"><strong>${e.where}</strong></p>
         <div class="acts">
           <a href="https://maps.google.com/?q=${encodeURIComponent(e.where)}" target="_blank" rel="noopener">Directions</a>
           <a href="https://maps.google.com/?q=${encodeURIComponent(e.where)}" target="_blank" rel="noopener">Map</a>
@@ -596,10 +934,10 @@ let isPlaying = false;
 
 function toast(msg) {
   const t = $("toast");
+  if (!t) return;
   t.textContent = msg;
   t.classList.add("show");
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.remove("show"), 2600);
+  setTimeout(() => t.classList.remove("show"), 3200);
 }
 
 function startMusic() {
@@ -611,7 +949,7 @@ function startMusic() {
     const playP = song.play();
     if (playP !== undefined) {
       playP.then(() => {
-        toast("🎵 Now Playing: Mast Magan — 2 States (Arijit Singh & Chinmayi Sripada)");
+        toast("🎶 Playing: Mast Magan (2 States)");
       }).catch(err => {
         console.warn("Audio autoplay blocked by browser policy, will resume on user interaction", err);
       });
@@ -630,27 +968,16 @@ function stopMusic() {
 
 $("music").onclick = () => isPlaying ? stopMusic() : startMusic();
 
-/* ===== PRELOADER & KOLAM DRAWING ===== */
-document.body.classList.add("lock");
-(function() {
-  let h = "", d = 0;
-  const add = (t, a) => { h += `<${t} ${a} pathLength="1" style="--d:${(d+=.07).toFixed(2)}s"/>`; };
-  add("circle", 'r="46"');
-  add("path", 'd="M0 -42L42 0L0 42L-42 0z"');
-  for (let i = 0; i < 8; i++) add("ellipse", `cx="0" cy="-24" rx="10" ry="24" transform="rotate(${i*45})"`);
-  add("circle", 'r="12"');
-  [[1,0],[3,1],[5,2],[7,3],[5,4],[3,5],[1,6]].forEach(([n,r]) => {
-    for (let k = 0; k < n; k++) {
-      h += `<circle cx="${(k-(n-1)/2)*12}" cy="${(r-3)*12}" r="1.1" style="fill:#f4d77a;stroke:none;stroke-dasharray:none;stroke-dashoffset:0;opacity:0;animation:fadein .4s forwards;animation-delay:${(1.2+r*.08).toFixed(2)}s"/>`;
-    }
-  });
-  $("lm").innerHTML = h;
-})();
-
-const t0 = performance.now();
-const hideLoader = () => $("loader").classList.add("hide");
-addEventListener("load", () => setTimeout(hideLoader, Math.max(0, 2600 - (performance.now() - t0))));
-setTimeout(hideLoader, 5000);
+/* Also unlock music on very first user interaction */
+function unlockAudioOnce() {
+  if (!isPlaying) {
+    startMusic();
+  }
+  document.removeEventListener('click', unlockAudioOnce);
+  document.removeEventListener('touchstart', unlockAudioOnce);
+}
+document.addEventListener('click', unlockAudioOnce, { once: true });
+document.addEventListener('touchstart', unlockAudioOnce, { once: true });
 
 /* ===== GATE OPENING LOGIC ===== */
 const gate = $("gate");
@@ -666,6 +993,8 @@ function openGate(skip) {
   }, skip === true ? 100 : 2000);
 }
 
+$("btnEnter").onclick = e => { e.stopPropagation(); openGate(); };
+$("sealMedallion").onclick = e => { e.stopPropagation(); openGate(); };
 gate.onclick = () => openGate();
 gate.onkeydown = e => (e.key === "Enter" || e.key === " ") && openGate();
 $("skip").onclick = e => { e.stopPropagation(); openGate(true); };
@@ -771,19 +1100,16 @@ window.addEventListener('message', (e) => {
         W.labelB = parts[1];
       } else {
         W.n1 = p.names;
-        W.n2 = '';
       }
-      updateContent();
     }
+    if (p.venue) W.venue = p.venue;
     if (p.date) {
       W.date = p.date;
-      updateContent();
+      D.setTime(new Date(p.date).getTime());
       buildCalendar();
     }
-    if (p.venue) {
-      W.venue = p.venue;
-      $("loc").textContent = p.venue;
-    }
+    if (p.family) W.family = p.family;
+    populateData();
     if (p.audioStartTime !== undefined && song) {
       song.currentTime = parseFloat(p.audioStartTime);
     }
