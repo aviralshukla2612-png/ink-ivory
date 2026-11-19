@@ -92,9 +92,8 @@ export const WishLanterns = () => {
       <div className="fixed bottom-6 sm:bottom-8 right-6 sm:right-12 z-40 select-none">
         <div
           onClick={launchFromCorner}
-          className={`group relative cursor-pointer transition-all duration-700 ${
-            isLanternResting ? 'opacity-100 scale-100' : 'opacity-0 scale-75 pointer-events-none'
-          }`}
+          className={`group relative cursor-pointer transition-all duration-700 ${isLanternResting ? 'opacity-100 scale-100' : 'opacity-0 scale-75 pointer-events-none'
+            }`}
           title="Click to release a wish lantern into the sky"
         >
           {/* Subtle Hover Pulse Aura */}

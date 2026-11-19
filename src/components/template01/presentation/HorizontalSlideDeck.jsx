@@ -18,9 +18,7 @@ import VenueSection from '@/components/template01/sections/VenueSection';
 import ClosingSection from '@/components/template01/sections/ClosingSection';
 
 export const HorizontalSlideDeck = () => {
-  const { currentSlide, totalSlides, slides, nextSlide, prevSlide, goToSlide, isFirstSlide, isLastSlide } = useSlider();
-
-  const currentSlideInfo = slides[currentSlide] || slides[0];
+  const { currentSlide, nextSlide, prevSlide, isFirstSlide, isLastSlide } = useSlider();
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-[#091321] select-none">
@@ -108,38 +106,6 @@ export const HorizontalSlideDeck = () => {
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
         </button>
       )}
-
-      {/* 4. BOTTOM FLOATING PROGRESS DOCK & DOTS */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 select-none flex flex-col items-center gap-1.5 pointer-events-auto">
-        <div className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#091321]/85 backdrop-blur-xl border border-[#D6B477]/35 shadow-[0_8px_25px_rgba(0,0,0,0.9)]">
-          {/* Active Slide Counter & Label */}
-          <span className="text-[10px] sm:text-[11px] font-manrope font-semibold tracking-wider text-[#E7CEA0] pr-2 border-r border-[#D6B477]/30">
-            {String(currentSlide + 1).padStart(2, '0')} / {String(totalSlides).padStart(2, '0')}
-          </span>
-
-          <span className="hidden md:inline text-[11px] font-cormorant font-medium text-[#FAF5ED] px-1">
-            {currentSlideInfo.label}
-          </span>
-
-          {/* Golden Progress Dots */}
-          <div className="flex items-center gap-1 sm:gap-1.5 ml-1">
-            {slides.map((s, idx) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => goToSlide(idx)}
-                className={`transition-all duration-300 rounded-full cursor-pointer focus:outline-none ${
-                  idx === currentSlide
-                    ? 'w-5 h-1.5 bg-[#D6B477] shadow-[0_0_8px_rgba(214,180,119,0.9)]'
-                    : 'w-1.5 h-1.5 bg-[#D6B477]/30 hover:bg-[#D6B477]/70'
-                }`}
-                title={s.label}
-                aria-label={`Go to ${s.label}`}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
