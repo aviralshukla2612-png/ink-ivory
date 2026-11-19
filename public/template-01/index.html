@@ -1050,7 +1050,7 @@
       </svg>
     </div>
 
-    <h2 style="font-family: var(--font-display); font-size: clamp(36px, 6vw, 60px); font-weight: 300; color: var(--ivory); margin-bottom: 12px;">
+    <h2 class="closing-names" style="font-family: var(--font-display); font-size: clamp(36px, 6vw, 60px); font-weight: 300; color: var(--ivory); margin-bottom: 12px;">
       Aarav <span style="font-family: var(--font-script); color: var(--gold-champagne);">&amp;</span> Riya
     </h2>
     <p style="font-family: var(--font-editorial); font-style: italic; font-size: 16px; color: var(--gold-soft); margin-bottom: 12px;">
@@ -1080,6 +1080,57 @@
   <!-- JAVASCRIPT: ALL SIGNATURE FEATURES & DYNAMICS                             -->
   <!-- ========================================================================= -->
   <script>
+    // 0. DYNAMIC PERSONALIZATION ENGINE (URL Parameters, SessionStorage & Real-Time postMessage)
+    function applyDynamicCustomization(data) {
+      if (!data) return;
+      var names = data.names;
+      var date = data.date;
+      var venue = data.venue;
+      var city = data.city;
+
+      if (names) {
+        var formatted = names.replace(/&/g, '<span class="gate-ampersand">&amp;</span>');
+        var heroFormatted = names.replace(/&/g, '<span style="font-family: var(--font-script); color: var(--gold-champagne);">&amp;</span>');
+        
+        document.querySelectorAll('.gate-names').forEach(function(el) {
+          el.innerHTML = formatted;
+        });
+        document.querySelectorAll('.hero-names, .closing-names').forEach(function(el) {
+          el.innerHTML = heroFormatted;
+        });
+        document.title = names + ' — Royal Wedding Celebration | Ink & Ivory';
+      }
+
+      if (date) {
+        document.querySelectorAll('.hero-date-pill').forEach(function(el) {
+          el.innerHTML = '<span>✦ ' + date + '</span><span>•</span><span>' + (city || 'Jaipur, Rajasthan') + ' ✦</span>';
+        });
+      }
+    }
+
+    try {
+      var sp = new URLSearchParams(window.location.search);
+      var sessionData = {};
+      try {
+        var s = sessionStorage.getItem('ink_ivory_custom_wedding_data');
+        if (s) sessionData = JSON.parse(s);
+      } catch (e) {}
+
+      var initialData = {
+        names: sp.get('names') || sessionData.names,
+        date: sp.get('date') || sessionData.date,
+        venue: sp.get('venue') || sessionData.venue,
+        city: sp.get('city') || sessionData.city,
+      };
+      applyDynamicCustomization(initialData);
+    } catch (e) {}
+
+    window.addEventListener('message', function(e) {
+      if (e.data && e.data.type === 'INK_IVORY_CUSTOM_UPDATE') {
+        applyDynamicCustomization(e.data.payload);
+      }
+    });
+
     // 1. OPENING REVEAL INTERACTION (Feature 5.1)
     const gateLoader = document.getElementById('gate-loader');
     const openGateBtn = document.getElementById('open-gate-btn');
