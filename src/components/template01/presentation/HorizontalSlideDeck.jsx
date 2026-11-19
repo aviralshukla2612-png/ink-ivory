@@ -83,27 +83,27 @@ export const HorizontalSlideDeck = () => {
         </div>
       </div>
 
-      {/* 2. FLOATING LEFT CHEVRON (PREVIOUS SLIDE) */}
+      {/* 2. FLOATING LEFT CHEVRON (PREVIOUS SLIDE) - hidden on mobile to never overlap text */}
       {!isFirstSlide && (
         <button
           type="button"
           onClick={prevSlide}
-          className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-[#091321]/80 hover:bg-[#101b2d] backdrop-blur-md border border-[#D6B477]/40 hover:border-[#D6B477] text-[#E7CEA0] hover:text-[#FFFDF7] shadow-[0_4px_24px_rgba(0,0,0,0.85),0_0_15px_rgba(214,180,119,0.2)] flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer focus:outline-none group"
+          className="hidden md:flex fixed left-4 lg:left-8 top-1/2 -translate-y-1/2 z-40 w-11 h-11 lg:w-13 lg:h-13 rounded-full bg-[#091321]/80 hover:bg-[#101b2d] backdrop-blur-md border border-[#D6B477]/40 hover:border-[#D6B477] text-[#E7CEA0] hover:text-[#FFFDF7] shadow-[0_4px_24px_rgba(0,0,0,0.85),0_0_15px_rgba(214,180,119,0.2)] items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer focus:outline-none group"
           aria-label="Previous Slide"
         >
-          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
+          <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6 group-hover:-translate-x-0.5 transition-transform" />
         </button>
       )}
 
-      {/* 3. FLOATING RIGHT CHEVRON (NEXT SLIDE) */}
+      {/* 3. FLOATING RIGHT CHEVRON (NEXT SLIDE) - hidden on mobile to never overlap text */}
       {!isLastSlide && (
         <button
           type="button"
           onClick={nextSlide}
-          className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-[#091321]/80 hover:bg-[#101b2d] backdrop-blur-md border border-[#D6B477]/40 hover:border-[#D6B477] text-[#E7CEA0] hover:text-[#FFFDF7] shadow-[0_4px_24px_rgba(0,0,0,0.85),0_0_15px_rgba(214,180,119,0.2)] flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer focus:outline-none group"
+          className="hidden md:flex fixed right-4 lg:right-8 top-1/2 -translate-y-1/2 z-40 w-11 h-11 lg:w-13 lg:h-13 rounded-full bg-[#091321]/80 hover:bg-[#101b2d] backdrop-blur-md border border-[#D6B477]/40 hover:border-[#D6B477] text-[#E7CEA0] hover:text-[#FFFDF7] shadow-[0_4px_24px_rgba(0,0,0,0.85),0_0_15px_rgba(214,180,119,0.2)] items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer focus:outline-none group"
           aria-label="Next Slide"
         >
-          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
+          <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6 group-hover:translate-x-0.5 transition-transform" />
         </button>
       )}
     </div>

@@ -24,7 +24,7 @@ export const FamilyBlessingsSection = () => {
   return (
     <section
       id="blessings"
-      className="relative min-h-screen w-full flex flex-col items-center justify-center pt-36 sm:pt-40 md:pt-44 pb-16 px-4 sm:px-6 overflow-hidden select-none"
+      className="relative min-h-screen w-full flex flex-col items-center justify-center pt-24 sm:pt-36 md:pt-44 pb-12 sm:pb-16 px-4 sm:px-6 overflow-hidden select-none"
     >
       {/* Background Graphic: 13_family_blessings.png */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">

@@ -94,31 +94,31 @@ export const EventsOverviewSection = () => {
         </p>
 
         {/* Title: Wedding Celebrations */}
-        <h2 className="font-cormorant text-5xl sm:text-7xl font-medium text-[#FFFDF7] leading-[0.95] tracking-tight mb-12 drop-shadow-md">
+        <h2 className="font-cormorant text-3xl sm:text-5xl md:text-7xl font-medium text-[#FFFDF7] leading-[0.95] tracking-tight mb-6 sm:mb-12 drop-shadow-md">
           Wedding <br />
           <span className="italic font-serif text-[#D6B477]">Celebrations</span>
         </h2>
 
         {/* 5 Wireframe Arched Badges matching Image 3 (Tile 07) */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 sm:gap-6 max-w-4xl w-full">
+        <div className="flex flex-wrap justify-center sm:grid sm:grid-cols-5 gap-2 sm:gap-6 max-w-4xl w-full">
           {events.map((evt) => (
             <button
               key={evt.id}
               type="button"
               onClick={() => handleScrollToEvent(evt.id)}
-              className="group relative flex flex-col items-center justify-between py-6 px-4 rounded-t-[50px] rounded-b-xl border border-[#D6B477]/50 hover:border-[#D6B477] bg-[#091321]/30 hover:bg-[#091321]/60 backdrop-blur-xs transition-all duration-300 hover:-translate-y-2 cursor-pointer focus:outline-none"
+              className="group relative flex flex-col items-center justify-between py-3.5 sm:py-6 px-2.5 sm:px-4 w-[29%] sm:w-auto rounded-t-[36px] sm:rounded-t-[50px] rounded-b-xl border border-[#D6B477]/50 hover:border-[#D6B477] bg-[#091321]/40 hover:bg-[#091321]/60 backdrop-blur-xs transition-all duration-300 hover:-translate-y-2 cursor-pointer focus:outline-none"
             >
               {/* Inner Arch Silhouette */}
-              <div className="w-10 h-10 rounded-full border border-[#D6B477]/40 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:border-[#D6B477] transition-all">
+              <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-full border border-[#D6B477]/40 flex items-center justify-center mb-1.5 sm:mb-4 group-hover:scale-110 group-hover:border-[#D6B477] transition-all">
                 {getEventIcon(evt.id)}
               </div>
 
               {/* Event Name */}
-              <h3 className="font-cormorant text-xl sm:text-2xl font-semibold text-[#F7F0E3] group-hover:text-[#FFFDF7] tracking-wide mb-1">
+              <h3 className="font-cormorant text-xs sm:text-xl md:text-2xl font-semibold text-[#F7F0E3] group-hover:text-[#FFFDF7] tracking-wide mb-0.5 sm:mb-1">
                 {evt.name.replace(/^(The\s+)/, '').split(' ')[0]}
               </h3>
 
-              <span className="text-[10px] font-manrope text-[#E7CEA0]/80 group-hover:text-[#E7CEA0] uppercase tracking-wider">
+              <span className="text-[8px] sm:text-[10px] font-manrope text-[#E7CEA0]/80 group-hover:text-[#E7CEA0] uppercase tracking-wider">
                 {evt.date.split(',')[1]?.trim().slice(0, 6) || 'Dec 2026'}
               </span>
             </button>
