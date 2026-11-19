@@ -3,22 +3,24 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Heart, Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 import { templatesData } from '@/data/templates';
-import { useWishlist } from '@/context/WishlistContext';
+import { TemplateCard } from '@/components/cards/TemplateCard';
+import { LiveDemoModal } from '@/components/templates/LiveDemoModal';
+import { Template } from '@/types';
 
 export const FeaturedTemplates: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('All');
-  const { isInWishlist, toggleWishlist } = useWishlist();
+  const [activeDemoTemplate, setActiveDemoTemplate] = useState<Template | null>(null);
 
   const tabs = ['All', 'Wedding', 'Anniversary', 'Engagement', 'Birthday', "Valentine's Day"];
 
-  // Filter templates: Show 3 main cards like the reference screenshot
-  const displayTemplates = activeTab === 'All'
-    ? templatesData.slice(0, 3)
-    : templatesData.filter((t) => t.occasion === activeTab || t.tags.includes(activeTab)).slice(0, 3);
+  // Filter templates: Show cards matching reference
+  const displayTemplates =
+    activeTab === 'All'
+      ? templatesData.slice(0, 3)
+      : templatesData.filter((t) => t.occasion === activeTab || t.tags.includes(activeTab)).slice(0, 3);
 
-  // If filtered returns less than 3, pad with others
   const cardsToShow = displayTemplates.length > 0 ? displayTemplates : templatesData.slice(0, 3);
 
   return (
@@ -60,7 +62,7 @@ export const FeaturedTemplates: React.FC = () => {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-1.5 rounded-full text-xs transition-all duration-150 ${
+                className={`px-4 py-1.5 rounded-full text-xs transition-all duration-150 cursor-pointer ${
                   activeTab === tab
                     ? 'bg-[#8F6E3B] text-white font-semibold shadow-xs'
                     : 'bg-[#EDE2CF]/60 text-[#49341F] font-medium hover:bg-[#EDE2CF]'
@@ -80,86 +82,27 @@ export const FeaturedTemplates: React.FC = () => {
           </Link>
         </div>
 
-        {/* 3 Cards Grid */}
+        {/* Cards Grid Matching User's Screenshot media_1795069195323_63f764fa.jpg */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7">
-          {cardsToShow.map((template, idx) => {
-            const isFav = isInWishlist(template.id);
-            const cardImgSrc = template.previewImage || `/templates/card${(idx % 3) + 1}.jpg`;
-
-            return (
-              <div
-                key={template.id}
-                className="group bg-white rounded-2xl overflow-hidden border border-[#E8DFC8] shadow-luxury hover:shadow-luxury-lg transition-all duration-300 flex flex-col"
-              >
-                {/* Visual Card Artwork Presentation */}
-                <div className="relative aspect-[305/178] w-full overflow-hidden bg-[#FBF8F2] select-none">
-                  <Image
-                    src={cardImgSrc}
-                    alt={template.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover object-center group-hover:scale-[1.03] transition-transform duration-500 ease-out"
-                    priority={idx < 3}
-                  />
-
-                  {/* Interactive Wishlist Heart Button */}
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      toggleWishlist(template);
-                    }}
-                    className={`absolute top-2.5 right-2.5 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all ${
-                      isFav
-                        ? 'bg-white shadow-xs text-[#A77B35]'
-                        : 'bg-transparent hover:bg-white/40 text-transparent hover:text-[#A77B35]'
-                    }`}
-                    aria-label={isFav ? 'Remove from wishlist' : 'Add to wishlist'}
-                  >
-                    <Heart
-                      className={`w-3.5 h-3.5 ${
-                        isFav ? 'fill-[#A77B35] text-[#A77B35]' : 'stroke-[#A77B35] stroke-[2]'
-                      }`}
-                    />
-                  </button>
-                </div>
-
-                {/* Card Information Panel */}
-                <div className="p-5 flex flex-col flex-1 justify-between bg-white">
-                  <div>
-                    <h3 className="font-serif text-[17px] text-[#2C2114] font-medium leading-snug group-hover:text-[#8F6E3B] transition-colors mb-1.5">
-                      {template.title}
-                    </h3>
-                    <p className="text-[12px] text-[#7A634E] line-clamp-2 leading-relaxed">
-                      {template.description}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-4 mt-3 border-t border-[#F2ECE0]">
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-[17px] font-serif font-bold text-[#2C2114]">
-                        ₹{template.price}
-                      </span>
-                      <span className="text-[11.5px] text-[#99816B] line-through font-normal">
-                        ₹{template.price + 200}
-                      </span>
-                    </div>
-
-                    <Link
-                      href={`/customize/${template.id}`}
-                      className="text-xs font-semibold text-[#8F6E3B] hover:text-[#6E4F22] flex items-center gap-1 group/btn transition-colors"
-                    >
-                      <span>Customize</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
-                    </Link>
-                  </div>
-                </div>
-
-              </div>
-            );
-          })}
+          {cardsToShow.map((template) => (
+            <TemplateCard
+              key={template.id}
+              template={template}
+              onOpenDemo={(tpl) => setActiveDemoTemplate(tpl)}
+            />
+          ))}
         </div>
 
       </div>
+
+      {/* Live Demo Modal with Phone Auto-scroll (2s) and Laptop View */}
+      {activeDemoTemplate && (
+        <LiveDemoModal
+          isOpen={!!activeDemoTemplate}
+          onClose={() => setActiveDemoTemplate(null)}
+          template={activeDemoTemplate}
+        />
+      )}
     </section>
   );
 };

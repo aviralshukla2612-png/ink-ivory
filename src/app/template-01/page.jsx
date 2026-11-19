@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { weddingData } from '@/data/weddingData';
 import { SliderProvider } from '@/context/SliderContext';
 
@@ -24,9 +25,21 @@ const LIFECYCLE = {
 };
 
 function Template01Content() {
-  const [lifecycleState, setLifecycleState] = useState(LIFECYCLE.PRELOADER);
+  const searchParams = useSearchParams();
+  const isDemo = searchParams.get('mode') === 'demo' || searchParams.get('demo') === 'true';
+  const viewMode = searchParams.get('view') || 'laptop';
+  const autoParam = searchParams.get('auto');
+  
+  // In demo mode or if auto=true/phone view, auto-advance slides every 2 seconds
+  const shouldAutoAdvance = autoParam === 'true' || autoParam === '2000' || (isDemo && viewMode === 'phone');
+
+  // If in demo mode or direct enter, start directly at ENTERED
+  const [lifecycleState, setLifecycleState] = useState(() => {
+    return isDemo ? LIFECYCLE.ENTERED : LIFECYCLE.PRELOADER;
+  });
+
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   const audioRef = useRef(null);
   const mainRef = useRef(null);
@@ -35,13 +48,15 @@ function Template01Content() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    try {
-      const alreadyEntered = sessionStorage.getItem('ink_ivory_gate_opened');
-      if (alreadyEntered === 'true') {
-        setLifecycleState(LIFECYCLE.ENTERED);
+    if (!isDemo) {
+      try {
+        const alreadyEntered = sessionStorage.getItem('ink_ivory_gate_opened');
+        if (alreadyEntered === 'true') {
+          setLifecycleState(LIFECYCLE.ENTERED);
+        }
+      } catch (e) {
+        // Ignore
       }
-    } catch (e) {
-      // Ignore
     }
 
     // Audio setup
@@ -60,7 +75,7 @@ function Template01Content() {
         audioRef.current.src = '';
       }
     };
-  }, []);
+  }, [isDemo]);
 
   // 2. Lock body scroll — Template 01 is a full-screen horizontal slide deck (1 page at a time)
   useEffect(() => {
@@ -114,7 +129,7 @@ function Template01Content() {
   return (
     <main
       ref={mainRef}
-      className="relative min-h-screen bg-[#091321] text-[#F7F0E3] font-manrope selection:bg-[#D6B477] selection:text-[#091321]"
+      className="relative w-full h-full min-h-screen bg-[#091321] text-[#F7F0E3] font-manrope selection:bg-[#D6B477] selection:text-[#091321]"
     >
       {/* SECTION 01 — PRELOADER (Clean CSS radial gradient, no image) */}
       {lifecycleState === LIFECYCLE.PRELOADER && (
@@ -132,14 +147,20 @@ function Template01Content() {
 
       {/* RENDER INVITATION HORIZONTAL SLIDER & NAVIGATION ONLY AFTER ENTERING */}
       {lifecycleState === LIFECYCLE.ENTERED && (
-        <SliderProvider active={lifecycleState === LIFECYCLE.ENTERED}>
-          {/* FLOATING LUXURY CONTROLS (Brand, Menu, Sound, Replay) */}
-          <LuxuryFloatingNav
-            isPlaying={isPlaying}
-            isMuted={isMuted}
-            onToggleSound={toggleSound}
-            onReplayEntrance={handleReplayEntrance}
-          />
+        <SliderProvider
+          active={lifecycleState === LIFECYCLE.ENTERED}
+          autoAdvance={shouldAutoAdvance}
+          autoInterval={2000}
+        >
+          {/* FLOATING LUXURY CONTROLS (Brand, Menu, Sound, Replay) - hide in phone demo mode for cleaner screen */}
+          {(!isDemo || viewMode !== 'phone') && (
+            <LuxuryFloatingNav
+              isPlaying={isPlaying}
+              isMuted={isMuted}
+              onToggleSound={toggleSound}
+              onReplayEntrance={handleReplayEntrance}
+            />
+          )}
 
           {/* HORIZONTAL SLIDE DECK (1 PAGE AT A TIME, RIGHT TO LEFT SLIDER) */}
           <HorizontalSlideDeck />
@@ -150,5 +171,15 @@ function Template01Content() {
 }
 
 export default function Template01Page() {
-  return <Template01Content />;
+  return (
+    <Suspense
+      fallback={
+        <div className="w-screen h-screen bg-[#091321] flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full border-2 border-[#D6B477] border-t-transparent animate-spin" />
+        </div>
+      }
+    >
+      <Template01Content />
+    </Suspense>
+  );
 }

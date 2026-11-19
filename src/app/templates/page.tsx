@@ -14,7 +14,9 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import { templatesData, occasionsList } from '@/data/templates';
-import { CardPreview } from '@/components/cards/CardPreview';
+import { TemplateCard } from '@/components/cards/TemplateCard';
+import { LiveDemoModal } from '@/components/templates/LiveDemoModal';
+import { Template } from '@/types';
 import { useWishlist } from '@/context/WishlistContext';
 
 function TemplatesContent() {
@@ -30,6 +32,7 @@ function TemplatesContent() {
   );
   const [sortBy, setSortBy] = useState<'featured' | 'popular' | 'price-asc' | 'price-desc'>('featured');
   const [selectedStyle, setSelectedStyle] = useState<string>('all');
+  const [activeDemoTemplate, setActiveDemoTemplate] = useState<Template | null>(null);
 
   const { isInWishlist, toggleWishlist } = useWishlist();
 
@@ -194,7 +197,7 @@ function TemplatesContent() {
           )}
         </div>
 
-        {/* Templates Grid */}
+        {/* Templates Grid Matching media_1795069195323_63f764fa.jpg */}
         {filteredTemplates.length === 0 ? (
           <div className="bg-white rounded-2xl p-12 text-center border border-[#DFCEAF] max-w-md mx-auto">
             <Sparkles className="w-8 h-8 text-[#A77B35] mx-auto mb-3 opacity-60" />
@@ -218,120 +221,26 @@ function TemplatesContent() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {filteredTemplates.map((template) => {
-              const isFav = isInWishlist(template.id);
-              return (
-                <div
-                  key={template.id}
-                  className="group relative bg-[#FCFAF6] rounded-2xl overflow-hidden border border-[#E8DFC8] shadow-luxury hover:shadow-luxury-lg transition-all duration-300 flex flex-col"
-                >
-                  {/* Card Visual Container */}
-                  <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F3EDE1] p-4 flex items-center justify-center">
-                    <div className="w-[85%] transition-transform duration-500 group-hover:scale-[1.03]">
-                      <CardPreview
-                        template={template}
-                        className="rounded-lg shadow-md"
-                        showWatermark={false}
-                      />
-                    </div>
-
-                    {/* Badge */}
-                    <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5">
-                      {template.isFree ? (
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-[#E8F3EA] text-[#2E6B3F] border border-[#CBE5D3]">
-                          Free
-                        </span>
-                      ) : (
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-[#EDE2CF] text-[#8F6E3B] border border-[#DFCDB0]">
-                          Premium
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Wishlist Button */}
-                    <button
-                      onClick={() => toggleWishlist(template)}
-                      className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/80 hover:bg-white backdrop-blur-sm shadow-sm transition-colors text-[#49341F] hover:text-[#A77B35]"
-                      aria-label="Add to wishlist"
-                    >
-                      <Heart
-                        className={`w-4 h-4 ${isFav ? 'fill-[#A77B35] text-[#A77B35]' : 'stroke-[1.8]'
-                          }`}
-                      />
-                    </button>
-
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-[#2C2114]/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 backdrop-blur-[2px]">
-                      <Link
-                        href={`/customize/${template.id}`}
-                        className="px-4 py-2 bg-[#8F6E3B] hover:bg-[#7D5F31] text-white text-xs font-semibold rounded-lg shadow-gold flex items-center gap-1.5 transition-all transform translate-y-2 group-hover:translate-y-0"
-                      >
-                        <Edit3 className="w-3.5 h-3.5" />
-                        <span>Customize</span>
-                      </Link>
-                      <Link
-                        href={`/templates/${template.slug}`}
-                        className="px-3.5 py-2 bg-white hover:bg-[#FAF7F2] text-[#49341F] text-xs font-medium rounded-lg shadow-sm flex items-center gap-1.5 transition-all transform translate-y-2 group-hover:translate-y-0"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                        <span>Details</span>
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* Info */}
-                  <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between bg-white">
-                    <div>
-                      <div className="flex items-center justify-between text-xs text-[#8C6837] mb-1 font-medium">
-                        <span>{template.occasion}</span>
-                        <span className="flex items-center gap-1 text-[#695034]">
-                          ★ {template.rating} ({template.reviewsCount})
-                        </span>
-                      </div>
-
-                      <h3 className="font-serif text-base sm:text-lg text-[#2C2114] font-medium leading-snug line-clamp-1 group-hover:text-[#8F6E3B] transition-colors">
-                        {template.title}
-                      </h3>
-                      <p className="text-xs text-[#7A634E] line-clamp-2 mt-1 leading-relaxed">
-                        {template.description}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-4 mt-3 border-t border-[#F2ECE0]">
-                      <div className="flex items-baseline gap-1.5">
-                        {template.isFree ? (
-                          <span className="text-base font-serif font-bold text-[#2E6B3F]">
-                            Free
-                          </span>
-                        ) : (
-                          <>
-                            <span className="text-base sm:text-lg font-serif font-bold text-[#2C2114]">
-                              ₹{template.price}
-                            </span>
-                            <span className="text-[11px] text-[#99816B] line-through">
-                              ₹{template.price + 200}
-                            </span>
-                          </>
-                        )}
-                      </div>
-
-                      <Link
-                        href={`/customize/${template.id}`}
-                        className="text-xs font-semibold text-[#8F6E3B] hover:text-[#6E4F22] flex items-center gap-1 group/btn"
-                      >
-                        <span>Customize</span>
-                        <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
-                      </Link>
-                    </div>
-                  </div>
-
-                </div>
-              );
-            })}
+            {filteredTemplates.map((template) => (
+              <TemplateCard
+                key={template.id}
+                template={template}
+                onOpenDemo={(tpl) => setActiveDemoTemplate(tpl)}
+              />
+            ))}
           </div>
         )}
 
       </div>
+
+      {/* Live Demo Modal with Phone Auto-advance (2s) and Laptop View */}
+      {activeDemoTemplate && (
+        <LiveDemoModal
+          isOpen={!!activeDemoTemplate}
+          onClose={() => setActiveDemoTemplate(null)}
+          template={activeDemoTemplate}
+        />
+      )}
     </div>
   );
 }

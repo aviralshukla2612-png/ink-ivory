@@ -25,43 +25,84 @@ const SliderContext = createContext({
   prevSlide: () => {},
   isFirstSlide: true,
   isLastSlide: false,
+  isAutoPlaying: false,
+  toggleAutoPlay: () => {},
 });
 
-export const SliderProvider = ({ children, active = true }) => {
+export const SliderProvider = ({
+  children,
+  active = true,
+  autoAdvance = false,
+  autoInterval = 2000,
+}) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(autoAdvance);
   const totalSlides = SLIDES.length;
   const isTransitioning = useRef(false);
 
-  const goToSlide = useCallback((index) => {
-    if (index >= 0 && index < totalSlides) {
-      setCurrentSlide(index);
-    }
-  }, [totalSlides]);
+  const goToSlide = useCallback(
+    (index) => {
+      if (index >= 0 && index < totalSlides) {
+        setCurrentSlide(index);
+      }
+    },
+    [totalSlides]
+  );
 
   const nextSlide = useCallback(() => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
-    setCurrentSlide((prev) => Math.min(prev + 1, totalSlides - 1));
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
     setTimeout(() => {
       isTransitioning.current = false;
-    }, 650);
+    }, 600);
   }, [totalSlides]);
 
   const prevSlide = useCallback(() => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
-    setCurrentSlide((prev) => Math.max(prev - 1, 0));
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
     setTimeout(() => {
       isTransitioning.current = false;
-    }, 650);
+    }, 600);
+  }, [totalSlides]);
+
+  const toggleAutoPlay = useCallback(() => {
+    setIsAutoPlaying((prev) => !prev);
   }, []);
+
+  // Update autoPlaying state when prop changes
+  useEffect(() => {
+    setIsAutoPlaying(autoAdvance);
+  }, [autoAdvance]);
+
+  // AUTO-ADVANCE: in phone view, automatically scrolls every 2 seconds (looping)
+  useEffect(() => {
+    if (!active || !isAutoPlaying) return;
+
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
+    }, autoInterval);
+
+    return () => clearInterval(interval);
+  }, [active, isAutoPlaying, autoInterval, totalSlides]);
+
+  // Message listener for parent frame controls (Live Demo Modal)
+  useEffect(() => {
+    const handleMessage = (e) => {
+      if (e.data?.action === 'nextSlide') nextSlide();
+      if (e.data?.action === 'prevSlide') prevSlide();
+      if (e.data?.action === 'toggleAutoPlay') toggleAutoPlay();
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [nextSlide, prevSlide, toggleAutoPlay]);
 
   // Keyboard navigation (Arrow keys, Space)
   useEffect(() => {
     if (!active) return;
 
     const handleKeyDown = (e) => {
-      // Don't trigger if user is in an input or textarea
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
 
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
@@ -89,14 +130,14 @@ export const SliderProvider = ({ children, active = true }) => {
       if (wheelTimer) return;
 
       wheelTimer = setTimeout(() => {
-        if (accumulatedDelta > 40) {
+        if (accumulatedDelta > 30) {
           nextSlide();
-        } else if (accumulatedDelta < -40) {
+        } else if (accumulatedDelta < -30) {
           prevSlide();
         }
         accumulatedDelta = 0;
         wheelTimer = null;
-      }, 100);
+      }, 70);
     };
 
     window.addEventListener('wheel', handleWheel, { passive: true });
@@ -125,12 +166,10 @@ export const SliderProvider = ({ children, active = true }) => {
       const diffY = touchStartY - touchEndY;
 
       // Check if horizontal swipe is stronger than vertical
-      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
         if (diffX > 0) {
-          // Swiped Left -> Advance to next slide
           nextSlide();
         } else {
-          // Swiped Right -> Go to previous slide
           prevSlide();
         }
       }
@@ -155,6 +194,8 @@ export const SliderProvider = ({ children, active = true }) => {
         prevSlide,
         isFirstSlide: currentSlide === 0,
         isLastSlide: currentSlide === totalSlides - 1,
+        isAutoPlaying,
+        toggleAutoPlay,
       }}
     >
       {children}

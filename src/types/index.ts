@@ -54,6 +54,11 @@ export interface Template {
   defaultFields: EditableFields;
   designConfig: DesignConfig;
   tags: string[];
+  badge?: string;
+  tier?: string;
+  photoOption?: string;
+  useItFor?: string;
+  liveDemoUrl?: string;
 }
 
 export interface CartItem {
