@@ -128,7 +128,7 @@ export default function OrderSuccessPage() {
           </h1>
 
           <p className="text-xs sm:text-sm text-[#6B533E] max-w-lg mx-auto leading-relaxed mb-6">
-            Thank you for choosing Ink & Ivory. Your custom event web page is now live, fully responsive, and ready to share with your guests.
+            Thank you for choosing You Are Mine. Your custom event web page is now live, fully responsive, and ready to share with your guests.
           </p>
 
           {/* Quick Order Info Pill */}
@@ -182,7 +182,7 @@ export default function OrderSuccessPage() {
           {/* Account Save confirmation */}
           <p className="text-[11px] text-[#7A634E] mt-6 flex items-center justify-center gap-1.5">
             <ShieldCheck className="w-4 h-4 text-[#2E6B3F]" />
-            <span>Saved permanently in your Ink & Ivory customer account for live management.</span>
+            <span>Saved permanently in your You Are Mine customer account for live management.</span>
           </p>
 
         </div>

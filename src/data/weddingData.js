@@ -1,5 +1,5 @@
 /**
- * INK & IVORY — TEMPLATE 01: CINEMATIC ROYAL WEDDING
+ * YOU ARE MINE — TEMPLATE 01: CINEMATIC ROYAL WEDDING
  * Central Configurable Wedding Data Model
  * Reusable architecture for future marketplace customization.
  */

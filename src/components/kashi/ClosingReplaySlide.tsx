@@ -115,7 +115,7 @@ export const ClosingReplaySlide: React.FC<ClosingReplaySlideProps> = ({
       <div className="relative z-10 w-full pt-4 pb-2 border-t border-[#E8C77E]/20 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#C4AB80] gap-2">
         <div className="flex items-center gap-1.5 font-serif">
           <span>Made with</span>
-          <span className="font-bold text-[#F8E7C0]">Ink &amp; Ivory</span>
+          <span className="font-bold text-[#F8E7C0]">You Are Mine</span>
         </div>
 
         <Link

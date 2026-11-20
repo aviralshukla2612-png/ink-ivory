@@ -50,8 +50,11 @@ function TemplatesContent() {
         }
 
         // Occasion filter
-        if (selectedOccasion !== 'All' && item.occasion !== selectedOccasion) {
-          return false;
+        if (selectedOccasion !== 'All') {
+          const matchOccasion = item.occasion.toLowerCase() === selectedOccasion.toLowerCase();
+          const matchTag = item.tags.some((t) => t.toLowerCase() === selectedOccasion.toLowerCase());
+          const matchUseIt = item.useItFor?.toLowerCase().includes(selectedOccasion.toLowerCase());
+          if (!matchOccasion && !matchTag && !matchUseIt) return false;
         }
 
         // Price filter
@@ -156,8 +159,8 @@ function TemplatesContent() {
             <button
               onClick={() => setSelectedOccasion('All')}
               className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${selectedOccasion === 'All'
-                  ? 'bg-[#8F6E3B] text-white shadow-sm'
-                  : 'bg-[#EDE2CF]/60 text-[#49341F] hover:bg-[#EDE2CF]'
+                ? 'bg-[#8F6E3B] text-white shadow-sm'
+                : 'bg-[#EDE2CF]/60 text-[#49341F] hover:bg-[#EDE2CF]'
                 }`}
             >
               All Occasions
@@ -167,8 +170,8 @@ function TemplatesContent() {
                 key={occ.name}
                 onClick={() => setSelectedOccasion(occ.name)}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${selectedOccasion === occ.name
-                    ? 'bg-[#8F6E3B] text-white shadow-sm'
-                    : 'bg-[#EDE2CF]/60 text-[#49341F] hover:bg-[#EDE2CF]'
+                  ? 'bg-[#8F6E3B] text-white shadow-sm'
+                  : 'bg-[#EDE2CF]/60 text-[#49341F] hover:bg-[#EDE2CF]'
                   }`}
               >
                 {occ.name}
@@ -251,7 +254,7 @@ export default function TemplatesPage() {
       fallback={
         <div className="min-h-screen bg-[#F8F4EC] flex items-center justify-center">
           <p className="text-xs font-serif text-[#8C6837] animate-pulse">
-            Loading Ink & Ivory Collections...
+            Loading You Are Mine Collections...
           </p>
         </div>
       }

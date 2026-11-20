@@ -15,13 +15,39 @@ export const FeaturedTemplates: React.FC = () => {
 
   const tabs = ['All', 'Wedding', 'Anniversary', 'Engagement', 'Birthday', "Valentine's Day"];
 
-  // Filter templates: Show cards matching reference
+  // Core interactive templates
+  const primaryTemplates = [
+    templatesData.find((t) => t.id === 'tpl-wedding-navy-01'),
+    templatesData.find((t) => t.id === 'tpl-anniversary-gold-02'),
+    templatesData.find((t) => t.id === 'tpl-engagement-garden-03'),
+    templatesData.find((t) => t.id === 'tpl-birthday-botanical-04'),
+    templatesData.find((t) => t.id === 'tpl-valentine-interactive-05'),
+    templatesData.find((t) => t.id === 'tpl-date-planner-07'),
+  ].filter(Boolean) as Template[];
+
+  // Filter templates: Show all interactive templates on 'All', or filter precisely by category
   const displayTemplates =
     activeTab === 'All'
-      ? templatesData.slice(0, 3)
-      : templatesData.filter((t) => t.occasion === activeTab || t.tags.includes(activeTab)).slice(0, 3);
+      ? primaryTemplates
+      : primaryTemplates.filter((t) => {
+        const tabLower = activeTab.toLowerCase();
+        const matchOccasion = t.occasion.toLowerCase() === tabLower;
+        const matchTag = t.tags?.some((tag) => tag.toLowerCase() === tabLower);
+        const matchUseIt = t.useItFor?.toLowerCase().includes(tabLower);
+        // Special alias matching
+        if (activeTab === "Valentine's Day" && (t.occasion === "Valentine's Day" || t.tags.includes('Romantic') || t.id.includes('valentine') || t.id.includes('date-planner'))) {
+          return true;
+        }
+        if (activeTab === 'Anniversary' && (t.tags.includes('Anniversary') || t.useItFor?.includes('Save the date') || t.id.includes('anniversary') || t.id.includes('date-planner'))) {
+          return true;
+        }
+        if (activeTab === 'Engagement' && (t.tags.includes('Engagement') || t.useItFor?.includes('Engagement') || t.id.includes('engagement') || t.id.includes('wedding-navy'))) {
+          return true;
+        }
+        return matchOccasion || matchTag || matchUseIt;
+      });
 
-  const cardsToShow = displayTemplates.length > 0 ? displayTemplates : templatesData.slice(0, 3);
+  const cardsToShow = displayTemplates.length > 0 ? displayTemplates : primaryTemplates;
 
   return (
     <section id="templates" className="relative w-full overflow-hidden bg-[#FAF7F2] py-16 sm:py-24 border-b border-[#EDE2CF]">
@@ -29,7 +55,7 @@ export const FeaturedTemplates: React.FC = () => {
       <div className="absolute inset-0 z-0 pointer-events-none select-none">
         <Image
           src="/bg1.png"
-          alt="Ink & Ivory luxury stationery background"
+          alt="You Are Mine luxury stationery background"
           fill
           sizes="100vw"
           className="object-cover object-top"
@@ -40,7 +66,7 @@ export const FeaturedTemplates: React.FC = () => {
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#EDE2CF]/80 border border-[#DFCDB0] text-[#7D5F31] text-[10.5px] font-semibold tracking-widest uppercase mb-3 shadow-2xs">
@@ -62,11 +88,10 @@ export const FeaturedTemplates: React.FC = () => {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-1.5 rounded-full text-xs transition-all duration-150 cursor-pointer ${
-                  activeTab === tab
+                className={`px-4 py-1.5 rounded-full text-xs transition-all duration-150 cursor-pointer ${activeTab === tab
                     ? 'bg-[#8F6E3B] text-white font-semibold shadow-xs'
                     : 'bg-[#EDE2CF]/60 text-[#49341F] font-medium hover:bg-[#EDE2CF]'
-                }`}
+                  }`}
               >
                 {tab}
               </button>
@@ -82,8 +107,8 @@ export const FeaturedTemplates: React.FC = () => {
           </Link>
         </div>
 
-        {/* Cards Grid Matching User's Screenshot media_1795069195323_63f764fa.jpg */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7">
+        {/* Responsive Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
           {cardsToShow.map((template) => (
             <TemplateCard
               key={template.id}

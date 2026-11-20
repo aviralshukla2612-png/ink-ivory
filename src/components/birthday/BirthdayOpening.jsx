@@ -47,7 +47,7 @@ export function BirthdayOpening({ recipientName = 'Ananya', onOpen, onSkip }) {
 
         {/* Small Teaser Tag */}
         <span className="text-[11px] font-sans font-medium uppercase tracking-[0.28em] text-[#B62A42] mb-3">
-          Ink &amp; Ivory &bull; Birthday Edition
+          You Are Mine &bull; Birthday Edition
         </span>
 
         {/* Heading */}

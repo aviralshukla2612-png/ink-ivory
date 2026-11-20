@@ -172,7 +172,7 @@ export default function TemplateDetailsPage() {
               </div>
               <div className="flex items-center gap-2 text-xs text-[#49341F]">
                 <ShieldCheck className="w-4 h-4 text-[#A77B35]" />
-                <span>Lifetime access in your Ink & Ivory customer account</span>
+                <span>Lifetime access in your You Are Mine customer account</span>
               </div>
             </div>
 

@@ -12,7 +12,7 @@ export const HeroSection: React.FC = () => {
       <div className="absolute inset-0 z-0 pointer-events-none select-none">
         <Image
           src="/herobg.png"
-          alt="Ink & Ivory luxury digital invitation web pages composition"
+          alt="You Are Mine luxury digital invitation web pages composition"
           fill
           priority
           sizes="100vw"

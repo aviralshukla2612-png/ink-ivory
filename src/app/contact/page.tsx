@@ -39,7 +39,7 @@ export default function ContactPage() {
                 <Mail className="w-4 h-4 text-[#A77B35] mt-0.5" />
                 <div>
                   <strong className="block text-[#2C2114]">Email Concierge</strong>
-                  <span>support@inkandivory.com</span>
+                  <span>support@youaremine.com</span>
                 </div>
               </div>
 
@@ -55,7 +55,7 @@ export default function ContactPage() {
                 <Phone className="w-4 h-4 text-[#A77B35] mt-0.5" />
                 <div>
                   <strong className="block text-[#2C2114]">Bespoke Inquiries</strong>
-                  <span>hello@inkandivory.com</span>
+                  <span>hello@youaremine.com</span>
                 </div>
               </div>
             </div>
@@ -73,7 +73,7 @@ export default function ContactPage() {
                   Message Received
                 </h3>
                 <p className="text-xs text-[#6B533E] max-w-sm mx-auto">
-                  Thank you for reaching out. An Ink & Ivory concierge will reply to your email within 2-4 business hours.
+                  Thank you for reaching out. An You Are Mine concierge will reply to your email within 2-4 business hours.
                 </p>
               </div>
             ) : (

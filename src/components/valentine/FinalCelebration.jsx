@@ -51,10 +51,10 @@ export const FinalCelebration = ({
           <span>{celebrationData.replayButtonText || "Ask Me Again ↺"}</span>
         </button>
 
-        {/* Ink & Ivory Brand Credit */}
+        {/* You Are Mine Brand Credit */}
         <div className="border-t border-[#641D2B]/15 pt-8 w-full max-w-md flex flex-col items-center gap-2 text-xs font-sans text-[#641D2B]/60">
           <p className="tracking-widest uppercase font-semibold text-[#641D2B]/75">
-            Crafted with love by Ink &amp; Ivory
+            Crafted with love by You Are Mine
           </p>
           <p className="text-[11px] text-[#641D2B]/50">
             Exclusive Digital Stationery &amp; Romantic Experiences

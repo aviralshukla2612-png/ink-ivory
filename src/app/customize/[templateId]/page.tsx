@@ -20,13 +20,26 @@ import {
   Pause,
   Heart,
   Volume2,
+  Save,
+  Globe,
+  Loader2,
+  AlertCircle,
 } from 'lucide-react';
+import PublishModal from '@/components/editor/PublishModal';
 import { templatesData } from '@/data/templates';
 import { EditableFields, DesignConfig } from '@/types';
 import { useCart } from '@/context/CartContext';
 
 // Curated library of iconic soundtracks
 const SONG_LIBRARY = [
+  {
+    id: 'happy-birthday',
+    title: 'Happy Birthday to You (Music Box & Piano)',
+    artist: 'You Are Mine Music Box • Celebratory Melody',
+    source: '/audio/happy-birthday.mp3',
+    duration: 31,
+    tag: 'Birthday Anthem',
+  },
   {
     id: 'aaj-sajeya',
     title: 'Aaj Sajeya — Goldie Sohel',
@@ -88,13 +101,24 @@ export default function CustomizePage() {
         t.id === templateId ||
         t.slug === templateId ||
         t.liveDemoUrl?.includes(templateId) ||
+        (templateId === 'date-planner' && t.liveDemoUrl === '/date-planner') ||
         (templateId === 'valentine' && t.liveDemoUrl === '/valentine') ||
+        (templateId === 'birthday' && t.liveDemoUrl === '/birthday') ||
         (templateId === 'template-02' && t.liveDemoUrl === '/template-02') ||
         (templateId === 'template-03' && t.liveDemoUrl === '/template-03')
     ) || templatesData[0];
 
   // Resolve template key
   const getTemplateKey = () => {
+    if (
+      templateId === 'date-planner' ||
+      templateId === 'tpl-date-planner-07' ||
+      templateId === 'our-date-planner' ||
+      baseTemplate.id === 'tpl-date-planner-07' ||
+      baseTemplate.liveDemoUrl === '/date-planner'
+    ) {
+      return 'date-planner';
+    }
     if (
       templateId === 'template-02' ||
       templateId === 'tpl-anniversary-gold-02' ||
@@ -161,6 +185,85 @@ export default function CustomizePage() {
   const [audioCurrentTime, setAudioCurrentTime] = useState<number>(() => Number(fields.audioStartTime) || 0);
   const [customUrlInput, setCustomUrlInput] = useState('');
   const [audioDuration, setAudioDuration] = useState<number>(240);
+  const [isUploadingAudio, setIsUploadingAudio] = useState(false);
+  const [audioUploadMessage, setAudioUploadMessage] = useState<string | null>(null);
+  const [audioUploadError, setAudioUploadError] = useState<string | null>(null);
+
+  // Persistent Draft & Try-Before-You-Publish State
+  const [draftId, setDraftId] = useState<string | null>(null);
+  const [isDraftSaving, setIsDraftSaving] = useState(false);
+  const [draftSaveStatus, setDraftSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
+  // Load existing draft if draftId is in query params
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const sp = new URLSearchParams(window.location.search);
+    const existingDraftId = sp.get('draftId');
+    if (existingDraftId) {
+      setDraftId(existingDraftId);
+      fetch(`/api/drafts/${existingDraftId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && data.draft) {
+            if (data.draft.fields) setFields((prev) => ({ ...prev, ...data.draft.fields }));
+            if (data.draft.design) setDesign((prev) => ({ ...prev, ...data.draft.design }));
+          }
+        })
+        .catch((err) => console.error('Failed to load draft:', err));
+    }
+  }, []);
+
+  // Save Draft to Server Function
+  const saveDraftToServer = async (overrideStatus?: string): Promise<string | null> => {
+    setIsDraftSaving(true);
+    setDraftSaveStatus('saving');
+    try {
+      const res = await fetch('/api/drafts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: draftId || undefined,
+          templateId: baseTemplate.id,
+          title: `${fields.names || baseTemplate.title} Invitation`,
+          fields,
+          design,
+          customAudioUrl: fields.audioSource,
+          customAudioTitle: fields.songTitle,
+          status: overrideStatus || 'DRAFT',
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.draft) {
+        setDraftId(data.draft.id);
+        setDraftSaveStatus('saved');
+        setHasUnsavedChanges(false);
+        setTimeout(() => setDraftSaveStatus('idle'), 2500);
+        return data.draft.id;
+      } else {
+        setDraftSaveStatus('error');
+        setTimeout(() => setDraftSaveStatus('idle'), 3000);
+        return null;
+      }
+    } catch (e) {
+      console.error('Error saving draft:', e);
+      setDraftSaveStatus('error');
+      setTimeout(() => setDraftSaveStatus('idle'), 3000);
+      return null;
+    } finally {
+      setIsDraftSaving(false);
+    }
+  };
+
+  // Auto-save debounce effect (saves automatically every few seconds when changes occur)
+  useEffect(() => {
+    if (!hasUnsavedChanges) return;
+    const timer = setTimeout(() => {
+      saveDraftToServer();
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [fields, design, hasUnsavedChanges]);
 
   const audioPreviewRef = useRef<HTMLAudioElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -174,6 +277,7 @@ export default function CustomizePage() {
 
   // Broadcast field updates to live preview iframe & sessionStorage
   const handleFieldChange = (key: keyof EditableFields, value: any) => {
+    setHasUnsavedChanges(true);
     setFields((prev) => {
       const updated = { ...prev, [key]: value };
       if (typeof window !== 'undefined') {
@@ -210,28 +314,79 @@ export default function CustomizePage() {
     }
   };
 
-  // Handle custom audio file upload (MP3/WAV/AAC)
-  const handleAudioUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle custom audio file upload (MP3/WAV/AAC/M4A) via real server route
+  const handleAudioUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const objUrl = URL.createObjectURL(file);
-      const cleanName = file.name.replace(/\.[^/.]+$/, '');
-      handleSelectSong({
-        title: cleanName,
-        source: objUrl,
-        artist: 'Custom Uploaded Song',
+    if (!file) return;
+
+    try {
+      setIsUploadingAudio(true);
+      setAudioUploadError(null);
+      setAudioUploadMessage(`Uploading "${file.name}"...`);
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch('/api/upload/audio', {
+        method: 'POST',
+        body: formData,
       });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to upload audio');
+      }
+
+      setAudioUploadMessage(`✓ "${data.title}" uploaded successfully & playing!`);
+      setTimeout(() => setAudioUploadMessage(null), 6000);
+
+      handleSelectSong({
+        title: data.title,
+        source: data.url,
+        artist: 'My Uploaded Song',
+      });
+    } catch (err: any) {
+      console.error('Audio upload error:', err);
+      setAudioUploadError(err.message || 'Upload failed. Please upload an MP3/WAV file under 25MB.');
+      setTimeout(() => setAudioUploadError(null), 6000);
+    } finally {
+      setIsUploadingAudio(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
   // Handle custom audio URL submit
   const handleCustomUrlSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customUrlInput.trim()) return;
+    const url = customUrlInput.trim();
+    if (!url) return;
+
+    try {
+      new URL(url);
+    } catch {
+      setAudioUploadError('Please enter a valid URL starting with https:// or http://');
+      setTimeout(() => setAudioUploadError(null), 5000);
+      return;
+    }
+
+    setAudioUploadError(null);
+    let extractedName = 'Custom Web Audio';
+    try {
+      const parts = new URL(url).pathname.split('/');
+      const last = parts[parts.length - 1];
+      if (last && last.includes('.')) {
+        extractedName = decodeURIComponent(last.replace(/\.[^/.]+$/, ''));
+      }
+    } catch (e) {}
+
+    setAudioUploadMessage(`✓ Direct audio link applied & playing!`);
+    setTimeout(() => setAudioUploadMessage(null), 6000);
+
     handleSelectSong({
-      title: 'Custom Audio Stream',
-      source: customUrlInput.trim(),
-      artist: 'Custom Web Track',
+      title: extractedName,
+      source: url,
+      artist: 'Custom Web Stream',
     });
     setCustomUrlInput('');
   };
@@ -358,9 +513,23 @@ export default function CustomizePage() {
       params.set('heading', fields.headline || 'Birthday');
       params.set('message', fields.message || 'To the one who makes life more special, may your day be as beautiful, kind and happy as you are.');
       if (fields.letterMessage) params.set('letterMessage', fields.letterMessage);
-      if (fields.audioSource) params.set('audioSource', fields.audioSource);
+      params.set('audioSource', fields.audioSource || '/audio/happy-birthday.mp3');
       if (fields.audioStartTime) params.set('audioStart', String(fields.audioStartTime));
       return `/birthday?${params.toString()}`;
+    }
+
+    if (templateKey === 'date-planner') {
+      const namesList = (fields.names || 'Riya & Aarav').split('&');
+      const recipient = namesList[0]?.trim() || 'Riya';
+      const sender = namesList[1]?.trim() || (fields.host ? fields.host.replace(/^Planned with love by\s*/i, '').trim() : 'Aarav');
+      params.set('recipient', recipient);
+      params.set('sender', sender);
+      params.set('heading', fields.headline || 'Our Perfect Date ♡');
+      params.set('description', fields.message || "Tell me what you'd love most, and I'll plan every detail for an unforgettable time together.");
+      params.set('eyebrow', fields.eyebrow || "LET'S PLAN");
+      if (fields.audioSource) params.set('songUrl', fields.audioSource);
+      params.set('skipOpening', 'true');
+      return `/date-planner?${params.toString()}`;
     }
 
     if (templateKey === 'template-03') {
@@ -441,29 +610,44 @@ export default function CustomizePage() {
             <span>Reset</span>
           </button>
 
+          {/* Persistent Save Draft Button */}
           <button
-            onClick={handleSaveToCartOnly}
-            className="px-3.5 py-1.5 text-xs font-semibold rounded-lg border border-[#A77B35] text-[#5C4523] bg-white hover:bg-[#FAF7F0] flex items-center gap-1.5 transition-colors cursor-pointer"
+            onClick={() => saveDraftToServer()}
+            disabled={isDraftSaving}
+            className="px-3.5 py-1.5 text-xs font-semibold rounded-lg border border-[#A77B35] text-[#5C4523] bg-white hover:bg-[#FAF7F0] flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
+            title="Save your progress to resume anytime"
           >
-            {isSavedToCart ? (
+            {draftSaveStatus === 'saving' ? (
               <>
-                <Check className="w-3.5 h-3.5 text-green-600" />
-                <span className="text-green-700">Saved to Cart!</span>
+                <div className="w-3.5 h-3.5 border-2 border-[#8F6E3B] border-t-transparent rounded-full animate-spin" />
+                <span>Saving...</span>
+              </>
+            ) : draftSaveStatus === 'saved' ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="text-emerald-700">Draft Saved</span>
               </>
             ) : (
               <>
-                <ShoppingBag className="w-3.5 h-3.5" />
-                <span>Save to Cart</span>
+                <Save className="w-3.5 h-3.5 text-[#8F6E3B]" />
+                <span>Save Draft</span>
               </>
             )}
           </button>
 
+          {/* Try-Before-You-Publish: Luxury Publish My Website Button */}
           <button
-            onClick={handleAddToCartAndProceed}
-            className="px-4 py-1.5 text-xs sm:text-[13px] font-semibold rounded-lg bg-[#8F6E3B] hover:bg-[#7D5F31] text-white shadow-gold flex items-center gap-1.5 transition-colors cursor-pointer"
+            onClick={async () => {
+              await saveDraftToServer('READY_TO_PUBLISH');
+              setIsPublishModalOpen(true);
+            }}
+            className="px-4 sm:px-5 py-2 text-xs sm:text-[13px] font-semibold rounded-xl bg-gradient-to-r from-[#8F6E3B] via-[#A88347] to-[#8F6E3B] hover:opacity-95 text-white shadow-gold flex items-center gap-2 transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
           >
-            <span>Proceed to Purchase</span>
-            <span className="font-serif">₹{baseTemplate.price}</span>
+            <Sparkles className="w-3.5 h-3.5 text-[#FFF2D6]" />
+            <span className="tracking-wide">Publish My Website</span>
+            <span className="font-serif bg-black/15 px-2 py-0.5 rounded text-[11px] font-normal">
+              ₹{baseTemplate.price}
+            </span>
           </button>
         </div>
       </div>
@@ -733,6 +917,98 @@ export default function CustomizePage() {
                       value={fields.letterMessage || 'Today is all about celebrating you. I hope your life is always filled with laughter, beautiful memories, exciting adventures, and people who make you feel as special as you truly are. Never stop dreaming and smiling!'}
                       onChange={(e) => handleFieldChange('letterMessage', e.target.value)}
                       placeholder="Write your heartfelt birthday letter here..."
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+                </>
+              ) : templateKey === 'date-planner' ? (
+                <>
+                  {/* Date Planner: Recipient & Sender Names */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1">
+                        Recipient (Their Name)
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.names ? fields.names.split('&')[0]?.trim() : 'Riya'}
+                        onChange={(e) => {
+                          const other = fields.names ? fields.names.split('&')[1]?.trim() || 'Aarav' : 'Aarav';
+                          handleFieldChange('names', `${e.target.value} & ${other}`);
+                        }}
+                        placeholder="e.g. Riya"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1">
+                        Sender (Your Name)
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.names ? fields.names.split('&')[1]?.trim() || '' : 'Aarav'}
+                        onChange={(e) => {
+                          const first = fields.names ? fields.names.split('&')[0]?.trim() || 'Riya' : 'Riya';
+                          handleFieldChange('names', `${first} & ${e.target.value}`);
+                        }}
+                        placeholder="e.g. Aarav"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Eyebrow Tag */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Eyebrow Tag
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.eyebrow || "LET'S PLAN"}
+                      onChange={(e) => handleFieldChange('eyebrow', e.target.value)}
+                      placeholder="e.g. LET'S PLAN"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  {/* Planner Hero Heading */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Main Heading
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.headline || 'Our Perfect Date ♡'}
+                      onChange={(e) => handleFieldChange('headline', e.target.value)}
+                      placeholder="e.g. Our Perfect Date ♡"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  {/* Planner Description / Message */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Invitation Subtitle &amp; Message
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={fields.message || "Tell me what you'd love most, and I'll plan every detail for an unforgettable time together."}
+                      onChange={(e) => handleFieldChange('message', e.target.value)}
+                      placeholder="e.g. Tell me what you'd love most..."
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  {/* Opening Love Note */}
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Love Note in Envelope
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={fields.letterMessage || 'Every moment with you is special. Let\'s make another unforgettable memory together.'}
+                      onChange={(e) => handleFieldChange('letterMessage', e.target.value)}
+                      placeholder="Write your sweet message here..."
                       className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                     />
                   </div>
@@ -1029,6 +1305,28 @@ export default function CustomizePage() {
                 </p>
               </div>
 
+              {/* Real-time Status / Alert Banners */}
+              {isUploadingAudio && (
+                <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 flex items-center gap-2.5 text-xs font-semibold animate-pulse">
+                  <Loader2 className="w-4 h-4 animate-spin text-amber-600 shrink-0" />
+                  <span>Uploading your audio to You Are Mine cloud...</span>
+                </div>
+              )}
+
+              {audioUploadMessage && (
+                <div className="p-3.5 rounded-xl bg-green-50 border border-green-200 text-green-900 flex items-center gap-2.5 text-xs font-semibold animate-fade-in">
+                  <Check className="w-4 h-4 text-green-600 shrink-0" />
+                  <span>{audioUploadMessage}</span>
+                </div>
+              )}
+
+              {audioUploadError && (
+                <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-900 flex items-center gap-2.5 text-xs font-semibold animate-fade-in">
+                  <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+                  <span>{audioUploadError}</span>
+                </div>
+              )}
+
               {/* SECTION A: Upload Custom Song */}
               <div className="space-y-3">
                 <label className="block text-xs font-bold text-[#2C2114] uppercase tracking-wider">
@@ -1037,18 +1335,26 @@ export default function CustomizePage() {
                 <input
                   type="file"
                   ref={fileInputRef}
-                  accept="audio/*"
+                  accept="audio/*,.mp3,.wav,.aac,.m4a,.ogg"
                   onChange={handleAudioUpload}
+                  disabled={isUploadingAudio}
                   className="hidden"
                 />
                 <button
                   type="button"
+                  disabled={isUploadingAudio}
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full p-4 rounded-xl border-2 border-dashed border-[#A77B35] bg-[#FFFDF9] hover:bg-[#FAF5EA] text-[#5C4523] flex flex-col items-center justify-center gap-2 transition-all cursor-pointer group"
+                  className={`w-full p-4 rounded-xl border-2 border-dashed border-[#A77B35] bg-[#FFFDF9] hover:bg-[#FAF5EA] text-[#5C4523] flex flex-col items-center justify-center gap-2 transition-all cursor-pointer group ${
+                    isUploadingAudio ? 'opacity-60 cursor-not-allowed' : ''
+                  }`}
                 >
-                  <Upload className="w-6 h-6 text-[#A77B35] group-hover:scale-110 transition-transform" />
+                  {isUploadingAudio ? (
+                    <Loader2 className="w-6 h-6 text-[#A77B35] animate-spin" />
+                  ) : (
+                    <Upload className="w-6 h-6 text-[#A77B35] group-hover:scale-110 transition-transform" />
+                  )}
                   <span className="text-xs font-bold text-[#2C2114]">
-                    Choose Song From Your Device
+                    {isUploadingAudio ? 'Uploading Song...' : 'Choose Song From Your Device'}
                   </span>
                   <span className="text-[11px] text-[#7A634E]">
                     Supports MP3, WAV, AAC, M4A &bull; Plays instantly
@@ -1071,7 +1377,7 @@ export default function CustomizePage() {
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2 rounded-lg bg-[#8F6E3B] text-white text-xs font-semibold hover:bg-[#7D5F31] transition-colors"
+                    className="px-4 py-2 rounded-lg bg-[#8F6E3B] text-white text-xs font-semibold hover:bg-[#7D5F31] transition-colors cursor-pointer"
                   >
                     Apply
                   </button>
@@ -1385,6 +1691,19 @@ export default function CustomizePage() {
           )}
         </div>
       </div>
+
+      {/* Try-Before-You-Publish Modal */}
+      <PublishModal
+        isOpen={isPublishModalOpen}
+        onClose={() => setIsPublishModalOpen(false)}
+        draftId={draftId || undefined}
+        template={baseTemplate}
+        customFields={fields}
+        customDesign={design}
+        onPublished={(slug, url) => {
+          console.log('Successfully published invitation:', url);
+        }}
+      />
     </div>
   );
 }

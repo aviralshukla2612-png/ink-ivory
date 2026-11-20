@@ -165,7 +165,7 @@ export default function BirthdayPage() {
       {/* Background Audio */}
       <audio
         ref={audioRef}
-        src={data.music.source || '/audio/valentine-theme.mp3'}
+        src={data.music.source || '/audio/happy-birthday.mp3'}
         loop
         preload="auto"
       />

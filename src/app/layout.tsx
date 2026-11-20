@@ -6,7 +6,7 @@ import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
 
 export const metadata: Metadata = {
-  title: 'Ink & Ivory — Bespoke Digital Invitation Web Pages for Life’s Special Moments',
+  title: 'You Are Mine — Bespoke Digital Invitation Web Pages for Life’s Special Moments',
   description:
     'Discover, personalize, and publish luxury digital invitation web pages for weddings, anniversaries, and milestone celebrations.',
   keywords: [
@@ -32,8 +32,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/png" href="/logo.png" />
-        <link rel="apple-touch-icon" href="/logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

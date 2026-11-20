@@ -109,7 +109,7 @@ export const ClosingSection = () => {
 
         {/* Brand Footer */}
         <div className="mt-4 sm:mt-10 flex items-center justify-center gap-2 text-[9px] sm:text-[11px] font-manrope text-[#E7CEA0]/60 uppercase tracking-[0.25em]">
-          <span>Ink &amp; Ivory</span>
+          <span>You Are Mine</span>
           <span>•</span>
           <span>Digital Wedding Invitations</span>
         </div>

@@ -10,7 +10,7 @@ export default function RefundPolicyPage() {
           Refund & Cancellation Policy
         </h1>
         <p className="text-xs text-[#8C6837] mb-8">
-          Policy for Digital Goods • Ink & Ivory
+          Policy for Digital Goods • You Are Mine
         </p>
 
         <div className="bg-[#FCFAF6] rounded-3xl p-8 border border-[#DFCEAF] shadow-sm space-y-6 text-xs sm:text-sm text-[#49341F] leading-relaxed">
@@ -19,7 +19,7 @@ export default function RefundPolicyPage() {
               1. Nature of Digital Invitation Web Pages
             </h2>
             <p>
-              Because Ink & Ivory provides instant-access live digital event web pages and published links, orders are generally non-refundable once payment is completed and live web hosting is activated.
+              Because You Are Mine provides instant-access live digital event web pages and published links, orders are generally non-refundable once payment is completed and live web hosting is activated.
             </p>
           </section>
 
@@ -28,7 +28,7 @@ export default function RefundPolicyPage() {
               2. Full Preview Before Launch
             </h2>
             <p>
-              To ensure 100% satisfaction, Ink & Ivory provides a real-time live interactive editor and full preview where you can verify all text, spelling, dates, and color choices prior to checkout.
+              To ensure 100% satisfaction, You Are Mine provides a real-time live interactive editor and full preview where you can verify all text, spelling, dates, and color choices prior to checkout.
             </p>
           </section>
 
@@ -37,7 +37,7 @@ export default function RefundPolicyPage() {
               3. Technical Defects & Assistance
             </h2>
             <p>
-              If you experience any technical defect during page hosting or link generation, our concierge team will resolve your page or issue a full credit or refund within 24 hours. Contact support@inkandivory.com.
+              If you experience any technical defect during page hosting or link generation, our concierge team will resolve your page or issue a full credit or refund within 24 hours. Contact support@youaremine.com.
             </p>
           </section>
         </div>

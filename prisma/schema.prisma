@@ -1,0 +1,300 @@
+// Ink & Ivory — Enterprise Production Database Schema
+// Provider: PostgreSQL via Prisma ORM
+// Designed for multi-tenant isolation, ACID transaction safety, and publication idempotency.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+  STAFF
+}
+
+enum DraftStatus {
+  DRAFT
+  READY_TO_PUBLISH
+  PAYMENT_PENDING
+  PUBLISHED
+  ARCHIVED
+}
+
+enum OrderStatus {
+  CREATED
+  ATTEMPTED
+  PAID
+  FAILED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  AUTHORIZED
+  CAPTURED
+  FAILED
+  REFUNDED
+}
+
+enum PublicationStatus {
+  ACTIVE
+  SUSPENDED
+  EXPIRED
+}
+
+// -------------------------------------------------------------
+// Identity & Authentication
+// -------------------------------------------------------------
+model User {
+  id            String         @id @default(uuid())
+  email         String?        @unique
+  name          String?
+  phone         String?
+  role          Role           @default(USER)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  drafts        Draft[]
+  orders        PaymentOrder[]
+  publications  Publication[]
+  auditEvents   AuditEvent[]
+
+  @@index([email])
+}
+
+model GuestIdentity {
+  id         String         @id @default(uuid())
+  guestToken String         @unique // Signed HMAC token (gst_<uuid>)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  drafts     Draft[]
+  orders     PaymentOrder[]
+  sessions   GuestSession[]
+
+  @@index([guestToken])
+}
+
+model GuestSession {
+  id              String        @id @default(uuid())
+  guestIdentityId String
+  guestIdentity   GuestIdentity @relation(fields: [guestIdentityId], references: [id], onDelete: Cascade)
+  ipAddress       String?
+  userAgent       String?
+  lastActiveAt    DateTime      @default(now())
+  expiresAt       DateTime
+  createdAt       DateTime      @default(now())
+
+  @@index([guestIdentityId])
+}
+
+model AdminSession {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  adminUserId  String
+  expiresAt    DateTime
+  ipAddress    String?
+  userAgent    String?
+  isRevoked    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  @@index([sessionToken])
+}
+
+// -------------------------------------------------------------
+// Catalog & Pricing
+// -------------------------------------------------------------
+model Template {
+  id           String          @id
+  slug         String          @unique
+  title        String
+  occasion     String
+  description  String
+  previewImage String?
+  liveDemoUrl  String
+  badge        String?
+  tier         String          @default("SIGNATURE")
+  isActive     Boolean         @default(true)
+  defaultFields Json           @default("{}")
+  designConfig  Json           @default("{}")
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  prices       TemplatePrice[]
+  drafts       Draft[]
+  invitations  Invitation[]
+  publications Publication[]
+
+  @@index([slug])
+  @@index([occasion])
+}
+
+model TemplatePrice {
+  id                    String   @id @default(uuid())
+  templateId            String
+  template              Template @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  currency              String   @default("INR")
+  amountPaise           Int      // Stored in paise (e.g. 29900 = Rs 299)
+  promotionalPricePaise Int?
+  discountPercent       Int?
+  isActive              Boolean  @default(true)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([templateId])
+}
+
+// -------------------------------------------------------------
+// Customer Drafts & Media
+// -------------------------------------------------------------
+model Draft {
+  id               String         @id
+  guestToken       String
+  guestIdentityId  String?
+  guestIdentity    GuestIdentity? @relation(fields: [guestIdentityId], references: [id], onDelete: SetNull)
+  userId           String?
+  user             User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  templateId       String
+  template         Template       @relation(fields: [templateId], references: [id])
+  title            String         @default("Untitled Invitation")
+  fields           Json           @default("{}")
+  design           Json           @default("{}")
+  customAudioUrl   String?
+  customAudioTitle String?
+  status           DraftStatus    @default(DRAFT)
+  version          Int            @default(1)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  orders           PaymentOrder[]
+  invitation       Invitation?
+  publications     Publication[]
+  media            DraftMedia[]
+
+  @@index([guestToken])
+  @@index([userId])
+  @@index([templateId])
+  @@index([status])
+}
+
+model DraftMedia {
+  id          String   @id @default(uuid())
+  draftId     String
+  draft       Draft    @relation(fields: [draftId], references: [id], onDelete: Cascade)
+  mediaType   String   // "audio" | "image" | "monogram"
+  url         String
+  fileName    String
+  fileSize    Int
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@index([draftId])
+}
+
+// -------------------------------------------------------------
+// Payments & Orders
+// -------------------------------------------------------------
+model PaymentOrder {
+  id              String               @id @default(uuid())
+  orderId         String               @unique // Razorpay order_xxx
+  draftId         String
+  draft           Draft                @relation(fields: [draftId], references: [id], onDelete: Restrict)
+  guestToken      String
+  guestIdentityId String?
+  guestIdentity   GuestIdentity?       @relation(fields: [guestIdentityId], references: [id], onDelete: SetNull)
+  userId          String?
+  user            User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
+  amount          Int                  // in paise
+  currency        String               @default("INR")
+  status          OrderStatus          @default(CREATED)
+  razorpayReceipt String
+  notes           Json?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  transactions    PaymentTransaction[]
+
+  @@index([orderId])
+  @@index([draftId])
+  @@index([guestToken])
+}
+
+model PaymentTransaction {
+  id          String        @id @default(uuid())
+  paymentId   String        @unique // Razorpay pay_xxx
+  orderId     String
+  order       PaymentOrder  @relation(fields: [orderId], references: [orderId], onDelete: Restrict)
+  amount      Int           // in paise
+  currency    String        @default("INR")
+  status      PaymentStatus @default(CAPTURED)
+  method      String?
+  signature   String?
+  rawResponse Json?
+  verifiedAt  DateTime      @default(now())
+  createdAt   DateTime      @default(now())
+
+  @@index([paymentId])
+  @@index([orderId])
+}
+
+// -------------------------------------------------------------
+// Public Publications & Invitations
+// -------------------------------------------------------------
+model Invitation {
+  id           String        @id @default(uuid())
+  slug         String        @unique // Public invitation URL path
+  draftId      String        @unique
+  draft        Draft         @relation(fields: [draftId], references: [id], onDelete: Restrict)
+  templateId   String
+  template     Template      @relation(fields: [templateId], references: [id])
+  viewCount    Int           @default(0)
+  isPublic     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  publications Publication[]
+
+  @@index([slug])
+  @@index([draftId])
+}
+
+model Publication {
+  id           String            @id @default(uuid())
+  draftId      String
+  draft        Draft             @relation(fields: [draftId], references: [id], onDelete: Restrict)
+  invitationId String
+  invitation   Invitation        @relation(fields: [invitationId], references: [id], onDelete: Restrict)
+  templateId   String
+  template     Template          @relation(fields: [templateId], references: [id])
+  userId       String?
+  user         User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+  guestToken   String?
+  version      Int               @default(1)
+  snapshotData Json              // Immutable snapshot at time of publication
+  status       PublicationStatus @default(ACTIVE)
+  publishedAt  DateTime          @default(now())
+  expiresAt    DateTime?
+
+  @@index([draftId])
+  @@index([invitationId])
+  @@index([status])
+}
+
+// -------------------------------------------------------------
+// Security & Audit Events
+// -------------------------------------------------------------
+model AuditEvent {
+  id         String   @id @default(uuid())
+  action     String
+  entityType String
+  entityId   String?
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  guestToken String?
+  ipAddress  String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([action])
+  @@index([entityId])
+  @@index([guestToken])
+  @@index([createdAt])
+}

@@ -14,7 +14,7 @@ export default function AboutPage() {
             Our Story & Philosophy
           </span>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium text-[#2C2114] tracking-tight mb-4">
-            About Ink & Ivory
+            About You Are Mine
           </h1>
           <p className="text-sm sm:text-base text-[#6B533E] leading-relaxed">
             Where timeless stationery elegance meets the interactive grace of digital event web pages.
@@ -23,7 +23,7 @@ export default function AboutPage() {
 
         <div className="bg-[#FCFAF6] rounded-3xl p-8 sm:p-12 border border-[#DFCEAF] shadow-luxury space-y-8 text-xs sm:text-sm text-[#49341F] leading-relaxed">
           <p>
-            Ink & Ivory was born out of a simple, beautiful belief: <em>life&apos;s most sacred moments deserve invitation web pages of extraordinary elegance, without the waste, delays, or physical friction of traditional print-and-mail logistics.</em>
+            You Are Mine was born out of a simple, beautiful belief: <em>life&apos;s most sacred moments deserve invitation web pages of extraordinary elegance, without the waste, delays, or physical friction of traditional print-and-mail logistics.</em>
           </p>
 
           <div className="p-6 rounded-2xl bg-[#FAF7F2] border border-[#E8DFC8] space-y-2">
@@ -31,7 +31,7 @@ export default function AboutPage() {
               Our Digital-First Philosophy
             </h3>
             <p className="text-[#6B533E]">
-              We are exclusively a luxury digital invitation web page and event portal boutique. When you customize an Ink & Ivory design, you launch a responsive, interactive web page immediately — ready to share in seconds via WhatsApp, SMS, or email.
+              We are exclusively a luxury digital invitation web page and event portal boutique. When you customize an You Are Mine design, you launch a responsive, interactive web page immediately — ready to share in seconds via WhatsApp, SMS, or email.
             </p>
           </div>
 

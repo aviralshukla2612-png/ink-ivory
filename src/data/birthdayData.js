@@ -1,5 +1,5 @@
 /**
- * Ink & Ivory — Centralized Birthday Customization Configuration
+ * You Are Mine — Centralized Birthday Customization Configuration
  * Fully reactive and editable via Customization Studio or query parameters
  */
 export const birthdayData = {
@@ -114,8 +114,8 @@ export const birthdayData = {
 
   music: {
     enabled: true,
-    title: "Until I Found You — Stephen Sanchez",
-    source: "/audio/valentine-theme.mp3",
+    title: "Happy Birthday to You (Music Box & Piano)",
+    source: "/audio/happy-birthday.mp3",
     startTime: 0,
   },
 };

@@ -34,7 +34,7 @@ export const Newsletter: React.FC = () => {
         {subscribed ? (
           <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#E8F3EA] text-[#2E6B3F] text-xs font-medium border border-[#CBE5D3] animate-in fade-in">
             <CheckCircle2 className="w-4 h-4 text-[#2E6B3F]" />
-            <span>Thank you for joining Ink & Ivory. Check your inbox for your 10% welcome gift.</span>
+            <span>Thank you for joining You Are Mine. Check your inbox for your 10% welcome gift.</span>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center justify-center gap-2.5 max-w-md mx-auto">

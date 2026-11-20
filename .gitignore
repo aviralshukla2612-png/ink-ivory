@@ -13,7 +13,13 @@
 *.pem
 .DS_Store
 *.log
+scratch/
+# Environment Variables (Keep API keys & Razorpay secrets private)
+.env
 .env*.local
+.env.development
+.env.production
+.env.test
 *.mp4
 *.ps1
 check.js

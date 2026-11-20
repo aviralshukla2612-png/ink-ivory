@@ -1,5 +1,5 @@
 /**
- * INK & IVORY — Universal Wedding Calendar .ics Generator
+ * YOU ARE MINE — Universal Wedding Calendar .ics Generator
  * Generates and triggers the download of an iCalendar (.ics) file
  * containing all functions (Mehndi, Haldi, Wedding, Reception).
  */
@@ -41,7 +41,7 @@ export const downloadWeddingCalendar = (weddingData) => {
   let icsContent = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Ink & Ivory//Wedding Invitation Template 01//EN',
+    'PRODID:-//You Are Mine//Wedding Invitation Template 01//EN',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'X-WR-CALNAME:Aarav & Riya Wedding Festivities',

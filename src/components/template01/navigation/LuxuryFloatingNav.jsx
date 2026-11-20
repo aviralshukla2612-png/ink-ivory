@@ -37,7 +37,7 @@ export const LuxuryFloatingNav = ({
             href="/"
             className="flex items-center gap-1.5 text-xs font-cormorant font-semibold tracking-widest text-[#E7CEA0] hover:text-[#FFFDF7] transition-colors pr-2 border-r border-[#D6B477]/30"
           >
-            <span>Ink &amp; Ivory</span>
+            <span>You Are Mine</span>
           </Link>
 
           {/* Quick Menu Trigger */}

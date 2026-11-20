@@ -81,10 +81,23 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({ template, onOpenDemo
       {/* 2. CARD DETAILS & SPECS (Matching Reference Screenshot) */}
       <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between bg-[#111827] text-left">
         <div>
-          {/* Title */}
-          <h3 className="font-serif text-lg sm:text-xl text-[#FFFDF8] font-semibold leading-tight line-clamp-1 mb-1.5 group-hover:text-[#E5A842] transition-colors">
-            {template.title}
-          </h3>
+          {/* Couple Name & Design Title (Luxury Tiered Display) */}
+          <div className="mb-2 min-h-[44px] flex flex-col justify-center">
+            {template.title.includes('—') ? (
+              <>
+                <span className="text-[11px] font-sans font-semibold text-[#E5A842] tracking-wider uppercase line-clamp-1">
+                  {template.title.split('—')[0].trim()}
+                </span>
+                <h3 className="font-serif text-base sm:text-lg text-[#FFFDF8] font-semibold leading-tight line-clamp-1 group-hover:text-[#E5A842] transition-colors">
+                  {template.title.split('—')[1].trim()}
+                </h3>
+              </>
+            ) : (
+              <h3 className="font-serif text-base sm:text-lg text-[#FFFDF8] font-semibold leading-snug line-clamp-2 group-hover:text-[#E5A842] transition-colors">
+                {template.title}
+              </h3>
+            )}
+          </div>
 
           {/* Price & Tier (e.g. ₹299 ✦ PREMIUM / ₹499 👑 SIGNATURE) */}
           <div className="flex items-center gap-2 mb-3">

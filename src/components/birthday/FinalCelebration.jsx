@@ -70,7 +70,7 @@ export function FinalCelebration({
         {/* Brandmark footer */}
         <div className="mt-14 pt-8 border-t border-[#F4CFCA]/80 w-full flex flex-col items-center">
           <span className="font-serif italic text-sm text-[#481321] font-semibold tracking-wider">
-            Ink &amp; Ivory &bull; Digital Stationery
+            You Are Mine &bull; Digital Stationery
           </span>
           <span className="text-[10px] text-[#51363A]/60 font-sans mt-1">
             Handcrafted with love for life&apos;s special milestones

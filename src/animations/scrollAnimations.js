@@ -1,5 +1,5 @@
 /**
- * INK & IVORY — TEMPLATE 01
+ * YOU ARE MINE — TEMPLATE 01
  * GSAP ScrollTrigger Animation Helpers
  */
 

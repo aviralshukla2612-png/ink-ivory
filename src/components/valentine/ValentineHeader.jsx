@@ -41,10 +41,10 @@ export const ValentineHeader = ({
           <Link
             href="/"
             className="flex items-center gap-1.5 text-xs text-[#641D2B]/70 hover:text-[#641D2B] transition-colors mr-2 pr-3 border-r border-[#641D2B]/20"
-            title="Return to Ink & Ivory collection"
+            title="Return to You Are Mine collection"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline font-sans">Ink &amp; Ivory</span>
+            <span className="hidden sm:inline font-sans">You Are Mine</span>
           </Link>
 
           <button

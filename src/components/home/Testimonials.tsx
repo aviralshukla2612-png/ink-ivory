@@ -27,7 +27,7 @@ export const Testimonials: React.FC = () => {
       occasion: 'Engagement Announcement Web Page',
       stars: 5,
       review:
-        '“Ink & Ivory is by far the most elegant digital invitation platform we came across. The editor was super smooth and the live web page looked breathtaking on high-density mobile screens.”',
+        '“You Are Mine is by far the most elegant digital invitation platform we came across. The editor was super smooth and the live web page looked breathtaking on high-density mobile screens.”',
       initials: 'KT',
     },
     {
@@ -104,7 +104,7 @@ export const Testimonials: React.FC = () => {
       <div className="absolute inset-0 z-0 pointer-events-none select-none">
         <Image
           src="/testimonialbg.png"
-          alt="Ink & Ivory luxury testimonial background"
+          alt="You Are Mine luxury testimonial background"
           fill
           priority
           sizes="100vw"

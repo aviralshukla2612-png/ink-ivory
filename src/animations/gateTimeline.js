@@ -1,5 +1,5 @@
 /**
- * INK & IVORY — TEMPLATE 01
+ * YOU ARE MINE — TEMPLATE 01
  * Gate Opening GSAP Animation Timeline
  * Coordinates the signature cinematic 5-phase palace entrance.
  */

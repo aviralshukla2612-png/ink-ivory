@@ -60,20 +60,6 @@ export const Navbar: React.FC = () => {
   const { totalItems } = useCart();
   const { totalWishlist } = useWishlist();
 
-  // Hide global e-commerce navbar on standalone cinematic template preview pages and customize studio
-  if (
-    pathname &&
-    (pathname.startsWith('/template-01') ||
-      pathname.startsWith('/template-02') ||
-      pathname.startsWith('/template-03') ||
-      pathname.startsWith('/valentine') ||
-      pathname.startsWith('/birthday') ||
-      pathname.startsWith('/preview') ||
-      pathname.startsWith('/customize'))
-  ) {
-    return null;
-  }
-
   const [activeSection, setActiveSection] = useState<NavSection>('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [templatesDropdown, setTemplatesDropdown] = useState(false);
@@ -122,6 +108,21 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [pathname]);
 
+  // Hide global e-commerce navbar on standalone cinematic template preview pages and customize studio
+  if (
+    pathname &&
+    (pathname.startsWith('/template-01') ||
+      pathname.startsWith('/template-02') ||
+      pathname.startsWith('/template-03') ||
+      pathname.startsWith('/valentine') ||
+      pathname.startsWith('/birthday') ||
+      pathname.startsWith('/date-planner') ||
+      pathname.startsWith('/preview') ||
+      pathname.startsWith('/customize'))
+  ) {
+    return null;
+  }
+
   // Click handlers for homepage in-page navigation
   const handleHomeClick = (e: React.MouseEvent) => {
     if (pathname === '/') {
@@ -165,19 +166,19 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full h-[68px] sm:h-[76px] bg-[#F8F4EC] border-b border-[#EDE2CF] flex items-center shadow-2xs">
+    <header className="sticky top-0 z-50 w-full h-[88px] sm:h-[98px] lg:h-[108px] bg-[#F8F4EC] border-b border-[#EDE2CF] flex items-center shadow-2xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex items-center justify-between gap-4">
-          
-          {/* LEFT: Logo */}
+
+          {/* LEFT: Logo (Prominent & Luxurious) */}
           <div className="flex items-center py-1 flex-shrink-0">
             <Link href="/" onClick={handleHomeClick} className="group flex items-center focus:outline-none">
               <Image
                 src="/logo.png"
-                alt="Ink & Ivory"
-                width={200}
-                height={63}
-                className="h-12 sm:h-14 lg:h-[58px] w-auto object-contain transition-transform group-hover:scale-[1.02]"
+                alt="You Are Mine"
+                width={360}
+                height={120}
+                className="h-16 sm:h-[80px] lg:h-[94px] w-auto object-contain transition-transform group-hover:scale-[1.03]"
                 priority
               />
             </Link>
@@ -189,11 +190,10 @@ export const Navbar: React.FC = () => {
             <Link
               href="/"
               onClick={handleHomeClick}
-              className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${
-                activeSection === 'home'
+              className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'home'
                   ? 'text-[#1C2C24] font-semibold'
                   : 'text-[#49341F] font-medium hover:text-[#A77B35]'
-              }`}
+                }`}
             >
               <Home className="w-4 h-4 stroke-[1.8]" />
               <span>Home</span>
@@ -209,11 +209,10 @@ export const Navbar: React.FC = () => {
               <Link
                 href="/templates"
                 onClick={handleTemplatesClick}
-                className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${
-                  activeSection === 'templates'
+                className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'templates'
                     ? 'text-[#1C2C24] font-semibold'
                     : 'text-[#49341F] font-medium hover:text-[#A77B35]'
-                }`}
+                  }`}
               >
                 <LayoutGrid className="w-4 h-4 stroke-[1.8]" />
                 <span>Invitation Templates</span>
@@ -260,11 +259,10 @@ export const Navbar: React.FC = () => {
               <Link
                 href="/templates"
                 onClick={handleOccasionsClick}
-                className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${
-                  activeSection === 'occasions'
+                className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'occasions'
                     ? 'text-[#1C2C24] font-semibold'
                     : 'text-[#49341F] font-medium hover:text-[#A77B35]'
-                }`}
+                  }`}
               >
                 <Calendar className="w-4 h-4 stroke-[1.8]" />
                 <span>By Occasion</span>
@@ -292,11 +290,10 @@ export const Navbar: React.FC = () => {
             <Link
               href="/customize/tpl-wedding-navy-01"
               onClick={handleCreateClick}
-              className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${
-                activeSection === 'create'
+              className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'create'
                   ? 'text-[#1C2C24] font-semibold'
                   : 'text-[#49341F] font-medium hover:text-[#A77B35]'
-              }`}
+                }`}
             >
               <PenLine className="w-4 h-4 stroke-[1.8]" />
               <span>Create Your Page</span>
@@ -306,11 +303,10 @@ export const Navbar: React.FC = () => {
             {/* 5. Pricing */}
             <Link
               href="/pricing"
-              className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${
-                activeSection === 'pricing'
+              className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'pricing'
                   ? 'text-[#1C2C24] font-semibold'
                   : 'text-[#49341F] font-medium hover:text-[#A77B35]'
-              }`}
+                }`}
             >
               <Tag className="w-4 h-4 stroke-[1.8]" />
               <span>Pricing</span>
@@ -396,11 +392,10 @@ export const Navbar: React.FC = () => {
                 setMobileMenuOpen(false);
                 handleHomeClick(e);
               }}
-              className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg transition-colors ${
-                activeSection === 'home'
+              className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg transition-colors ${activeSection === 'home'
                   ? 'bg-[#EDE2CF]/60 text-[#1C2C24] font-semibold border-l-2 border-[#C5A059]'
                   : 'text-[#49341F] hover:bg-[#F3EDE1]'
-              }`}
+                }`}
             >
               <Home className="w-4 h-4 stroke-[1.8]" />
               <span>Home</span>
@@ -412,11 +407,10 @@ export const Navbar: React.FC = () => {
                 setMobileMenuOpen(false);
                 handleTemplatesClick(e);
               }}
-              className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg transition-colors ${
-                activeSection === 'templates'
+              className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg transition-colors ${activeSection === 'templates'
                   ? 'bg-[#EDE2CF]/60 text-[#1C2C24] font-semibold border-l-2 border-[#C5A059]'
                   : 'text-[#49341F] hover:bg-[#F3EDE1]'
-              }`}
+                }`}
             >
               <LayoutGrid className="w-4 h-4 stroke-[1.8]" />
               <span>Invitation Templates</span>
@@ -428,11 +422,10 @@ export const Navbar: React.FC = () => {
                 setMobileMenuOpen(false);
                 handleOccasionsClick(e);
               }}
-              className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg transition-colors ${
-                activeSection === 'occasions'
+              className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg transition-colors ${activeSection === 'occasions'
                   ? 'bg-[#EDE2CF]/60 text-[#1C2C24] font-semibold border-l-2 border-[#C5A059]'
                   : 'text-[#49341F] hover:bg-[#F3EDE1]'
-              }`}
+                }`}
             >
               <Calendar className="w-4 h-4 stroke-[1.8]" />
               <span>By Occasion</span>
@@ -444,11 +437,10 @@ export const Navbar: React.FC = () => {
                 setMobileMenuOpen(false);
                 handleCreateClick(e);
               }}
-              className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg transition-colors ${
-                activeSection === 'create'
+              className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg transition-colors ${activeSection === 'create'
                   ? 'bg-[#EDE2CF]/60 text-[#1C2C24] font-semibold border-l-2 border-[#C5A059]'
                   : 'text-[#49341F] hover:bg-[#F3EDE1]'
-              }`}
+                }`}
             >
               <PenLine className="w-4 h-4 stroke-[1.8]" />
               <span>Create Your Page</span>
@@ -457,11 +449,10 @@ export const Navbar: React.FC = () => {
             <Link
               href="/pricing"
               onClick={() => setMobileMenuOpen(false)}
-              className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg transition-colors ${
-                activeSection === 'pricing'
+              className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg transition-colors ${activeSection === 'pricing'
                   ? 'bg-[#EDE2CF]/60 text-[#1C2C24] font-semibold border-l-2 border-[#C5A059]'
                   : 'text-[#49341F] hover:bg-[#F3EDE1]'
-              }`}
+                }`}
             >
               <Tag className="w-4 h-4 stroke-[1.8]" />
               <span>Pricing</span>

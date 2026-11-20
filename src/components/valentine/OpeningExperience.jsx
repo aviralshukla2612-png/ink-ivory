@@ -52,7 +52,7 @@ export const OpeningExperience = ({ onOpen, onSkip, recipientName = "Riya" }) =>
 
         {/* Main Anticipation Eyebrow & Title */}
         <p className="text-xs tracking-[0.3em] font-sans font-bold uppercase text-[#641D2B]/75 mb-3">
-          AN INK &amp; IVORY ROMANTIC PROPOSAL
+          AN YOU ARE MINE ROMANTIC PROPOSAL
         </p>
 
         <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#641D2B] font-bold leading-tight mb-4">

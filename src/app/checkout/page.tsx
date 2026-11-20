@@ -311,7 +311,7 @@ export default function CheckoutPage() {
                 <span>100% Digital Web Page Notice</span>
               </div>
               <p className="leading-relaxed">
-                Ink & Ivory is exclusively a digital event web page platform. No physical products will be shipped. Your bespoke web page will be published instantly with a live, shareable link immediately after order confirmation.
+                You Are Mine is exclusively a digital event web page platform. No physical products will be shipped. Your bespoke web page will be published instantly with a live, shareable link immediately after order confirmation.
               </p>
             </div>
 

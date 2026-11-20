@@ -99,7 +99,7 @@ export function BirthdayLetter({
                       <Heart className="w-4 h-4 fill-current" />
                     </div>
                     <span className="font-serif italic text-sm text-[#681C2C] font-semibold">
-                      Ink &amp; Ivory Love Letter
+                      You Are Mine Love Letter
                     </span>
                   </div>
                   <button

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Sparkles, ArrowUpRight } from 'lucide-react';
 
@@ -16,6 +17,7 @@ export const Footer: React.FC = () => {
       pathname.startsWith('/template-03') ||
       pathname.startsWith('/valentine') ||
       pathname.startsWith('/birthday') ||
+      pathname.startsWith('/date-planner') ||
       pathname.startsWith('/preview') ||
       pathname.startsWith('/customize'))
   ) {
@@ -23,85 +25,88 @@ export const Footer: React.FC = () => {
   }
 
   return (
-    <footer className="w-full bg-[#FAF7F2] border-t border-[#E8DFD1] text-[#23180D] pt-10 pb-6 px-4 sm:px-8 lg:px-14 overflow-hidden relative">
+    <footer className="w-full bg-[#F8F4EC] border-t border-[#EDE2CF] text-[#23180D] pt-10 pb-6 px-4 sm:px-8 lg:px-14 overflow-hidden relative">
       <div className="max-w-7xl mx-auto flex flex-col">
         {/* ========================================================================= */}
         {/* TOP ROW: LOGO ON TOP LEFT + SOCIAL LINKS IN BIG FONT ON TOP RIGHT         */}
         {/* ========================================================================= */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3 sm:pb-4">
-          {/* Top Left: Ink & Ivory Luxury Script Logo */}
+          {/* Top Left: Official You Are Mine Brand Logo (Expanded Size) */}
           <div className="flex items-center">
-            <Link href="/" className="inline-flex items-center gap-2 group focus:outline-none">
-              <span className="font-serif italic font-bold text-3xl sm:text-4xl lg:text-[44px] text-[#23180D] group-hover:text-[#8C6837] transition-colors leading-none tracking-tight">
-                Ink &amp; Ivory
-              </span>
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-[#C5A059] fill-[#C5A059]/20 -mt-2 animate-pulse" />
+            <Link href="/" className="inline-flex items-center group focus:outline-none">
+              <Image
+                src="/logo.png"
+                alt="You Are Mine"
+                width={360}
+                height={120}
+                className="h-16 sm:h-20 lg:h-[92px] w-auto object-contain transition-transform group-hover:scale-[1.02]"
+              />
             </Link>
           </div>
 
           {/* Top Right: Social Links in Big Font (LinkedIn ↗, Twitter / X ↗, Instagram ↗) */}
-          <div className="flex flex-wrap items-center gap-5 sm:gap-8 lg:gap-10">
+          <div className="flex flex-wrap items-center gap-6 sm:gap-9 lg:gap-11">
             <a
               href="https://linkedin.com"
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center gap-1.5 text-base sm:text-lg lg:text-xl font-medium text-[#23180D] hover:text-[#8C6837] transition-colors"
+              className="group inline-flex items-center gap-2 text-lg sm:text-xl lg:text-2xl font-semibold text-[#23180D] hover:text-[#8C6837] transition-colors"
             >
               <span>LinkedIn</span>
-              <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2] text-[#8C6837] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <ArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2] text-[#8C6837] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
             <a
               href="https://twitter.com"
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center gap-1.5 text-base sm:text-lg lg:text-xl font-medium text-[#23180D] hover:text-[#8C6837] transition-colors"
+              className="group inline-flex items-center gap-2 text-lg sm:text-xl lg:text-2xl font-semibold text-[#23180D] hover:text-[#8C6837] transition-colors"
             >
               <span>Twitter / X</span>
-              <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2] text-[#8C6837] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <ArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2] text-[#8C6837] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
             <a
               href="https://instagram.com"
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center gap-1.5 text-base sm:text-lg lg:text-xl font-medium text-[#23180D] hover:text-[#8C6837] transition-colors"
+              className="group inline-flex items-center gap-2 text-lg sm:text-xl lg:text-2xl font-semibold text-[#23180D] hover:text-[#8C6837] transition-colors"
             >
               <span>Instagram</span>
-              <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2] text-[#8C6837] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <ArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2] text-[#8C6837] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* CENTER: GIANT OVERSIZED LIQUID TYPOGRAPHY "INK & IVORY"                   */}
+        {/* CENTER: GIANT OVERSIZED LIQUID TYPOGRAPHY "YOU ARE MINE"                   */}
         {/* Regal serif typography with continuous Royal Navy wave                     */}
         {/* ========================================================================= */}
         <div className="w-full relative my-1 sm:my-2 select-none">
           <svg
-            viewBox="0 0 1200 175"
-            className="w-full h-auto max-h-[145px] sm:max-h-[175px] overflow-visible select-none pointer-events-none"
+            viewBox="0 0 1200 185"
+            className="w-full h-auto max-h-[160px] sm:max-h-[195px] overflow-visible select-none pointer-events-none"
             preserveAspectRatio="xMidYMid meet"
           >
             <defs>
               {/* Primary Signature Royal Navy & Sapphire Gradient */}
               <linearGradient id="liquidGradNavy" x1="0%" y1="0%" x2="100%" y2="80%">
-                <stop offset="0%" stopColor="#0B1323" />
-                <stop offset="28%" stopColor="#14213D" />
-                <stop offset="60%" stopColor="#1E3A8A" />
-                <stop offset="85%" stopColor="#2563EB" />
+                <stop offset="0%" stopColor="#081120" />
+                <stop offset="25%" stopColor="#0F1F3D" />
+                <stop offset="55%" stopColor="#1B3A6B" />
+                <stop offset="80%" stopColor="#2563EB" />
                 <stop offset="100%" stopColor="#38BDF8" />
               </linearGradient>
 
-              {/* Secondary Background Liquid Wave Gradient */}
+              {/* Secondary Background Liquid Wave Gradient (Deep Velvet Navy) */}
               <linearGradient id="liquidBackGradNavy" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#08101E" stopOpacity="0.75" />
-                <stop offset="50%" stopColor="#1E3A8A" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#0F172A" stopOpacity="0.45" />
+                <stop offset="0%" stopColor="#050B15" stopOpacity="0.88" />
+                <stop offset="50%" stopColor="#0E2347" stopOpacity="0.75" />
+                <stop offset="100%" stopColor="#1E40AF" stopOpacity="0.55" />
               </linearGradient>
 
-              {/* Base Letter Fill Gradient (subtle luxury warm parchment tone) */}
+              {/* Base Letter Fill Gradient (subtle luxury warm tone matching navbar bg) */}
               <linearGradient id="letterBaseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#FAF7F2" />
-                <stop offset="100%" stopColor="#F3EDE1" />
+                <stop offset="0%" stopColor="#FFFDF9" />
+                <stop offset="100%" stopColor="#F5ECE0" />
               </linearGradient>
 
               {/* Seamless Repeating Horizontal Wave 1 (Front Wave, repeats every 1200px) */}
@@ -138,40 +143,40 @@ export const Footer: React.FC = () => {
               />
 
               {/* Clip Mask strictly inside the text boundaries */}
-              <clipPath id="inkIvoryLiquidClip">
+              <clipPath id="royalNavyLiquidClip">
                 <text
                   x="50%"
-                  y="125"
+                  y="138"
                   textAnchor="middle"
                   fontFamily="'Cormorant Garamond', 'Cinzel', 'Playfair Display', Georgia, serif"
-                  fontSize="122"
+                  fontSize="124"
                   fontWeight="800"
-                  letterSpacing="0.12em"
+                  letterSpacing="0.06em"
                 >
-                  INK &amp; IVORY
+                  YOU ARE MINE
                 </text>
               </clipPath>
             </defs>
 
-            {/* Layer 1: Solid Luxury Base Fill with Crisp Outer Dark Outline */}
+            {/* Layer 1: Solid Luxury Base Fill with Crisp Outer Outline */}
             <text
               x="50%"
-              y="125"
+              y="138"
               textAnchor="middle"
               fontFamily="'Cormorant Garamond', 'Cinzel', 'Playfair Display', Georgia, serif"
-              fontSize="122"
+              fontSize="124"
               fontWeight="800"
-              letterSpacing="0.12em"
+              letterSpacing="0.06em"
               fill="url(#letterBaseGrad)"
-              stroke="#382719"
+              stroke="#1B263B"
               strokeWidth="2.2"
               strokeLinejoin="round"
             >
-              INK &amp; IVORY
+              YOU ARE MINE
             </text>
 
-            {/* Layer 2: Liquid Wave Rising from Bottom to Top */}
-            <g clipPath="url(#inkIvoryLiquidClip)">
+            {/* Layer 2: Liquid Wave Rising from Bottom to Top (Royal Navy Physics) */}
+            <g clipPath="url(#royalNavyLiquidClip)">
               <g className="cardly-liquid-rise">
                 {/* Secondary Wave for depth & dimension */}
                 <use
@@ -188,22 +193,22 @@ export const Footer: React.FC = () => {
               </g>
             </g>
 
-            {/* Layer 3: Razor-sharp outer perimeter outline on top */}
+            {/* Layer 3: Razor-sharp outer perimeter outline perfectly synchronized */}
             <text
               x="50%"
-              y="125"
+              y="138"
               textAnchor="middle"
               fontFamily="'Cormorant Garamond', 'Cinzel', 'Playfair Display', Georgia, serif"
-              fontSize="122"
+              fontSize="124"
               fontWeight="800"
-              letterSpacing="0.12em"
+              letterSpacing="0.06em"
               fill="none"
-              stroke="#382719"
+              stroke="#1B263B"
               strokeWidth="2.2"
               strokeLinejoin="round"
               opacity="0.95"
             >
-              INK &amp; IVORY
+              YOU ARE MINE
             </text>
           </svg>
         </div>
@@ -212,17 +217,17 @@ export const Footer: React.FC = () => {
         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#C5A059]/35 to-transparent my-3 sm:my-4" />
 
         {/* ========================================================================= */}
-        {/* DOWN SIDE: NAVBAR THING BENEATH BIG INK & IVORY                            */}
+        {/* DOWN SIDE: NAVBAR THING BENEATH BIG YOU ARE MINE                            */}
         {/* Copyright notice on left + Navigation links on right                      */}
         {/* ========================================================================= */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4 text-xs font-medium text-[#49341F] pt-1">
           {/* Copyright Notice */}
-          <p className="text-[11.5px] sm:text-xs text-[#7A644E]">
-            &copy; {new Date().getFullYear()} Ink &amp; Ivory. All rights reserved. Bespoke luxury digital stationery.
+          <p className="text-xs sm:text-sm text-[#7A644E]">
+            &copy; {new Date().getFullYear()} You Are Mine. All rights reserved. Bespoke luxury digital stationery.
           </p>
 
           {/* Navigation Links ("navbar thing") */}
-          <nav className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs font-medium text-[#49341F]">
+          <nav className="flex flex-wrap items-center justify-center gap-5 sm:gap-7 text-xs sm:text-sm font-medium text-[#49341F]">
             <Link href="/" className="hover:text-[#8C6837] transition-colors">
               Home
             </Link>
@@ -277,22 +282,22 @@ export const Footer: React.FC = () => {
         */
         @keyframes liquidRiseCycle {
           0% {
-            transform: translateY(75px);
+            transform: translateY(85px);
           }
           35% {
-            transform: translateY(18px);
+            transform: translateY(25px);
           }
           55% {
-            transform: translateY(-38px);
+            transform: translateY(-32px);
           }
           75% {
-            transform: translateY(-38px);
+            transform: translateY(-32px);
           }
           90% {
-            transform: translateY(30px);
+            transform: translateY(35px);
           }
           100% {
-            transform: translateY(75px);
+            transform: translateY(85px);
           }
         }
 

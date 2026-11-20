@@ -179,7 +179,7 @@ export const CardPreview: React.FC<CardPreviewProps> = ({
       {showWatermark && (
         <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center opacity-15 rotate-[-30deg]">
           <span className="text-4xl sm:text-5xl font-script-luxury text-[#49341F] tracking-widest font-bold">
-            Ink & Ivory Preview
+            You Are Mine Preview
           </span>
         </div>
       )}

@@ -123,7 +123,7 @@ export const PersonalizeSection: React.FC = () => {
       <div className="absolute inset-0 z-0 pointer-events-none select-none">
         <Image
           src="/bg2.png"
-          alt="Ink & Ivory Personalization Studio luxury background"
+          alt="You Are Mine Personalization Studio luxury background"
           fill
           sizes="100vw"
           className="object-cover object-center"

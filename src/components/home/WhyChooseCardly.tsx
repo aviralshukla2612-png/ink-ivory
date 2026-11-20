@@ -43,20 +43,20 @@ export const WhyChooseInkAndIvory: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          {/* Eyebrow: — THE INK & IVORY STANDARD — */}
+          {/* Eyebrow: — THE YOU ARE MINE STANDARD — */}
           <div className="flex items-center justify-center gap-3 sm:gap-4 mb-2.5">
             <div className="h-[1px] w-10 sm:w-16 bg-[#C5A059]/60" />
             <span className="text-[10.5px] sm:text-[11.5px] font-semibold tracking-[0.24em] uppercase text-[#9E7B3B]">
-              The Ink & Ivory Standard
+              The You Are Mine Standard
             </span>
             <div className="h-[1px] w-10 sm:w-16 bg-[#C5A059]/60" />
           </div>
 
-          {/* Main Title: Why Choose Ink & Ivory? */}
+          {/* Main Title: Why Choose You Are Mine? */}
           <h2 className="text-2xl sm:text-3xl md:text-[40px] font-serif font-medium text-[#231C16] tracking-tight leading-tight">
             Why Choose{' '}
             <span className="italic font-serif text-[#B88E4B] font-medium">
-              Ink & Ivory?
+              You Are Mine?
             </span>
           </h2>
         </div>

@@ -1,5 +1,5 @@
 /**
- * INK & IVORY — INTERACTIVE VALENTINE PROPOSAL WEBSITE
+ * YOU ARE MINE — INTERACTIVE VALENTINE PROPOSAL WEBSITE
  * Centralized Configuration Data
  * 
  * All fields are fully customizable by customers.
@@ -9,7 +9,7 @@ export const valentineData = {
   senderName: "Aarav",
   recipientName: "Riya",
   brandName: "My Valentine",
-  brandTagline: "An Ink & Ivory Romantic Experience",
+  brandTagline: "An You Are Mine Romantic Experience",
 
   proposal: {
     eyebrow: "A SPECIAL QUESTION FOR YOU",

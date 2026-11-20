@@ -10,7 +10,7 @@ export default function PrivacyPolicyPage() {
           Privacy Policy
         </h1>
         <p className="text-xs text-[#8C6837] mb-8">
-          Last updated: November 2026 • Ink & Ivory Digital Stationery
+          Last updated: November 2026 • You Are Mine Digital Stationery
         </p>
 
         <div className="bg-[#FCFAF6] rounded-3xl p-8 border border-[#DFCEAF] shadow-sm space-y-6 text-xs sm:text-sm text-[#49341F] leading-relaxed">
@@ -19,7 +19,7 @@ export default function PrivacyPolicyPage() {
               1. Information We Collect
             </h2>
             <p>
-              When you create or customize digital invitation web pages on Ink & Ivory, we collect only the information necessary to host and launch your pages: your name, email address, optional contact number, and the text customized on your event web pages.
+              When you create or customize digital invitation web pages on You Are Mine, we collect only the information necessary to host and launch your pages: your name, email address, optional contact number, and the text customized on your event web pages.
             </p>
           </section>
 
@@ -37,7 +37,7 @@ export default function PrivacyPolicyPage() {
               3. Secure Payments
             </h2>
             <p>
-              All online transactions are processed through Razorpay using industry-standard 256-bit SSL encryption. Ink & Ivory never stores your payment numbers, CVVs, or banking credentials.
+              All online transactions are processed through Razorpay using industry-standard 256-bit SSL encryption. You Are Mine never stores your payment numbers, CVVs, or banking credentials.
             </p>
           </section>
 
@@ -46,7 +46,7 @@ export default function PrivacyPolicyPage() {
               4. Contact Us
             </h2>
             <p>
-              For privacy inquiries or account data deletion requests, contact privacy@inkandivory.com.
+              For privacy inquiries or account data deletion requests, contact privacy@youaremine.com.
             </p>
           </section>
         </div>

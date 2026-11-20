@@ -18,7 +18,7 @@ export default function PricingPage() {
         'Access to all curated Free Templates',
         'Full real-time text personalization',
         'Instant live web page link',
-        'Lifetime access in Ink & Ivory account',
+        'Lifetime access in You Are Mine account',
         'Ready to share via WhatsApp & SMS',
       ],
     },
@@ -150,7 +150,7 @@ export default function PricingPage() {
                 Do you print or ship physical invitations?
               </h4>
               <p className="text-[#6B533E] leading-relaxed">
-                No. Ink & Ivory is strictly a digital invitation web page platform. You launch an interactive, fully responsive event web page with a shareable live link immediately after checkout.
+                No. You Are Mine is strictly a digital invitation web page platform. You launch an interactive, fully responsive event web page with a shareable live link immediately after checkout.
               </p>
             </div>
             <div>

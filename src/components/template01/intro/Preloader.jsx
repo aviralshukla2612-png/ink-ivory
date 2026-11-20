@@ -186,7 +186,7 @@ export const Preloader = ({ onComplete }) => {
 
         {/* Brand Name */}
         <h1 className="font-cormorant text-2xl sm:text-3xl font-medium tracking-[0.25em] uppercase text-[#F7F0E3] mb-2 drop-shadow-sm">
-          Ink & Ivory
+          You Are Mine
         </h1>
         <p className="font-serif italic text-xs sm:text-sm text-[#D6B477] tracking-widest uppercase mb-8">
           Digital Wedding Invitations

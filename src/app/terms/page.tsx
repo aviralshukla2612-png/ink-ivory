@@ -10,7 +10,7 @@ export default function TermsPage() {
           Terms & Conditions
         </h1>
         <p className="text-xs text-[#8C6837] mb-8">
-          Effective as of November 2026 • Ink & Ivory Digital Invitation Platform
+          Effective as of November 2026 • You Are Mine Digital Invitation Platform
         </p>
 
         <div className="bg-[#FCFAF6] rounded-3xl p-8 border border-[#DFCEAF] shadow-sm space-y-6 text-xs sm:text-sm text-[#49341F] leading-relaxed">
@@ -19,7 +19,7 @@ export default function TermsPage() {
               1. Digital Invitation Web Pages Only
             </h2>
             <p>
-              Ink & Ivory provides exclusively digital invitation web pages and event portals. No physical cards, envelopes, or printed materials are shipped. Purchases grant you an immediate published live web page with interactive guest RSVP and shareable links.
+              You Are Mine provides exclusively digital invitation web pages and event portals. No physical cards, envelopes, or printed materials are shipped. Purchases grant you an immediate published live web page with interactive guest RSVP and shareable links.
             </p>
           </section>
 
@@ -37,7 +37,7 @@ export default function TermsPage() {
               3. Intellectual Property
             </h2>
             <p>
-              All page templates, typography pairings, botanical illustrations, and brand assets remain the intellectual property of Ink & Ivory and its artists. Reselling Ink & Ivory templates as raw editable assets is strictly prohibited.
+              All page templates, typography pairings, botanical illustrations, and brand assets remain the intellectual property of You Are Mine and its artists. Reselling You Are Mine templates as raw editable assets is strictly prohibited.
             </p>
           </section>
         </div>
