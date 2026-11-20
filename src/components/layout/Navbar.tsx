@@ -325,9 +325,11 @@ export const Navbar: React.FC = () => {
               title="Saved Wishlist"
             >
               <Heart className="w-[18px] h-[18px] stroke-[1.8]" />
-              <span className="absolute -top-1.5 -right-2 bg-[#1C2C24] text-white text-[9.5px] font-semibold w-4 h-4 rounded-full flex items-center justify-center ring-1 ring-[#F8F4EC] shadow-2xs">
-                {totalWishlist > 0 ? totalWishlist : 1}
-              </span>
+              {totalWishlist > 0 && (
+                <span className="absolute -top-1.5 -right-2 bg-[#1C2C24] text-white text-[9.5px] font-semibold w-4 h-4 rounded-full flex items-center justify-center ring-1 ring-[#F8F4EC] shadow-2xs">
+                  {totalWishlist}
+                </span>
+              )}
             </Link>
 
             {/* Shopping Bag Icon */}
@@ -337,9 +339,11 @@ export const Navbar: React.FC = () => {
               title="Shopping Bag"
             >
               <ShoppingBag className="w-[18px] h-[18px] stroke-[1.8]" />
-              <span className="absolute -top-1.5 -right-2 bg-[#1C2C24] text-white text-[9.5px] font-semibold w-4 h-4 rounded-full flex items-center justify-center ring-1 ring-[#F8F4EC] shadow-2xs">
-                {totalItems > 0 ? totalItems : 2}
-              </span>
+              {totalItems > 0 && (
+                <span className="absolute -top-1.5 -right-2 bg-[#1C2C24] text-white text-[9.5px] font-semibold w-4 h-4 rounded-full flex items-center justify-center ring-1 ring-[#F8F4EC] shadow-2xs">
+                  {totalItems}
+                </span>
+              )}
             </Link>
 
             {/* Hairline Divider */}
@@ -361,17 +365,21 @@ export const Navbar: React.FC = () => {
             {/* Mobile Wishlist */}
             <Link href="/wishlist" className="relative p-1 text-[#2E2014]">
               <Heart className="w-[18px] h-[18px] stroke-[1.8]" />
-              <span className="absolute -top-1.5 -right-1.5 bg-[#1C2C24] text-white text-[9px] font-semibold w-3.5 h-3.5 rounded-full flex items-center justify-center">
-                {totalWishlist > 0 ? totalWishlist : 1}
-              </span>
+              {totalWishlist > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-[#1C2C24] text-white text-[9px] font-semibold w-3.5 h-3.5 rounded-full flex items-center justify-center">
+                  {totalWishlist}
+                </span>
+              )}
             </Link>
 
             {/* Mobile Cart */}
             <Link href="/cart" className="relative p-1 text-[#2E2014]">
               <ShoppingBag className="w-[18px] h-[18px] stroke-[1.8]" />
-              <span className="absolute -top-1.5 -right-1.5 bg-[#1C2C24] text-white text-[9px] font-semibold w-3.5 h-3.5 rounded-full flex items-center justify-center">
-                {totalItems > 0 ? totalItems : 2}
-              </span>
+              {totalItems > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-[#1C2C24] text-white text-[9px] font-semibold w-3.5 h-3.5 rounded-full flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
             </Link>
 
             {/* Hamburger Button */}
