@@ -176,7 +176,7 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center py-1 flex-shrink-0">
             <Link href="/" onClick={handleHomeClick} className="group flex items-center focus:outline-none">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="You Are Mine"
                 width={360}
                 height={120}

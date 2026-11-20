@@ -8,17 +8,19 @@ import { ArrowRight, Edit3 } from 'lucide-react';
 export const HeroSection: React.FC = () => {
   return (
     <section id="hero" className="relative w-full h-[calc(100vh-68px)] sm:h-[calc(100vh-76px)] min-h-[560px] max-h-[860px] overflow-hidden bg-[#F8F4EC] flex items-center">
-      {/* Background Image: Covers entire hero area seamlessly */}
+      {/* Background Image: Covers entire hero area seamlessly with responsive modern WebP */}
       <div className="absolute inset-0 z-0 pointer-events-none select-none">
-        <Image
-          src="/herobg.png"
-          alt="You Are Mine luxury digital invitation web pages composition"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-[85%_center] xl:object-right"
-          quality={95}
-        />
+        <picture className="w-full h-full block">
+          <source media="(max-width: 767px)" srcSet="/herobg-mobile.webp" type="image/webp" />
+          <source media="(min-width: 768px)" srcSet="/herobg.webp" type="image/webp" />
+          <img
+            src="/herobg.webp"
+            alt="You Are Mine luxury digital invitation web pages composition"
+            fetchPriority="high"
+            decoding="async"
+            className="w-full h-full object-cover object-[85%_center] xl:object-right"
+          />
+        </picture>
         {/* Soft left gradient overlay for contrast */}
         <div className="absolute inset-y-0 left-0 w-full lg:w-[48%] bg-gradient-to-r from-[#F8F4EC]/90 via-[#F8F4EC]/60 to-transparent pointer-events-none" />
       </div>

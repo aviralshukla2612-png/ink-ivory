@@ -37,7 +37,7 @@ export const Footer: React.FC = () => {
           <div className="flex items-center">
             <Link href="/" className="inline-flex items-center group focus:outline-none">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="You Are Mine"
                 width={360}
                 height={120}

@@ -100,16 +100,15 @@ export const Testimonials: React.FC = () => {
 
   return (
     <section className="relative w-full py-16 sm:py-24 border-b border-[#EDE2CF] select-none overflow-hidden bg-[#FAF7F2]">
-      {/* Background Artwork: testimonialbg.png with NO gradient fog overlay */}
+      {/* Background Artwork: testimonialbg.webp with NO gradient fog overlay */}
       <div className="absolute inset-0 z-0 pointer-events-none select-none">
         <Image
-          src="/testimonialbg.png"
+          src="/testimonialbg.webp"
           alt="You Are Mine luxury testimonial background"
           fill
-          priority
           sizes="100vw"
           className="object-cover object-center"
-          quality={95}
+          loading="lazy"
         />
       </div>
 

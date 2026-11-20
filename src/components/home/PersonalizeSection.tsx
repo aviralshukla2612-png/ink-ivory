@@ -119,16 +119,15 @@ export const PersonalizeSection: React.FC = () => {
 
   return (
     <section id="create-card" className="relative w-full overflow-hidden bg-[#FAF7F2] py-16 sm:py-24 border-b border-[#EDE2CF]">
-      {/* Background artwork: bg2.png with orchids, eucalyptus, lily and gold ribbon */}
+      {/* Background artwork: bg2.webp with orchids, eucalyptus, lily and gold ribbon */}
       <div className="absolute inset-0 z-0 pointer-events-none select-none">
         <Image
-          src="/bg2.png"
+          src="/bg2.webp"
           alt="You Are Mine Personalization Studio luxury background"
           fill
           sizes="100vw"
           className="object-cover object-center"
-          quality={95}
-          priority
+          loading="lazy"
         />
         {/* Soft top and bottom fade gradients to ensure smooth transitions */}
         <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#FAF7F2] to-transparent pointer-events-none" />

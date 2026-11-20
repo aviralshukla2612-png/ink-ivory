@@ -51,15 +51,15 @@ export const FeaturedTemplates: React.FC = () => {
 
   return (
     <section id="templates" className="relative w-full overflow-hidden bg-[#FAF7F2] py-16 sm:py-24 border-b border-[#EDE2CF]">
-      {/* Background artwork: bg1.png */}
+      {/* Background artwork: bg1.webp (optimized high-efficiency asset) */}
       <div className="absolute inset-0 z-0 pointer-events-none select-none">
         <Image
-          src="/bg1.png"
+          src="/bg1.webp"
           alt="You Are Mine luxury stationery background"
           fill
           sizes="100vw"
           className="object-cover object-top"
-          quality={95}
+          loading="lazy"
         />
         {/* Soft bottom fade into the transitional gap */}
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#FAF7F2] to-transparent pointer-events-none" />
