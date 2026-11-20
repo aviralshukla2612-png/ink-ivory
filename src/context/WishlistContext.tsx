@@ -15,30 +15,45 @@ const WishlistContext = createContext<WishlistContextType | undefined>(undefined
 
 export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [wishlist, setWishlist] = useState<Template[]>([]);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem('ink_ivory_wishlist') || localStorage.getItem('cardly_wishlist');
-    if (saved) {
-      try {
-        setWishlist(JSON.parse(saved));
-      } catch {
-        // fallback
+    try {
+      const saved =
+        localStorage.getItem('you_are_mine_wishlist') ||
+        localStorage.getItem('ink_ivory_wishlist') ||
+        localStorage.getItem('cardly_wishlist');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setWishlist(parsed);
+        }
       }
+    } catch {
+      // fallback
+    } finally {
+      setIsLoaded(true);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('ink_ivory_wishlist', JSON.stringify(wishlist));
-  }, [wishlist]);
+    if (!isLoaded) return;
+    try {
+      localStorage.setItem('you_are_mine_wishlist', JSON.stringify(wishlist));
+      localStorage.setItem('ink_ivory_wishlist', JSON.stringify(wishlist));
+      localStorage.removeItem('cardly_wishlist');
+    } catch {}
+  }, [wishlist, isLoaded]);
 
   const toggleWishlist = (template: Template) => {
     setWishlist((prev) => {
       const exists = prev.some((item) => item.id === template.id);
-      if (exists) {
-        return prev.filter((item) => item.id !== template.id);
-      } else {
-        return [...prev, template];
-      }
+      const updated = exists ? prev.filter((item) => item.id !== template.id) : [...prev, template];
+      try {
+        localStorage.setItem('you_are_mine_wishlist', JSON.stringify(updated));
+        localStorage.setItem('ink_ivory_wishlist', JSON.stringify(updated));
+      } catch {}
+      return updated;
     });
   };
 

@@ -20,27 +20,44 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Initialize with initial items to match the screenshot showing 2 items in cart!
   const [cart, setCart] = useState<CartItem[]>([]);
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [discountPercent, setDiscountPercent] = useState<number>(0);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem('ink_ivory_cart') || localStorage.getItem('cardly_cart');
-    if (saved) {
-      try {
-        setCart(JSON.parse(saved));
-      } catch {
-        // fallback
+    try {
+      const saved =
+        localStorage.getItem('you_are_mine_cart') ||
+        localStorage.getItem('ink_ivory_cart') ||
+        localStorage.getItem('cardly_cart');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          // Filter out legacy dummy seeds
+          const clean = parsed.filter(
+            (item: any) =>
+              item?.customizedId !== 'cart-init-1' && item?.customizedId !== 'cart-init-2'
+          );
+          setCart(clean);
+        }
       }
+    } catch {
+      // fallback
+    } finally {
+      setIsLoaded(true);
     }
   }, []);
 
+  // Sync to localStorage whenever cart changes (including when emptied!)
   useEffect(() => {
-    if (cart.length > 0) {
+    if (!isLoaded) return;
+    try {
+      localStorage.setItem('you_are_mine_cart', JSON.stringify(cart));
       localStorage.setItem('ink_ivory_cart', JSON.stringify(cart));
-    }
-  }, [cart]);
+      localStorage.removeItem('cardly_cart');
+    } catch {}
+  }, [cart, isLoaded]);
 
   const addToCart = (template: Template, customization?: EditableFields, designConfig?: DesignConfig) => {
     const newItem: CartItem = {
@@ -50,17 +67,34 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       customizedId: `cart-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
       quantity: 1,
     };
-    setCart((prev) => [...prev, newItem]);
+    setCart((prev) => {
+      const nextCart = [...prev, newItem];
+      try {
+        localStorage.setItem('you_are_mine_cart', JSON.stringify(nextCart));
+        localStorage.setItem('ink_ivory_cart', JSON.stringify(nextCart));
+      } catch {}
+      return nextCart;
+    });
   };
 
   const removeFromCart = (customizedId: string) => {
-    setCart((prev) => prev.filter((item) => item.customizedId !== customizedId));
+    setCart((prev) => {
+      const nextCart = prev.filter((item) => item.customizedId !== customizedId);
+      try {
+        localStorage.setItem('you_are_mine_cart', JSON.stringify(nextCart));
+        localStorage.setItem('ink_ivory_cart', JSON.stringify(nextCart));
+      } catch {}
+      return nextCart;
+    });
   };
 
   const clearCart = () => {
     setCart([]);
-    localStorage.removeItem('ink_ivory_cart');
-    localStorage.removeItem('cardly_cart');
+    try {
+      localStorage.setItem('you_are_mine_cart', JSON.stringify([]));
+      localStorage.setItem('ink_ivory_cart', JSON.stringify([]));
+      localStorage.removeItem('cardly_cart');
+    } catch {}
   };
 
   const applyCoupon = (code: string) => {
