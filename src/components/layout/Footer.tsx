@@ -9,10 +9,12 @@ import { Sparkles, ArrowUpRight } from 'lucide-react';
 export const Footer: React.FC = () => {
   const pathname = usePathname();
 
-  // Hide global e-commerce footer on standalone cinematic template preview pages and customize studio
+  // Hide global e-commerce footer on admin portal, public invitations, template previews, and customize studio
   if (
     pathname &&
-    (pathname.startsWith('/template-01') ||
+    (pathname.startsWith('/admin') ||
+      pathname.startsWith('/invite') ||
+      pathname.startsWith('/template-01') ||
       pathname.startsWith('/template-02') ||
       pathname.startsWith('/template-03') ||
       pathname.startsWith('/valentine') ||
