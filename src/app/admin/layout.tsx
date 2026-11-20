@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import NextImage from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -94,11 +95,9 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Login form state
-  const [loginMode, setLoginMode] = useState<'credentials' | 'key'>('credentials');
+  // Login form state (Standard Email & Password)
   const [emailInput, setEmailInput] = useState<string>('');
   const [passwordInput, setPasswordInput] = useState<string>('');
-  const [keyInput, setKeyInput] = useState<string>('');
   const [authError, setAuthError] = useState<string | null>(null);
   const [authenticating, setAuthenticating] = useState<boolean>(false);
 
@@ -108,23 +107,17 @@ function AdminShell({ children }: { children: React.ReactNode }) {
     setAuthenticating(true);
     setAuthError(null);
 
-    const payload =
-      loginMode === 'credentials'
-        ? { email: emailInput.trim(), password: passwordInput.trim() }
-        : { adminKey: keyInput.trim() };
-
     try {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ email: emailInput.trim(), password: passwordInput.trim() }),
       });
       const data = await res.json();
 
       if (res.ok && data.success) {
         setPasswordInput('');
-        setKeyInput('');
         await checkSession();
       } else {
         setAuthError(data.error || 'Authentication rejected. Access denied.');
@@ -170,9 +163,18 @@ function AdminShell({ children }: { children: React.ReactNode }) {
         <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#641A2A]/20 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 max-w-md w-full bg-[#1C1814] border border-[#382E24] rounded-3xl p-8 sm:p-10 shadow-2xl text-center">
-          {/* Brand Monogram */}
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#D4AF37] to-[#8C6D23] flex items-center justify-center mx-auto mb-5 shadow-lg border border-[#F3E7C4]/30">
-            <Lock className="w-7 h-7 text-[#1C1814]" />
+          {/* Brand Logo */}
+          <div className="flex items-center justify-center mx-auto mb-6">
+            <div className="px-5 py-3.5 bg-[#25201A] border border-[#3E3429] rounded-2xl shadow-lg">
+              <NextImage
+                src="/logo.png"
+                alt="You Are Mine"
+                width={220}
+                height={65}
+                className="h-12 sm:h-14 w-auto object-contain"
+                priority
+              />
+            </div>
           </div>
 
           <span className="text-[11px] uppercase tracking-[0.3em] font-semibold text-[#D4AF37] block mb-2">
@@ -186,51 +188,35 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           </p>
 
           <form onSubmit={handleLoginSubmit} className="space-y-4 text-left">
-            {loginMode === 'credentials' ? (
-              <>
-                <div>
-                  <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#C4B7A6] mb-1.5">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    value={emailInput}
-                    onChange={(e) => setEmailInput(e.target.value)}
-                    placeholder="Enter executive email"
-                    required
-                    className="w-full px-4 py-3 rounded-xl bg-[#28221B] border border-[#44382B] text-sm text-[#FAF8F5] placeholder-[#776B5D] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] transition-all"
-                  />
-                </div>
+            <div>
+              <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#C4B7A6] mb-1.5">
+                Email Address
+              </label>
+              <input
+                type="email"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                placeholder="admin@youaremine.online"
+                autoComplete="email"
+                required
+                className="w-full px-4 py-3 rounded-xl bg-[#28221B] border border-[#44382B] text-sm text-[#FAF8F5] placeholder-[#776B5D] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] transition-all"
+              />
+            </div>
 
-                <div>
-                  <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#C4B7A6] mb-1.5">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    value={passwordInput}
-                    onChange={(e) => setPasswordInput(e.target.value)}
-                    placeholder="••••••••••••"
-                    required
-                    className="w-full px-4 py-3 rounded-xl bg-[#28221B] border border-[#44382B] text-sm text-[#FAF8F5] placeholder-[#776B5D] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] transition-all"
-                  />
-                </div>
-              </>
-            ) : (
-              <div>
-                <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#C4B7A6] mb-1.5">
-                  Master Security Key
-                </label>
-                <input
-                  type="password"
-                  value={keyInput}
-                  onChange={(e) => setKeyInput(e.target.value)}
-                  placeholder="Enter secret authorization key"
-                  required
-                  className="w-full px-4 py-3 rounded-xl bg-[#28221B] border border-[#44382B] text-sm text-[#FAF8F5] placeholder-[#776B5D] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] transition-all"
-                />
-              </div>
-            )}
+            <div>
+              <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#C4B7A6] mb-1.5">
+                Password
+              </label>
+              <input
+                type="password"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                placeholder="••••••••••••"
+                autoComplete="current-password"
+                required
+                className="w-full px-4 py-3 rounded-xl bg-[#28221B] border border-[#44382B] text-sm text-[#FAF8F5] placeholder-[#776B5D] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] transition-all"
+              />
+            </div>
 
             {authError && (
               <div className="p-3 rounded-xl bg-red-950/60 border border-red-800 text-red-200 text-xs flex items-center gap-2">
@@ -256,21 +242,6 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                 </>
               )}
             </button>
-
-            <div className="text-center pt-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setLoginMode(loginMode === 'credentials' ? 'key' : 'credentials');
-                  setAuthError(null);
-                }}
-                className="text-[11px] text-[#A69B8D] hover:text-[#D4AF37] underline transition-colors"
-              >
-                {loginMode === 'credentials'
-                  ? 'Or sign in using Master Security Key'
-                  : 'Or sign in using Email & Password'}
-              </button>
-            </div>
           </form>
 
           <div className="mt-8 pt-6 border-t border-[#2C241D] flex items-center justify-center gap-2 text-[10.5px] text-[#7A6E5F]">
