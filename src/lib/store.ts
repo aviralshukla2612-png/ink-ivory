@@ -265,9 +265,9 @@ function getDefaultCategories(): CategoryRecord[] {
 function getDefaultCoupons(): CouponRecord[] {
   const now = new Date().toISOString();
   return [
-    { id: "cpn_royal100", code: "ROYAL100", discountType: "FIXED", discountValue: 10000, minOrderValuePaise: 29900, maxDiscountPaise: 10000, usageCount: 42, usageLimit: 500, isActive: true, createdAt: now, updatedAt: now },
-    { id: "cpn_love2026", code: "LOVE2026", discountType: "PERCENTAGE", discountValue: 20, minOrderValuePaise: 34900, maxDiscountPaise: 15000, usageCount: 68, usageLimit: 1000, isActive: true, createdAt: now, updatedAt: now },
-    { id: "cpn_temple50", code: "TEMPLE50", discountType: "FIXED", discountValue: 5000, minOrderValuePaise: 29900, maxDiscountPaise: 5000, usageCount: 19, usageLimit: 250, isActive: true, createdAt: now, updatedAt: now },
+    { id: "cpn_royal100", code: "ROYAL100", discountType: "FIXED", discountValue: 10000, minOrderValuePaise: 29900, maxDiscountPaise: 10000, usageCount: 0, usageLimit: 500, isActive: true, createdAt: now, updatedAt: now },
+    { id: "cpn_love2026", code: "LOVE2026", discountType: "PERCENTAGE", discountValue: 20, minOrderValuePaise: 34900, maxDiscountPaise: 15000, usageCount: 0, usageLimit: 1000, isActive: true, createdAt: now, updatedAt: now },
+    { id: "cpn_temple50", code: "TEMPLE50", discountType: "FIXED", discountValue: 5000, minOrderValuePaise: 29900, maxDiscountPaise: 5000, usageCount: 0, usageLimit: 250, isActive: true, createdAt: now, updatedAt: now },
   ];
 }
 
@@ -275,7 +275,7 @@ function getDefaultSettings(): PlatformSettingsRecord {
   return {
     id: "set_global_default",
     platformName: "You Are Mine",
-    supportEmail: "concierge@inkandivory.com",
+    supportEmail: "concierge@youaremine.online",
     supportPhone: "+91 (0) 11 4982 9200",
     defaultCurrency: "INR",
     maintenanceMode: false,
@@ -291,7 +291,7 @@ function getDefaultData(): DBStore {
     users: [
       {
         id: "usr_admin_default",
-        email: "admin@inkandivory.com",
+        email: "admin@youaremine.online",
         name: "You Are Mine Admin",
         role: "ADMIN",
         createdAt: new Date().toISOString(),
@@ -1687,6 +1687,39 @@ class StoreService {
       publishedCount: this.data!.publications.filter((p) => p.status === "ACTIVE").length,
       activeTemplates: this.data!.templates.filter((t) => t.isActive).length,
     };
+  }
+
+  /**
+   * Purges all test and dummy data across drafts, orders, payments, publications,
+   * invitations, audit logs, and support tickets, resetting coupons to 0 uses.
+   */
+  async clearAllDummyData(): Promise<{ success: boolean; clearedCounts: Record<string, number> }> {
+    this.init();
+    const counts = {
+      drafts: this.data!.drafts?.length || 0,
+      orders: this.data!.orders?.length || 0,
+      payments: this.data!.payments?.length || 0,
+      invitations: this.data!.invitations?.length || 0,
+      publications: this.data!.publications?.length || 0,
+      supportTickets: this.data!.supportTickets?.length || 0,
+      auditLogs: this.data!.auditLogs?.length || 0,
+    };
+
+    this.data!.drafts = [];
+    this.data!.orders = [];
+    this.data!.payments = [];
+    this.data!.invitations = [];
+    this.data!.publications = [];
+    this.data!.supportTickets = [];
+    this.data!.auditLogs = [];
+
+    // Reset coupon usage counts
+    (this.data!.coupons || []).forEach((c) => {
+      c.usageCount = 0;
+    });
+
+    this.save();
+    return { success: true, clearedCounts: counts };
   }
 
   // =========================================================================

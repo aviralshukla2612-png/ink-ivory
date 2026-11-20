@@ -27,6 +27,7 @@ import {
   CheckCircle2,
   AlertCircle,
   HelpCircle,
+  Trash2,
 } from 'lucide-react';
 import { useAdmin } from '@/context/AdminContext';
 import { templatesData } from '@/data/templates';
@@ -131,6 +132,36 @@ export default function AdminPage() {
     }
   };
 
+  const [purging, setPurging] = useState<boolean>(false);
+
+  const handlePurgeTestData = async () => {
+    if (
+      !window.confirm(
+        'Are you sure you want to permanently clear all test drafts, dummy orders, publications, and tickets? This will reset all metrics to 0.'
+      )
+    ) {
+      return;
+    }
+    setPurging(true);
+    try {
+      const res = await fetch('/api/admin/reset-dummy-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      });
+      const data = await res.json();
+      if (data.success) {
+        await fetchAdminData();
+      } else {
+        alert(data.error || 'Failed to clear dummy data.');
+      }
+    } catch {
+      alert('Network error while resetting dummy data.');
+    } finally {
+      setPurging(false);
+    }
+  };
+
   const stats = adminData.stats || {
     totalRevenue: 0,
     totalOrders: adminData.orders?.length || 0,
@@ -213,7 +244,7 @@ export default function AdminPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-3 shrink-0 flex-wrap">
           <button
             type="button"
             onClick={fetchAdminData}
@@ -223,6 +254,22 @@ export default function AdminPage() {
             <RefreshCw className={`w-3.5 h-3.5 text-[#8F6E3B] ${loading ? 'animate-spin' : ''}`} />
             <span>Sync Data</span>
           </button>
+
+          {Boolean(
+            (adminData.drafts?.length || 0) > 0 ||
+              (adminData.orders?.length || 0) > 0 ||
+              (adminData.publications?.length || 0) > 0
+          ) && (
+            <button
+              type="button"
+              onClick={handlePurgeTestData}
+              disabled={purging}
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-red-300 bg-red-50 hover:bg-red-100 text-xs font-semibold text-red-700 transition-all shadow-2xs cursor-pointer disabled:opacity-50"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-red-600" />
+              <span>{purging ? 'Purging...' : 'Purge All Test Data'}</span>
+            </button>
+          )}
 
           <Link
             href="/admin/builder"
@@ -293,7 +340,7 @@ export default function AdminPage() {
                   {stats.totalOrders} verified orders
                 </span>
                 <span>&bull;</span>
-                <span>AOV ₹{stats.averageOrderValue || 349}</span>
+                <span>AOV ₹{stats.averageOrderValue || 0}</span>
               </div>
             </div>
 
@@ -863,7 +910,7 @@ export default function AdminPage() {
                         {o.orderId || 'Direct'}
                       </td>
                       <td className="py-3.5 px-4 text-center font-bold text-[#2C2114]">
-                        ₹{Math.round((o.amountPaise || o.amount || 29900) / 100)}
+                        ₹{Math.round((o.amountPaise || o.amount || 0) / 100)}
                       </td>
                       <td className="py-3.5 px-4 text-center">
                         <span

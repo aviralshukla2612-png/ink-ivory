@@ -26,35 +26,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [discountPercent, setDiscountPercent] = useState<number>(0);
 
   useEffect(() => {
-    // Check localStorage or seed initial default to match screenshot badge of 2
     const saved = localStorage.getItem('ink_ivory_cart') || localStorage.getItem('cardly_cart');
     if (saved) {
       try {
         setCart(JSON.parse(saved));
-        return;
       } catch {
         // fallback
       }
-    }
-    // Default 2 items to match the screenshot's cart badge '2'
-    if (templatesData.length >= 2) {
-      const initialItems: CartItem[] = [
-        {
-          template: templatesData[0], // Navy wedding card
-          customization: templatesData[0].defaultFields,
-          designConfig: templatesData[0].designConfig,
-          customizedId: 'cart-init-1',
-          quantity: 1,
-        },
-        {
-          template: templatesData[1], // Golden anniversary card
-          customization: templatesData[1].defaultFields,
-          designConfig: templatesData[1].designConfig,
-          customizedId: 'cart-init-2',
-          quantity: 1,
-        },
-      ];
-      setCart(initialItems);
     }
   }, []);
 

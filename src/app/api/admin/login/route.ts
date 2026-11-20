@@ -44,7 +44,9 @@ export async function POST(request: NextRequest) {
           email: staffMember.email || email,
         };
       } else if (
-        (email === "admin@youaremine.com" || email === "admin@inkandivory.com") &&
+        (email === "admin@youaremine.online" ||
+          email === "admin@youaremine.com" ||
+          email === "admin@inkandivory.com") &&
         isPasswordValid
       ) {
         authenticatedActor = {

@@ -21,14 +21,9 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (saved) {
       try {
         setWishlist(JSON.parse(saved));
-        return;
       } catch {
         // fallback
       }
-    }
-    // Seed 1 default favorite
-    if (templatesData.length > 2) {
-      setWishlist([templatesData[2]]);
     }
   }, []);
 
