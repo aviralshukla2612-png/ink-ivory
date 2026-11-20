@@ -146,7 +146,9 @@ export default function CartPage() {
 
                     <div className="flex items-center gap-2">
                       <Link
-                        href={`/customize/${item.template.id}`}
+                        href={`/customize/${item.template.id}?cartItemId=${item.customizedId}${
+                          item.draftId ? `&draftId=${item.draftId}` : ''
+                        }`}
                         className="p-1.5 rounded-lg border border-[#DFCEAF] text-[#6B533E] hover:text-[#8F6E3B] hover:bg-white text-xs flex items-center gap-1"
                         title="Edit Customization"
                       >

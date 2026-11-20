@@ -156,7 +156,7 @@ export default function CustomizePage() {
   };
 
   const templateKey = getTemplateKey();
-  const { addToCart } = useCart();
+  const { cart, addToCart } = useCart();
 
   // State for editable fields
   const [fields, setFields] = useState<EditableFields>(() => {
@@ -197,11 +197,22 @@ export default function CustomizePage() {
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-  // Load existing draft if draftId is in query params
+  // Load existing draft or cart item if in query params
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const sp = new URLSearchParams(window.location.search);
     const existingDraftId = sp.get('draftId');
+    const cartItemId = sp.get('cartItemId');
+
+    if (cartItemId) {
+      const cartItem = cart.find((i) => i.customizedId === cartItemId);
+      if (cartItem) {
+        if (cartItem.customization) setFields((prev) => ({ ...prev, ...cartItem.customization }));
+        if (cartItem.designConfig) setDesign((prev) => ({ ...prev, ...cartItem.designConfig }));
+        if (cartItem.draftId && !existingDraftId) setDraftId(cartItem.draftId);
+      }
+    }
+
     if (existingDraftId) {
       setDraftId(existingDraftId);
       fetch(`/api/drafts/${existingDraftId}`)
@@ -214,7 +225,7 @@ export default function CustomizePage() {
         })
         .catch((err) => console.error('Failed to load draft:', err));
     }
-  }, []);
+  }, [cart]);
 
   // Save Draft to Server Function
   const saveDraftToServer = async (overrideStatus?: string): Promise<string | null> => {
@@ -636,13 +647,15 @@ export default function CustomizePage() {
             )}
           </button>
 
-          {/* Add to Cart Button */}
+          {/* Add to Cart / Update Cart Button */}
           <button
             onClick={async () => {
               setAddingToCart(true);
               try {
+                const sp = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+                const cartItemId = sp?.get('cartItemId') || undefined;
                 const savedDraftId = await saveDraftToServer('READY_TO_PUBLISH');
-                addToCart(baseTemplate, fields, design, savedDraftId || draftId || undefined);
+                addToCart(baseTemplate, fields, design, savedDraftId || draftId || undefined, cartItemId);
                 router.push('/cart');
               } catch (e) {
                 console.error('Error adding to cart:', e);
@@ -658,12 +671,18 @@ export default function CustomizePage() {
             {addingToCart ? (
               <>
                 <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                <span>Adding to Cart...</span>
+                <span>Saving to Cart...</span>
               </>
             ) : (
               <>
                 <ShoppingBag className="w-3.5 h-3.5 text-[#FFF2D6]" />
-                <span className="tracking-wide">Add to Cart</span>
+                <span className="tracking-wide">
+                  {cart.some(
+                    (i) => i.template.id === baseTemplate.id || (draftId && i.draftId === draftId)
+                  )
+                    ? 'Update in Cart'
+                    : 'Add to Cart'}
+                </span>
                 <span className="font-serif bg-black/15 px-2 py-0.5 rounded text-[11px] font-normal">
                   ₹{baseTemplate.price}
                 </span>

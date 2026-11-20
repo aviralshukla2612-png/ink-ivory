@@ -10,7 +10,8 @@ interface CartContextType {
     template: Template,
     customization?: EditableFields,
     designConfig?: DesignConfig,
-    draftId?: string
+    draftId?: string,
+    customizedId?: string
   ) => void;
   removeFromCart: (customizedId: string) => void;
   clearCart: () => void;
@@ -23,6 +24,24 @@ interface CartContextType {
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
+
+// Collapses duplicate items of the same template into 1
+const deduplicateCart = (items: CartItem[]): CartItem[] => {
+  const seenTemplateIds = new Set<string>();
+  const result: CartItem[] = [];
+
+  for (const item of items) {
+    if (!item?.template?.id) continue;
+    // Filter out dummy seeds
+    if (item.customizedId === 'cart-init-1' || item.customizedId === 'cart-init-2') continue;
+
+    if (!seenTemplateIds.has(item.template.id)) {
+      seenTemplateIds.add(item.template.id);
+      result.push({ ...item, quantity: 1 });
+    }
+  }
+  return result;
+};
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -39,12 +58,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
-          // Filter out legacy dummy seeds
-          const clean = parsed.filter(
-            (item: any) =>
-              item?.customizedId !== 'cart-init-1' && item?.customizedId !== 'cart-init-2'
-          );
+          const clean = deduplicateCart(parsed);
           setCart(clean);
+          localStorage.setItem('you_are_mine_cart', JSON.stringify(clean));
+          localStorage.setItem('ink_ivory_cart', JSON.stringify(clean));
         }
       }
     } catch {
@@ -68,18 +85,47 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     template: Template,
     customization?: EditableFields,
     designConfig?: DesignConfig,
-    draftId?: string
+    draftId?: string,
+    customizedId?: string
   ) => {
-    const newItem: CartItem = {
-      template,
-      customization: customization || template.defaultFields,
-      designConfig: designConfig || template.designConfig,
-      customizedId: `cart-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
-      quantity: 1,
-      draftId,
-    };
     setCart((prev) => {
-      const nextCart = [...prev, newItem];
+      // Find if this item already exists in the cart (by customizedId, draftId, or template.id)
+      const existingIndex = prev.findIndex(
+        (item) =>
+          (customizedId && item.customizedId === customizedId) ||
+          (draftId && item.draftId && item.draftId === draftId) ||
+          item.template.id === template.id
+      );
+
+      let nextCart: CartItem[];
+
+      if (existingIndex >= 0) {
+        // Update existing item in-place!
+        const existing = prev[existingIndex];
+        const updatedItem: CartItem = {
+          ...existing,
+          template,
+          customization: customization || template.defaultFields,
+          designConfig: designConfig || template.designConfig,
+          draftId: draftId || existing.draftId,
+          quantity: 1,
+        };
+        nextCart = [...prev];
+        nextCart[existingIndex] = updatedItem;
+      } else {
+        // Add new unique item to cart
+        const newItem: CartItem = {
+          template,
+          customization: customization || template.defaultFields,
+          designConfig: designConfig || template.designConfig,
+          customizedId:
+            customizedId || `cart-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+          quantity: 1,
+          draftId,
+        };
+        nextCart = [...prev, newItem];
+      }
+
       try {
         localStorage.setItem('you_are_mine_cart', JSON.stringify(nextCart));
         localStorage.setItem('ink_ivory_cart', JSON.stringify(nextCart));
