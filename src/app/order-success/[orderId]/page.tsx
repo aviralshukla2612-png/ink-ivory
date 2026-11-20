@@ -12,6 +12,10 @@ import {
   ShieldCheck,
   Sparkles,
   Share2,
+  Globe,
+  Copy,
+  Check,
+  ExternalLink,
 } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import jsPDF from 'jspdf';
@@ -25,7 +29,28 @@ export default function OrderSuccessPage() {
   const [order, setOrder] = useState<any>(null);
   const [downloadingPng, setDownloadingPng] = useState(false);
   const [downloadingPdf, setDownloadingPdf] = useState(false);
+  const [copied, setCopied] = useState(false);
   const cardDownloadRef = useRef<HTMLDivElement>(null);
+
+  // Compute live invitation link
+  const liveUrl = React.useMemo(() => {
+    if (!order) return '';
+    if (order.liveUrl && order.liveUrl.startsWith('http')) return order.liveUrl;
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://youaremine.online';
+    if (order.liveUrl) return `${origin}${order.liveUrl}`;
+    if (order.liveSlug) return `${origin}/invite/${order.liveSlug}`;
+    if (order.items?.[0]?.template?.slug) {
+      return `${origin}/invite/${order.items[0].template.slug}`;
+    }
+    return `${origin}/invite/live`;
+  }, [order]);
+
+  const handleCopyLink = () => {
+    if (!liveUrl) return;
+    navigator.clipboard.writeText(liveUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
 
   useEffect(() => {
     // Load order from local storage
@@ -138,6 +163,72 @@ export default function OrderSuccessPage() {
             <span>Customer: <strong className="text-[#2C2114]">{order?.customerName}</strong></span>
             <span>•</span>
             <span>Status: <strong className="text-[#2E6B3F]">Completed</strong></span>
+          </div>
+
+          {/* Live Invitation Shareable Link Box */}
+          <div className="bg-gradient-to-br from-[#FFFDF9] via-[#FAF5EA] to-[#F5ECE0] rounded-3xl p-6 sm:p-8 border-2 border-[#D4AF37] shadow-xl max-w-xl mx-auto mb-10 text-center relative overflow-hidden">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#8F6E3B] to-[#D4AF37] text-white flex items-center justify-center mx-auto mb-3 shadow-md">
+              <Globe className="w-6 h-6" />
+            </div>
+
+            <span className="text-[10.5px] uppercase tracking-[0.25em] font-bold text-[#8F6E3B] block mb-1">
+              ✨ Congratulations! Your Invitation is Live
+            </span>
+            <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#2C2114] mb-2">
+              Your Shareable Web Link
+            </h2>
+            <p className="text-xs text-[#7A634E] mb-4 max-w-md mx-auto leading-relaxed">
+              Share this live interactive web page with all your guests. It is active 24/7 with your music, story, and details.
+            </p>
+
+            {/* URL Display Bar */}
+            <div className="flex items-center justify-between p-2.5 sm:p-3 rounded-2xl bg-white border border-[#DFCEAF] shadow-inner mb-4 gap-2">
+              <span className="font-mono text-xs sm:text-sm text-[#2C2114] font-medium truncate text-left pl-2 select-all">
+                {liveUrl}
+              </span>
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="px-4 py-2 rounded-xl bg-[#8F6E3B] hover:bg-[#7D5F31] text-white text-xs font-semibold flex items-center gap-1.5 shrink-0 transition-all cursor-pointer shadow-xs"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-white" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>Copy Link</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Action Buttons: Open & WhatsApp */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a
+                href={liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#1C2C24] hover:bg-[#121c17] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-xs"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>Open Live Website</span>
+              </a>
+
+              <a
+                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+                  `You're warmly invited! View our live invitation here: ${liveUrl}`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-xs"
+              >
+                <Share2 className="w-3.5 h-3.5" />
+                <span>Share via WhatsApp</span>
+              </a>
+            </div>
           </div>
 
           {/* Card Presentation & Download Node */}

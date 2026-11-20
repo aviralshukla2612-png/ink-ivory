@@ -190,6 +190,7 @@ export default function CustomizePage() {
   const [audioUploadError, setAudioUploadError] = useState<string | null>(null);
 
   // Persistent Draft & Try-Before-You-Publish State
+  const [addingToCart, setAddingToCart] = useState(false);
   const [draftId, setDraftId] = useState<string | null>(null);
   const [isDraftSaving, setIsDraftSaving] = useState(false);
   const [draftSaveStatus, setDraftSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
@@ -635,19 +636,39 @@ export default function CustomizePage() {
             )}
           </button>
 
-          {/* Try-Before-You-Publish: Luxury Publish My Website Button */}
+          {/* Add to Cart Button */}
           <button
             onClick={async () => {
-              await saveDraftToServer('READY_TO_PUBLISH');
-              setIsPublishModalOpen(true);
+              setAddingToCart(true);
+              try {
+                const savedDraftId = await saveDraftToServer('READY_TO_PUBLISH');
+                addToCart(baseTemplate, fields, design, savedDraftId || draftId || undefined);
+                router.push('/cart');
+              } catch (e) {
+                console.error('Error adding to cart:', e);
+                addToCart(baseTemplate, fields, design, draftId || undefined);
+                router.push('/cart');
+              } finally {
+                setAddingToCart(false);
+              }
             }}
-            className="px-4 sm:px-5 py-2 text-xs sm:text-[13px] font-semibold rounded-xl bg-gradient-to-r from-[#8F6E3B] via-[#A88347] to-[#8F6E3B] hover:opacity-95 text-white shadow-gold flex items-center gap-2 transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
+            disabled={addingToCart}
+            className="px-4 sm:px-5 py-2 text-xs sm:text-[13px] font-semibold rounded-xl bg-gradient-to-r from-[#8F6E3B] via-[#A88347] to-[#8F6E3B] hover:opacity-95 text-white shadow-gold flex items-center gap-2 transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60"
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#FFF2D6]" />
-            <span className="tracking-wide">Publish My Website</span>
-            <span className="font-serif bg-black/15 px-2 py-0.5 rounded text-[11px] font-normal">
-              ₹{baseTemplate.price}
-            </span>
+            {addingToCart ? (
+              <>
+                <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <span>Adding to Cart...</span>
+              </>
+            ) : (
+              <>
+                <ShoppingBag className="w-3.5 h-3.5 text-[#FFF2D6]" />
+                <span className="tracking-wide">Add to Cart</span>
+                <span className="font-serif bg-black/15 px-2 py-0.5 rounded text-[11px] font-normal">
+                  ₹{baseTemplate.price}
+                </span>
+              </>
+            )}
           </button>
         </div>
       </div>

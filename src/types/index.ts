@@ -74,6 +74,7 @@ export interface CartItem {
   designConfig?: DesignConfig;
   customizedId?: string;
   quantity: number;
+  draftId?: string;
 }
 
 export interface Order {

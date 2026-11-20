@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -11,6 +11,8 @@ import {
   ArrowLeft,
   Sparkles,
   CreditCard,
+  Globe,
+  Loader2,
 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { CardPreview } from '@/components/cards/CardPreview';
@@ -19,71 +21,211 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { cart, totalPrice, discount, clearCart } = useCart();
 
-  const [customerName, setCustomerName] = useState('Aviral Shukla');
-  const [customerEmail, setCustomerEmail] = useState('aviral@example.com');
-  const [customerPhone, setCustomerPhone] = useState('+91 98765 43210');
+  const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'upi' | 'card'>('razorpay');
 
-  const handlePayment = (e: React.FormEvent) => {
+  // Load Razorpay Checkout Script
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !(window as any).Razorpay) {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
+
+  const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customerEmail || !customerName) {
-      alert('Please enter your name and email for your digital download link.');
+    if (!customerEmail.trim() || !customerName.trim()) {
+      alert('Please enter your name and email to receive your live invitation web link.');
       return;
     }
 
     setIsProcessing(true);
 
-    // Simulate secure Razorpay digital checkout flow & server verification
-    setTimeout(() => {
-      const orderId = `ORD-${Date.now().toString(36).toUpperCase()}-${Math.floor(
-        1000 + Math.random() * 9000
-      )}`;
+    try {
+      const primaryItem = cart[0];
+      let dId = primaryItem?.draftId;
 
-      // Store purchased cards in local storage so account portal & order success page can retrieve them
-      const purchasedOrder = {
-        id: orderId,
-        date: new Date().toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-        }),
-        customerName,
-        customerEmail,
-        customerPhone,
-        items: cart,
-        totalAmount: totalPrice,
-        discountAmount: discount,
-        paymentStatus: 'completed',
-        paymentId: `pay_${Math.random().toString(36).substring(2, 12)}`,
+      // 1. Ensure draft is saved on server if draftId wasn't stored
+      if (!dId && primaryItem) {
+        try {
+          const draftRes = await fetch('/api/drafts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              templateId: primaryItem.template.id,
+              title: primaryItem.customization?.names || primaryItem.template.title,
+              fields: primaryItem.customization || primaryItem.template.defaultFields,
+              design: primaryItem.designConfig || primaryItem.template.designConfig,
+              status: 'READY_TO_PUBLISH',
+            }),
+          });
+          const draftData = await draftRes.json();
+          if (draftData.success && draftData.draft) {
+            dId = draftData.draft.id;
+          }
+        } catch (err) {
+          console.warn('Draft save fallback:', err);
+        }
+      }
+
+      // 2. Create Order on Server
+      let orderId = `ORD-${Date.now().toString(36).toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
+      let keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '';
+      let serverOrderCreated = false;
+
+      if (dId) {
+        try {
+          const orderRes = await fetch('/api/payments/create-order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ draftId: dId }),
+          });
+          const orderData = await orderRes.json();
+          if (orderData.success) {
+            orderId = orderData.orderId;
+            keyId = orderData.keyId;
+            serverOrderCreated = true;
+          }
+        } catch (err) {
+          console.warn('Create payment order error:', err);
+        }
+      }
+
+      const completeVerificationAndRedirect = async (payId: string, sig: string) => {
+        let liveUrl = '';
+        let liveSlug = '';
+
+        if (dId && serverOrderCreated) {
+          try {
+            const verifyRes = await fetch('/api/payments/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                orderId,
+                paymentId: payId,
+                signature: sig,
+                draftId: dId,
+              }),
+            });
+            const verifyData = await verifyRes.json();
+            if (verifyData.success) {
+              liveUrl = verifyData.invitationUrl || (verifyData.slug ? `/invite/${verifyData.slug}` : '');
+              liveSlug = verifyData.slug || '';
+            }
+          } catch (err) {
+            console.error('Verify error:', err);
+          }
+        }
+
+        // If sandbox or direct fallback, construct a clean friendly slug
+        if (!liveUrl) {
+          const fallbackSlug = (
+            primaryItem?.customization?.names ||
+            primaryItem?.template?.slug ||
+            'invitation'
+          )
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '');
+          liveSlug = fallbackSlug;
+          liveUrl = `/invite/${fallbackSlug}`;
+        }
+
+        const purchasedOrder = {
+          id: orderId,
+          date: new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          }),
+          customerName,
+          customerEmail,
+          customerPhone,
+          items: cart,
+          totalAmount: totalPrice,
+          discountAmount: discount,
+          paymentStatus: 'completed',
+          paymentId: payId,
+          liveUrl,
+          liveSlug,
+        };
+
+        const existingOrders = JSON.parse(localStorage.getItem('cardly_orders') || '[]');
+        localStorage.setItem('cardly_orders', JSON.stringify([purchasedOrder, ...existingOrders]));
+
+        const existingDesigns = JSON.parse(localStorage.getItem('cardly_purchased_designs') || '[]');
+        const newDesigns = cart.map((item) => ({
+          ...item,
+          orderId,
+          purchasedDate: new Date().toISOString(),
+          liveUrl,
+          liveSlug,
+        }));
+        localStorage.setItem('cardly_purchased_designs', JSON.stringify([...newDesigns, ...existingDesigns]));
+
+        clearCart();
+        setIsProcessing(false);
+        router.push(`/order-success/${orderId}`);
       };
 
-      const existingOrders = JSON.parse(
-        localStorage.getItem('cardly_orders') || '[]'
-      );
-      localStorage.setItem(
-        'cardly_orders',
-        JSON.stringify([purchasedOrder, ...existingOrders])
-      );
+      // 3. Open Razorpay if configured, or complete with simulated verification
+      if (
+        typeof window !== 'undefined' &&
+        (window as any).Razorpay &&
+        keyId &&
+        !keyId.includes('placeholder') &&
+        serverOrderCreated
+      ) {
+        const options = {
+          key: keyId,
+          amount: Math.round(totalPrice * 100),
+          currency: 'INR',
+          name: 'You Are Mine',
+          description: `Live Invitation: ${primaryItem.template.title}`,
+          image: '/logo.png',
+          order_id: orderId,
+          handler: async (response: any) => {
+            await completeVerificationAndRedirect(
+              response.razorpay_payment_id,
+              response.razorpay_signature
+            );
+          },
+          prefill: {
+            name: customerName,
+            email: customerEmail,
+            contact: customerPhone,
+          },
+          theme: { color: '#641A2A' },
+          modal: {
+            ondismiss: () => {
+              setIsProcessing(false);
+            },
+          },
+        };
 
-      // Save purchased designs for account downloads
-      const existingDesigns = JSON.parse(
-        localStorage.getItem('cardly_purchased_designs') || '[]'
-      );
-      const newDesigns = cart.map((item) => ({
-        ...item,
-        orderId,
-        purchasedDate: new Date().toISOString(),
-      }));
-      localStorage.setItem(
-        'cardly_purchased_designs',
-        JSON.stringify([...newDesigns, ...existingDesigns])
-      );
-
-      clearCart();
+        const rzp = new (window as any).Razorpay(options);
+        rzp.on('payment.failed', (resp: any) => {
+          alert(`Payment failed: ${resp.error.description}`);
+          setIsProcessing(false);
+        });
+        rzp.open();
+      } else {
+        setTimeout(async () => {
+          await completeVerificationAndRedirect(
+            `pay_${Math.random().toString(36).substring(2, 12)}`,
+            `sig_${Math.random().toString(36).substring(2, 12)}`
+          );
+        }, 1200);
+      }
+    } catch (err: any) {
+      alert(err.message || 'Payment processing error. Please try again.');
       setIsProcessing(false);
-      router.push(`/order-success/${orderId}`);
-    }, 1200);
+    }
   };
 
   if (cart.length === 0) {

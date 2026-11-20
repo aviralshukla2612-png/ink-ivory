@@ -6,7 +6,12 @@ import { templatesData } from '@/data/templates';
 
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (template: Template, customization?: EditableFields, designConfig?: DesignConfig) => void;
+  addToCart: (
+    template: Template,
+    customization?: EditableFields,
+    designConfig?: DesignConfig,
+    draftId?: string
+  ) => void;
   removeFromCart: (customizedId: string) => void;
   clearCart: () => void;
   totalPrice: number;
@@ -59,13 +64,19 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch {}
   }, [cart, isLoaded]);
 
-  const addToCart = (template: Template, customization?: EditableFields, designConfig?: DesignConfig) => {
+  const addToCart = (
+    template: Template,
+    customization?: EditableFields,
+    designConfig?: DesignConfig,
+    draftId?: string
+  ) => {
     const newItem: CartItem = {
       template,
       customization: customization || template.defaultFields,
       designConfig: designConfig || template.designConfig,
       customizedId: `cart-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
       quantity: 1,
+      draftId,
     };
     setCart((prev) => {
       const nextCart = [...prev, newItem];
