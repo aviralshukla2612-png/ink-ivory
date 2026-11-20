@@ -1,0 +1,14 @@
+services:
+  youaremine-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: youaremine-web
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.production
+    volumes:
+      - ./data:/app/data
+      - ./public/uploads:/app/public/uploads

@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   reactStrictMode: true,
   devIndicators: false,
   poweredByHeader: false, // Prevents X-Powered-By fingerprinting
