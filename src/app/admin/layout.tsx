@@ -96,7 +96,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
 
   // Login form state
   const [loginMode, setLoginMode] = useState<'credentials' | 'key'>('credentials');
-  const [emailInput, setEmailInput] = useState<string>('admin@youaremine.com');
+  const [emailInput, setEmailInput] = useState<string>('');
   const [passwordInput, setPasswordInput] = useState<string>('');
   const [keyInput, setKeyInput] = useState<string>('');
   const [authError, setAuthError] = useState<string | null>(null);
@@ -181,21 +181,9 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           <h1 className="font-serif text-2xl sm:text-3xl font-medium text-[#FAF8F5] mb-2 tracking-tight">
             Executive Admin Access
           </h1>
-          <p className="text-xs text-[#A69B8D] leading-relaxed mb-5 font-normal">
+          <p className="text-xs text-[#A69B8D] leading-relaxed mb-6 font-normal">
             Sign in with your executive credentials to manage invitation templates, customer orders, and financial operations.
           </p>
-
-          {/* Quick Credential Hint Banner */}
-          <div className="mb-5 p-3 rounded-xl bg-[#28221B]/80 border border-[#D4AF37]/30 text-left">
-            <div className="text-[10px] uppercase tracking-wider font-semibold text-[#D4AF37] flex items-center gap-1.5 mb-1">
-              <Sparkles className="w-3 h-3 text-[#D4AF37]" />
-              Executive Default Credentials
-            </div>
-            <div className="text-[11px] text-[#FAF8F5] font-mono flex flex-col gap-0.5">
-              <div>Email: <span className="text-[#D4AF37]">admin@youaremine.com</span></div>
-              <div>Password: <span className="text-[#D4AF37]">admin123</span></div>
-            </div>
-          </div>
 
           <form onSubmit={handleLoginSubmit} className="space-y-4 text-left">
             {loginMode === 'credentials' ? (
@@ -208,7 +196,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                     type="email"
                     value={emailInput}
                     onChange={(e) => setEmailInput(e.target.value)}
-                    placeholder="admin@youaremine.com"
+                    placeholder="Enter executive email"
                     required
                     className="w-full px-4 py-3 rounded-xl bg-[#28221B] border border-[#44382B] text-sm text-[#FAF8F5] placeholder-[#776B5D] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] transition-all"
                   />
