@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -33,71 +33,22 @@ import {
   MoveHorizontal,
   ZoomIn,
   RotateCcw,
+  Search,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import PublishModal from '@/components/editor/PublishModal';
 import { templatesData } from '@/data/templates';
 import { EditableFields, DesignConfig } from '@/types';
 import { useCart } from '@/context/CartContext';
-
-// Curated library of iconic soundtracks
-const SONG_LIBRARY = [
-  {
-    id: 'happy-birthday',
-    title: 'Happy Birthday to You (Music Box & Piano)',
-    artist: 'You Are Mine Music Box • Celebratory Melody',
-    source: '/audio/happy-birthday.mp3',
-    duration: 31,
-    tag: 'Birthday Anthem',
-  },
-  {
-    id: 'aaj-sajeya',
-    title: 'Aaj Sajeya — Goldie Sohel',
-    artist: 'Saregama Music • Romantic Wedding Anthem',
-    source: '/audio/aaj-sajeya.mp3',
-    duration: 249,
-    tag: 'Wedding Favorite',
-  },
-  {
-    id: 'kudmayi',
-    title: 'Kudmayi (Film Version) — Shahid Mallya',
-    artist: 'Pritam, Saregama • Rocky Aur Rani',
-    source: '/audio/kudmayi.mp3',
-    duration: 274,
-    tag: 'Cinematic Royal',
-  },
-  {
-    id: 'mast-magan',
-    title: 'Mast Magan — Arijit Singh & Chinmayi',
-    artist: 'T-Series • 2 States South Indian Anthem',
-    source: '/audio/mast-magan.mp3',
-    duration: 232,
-    tag: 'South Indian & Bollywood',
-  },
-  {
-    id: 'valentine-theme',
-    title: 'Until I Found You — Stephen Sanchez',
-    artist: 'Mercury Records • Romantic Acoustic',
-    source: '/audio/valentine-theme.mp3',
-    duration: 177,
-    tag: 'Valentine Romance',
-  },
-  {
-    id: 'shehnai',
-    title: 'Indian Wedding Shehnai & Dhol',
-    artist: 'Traditional Auspicious Vedic Shehnai',
-    source: '/audio/indian-wedding-shehnai.mp3',
-    duration: 360,
-    tag: 'Traditional Sacred',
-  },
-  {
-    id: 'kashi-theme',
-    title: 'Kashi Heritage Sitar & Flute',
-    artist: 'Traditional Indian Classical Harmony',
-    source: '/audio/kashi-theme.mp3',
-    duration: 180,
-    tag: 'Serene Sitar',
-  },
-];
+import {
+  ALL_SONGS,
+  SongItem,
+  SONG_CATEGORIES,
+  SongCategory,
+  SONG_COUNTS,
+} from '@/data/songs';
 
 export default function CustomizePage() {
   const params = useParams();
@@ -206,6 +157,50 @@ export default function CustomizePage() {
   const [isUploadingAudio, setIsUploadingAudio] = useState(false);
   const [audioUploadMessage, setAudioUploadMessage] = useState<string | null>(null);
   const [audioUploadError, setAudioUploadError] = useState<string | null>(null);
+
+  // 100 Iconic Soundtracks: Search, Category Filters, and Pagination
+  const [songSearchQuery, setSongSearchQuery] = useState('');
+  const [selectedSongCategory, setSelectedSongCategory] = useState<SongCategory>('All');
+  const [songCurrentPage, setSongCurrentPage] = useState(1);
+  const SONGS_PER_PAGE = 6;
+
+  const filteredSongs = useMemo(() => {
+    let list = ALL_SONGS;
+    if (selectedSongCategory !== 'All') {
+      list = list.filter((s) => s.category === selectedSongCategory);
+    }
+    if (songSearchQuery.trim()) {
+      const q = songSearchQuery.toLowerCase().trim();
+      list = list.filter(
+        (s) =>
+          s.title.toLowerCase().includes(q) ||
+          s.movie.toLowerCase().includes(q) ||
+          s.artist.toLowerCase().includes(q) ||
+          s.tag.toLowerCase().includes(q) ||
+          `#${s.number}`.includes(q) ||
+          String(s.number) === q
+      );
+    }
+    return list;
+  }, [selectedSongCategory, songSearchQuery]);
+
+  const totalSongPages = Math.max(1, Math.ceil(filteredSongs.length / SONGS_PER_PAGE));
+  const activeSongPage = Math.min(songCurrentPage, totalSongPages);
+
+  const paginatedSongs = useMemo(() => {
+    const start = (activeSongPage - 1) * SONGS_PER_PAGE;
+    return filteredSongs.slice(start, start + SONGS_PER_PAGE);
+  }, [filteredSongs, activeSongPage]);
+
+  const handleCategoryChange = (cat: SongCategory) => {
+    setSelectedSongCategory(cat);
+    setSongCurrentPage(1);
+  };
+
+  const handleSearchChange = (query: string) => {
+    setSongSearchQuery(query);
+    setSongCurrentPage(1);
+  };
 
   // Persistent Draft & Try-Before-You-Publish State
   const [addingToCart, setAddingToCart] = useState(false);
@@ -543,8 +538,15 @@ export default function CustomizePage() {
   };
 
   // Change active song (from library or custom upload)
-  const handleSelectSong = (song: { title: string; source: string; artist?: string }) => {
-    handleFieldChange('songTitle', song.title);
+  const handleSelectSong = (song: {
+    title: string;
+    source: string;
+    artist?: string;
+    movie?: string;
+    number?: number;
+  }) => {
+    const displayTitle = song.movie ? `${song.title} (${song.movie})` : song.title;
+    handleFieldChange('songTitle', displayTitle);
     handleFieldChange('audioSource', song.source);
     handleFieldChange('audioStartTime', 0);
     setAudioCurrentTime(0);
@@ -2639,51 +2641,251 @@ export default function CustomizePage() {
                 </form>
               </div>
 
-              {/* SECTION C: Curated Iconic Library */}
-              <div className="space-y-3">
-                <label className="block text-xs font-bold text-[#2C2114] uppercase tracking-wider">
-                  ✨ Option 3: Curated Master Soundtracks
-                </label>
-                <div className="space-y-2">
-                  {SONG_LIBRARY.map((song) => {
-                    const isSelected = fields.audioSource === song.source;
+              {/* SECTION C: 100 Curated Iconic Soundtracks */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="block text-xs font-bold text-[#2C2114] uppercase tracking-wider">
+                      ✨ Option 3: Iconic Soundtrack Collection (100 Songs)
+                    </label>
+                    <p className="text-[11px] text-[#7A634E] mt-0.5">
+                      Explore 100 hand-curated Bollywood &amp; celebration hits with instant audio preview.
+                    </p>
+                  </div>
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#8F6E3B]/10 text-[#8F6E3B]">
+                    {filteredSongs.length} Songs
+                  </span>
+                </div>
+
+                {/* Search Bar */}
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8F6E3B]">
+                    <Search className="w-4 h-4" />
+                  </div>
+                  <input
+                    type="text"
+                    value={songSearchQuery}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    placeholder="Search 100 songs by title, movie, singer, or # (e.g. Kesariya, Phillauri, #28)..."
+                    className="w-full pl-9 pr-9 py-2.5 text-xs rounded-xl border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-2 focus:ring-[#8F6E3B] placeholder:text-[#A08A75] text-[#2C2114] transition-all"
+                  />
+                  {songSearchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => handleSearchChange('')}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#8F6E3B] hover:text-[#5C4523] cursor-pointer"
+                      title="Clear search"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Category Filter Pills */}
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {SONG_CATEGORIES.map((cat) => {
+                    const count = SONG_COUNTS[cat];
+                    const isActive = selectedSongCategory === cat;
                     return (
                       <button
-                        key={song.id}
+                        key={cat}
                         type="button"
-                        onClick={() => handleSelectSong(song)}
-                        className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer ${isSelected
-                          ? 'bg-[#FAF7F0] border-[#8F6E3B] ring-1 ring-[#8F6E3B] shadow-sm'
-                          : 'bg-white border-[#E8DFC8] hover:bg-[#FAF7F2]'
-                          }`}
+                        onClick={() => handleCategoryChange(cat)}
+                        className={`px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                          isActive
+                            ? 'bg-[#8F6E3B] text-white shadow-sm'
+                            : 'bg-[#F4EFE6] text-[#6B533E] hover:bg-[#EAE2D2]'
+                        }`}
                       >
-                        <div className="flex items-center gap-3">
-                          <div
-                            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${isSelected
-                              ? 'bg-[#8F6E3B] text-white'
-                              : 'bg-[#F2ECE0] text-[#6B533E]'
-                              }`}
-                          >
-                            <Music className="w-3.5 h-3.5" />
-                          </div>
-                          <div>
-                            <span className="block text-xs font-bold text-[#2C2114]">
-                              {song.title}
-                            </span>
-                            <span className="text-[10px] text-[#7A634E]">
-                              {song.artist}
-                            </span>
-                          </div>
-                        </div>
-                        {isSelected && (
-                          <span className="px-2 py-0.5 rounded-full bg-[#8F6E3B]/10 text-[#8F6E3B] text-[10px] font-bold">
-                            Active
-                          </span>
-                        )}
+                        <span>{cat}</span>
+                        <span
+                          className={`text-[9.5px] px-1.5 py-0.2 rounded-full ${
+                            isActive
+                              ? 'bg-white/20 text-white'
+                              : 'bg-black/5 text-[#8F6E3B]'
+                          }`}
+                        >
+                          {count}
+                        </span>
                       </button>
                     );
                   })}
                 </div>
+
+                {/* Active Song Banner */}
+                {fields.songTitle && (
+                  <div className="p-2.5 rounded-lg bg-[#FAF7F0] border border-[#8F6E3B]/30 flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2 truncate">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 animate-pulse" />
+                      <span className="text-[11px] text-[#5C4523] truncate">
+                        Active Soundtrack: <strong className="text-[#2C2114]">{fields.songTitle}</strong>
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Paginated Songs List */}
+                {paginatedSongs.length === 0 ? (
+                  <div className="p-8 text-center bg-[#FAF7F0] rounded-xl border border-dashed border-[#DFCEAF] space-y-2">
+                    <Music className="w-8 h-8 text-[#A08A75] mx-auto opacity-60" />
+                    <p className="text-xs font-semibold text-[#5C4523]">
+                      No songs found matching &ldquo;{songSearchQuery}&rdquo;
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSongSearchQuery('');
+                        setSelectedSongCategory('All');
+                        setSongCurrentPage(1);
+                      }}
+                      className="text-xs text-[#8F6E3B] underline font-semibold hover:text-[#5C4523] cursor-pointer"
+                    >
+                      Reset filters &amp; view all 100 songs
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {paginatedSongs.map((song) => {
+                      const isSelected =
+                        fields.songTitle === `${song.title} (${song.movie})` ||
+                        fields.songTitle === `${song.title} — ${song.movie}` ||
+                        fields.songTitle === song.title ||
+                        (fields.songTitle?.toLowerCase().includes(song.title.toLowerCase()) &&
+                          fields.songTitle?.toLowerCase().includes(song.movie.toLowerCase()));
+
+                      return (
+                        <button
+                          key={song.id}
+                          type="button"
+                          onClick={() => handleSelectSong(song)}
+                          className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer group ${
+                            isSelected
+                              ? 'bg-[#FAF7F0] border-[#8F6E3B] ring-1.5 ring-[#8F6E3B] shadow-sm'
+                              : 'bg-white border-[#E8DFC8] hover:bg-[#FAF7F2] hover:border-[#D5C4A6]'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3 min-w-0 pr-2">
+                            {/* Song Number & Icon */}
+                            <div
+                              className={`w-9 h-9 rounded-xl flex flex-col items-center justify-center shrink-0 text-center transition-colors ${
+                                isSelected
+                                  ? 'bg-[#8F6E3B] text-white shadow-sm'
+                                  : 'bg-[#F2ECE0] text-[#6B533E] group-hover:bg-[#EAE2D2]'
+                              }`}
+                            >
+                              <span className="text-[9px] font-mono font-bold leading-none">
+                                #{song.number}
+                              </span>
+                              <Music className="w-3 h-3 mt-0.5" />
+                            </div>
+
+                            {/* Details */}
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="block text-xs font-bold text-[#2C2114] truncate">
+                                  {song.title}
+                                </span>
+                                <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#F0E8D8] text-[#7A634E] font-medium shrink-0">
+                                  {song.movie}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2 mt-0.5">
+                                <span className="text-[10px] text-[#8C7662] truncate">
+                                  {song.artist}
+                                </span>
+                                <span className="text-[10px] text-[#C4B39B]">•</span>
+                                <span className="text-[9.5px] text-[#A08A75] italic shrink-0">
+                                  {song.tag}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Selection Badge */}
+                          <div className="shrink-0 flex items-center">
+                            {isSelected ? (
+                              <span className="px-2.5 py-1 rounded-full bg-[#8F6E3B] text-white text-[10px] font-bold flex items-center gap-1 shadow-xs">
+                                <Check className="w-3 h-3 stroke-[2.5]" />
+                                <span>Active</span>
+                              </span>
+                            ) : (
+                              <span className="px-2 py-0.5 rounded-full border border-[#D5C4A6] text-[#8F6E3B] text-[10px] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                                Select
+                              </span>
+                            )}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Pagination Controls */}
+                {totalSongPages > 1 && (
+                  <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-[#E8DFC8]">
+                    <span className="text-[11px] text-[#7A634E]">
+                      Showing {(activeSongPage - 1) * SONGS_PER_PAGE + 1}–
+                      {Math.min(activeSongPage * SONGS_PER_PAGE, filteredSongs.length)} of{' '}
+                      {filteredSongs.length} songs (Page {activeSongPage} of {totalSongPages})
+                    </span>
+
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        disabled={activeSongPage <= 1}
+                        onClick={() => setSongCurrentPage((p) => Math.max(1, p - 1))}
+                        className="px-2.5 py-1 rounded-lg border border-[#DFCEAF] bg-white text-xs font-semibold text-[#5C4523] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#FAF7F2] flex items-center gap-0.5 transition-colors cursor-pointer"
+                      >
+                        <ChevronLeft className="w-3.5 h-3.5" />
+                        <span>Prev</span>
+                      </button>
+
+                      {/* Dynamic page pill numbers */}
+                      <div className="flex items-center gap-1 px-1">
+                        {Array.from({ length: totalSongPages }, (_, i) => i + 1)
+                          .filter((pageNum) => {
+                            if (totalSongPages <= 6) return true;
+                            if (pageNum === 1 || pageNum === totalSongPages) return true;
+                            return Math.abs(pageNum - activeSongPage) <= 1;
+                          })
+                          .map((pageNum, idx, arr) => {
+                            const prevPage = arr[idx - 1];
+                            const showEllipsis = prevPage && pageNum - prevPage > 1;
+                            const isCurrent = pageNum === activeSongPage;
+
+                            return (
+                              <React.Fragment key={pageNum}>
+                                {showEllipsis && (
+                                  <span className="text-xs text-[#A08A75] px-0.5">...</span>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => setSongCurrentPage(pageNum)}
+                                  className={`w-7 h-7 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                                    isCurrent
+                                      ? 'bg-[#8F6E3B] text-white shadow-xs'
+                                      : 'bg-white border border-[#DFCEAF] text-[#5C4523] hover:bg-[#FAF7F2]'
+                                  }`}
+                                >
+                                  {pageNum}
+                                </button>
+                              </React.Fragment>
+                            );
+                          })}
+                      </div>
+
+                      <button
+                        type="button"
+                        disabled={activeSongPage >= totalSongPages}
+                        onClick={() => setSongCurrentPage((p) => Math.min(totalSongPages, p + 1))}
+                        className="px-2.5 py-1 rounded-lg border border-[#DFCEAF] bg-white text-xs font-semibold text-[#5C4523] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#FAF7F2] flex items-center gap-0.5 transition-colors cursor-pointer"
+                      >
+                        <span>Next</span>
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* SECTION D: Instagram Story-Style Live Trimmer & Scrubber */}
