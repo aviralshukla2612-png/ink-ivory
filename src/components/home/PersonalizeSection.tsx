@@ -135,7 +135,7 @@ export const PersonalizeSection: React.FC = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-11">
           {/* Eyebrow */}
@@ -161,9 +161,9 @@ export const PersonalizeSection: React.FC = () => {
 
         {/* Large Studio Workspace Card */}
         <div className="bg-white/95 rounded-[28px] border border-[#E8DFC8] shadow-luxury-lg overflow-hidden max-w-6xl mx-auto p-4 sm:p-6 lg:p-7 backdrop-blur-xs">
-          
+
           <div className="flex flex-col lg:flex-row gap-5 lg:gap-6 items-stretch">
-            
+
             {/* COLUMN A: Left Tool Sidebar */}
             <div className="flex lg:flex-col items-center justify-between lg:justify-start gap-1 sm:gap-2 pb-3 lg:pb-0 lg:pr-4 border-b lg:border-b-0 lg:border-r border-[#EFE7D5] flex-shrink-0">
               {[
@@ -180,11 +180,10 @@ export const PersonalizeSection: React.FC = () => {
                   <button
                     key={tool.id}
                     onClick={() => setActiveTab(tool.id as any)}
-                    className={`flex flex-col items-center justify-center w-14 sm:w-16 py-2.5 rounded-xl transition-all duration-150 ${
-                      isActive
+                    className={`flex flex-col items-center justify-center w-14 sm:w-16 py-2.5 rounded-xl transition-all duration-150 ${isActive
                         ? 'bg-[#EDE2CF] text-[#49341F] font-semibold shadow-2xs'
                         : 'text-[#7A634E] hover:bg-[#F8F4EC] hover:text-[#49341F]'
-                    }`}
+                      }`}
                   >
                     <Icon className="w-4 h-4 mb-1" />
                     <span className="text-[10px] tracking-wide">{tool.label}</span>
@@ -195,7 +194,7 @@ export const PersonalizeSection: React.FC = () => {
 
             {/* COLUMN B: Dynamic Tool Control Panel */}
             <div className="w-full lg:w-[280px] xl:w-[300px] flex-shrink-0 flex flex-col justify-between space-y-4">
-              
+
               {/* TAB 1: EDIT TEXT */}
               {activeTab === 'text' && (
                 <div>
@@ -277,27 +276,24 @@ export const PersonalizeSection: React.FC = () => {
                     <div className="flex items-center border border-[#DFCDB0] rounded-lg bg-[#FCFAF6] p-0.5">
                       <button
                         onClick={() => setIsBold(!isBold)}
-                        className={`p-1.5 rounded text-xs transition-colors ${
-                          isBold ? 'bg-[#EDE2CF] text-[#49341F] font-bold' : 'text-[#695034] hover:bg-white'
-                        }`}
+                        className={`p-1.5 rounded text-xs transition-colors ${isBold ? 'bg-[#EDE2CF] text-[#49341F] font-bold' : 'text-[#695034] hover:bg-white'
+                          }`}
                         title="Bold"
                       >
                         <Bold className="w-3 h-3" />
                       </button>
                       <button
                         onClick={() => setIsItalic(!isItalic)}
-                        className={`p-1.5 rounded text-xs transition-colors ${
-                          isItalic ? 'bg-[#EDE2CF] text-[#49341F]' : 'text-[#695034] hover:bg-white'
-                        }`}
+                        className={`p-1.5 rounded text-xs transition-colors ${isItalic ? 'bg-[#EDE2CF] text-[#49341F]' : 'text-[#695034] hover:bg-white'
+                          }`}
                         title="Italic"
                       >
                         <Italic className="w-3 h-3" />
                       </button>
                       <button
                         onClick={() => setIsUnderline(!isUnderline)}
-                        className={`p-1.5 rounded text-xs transition-colors ${
-                          isUnderline ? 'bg-[#EDE2CF] text-[#49341F]' : 'text-[#695034] hover:bg-white'
-                        }`}
+                        className={`p-1.5 rounded text-xs transition-colors ${isUnderline ? 'bg-[#EDE2CF] text-[#49341F]' : 'text-[#695034] hover:bg-white'
+                          }`}
                         title="Underline"
                       >
                         <Underline className="w-3 h-3" />
@@ -307,27 +303,24 @@ export const PersonalizeSection: React.FC = () => {
                     <div className="flex items-center border border-[#DFCDB0] rounded-lg bg-[#FCFAF6] p-0.5">
                       <button
                         onClick={() => setAlignment('left')}
-                        className={`p-1.5 rounded text-xs transition-colors ${
-                          alignment === 'left' ? 'bg-[#EDE2CF] text-[#49341F]' : 'text-[#695034] hover:bg-white'
-                        }`}
+                        className={`p-1.5 rounded text-xs transition-colors ${alignment === 'left' ? 'bg-[#EDE2CF] text-[#49341F]' : 'text-[#695034] hover:bg-white'
+                          }`}
                         title="Align Left"
                       >
                         <AlignLeft className="w-3 h-3" />
                       </button>
                       <button
                         onClick={() => setAlignment('center')}
-                        className={`p-1.5 rounded text-xs transition-colors ${
-                          alignment === 'center' ? 'bg-[#EDE2CF] text-[#49341F]' : 'text-[#695034] hover:bg-white'
-                        }`}
+                        className={`p-1.5 rounded text-xs transition-colors ${alignment === 'center' ? 'bg-[#EDE2CF] text-[#49341F]' : 'text-[#695034] hover:bg-white'
+                          }`}
                         title="Align Center"
                       >
                         <AlignCenter className="w-3 h-3" />
                       </button>
                       <button
                         onClick={() => setAlignment('right')}
-                        className={`p-1.5 rounded text-xs transition-colors ${
-                          alignment === 'right' ? 'bg-[#EDE2CF] text-[#49341F]' : 'text-[#695034] hover:bg-white'
-                        }`}
+                        className={`p-1.5 rounded text-xs transition-colors ${alignment === 'right' ? 'bg-[#EDE2CF] text-[#49341F]' : 'text-[#695034] hover:bg-white'
+                          }`}
                         title="Align Right"
                       >
                         <AlignRight className="w-3 h-3" />
@@ -345,11 +338,10 @@ export const PersonalizeSection: React.FC = () => {
                         <button
                           key={c.name}
                           onClick={() => setTextColor(c.hex)}
-                          className={`w-6 h-6 rounded-full border transition-all ${
-                            textColor === c.hex
+                          className={`w-6 h-6 rounded-full border transition-all ${textColor === c.hex
                               ? 'ring-2 ring-[#8C6D37] ring-offset-1 scale-110 border-white'
                               : 'border-[#DFCDB0] hover:scale-105'
-                          }`}
+                            }`}
                           style={{ backgroundColor: c.hex }}
                           title={c.name}
                         />
@@ -380,11 +372,10 @@ export const PersonalizeSection: React.FC = () => {
                     </label>
                     <button
                       onClick={() => setCustomMonogram(!customMonogram)}
-                      className={`w-full p-2.5 rounded-lg border text-xs flex items-center justify-between transition-colors ${
-                        customMonogram
+                      className={`w-full p-2.5 rounded-lg border text-xs flex items-center justify-between transition-colors ${customMonogram
                           ? 'border-[#8C6D37] bg-[#EDE2CF]/40 text-[#49341F] font-semibold'
                           : 'border-[#DFCDB0] bg-[#FCFAF6] text-[#695034]'
-                      }`}
+                        }`}
                     >
                       <span>Gold Foil Couple Monogram (A &amp; V)</span>
                       {customMonogram && <Check className="w-3.5 h-3.5 text-[#8C6D37]" />}
@@ -411,11 +402,10 @@ export const PersonalizeSection: React.FC = () => {
                           if (key === 'ivory') setTextColor('#3E2B1A');
                           else setTextColor(t.accent);
                         }}
-                        className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-all ${
-                          cardTheme === key
+                        className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-all ${cardTheme === key
                             ? 'border-[#8C6D37] bg-white shadow-xs'
                             : 'border-[#DFCDB0]/80 bg-[#FCFAF6] hover:bg-white'
-                        }`}
+                          }`}
                       >
                         <div
                           className="w-6 h-6 rounded-full border border-black/10 shadow-inner flex-shrink-0"
@@ -495,11 +485,10 @@ export const PersonalizeSection: React.FC = () => {
                       <button
                         key={f.name}
                         onClick={() => setFontFamily(f.name)}
-                        className={`w-full p-2.5 rounded-lg border text-left transition-all ${
-                          fontFamily === f.name
+                        className={`w-full p-2.5 rounded-lg border text-left transition-all ${fontFamily === f.name
                             ? 'border-[#8C6D37] bg-white shadow-xs'
                             : 'border-[#DFCDB0] bg-[#FCFAF6] hover:bg-white'
-                        }`}
+                          }`}
                       >
                         <span className="text-xs font-semibold text-[#2C2114] block" style={{ fontFamily: f.name }}>
                           {f.label}
@@ -529,11 +518,10 @@ export const PersonalizeSection: React.FC = () => {
                         <button
                           key={c.name}
                           onClick={() => setTextColor(c.hex)}
-                          className={`p-2 rounded-lg border flex items-center gap-2 text-xs transition-colors ${
-                            textColor === c.hex
+                          className={`p-2 rounded-lg border flex items-center gap-2 text-xs transition-colors ${textColor === c.hex
                               ? 'border-[#8C6D37] bg-white font-semibold text-[#2C2114]'
                               : 'border-[#DFCDB0] bg-[#FCFAF6] text-[#574330]'
-                          }`}
+                            }`}
                         >
                           <div className="w-3.5 h-3.5 rounded-full border border-black/10" style={{ backgroundColor: c.hex }} />
                           <span className="text-[11px]">{c.name}</span>
@@ -548,7 +536,7 @@ export const PersonalizeSection: React.FC = () => {
 
             {/* COLUMN C: Center Canvas Preview (CLEAN - ZERO DUPLICATE TEXT) */}
             <div className="flex-1 flex flex-col items-center justify-between py-2 px-2 sm:px-4">
-              
+
               {/* Card Canvas Presentation (100% Pure Clean Vector & Dynamic CSS!) */}
               <div
                 className="relative w-full max-w-[310px] aspect-[293/358] rounded-2xl overflow-hidden shadow-2xl border border-[#C5A059]/60 transition-all duration-300 select-none"
@@ -635,9 +623,8 @@ export const PersonalizeSection: React.FC = () => {
                   <div className="my-auto py-1">
                     {showNamesLayer && (
                       <h4
-                        className={`text-[21px] sm:text-[23px] leading-tight drop-shadow-md transition-all ${
-                          isBold ? 'font-bold' : 'font-normal'
-                        } ${isItalic ? 'italic' : ''} ${isUnderline ? 'underline' : ''}`}
+                        className={`text-[21px] sm:text-[23px] leading-tight drop-shadow-md transition-all ${isBold ? 'font-bold' : 'font-normal'
+                          } ${isItalic ? 'italic' : ''} ${isUnderline ? 'underline' : ''}`}
                         style={{ color: textColor }}
                       >
                         {names || 'Ananya & Vikram'}
@@ -723,7 +710,7 @@ export const PersonalizeSection: React.FC = () => {
 
             {/* COLUMN D: Right Panel ("Card Layers" & Action CTAs) */}
             <div className="w-full lg:w-[220px] xl:w-[240px] flex-shrink-0 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-[#EFE7D5] pt-4 lg:pt-0 lg:pl-5 space-y-4">
-              
+
               <div>
                 <h3 className="font-serif text-sm font-semibold text-[#2C2114] pb-2.5 mb-2.5 border-b border-[#F2ECE0]">
                   Page Layers
@@ -731,7 +718,7 @@ export const PersonalizeSection: React.FC = () => {
 
                 {/* Layer Items with interactive Eye Visibility Toggles */}
                 <div className="space-y-1.5">
-                  
+
                   {/* Layer 1: Couple Names */}
                   <div
                     onClick={() => setShowNamesLayer(!showNamesLayer)}
@@ -911,9 +898,8 @@ export const PersonalizeSection: React.FC = () => {
                 <div className="my-auto py-1">
                   {showNamesLayer && (
                     <h4
-                      className={`text-[24px] leading-tight ${
-                        isBold ? 'font-bold' : 'font-normal'
-                      } ${isItalic ? 'italic' : ''} ${isUnderline ? 'underline' : ''}`}
+                      className={`text-[24px] leading-tight ${isBold ? 'font-bold' : 'font-normal'
+                        } ${isItalic ? 'italic' : ''} ${isUnderline ? 'underline' : ''}`}
                       style={{ color: textColor }}
                     >
                       {names}

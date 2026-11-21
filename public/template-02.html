@@ -473,6 +473,33 @@ if (urlParams.get('audioSource')) {
   CONFIG.song = CONFIG.song || {};
   CONFIG.song.source = urlParams.get('audioSource');
 }
+try {
+  const stored = sessionStorage.getItem('ink_ivory_custom_template-02');
+  if (stored) {
+    const p = JSON.parse(stored);
+    if (p.names) {
+      const partsArr = p.names.split(/&|\band\b/i).map(s => s.trim());
+      if (partsArr.length >= 2) { CONFIG.groom = partsArr[0]; CONFIG.bride = partsArr[1]; }
+      else { CONFIG.groom = p.names; CONFIG.bride = ''; }
+    }
+    if (p.date) { CONFIG.dateText = p.date; syncDateParts(p.date); }
+    if (p.venue) CONFIG.venue = p.venue;
+    if (p.events && Array.isArray(p.events)) {
+      p.events.forEach((ev, i) => {
+        if (CONFIG.events[i]) {
+          if (ev.name) CONFIG.events[i].name = ev.name;
+          if (ev.date) CONFIG.events[i].date = ev.date;
+          if (ev.time) CONFIG.events[i].time = ev.time;
+          if (ev.venue) { CONFIG.events[i].venue = ev.venue; CONFIG.events[i].map = ev.venue; }
+        }
+      });
+    }
+    if (p.groomParents && CONFIG.family[0]) CONFIG.family[0].text = p.groomParents;
+    if (p.brideParents && CONFIG.family[1]) CONFIG.family[1].text = p.brideParents;
+    if (p.host && CONFIG.family[3]) CONFIG.family[3].text = p.host;
+    if (p.audioSource && CONFIG.song) CONFIG.song.source = p.audioSource;
+  }
+} catch(_) {}
 syncDateParts();
 
 /* =====================================================================
@@ -1076,6 +1103,41 @@ window.addEventListener('message', (e) => {
     if (p.venue) {
       CONFIG.venue = p.venue;
       $('#venueTxt').textContent = p.venue;
+    }
+    if (p.events && Array.isArray(p.events)) {
+      p.events.forEach((ev, i) => {
+        if (CONFIG.events[i]) {
+          if (ev.name) CONFIG.events[i].name = ev.name;
+          if (ev.date) CONFIG.events[i].date = ev.date;
+          if (ev.time) CONFIG.events[i].time = ev.time;
+          if (ev.venue) { CONFIG.events[i].venue = ev.venue; CONFIG.events[i].map = ev.venue; }
+        } else {
+          CONFIG.events.push({
+            name: ev.name || 'Event',
+            icon: ev.icon || (i === 0 ? 'haldi' : i === 1 ? 'mehendi' : i === 2 ? 'sangeet' : i === 3 ? 'wedding' : 'reception'),
+            date: ev.date || CONFIG.dateText,
+            time: ev.time || '10:00 AM',
+            venue: ev.venue || CONFIG.venue,
+            map: ev.venue || CONFIG.venue,
+            photo: null
+          });
+        }
+      });
+      buildEvents();
+      if (window.armReveal) window.armReveal();
+      $$('.ev').forEach(el => el.classList.add('in'));
+    }
+    if (p.groomParents || p.brideParents || p.host) {
+      if (p.groomParents && CONFIG.family[0]) {
+        CONFIG.family[0].text = p.groomParents;
+      }
+      if (p.brideParents && CONFIG.family[1]) {
+        CONFIG.family[1].text = p.brideParents;
+      }
+      if (p.host && CONFIG.family[3]) {
+        CONFIG.family[3].text = p.host;
+      }
+      buildFamily();
     }
     if (p.audioStartTime !== undefined && audioEl) {
       audioEl.currentTime = parseFloat(p.audioStartTime);

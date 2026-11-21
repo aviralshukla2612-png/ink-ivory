@@ -109,6 +109,16 @@ function Template01Content() {
         if (d.groomParents && weddingData.families?.groomSide) {
           weddingData.families.groomSide.parents = d.groomParents;
         }
+        if (d.events && Array.isArray(d.events) && weddingData.events) {
+          d.events.forEach((ev, i) => {
+            if (weddingData.events[i]) {
+              if (ev.name) weddingData.events[i].title = ev.name;
+              if (ev.date) weddingData.events[i].date = ev.date;
+              if (ev.time) weddingData.events[i].time = ev.time;
+              if (ev.venue) weddingData.events[i].venue = ev.venue;
+            }
+          });
+        }
         if (d.audioStartTime !== undefined && audioRef.current) {
           audioRef.current.currentTime = Number(d.audioStartTime);
         }

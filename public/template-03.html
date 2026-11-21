@@ -1118,6 +1118,18 @@ window.addEventListener('message', (e) => {
       buildCalendar();
     }
     if (p.family) W.family = p.family;
+    if (p.events && Array.isArray(p.events)) {
+      p.events.forEach((ev, i) => {
+        if (W.events[i]) {
+          if (ev.name) W.events[i].name = ev.name;
+          if (ev.date || ev.when) W.events[i].when = ev.date || ev.when;
+          if (ev.time) W.events[i].time = ev.time;
+          if (ev.venue || ev.where) W.events[i].where = ev.venue || ev.where;
+          if (ev.note) W.events[i].note = ev.note;
+        }
+      });
+      buildEvents();
+    }
     populateData();
     if (p.audioStartTime !== undefined && song) {
       song.currentTime = parseFloat(p.audioStartTime);

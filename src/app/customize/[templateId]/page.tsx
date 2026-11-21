@@ -24,6 +24,10 @@ import {
   Globe,
   Loader2,
   AlertCircle,
+  Calendar,
+  Clock,
+  MapPin,
+  Users,
 } from 'lucide-react';
 import PublishModal from '@/components/editor/PublishModal';
 import { templatesData } from '@/data/templates';
@@ -167,9 +171,18 @@ export default function CustomizePage() {
         if (stored) saved = JSON.parse(stored);
       } catch (e) {}
     }
+    const defaultEvents = baseTemplate.defaultFields.events || (templateKey === 'template-02' ? [
+      { name: 'Haldi', icon: 'haldi', date: 'Friday, 12 February 2027', time: '10:00 AM', venue: 'Family home, Jaipur' },
+      { name: 'Mehendi', icon: 'mehendi', date: 'Friday, 12 February 2027', time: '4:00 PM', venue: 'The courtyard, Jaipur' },
+      { name: 'Sangeet', icon: 'sangeet', date: 'Friday, 12 February 2027', time: '8:00 PM', venue: 'Rooftop lawns, Jaipur' },
+      { name: 'Wedding', icon: 'wedding', date: 'Saturday, 13 February 2027', time: '7:30 PM', venue: 'Rambagh Palace, Jaipur' },
+      { name: 'Reception', icon: 'reception', date: 'Sunday, 14 February 2027', time: '8:00 PM', venue: 'Rambagh Palace, Jaipur' },
+    ] : undefined);
+
     return {
       ...baseTemplate.defaultFields,
       audioSource: baseTemplate.defaultFields.audioSource || '/audio/aaj-sajeya.mp3',
+      events: saved.events || defaultEvents,
       ...saved,
     };
   });
@@ -292,6 +305,38 @@ export default function CustomizePage() {
     setHasUnsavedChanges(true);
     setFields((prev) => {
       const updated = { ...prev, [key]: value };
+      if (typeof window !== 'undefined') {
+        try {
+          sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated));
+        } catch (e) {}
+      }
+      try {
+        iframeRef.current?.contentWindow?.postMessage(
+          { type: 'INK_IVORY_CUSTOM_UPDATE', payload: updated },
+          '*'
+        );
+      } catch (e) {}
+      return updated;
+    });
+  };
+
+  // Handle updates to specific wedding event items
+  const handleEventChange = (index: number, key: string, value: string) => {
+    setHasUnsavedChanges(true);
+    setFields((prev) => {
+      const defaultEvs = baseTemplate.defaultFields.events || [
+        { name: 'Haldi', icon: 'haldi', date: 'Friday, 12 February 2027', time: '10:00 AM', venue: 'Family home, Jaipur' },
+        { name: 'Mehendi', icon: 'mehendi', date: 'Friday, 12 February 2027', time: '4:00 PM', venue: 'The courtyard, Jaipur' },
+        { name: 'Sangeet', icon: 'sangeet', date: 'Friday, 12 February 2027', time: '8:00 PM', venue: 'Rooftop lawns, Jaipur' },
+        { name: 'Wedding', icon: 'wedding', date: 'Saturday, 13 February 2027', time: '7:30 PM', venue: 'Rambagh Palace, Jaipur' },
+        { name: 'Reception', icon: 'reception', date: 'Sunday, 14 February 2027', time: '8:00 PM', venue: 'Rambagh Palace, Jaipur' },
+      ];
+      const evList = prev.events && prev.events.length > 0 ? [...prev.events] : [...defaultEvs];
+      if (!evList[index]) {
+        evList[index] = { name: '', time: '', venue: '' };
+      }
+      evList[index] = { ...evList[index], [key]: value };
+      const updated = { ...prev, events: evList };
       if (typeof window !== 'undefined') {
         try {
           sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated));
@@ -1109,6 +1154,104 @@ export default function CustomizePage() {
                     />
                   </div>
 
+                  {/* Template 3: Celebration Functions / Auspicious Events */}
+                  <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-[#8F6E3B] uppercase tracking-wider">
+                        <Calendar className="w-3.5 h-3.5 text-[#A77B35]" />
+                        <span>Sacred Festivities &amp; Muhurtham</span>
+                      </div>
+                      <span className="text-[10px] text-[#A77B35] font-semibold bg-[#F5EEDB] border border-[#DFCDB0] px-2 py-0.5 rounded-full">
+                        4 Events
+                      </span>
+                    </div>
+
+                    <div className="space-y-3">
+                      {(fields.events && fields.events.length > 0 ? fields.events : [
+                        { name: 'Nalangu', icon: 'nalangu', date: 'Friday, 12 February 2027', time: '10:00 AM', venue: 'Family ancestral home, Madurai' },
+                        { name: 'Jaanavasam', icon: 'jaanavasam', date: 'Saturday, 13 February 2027', time: '5:30 PM', venue: 'Sri Meenakshi Kalyana Mandapam, Madurai' },
+                        { name: 'Muhurtham', icon: 'muhurtham', date: 'Sunday, 14 February 2027', time: '6:00 AM – 7:30 AM', venue: 'Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai' },
+                        { name: 'Reception', icon: 'reception', date: 'Sunday, 14 February 2027', time: '7:00 PM Onwards', venue: 'Heritage Royal Hall, Madurai' },
+                      ]).map((ev, idx) => (
+                        <div key={idx} className="p-3 bg-[#FAF7F0] border border-[#E4D8BA] rounded-xl space-y-2">
+                          <div className="flex items-center justify-between pb-1 border-b border-[#EFE7D5]">
+                            <span className="text-xs font-serif font-bold text-[#2C2114]">
+                              {idx + 1}. {ev.name}
+                            </span>
+                            <span className="text-[10px] uppercase font-semibold text-[#8F6E3B]">
+                              Ceremony {idx + 1}
+                            </span>
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Function Name</label>
+                            <input
+                              type="text"
+                              value={ev.name}
+                              onChange={(e) => handleEventChange(idx, 'name', e.target.value)}
+                              className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                            />
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div>
+                              <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Date</label>
+                              <input
+                                type="text"
+                                value={ev.date || ev.when || ''}
+                                onChange={(e) => handleEventChange(idx, 'date', e.target.value)}
+                                className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Time</label>
+                              <input
+                                type="text"
+                                value={ev.time || ''}
+                                onChange={(e) => handleEventChange(idx, 'time', e.target.value)}
+                                className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Temple / Mandapam Venue</label>
+                            <input
+                              type="text"
+                              value={ev.venue || ev.where || ''}
+                              onChange={(e) => handleEventChange(idx, 'venue', e.target.value)}
+                              className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                    <div>
+                      <label className="block text-[11px] font-medium text-[#49341F] mb-1">
+                        Groom&apos;s Parents
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.groomParents || 'Smt. Kalyani & Shri Sundaram'}
+                        onChange={(e) => handleFieldChange('groomParents', e.target.value)}
+                        placeholder="Smt. Kalyani & Shri Sundaram"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-medium text-[#49341F] mb-1">
+                        Bride&apos;s Parents
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.brideParents || 'Smt. Saraswathi & Shri Ramanathan'}
+                        onChange={(e) => handleFieldChange('brideParents', e.target.value)}
+                        placeholder="Smt. Saraswathi & Shri Ramanathan"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
                   <div>
                     <label className="block text-xs font-medium text-[#49341F] mb-1">
                       Family &amp; Host Lineages
@@ -1189,6 +1332,151 @@ export default function CustomizePage() {
                       placeholder="e.g. Rambagh Palace, Jaipur"
                       className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                     />
+                  </div>
+
+                  {/* ======================================================== */}
+                  {/* WEDDING FUNCTIONS & ITINERARY (Haldi, Mehendi, Sangeet, Wedding, Reception) */}
+                  {/* ======================================================== */}
+                  <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-[#8F6E3B] uppercase tracking-wider">
+                        <Calendar className="w-3.5 h-3.5 text-[#A77B35]" />
+                        <span>Wedding Functions &amp; Itinerary</span>
+                      </div>
+                      <span className="text-[10px] text-[#A77B35] font-semibold bg-[#F5EEDB] border border-[#DFCDB0] px-2 py-0.5 rounded-full">
+                        5 Celebrations
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-[#7A634E] leading-normal">
+                      Customize dates, times, and venues for each ceremony. Changes update the event cards in the live preview immediately!
+                    </p>
+
+                    <div className="space-y-3">
+                      {(fields.events && fields.events.length > 0 ? fields.events : [
+                        { name: 'Haldi', icon: 'haldi', date: 'Friday, 12 February 2027', time: '10:00 AM', venue: 'Family home, Jaipur' },
+                        { name: 'Mehendi', icon: 'mehendi', date: 'Friday, 12 February 2027', time: '4:00 PM', venue: 'The courtyard, Jaipur' },
+                        { name: 'Sangeet', icon: 'sangeet', date: 'Friday, 12 February 2027', time: '8:00 PM', venue: 'Rooftop lawns, Jaipur' },
+                        { name: 'Wedding', icon: 'wedding', date: 'Saturday, 13 February 2027', time: '7:30 PM', venue: 'Rambagh Palace, Jaipur' },
+                        { name: 'Reception', icon: 'reception', date: 'Sunday, 14 February 2027', time: '8:00 PM', venue: 'Rambagh Palace, Jaipur' },
+                      ]).map((ev, idx) => (
+                        <div key={idx} className="p-3.5 bg-[#FAF7F0] border border-[#E4D8BA] rounded-xl space-y-2.5 transition-all hover:border-[#A77B35] shadow-xs">
+                          <div className="flex items-center justify-between pb-1.5 border-b border-[#EFE7D5]">
+                            <span className="text-xs font-serif font-bold text-[#2C2114] flex items-center gap-1.5">
+                              <span className="w-4 h-4 rounded-full bg-[#8F6E3B] text-white text-[10px] flex items-center justify-center font-sans font-bold">
+                                {idx + 1}
+                              </span>
+                              {ev.name || `Event ${idx + 1}`}
+                            </span>
+                            <span className="text-[10.5px] uppercase font-semibold text-[#8F6E3B]">
+                              Ceremony {idx + 1} of 5
+                            </span>
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-medium text-[#49341F] mb-1">
+                              Function Name
+                            </label>
+                            <input
+                              type="text"
+                              value={ev.name}
+                              onChange={(e) => handleEventChange(idx, 'name', e.target.value)}
+                              placeholder="e.g. Haldi"
+                              className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <div>
+                              <label className="block text-[11px] font-medium text-[#49341F] mb-1">
+                                Date
+                              </label>
+                              <input
+                                type="text"
+                                value={ev.date || ev.when || ''}
+                                onChange={(e) => handleEventChange(idx, 'date', e.target.value)}
+                                placeholder="e.g. Friday, 12 February 2027"
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[11px] font-medium text-[#49341F] mb-1">
+                                Time
+                              </label>
+                              <input
+                                type="text"
+                                value={ev.time || ''}
+                                onChange={(e) => handleEventChange(idx, 'time', e.target.value)}
+                                placeholder="e.g. 10:00 AM"
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-medium text-[#49341F] mb-1">
+                              Venue / Location &amp; Directions
+                            </label>
+                            <input
+                              type="text"
+                              value={ev.venue || ev.where || ''}
+                              onChange={(e) => handleEventChange(idx, 'venue', e.target.value)}
+                              placeholder="e.g. Family home, Jaipur"
+                              className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* ======================================================== */}
+                  {/* FAMILY HOSTS & ELDERS */}
+                  {/* ======================================================== */}
+                  <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-[#8F6E3B] uppercase tracking-wider">
+                      <Heart className="w-3.5 h-3.5 text-[#A77B35]" />
+                      <span>Family Hosts &amp; Elders</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-[11px] font-medium text-[#49341F] mb-1">
+                          Groom&apos;s Parents
+                        </label>
+                        <input
+                          type="text"
+                          value={fields.groomParents || 'Smt. Madhuri & Shri Prakash Joshi'}
+                          onChange={(e) => handleFieldChange('groomParents', e.target.value)}
+                          placeholder="Smt. Madhuri & Shri Prakash Joshi"
+                          className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] font-medium text-[#49341F] mb-1">
+                          Bride&apos;s Parents
+                        </label>
+                        <input
+                          type="text"
+                          value={fields.brideParents || 'Smt. Hema & Shri Kiran Vyas'}
+                          onChange={(e) => handleFieldChange('brideParents', e.target.value)}
+                          placeholder="Smt. Hema & Shri Kiran Vyas"
+                          className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-medium text-[#49341F] mb-1">
+                        Hosted By / Family Lineage
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.host || 'The Joshi and Vyas families'}
+                        onChange={(e) => handleFieldChange('host', e.target.value)}
+                        placeholder="e.g. The Joshi and Vyas families"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
                   </div>
 
                   <div>
@@ -1311,6 +1599,77 @@ export default function CustomizePage() {
                         placeholder="Mrs. Sunita & Mr. Vikramaditya Singhania"
                         className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                       />
+                    </div>
+                  </div>
+
+                  {/* Template 1: Wedding Celebration Events */}
+                  <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-[#8F6E3B] uppercase tracking-wider">
+                        <Calendar className="w-3.5 h-3.5 text-[#A77B35]" />
+                        <span>Wedding Functions &amp; Itinerary</span>
+                      </div>
+                      <span className="text-[10px] text-[#A77B35] font-semibold bg-[#F5EEDB] border border-[#DFCDB0] px-2 py-0.5 rounded-full">
+                        4 Events
+                      </span>
+                    </div>
+
+                    <div className="space-y-3">
+                      {(fields.events && fields.events.length > 0 ? fields.events : [
+                        { name: 'Haldi Ceremony', icon: 'haldi', date: 'Thursday, 17 December 2026', time: '10:00 AM', venue: 'The Courtyard, Jaipur' },
+                        { name: 'Mehendi & Sangeet', icon: 'mehendi', date: 'Thursday, 17 December 2026', time: '6:30 PM', venue: 'The Royal Lawns, Jaipur' },
+                        { name: 'Wedding Ceremony', icon: 'wedding', date: 'Friday, 18 December 2026', time: '5:00 PM', venue: 'The Heritage Palace, Jaipur' },
+                        { name: 'Grand Reception', icon: 'reception', date: 'Saturday, 19 December 2026', time: '8:00 PM', venue: 'Palace Ballroom, Jaipur' },
+                      ]).map((ev, idx) => (
+                        <div key={idx} className="p-3 bg-[#FAF7F0] border border-[#E4D8BA] rounded-xl space-y-2">
+                          <div className="flex items-center justify-between pb-1 border-b border-[#EFE7D5]">
+                            <span className="text-xs font-serif font-bold text-[#2C2114]">
+                              {idx + 1}. {ev.name}
+                            </span>
+                            <span className="text-[10px] uppercase font-semibold text-[#8F6E3B]">
+                              Function {idx + 1}
+                            </span>
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Function Name</label>
+                            <input
+                              type="text"
+                              value={ev.name}
+                              onChange={(e) => handleEventChange(idx, 'name', e.target.value)}
+                              className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                            />
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div>
+                              <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Date</label>
+                              <input
+                                type="text"
+                                value={ev.date || ev.when || ''}
+                                onChange={(e) => handleEventChange(idx, 'date', e.target.value)}
+                                className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Time</label>
+                              <input
+                                type="text"
+                                value={ev.time || ''}
+                                onChange={(e) => handleEventChange(idx, 'time', e.target.value)}
+                                className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Venue Location</label>
+                            <input
+                              type="text"
+                              value={ev.venue || ev.where || ''}
+                              onChange={(e) => handleEventChange(idx, 'venue', e.target.value)}
+                              className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                            />
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
 

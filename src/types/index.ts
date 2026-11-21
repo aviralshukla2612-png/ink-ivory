@@ -11,6 +11,19 @@ export type OccasionCategory =
   | 'Congratulations'
   | 'Housewarming';
 
+export interface WeddingEventItem {
+  name: string;
+  icon?: string;
+  date?: string;
+  when?: string;
+  time: string;
+  venue?: string;
+  where?: string;
+  map?: string;
+  note?: string;
+  photo?: string | null;
+}
+
 export interface EditableFields {
   eyebrow?: string;
   headline?: string;
@@ -31,6 +44,7 @@ export interface EditableFields {
   audioStartTime?: number;
   letterMessage?: string;
   reasonsText?: string;
+  events?: WeddingEventItem[];
 }
 
 export interface DesignConfig {
