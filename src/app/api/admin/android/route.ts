@@ -58,8 +58,8 @@ export async function PUT(request: NextRequest) {
     logAdminAudit({
       actor: auth.actor!,
       action: 'ADMIN_ANDROID_CONFIG_UPDATED',
-      entityType: 'ANDROID_CONFIG',
-      entityId: updated.id,
+      resourceType: 'ANDROID_CONFIG',
+      resourceId: updated.id,
       metadata: { minVersion: updated.minSupportedVersion, latestVersion: updated.latestVersion, forceUpdate: updated.forceUpdateRequired },
     });
 

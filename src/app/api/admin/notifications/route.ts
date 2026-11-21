@@ -61,8 +61,8 @@ export async function POST(request: NextRequest) {
     logAdminAudit({
       actor: auth.actor!,
       action: 'ADMIN_NOTIFICATION_CAMPAIGN_CREATED',
-      entityType: 'NOTIFICATION_CAMPAIGN',
-      entityId: campaign.id,
+      resourceType: 'NOTIFICATION_CAMPAIGN',
+      resourceId: campaign.id,
       metadata: { title: campaign.title, platform: campaign.platform, audience: campaign.targetAudience },
     });
 

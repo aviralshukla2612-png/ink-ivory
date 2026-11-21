@@ -57,8 +57,8 @@ export async function POST(request: NextRequest) {
     logAdminAudit({
       actor: auth.actor!,
       action: 'ADMIN_MUSIC_TRACK_SAVED',
-      entityType: 'MUSIC_TRACK',
-      entityId: track.id,
+      resourceType: 'MUSIC_TRACK',
+      resourceId: track.id,
       metadata: { title: track.title, category: track.category, source: track.source },
     });
 
@@ -109,8 +109,8 @@ export async function DELETE(request: NextRequest) {
   logAdminAudit({
     actor: auth.actor!,
     action: 'ADMIN_MUSIC_TRACK_DELETED',
-    entityType: 'MUSIC_TRACK',
-    entityId: id,
+    resourceType: 'MUSIC_TRACK',
+    resourceId: id,
   });
 
   return NextResponse.json({ success: true, message: 'Track deleted' });
