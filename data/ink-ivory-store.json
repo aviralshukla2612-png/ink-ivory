@@ -47,7 +47,9 @@
         "accentColor": "#D4AF37"
       },
       "createdAt": "2026-11-21T07:47:35.562Z",
-      "updatedAt": "2026-11-21T07:47:35.562Z"
+      "updatedAt": "2026-11-21T07:47:35.562Z",
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-test-palace-246608-copy-2e9c",
@@ -76,7 +78,9 @@
         "accentColor": "#D4AF37"
       },
       "createdAt": "2026-11-21T07:47:28.429Z",
-      "updatedAt": "2026-11-21T07:47:28.429Z"
+      "updatedAt": "2026-11-21T07:47:28.429Z",
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-test-palace-246608",
@@ -106,7 +110,8 @@
       },
       "createdAt": "2026-11-21T07:47:26.651Z",
       "updatedAt": "2026-11-21T07:47:32.735Z",
-      "priceINR": 599
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-cm-palace-009608",
@@ -135,7 +140,9 @@
         "accentColor": "#D4AF37"
       },
       "createdAt": "2026-11-21T07:43:38.699Z",
-      "updatedAt": "2026-11-21T07:43:38.699Z"
+      "updatedAt": "2026-11-21T07:43:38.699Z",
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-test-palace-009608-copy-a869",
@@ -164,7 +171,9 @@
         "accentColor": "#D4AF37"
       },
       "createdAt": "2026-11-21T07:43:31.490Z",
-      "updatedAt": "2026-11-21T07:43:31.490Z"
+      "updatedAt": "2026-11-21T07:43:31.490Z",
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-test-palace-009608",
@@ -194,7 +203,8 @@
       },
       "createdAt": "2026-11-21T07:43:29.661Z",
       "updatedAt": "2026-11-21T07:43:35.634Z",
-      "priceINR": 599
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-cm-palace-860473",
@@ -223,7 +233,9 @@
         "accentColor": "#D4AF37"
       },
       "createdAt": "2026-11-21T07:41:09.194Z",
-      "updatedAt": "2026-11-21T07:41:09.194Z"
+      "updatedAt": "2026-11-21T07:41:09.194Z",
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-test-palace-860473-copy-5439",
@@ -252,7 +264,9 @@
         "accentColor": "#D4AF37"
       },
       "createdAt": "2026-11-21T07:41:02.146Z",
-      "updatedAt": "2026-11-21T07:41:02.146Z"
+      "updatedAt": "2026-11-21T07:41:02.146Z",
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-test-palace-860473",
@@ -282,7 +296,8 @@
       },
       "createdAt": "2026-11-21T07:41:00.522Z",
       "updatedAt": "2026-11-21T07:41:06.378Z",
-      "priceINR": 599
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-wedding-navy-01",
@@ -313,7 +328,8 @@
         "themeColor": "#121E35",
         "accentColor": "#D7B875"
       },
-      "priceINR": 899
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-anniversary-gold-02",
@@ -339,7 +355,9 @@
       "designConfig": {
         "themeColor": "#FDFBF7",
         "accentColor": "#A77B35"
-      }
+      },
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-engagement-garden-03",
@@ -365,7 +383,9 @@
         "accentColor": "#E5B942",
         "fontFamily": "Cinzel"
       },
-      "updatedAt": "2026-11-21T07:47:52.755Z"
+      "updatedAt": "2026-11-21T07:47:52.755Z",
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-birthday-botanical-04",
@@ -391,7 +411,9 @@
       "designConfig": {
         "themeColor": "#FFF3EE",
         "accentColor": "#B62A42"
-      }
+      },
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-valentine-interactive-05",
@@ -417,7 +439,9 @@
       "designConfig": {
         "themeColor": "#FFF4F0",
         "accentColor": "#B51F3B"
-      }
+      },
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-date-planner-07",
@@ -444,7 +468,9 @@
       "designConfig": {
         "themeColor": "#FFF2ED",
         "accentColor": "#B51F3B"
-      }
+      },
+      "priceINR": 299,
+      "originalPriceINR": 999
     },
     {
       "id": "tpl-wedding-paper-palace-04",
@@ -480,7 +506,8 @@
         "themeColor": "#f4d6cc",
         "accentColor": "#a24a6a"
       },
-      "priceINR": 499
+      "priceINR": 299,
+      "originalPriceINR": 999
     }
   ],
   "prices": [
@@ -489,124 +516,150 @@
       "templateId": "tpl-cm-palace-246608",
       "currency": "INR",
       "amount": 29900,
-      "isActive": true
+      "isActive": true,
+      "promotionalPrice": 29900,
+      "originalPrice": 99900
     },
     {
       "id": "prc_863f2978",
       "templateId": "tpl-test-palace-246608-copy-2e9c",
       "currency": "INR",
-      "amount": 49900,
-      "isActive": true
+      "amount": 29900,
+      "isActive": true,
+      "promotionalPrice": 29900,
+      "originalPrice": 99900
     },
     {
       "id": "prc_456611c9",
       "templateId": "tpl-test-palace-246608",
       "currency": "INR",
-      "amount": 59900,
-      "isActive": true
+      "amount": 29900,
+      "isActive": true,
+      "promotionalPrice": 29900,
+      "originalPrice": 99900
     },
     {
       "id": "prc_f088fefa",
       "templateId": "tpl-cm-palace-009608",
       "currency": "INR",
       "amount": 29900,
-      "isActive": true
+      "isActive": true,
+      "promotionalPrice": 29900,
+      "originalPrice": 99900
     },
     {
       "id": "prc_c9d24455",
       "templateId": "tpl-test-palace-009608-copy-a869",
       "currency": "INR",
-      "amount": 49900,
-      "isActive": true
+      "amount": 29900,
+      "isActive": true,
+      "promotionalPrice": 29900,
+      "originalPrice": 99900
     },
     {
       "id": "prc_ccff1de0",
       "templateId": "tpl-test-palace-009608",
       "currency": "INR",
-      "amount": 59900,
-      "isActive": true
+      "amount": 29900,
+      "isActive": true,
+      "promotionalPrice": 29900,
+      "originalPrice": 99900
     },
     {
       "id": "prc_bfdb3c33",
       "templateId": "tpl-cm-palace-860473",
       "currency": "INR",
       "amount": 29900,
-      "isActive": true
+      "isActive": true,
+      "promotionalPrice": 29900,
+      "originalPrice": 99900
     },
     {
       "id": "prc_1b72dea2",
       "templateId": "tpl-test-palace-860473-copy-5439",
       "currency": "INR",
-      "amount": 49900,
-      "isActive": true
+      "amount": 29900,
+      "isActive": true,
+      "promotionalPrice": 29900,
+      "originalPrice": 99900
     },
     {
       "id": "prc_8f154b00",
       "templateId": "tpl-test-palace-860473",
       "currency": "INR",
-      "amount": 59900,
-      "isActive": true
+      "amount": 29900,
+      "isActive": true,
+      "promotionalPrice": 29900,
+      "originalPrice": 99900
     },
     {
       "id": "prc_navy",
       "templateId": "tpl-wedding-navy-01",
       "currency": "INR",
-      "amount": 89900,
-      "promotionalPrice": 24900,
+      "amount": 29900,
+      "promotionalPrice": 29900,
       "discountPercent": 16,
-      "isActive": true
+      "isActive": true,
+      "originalPrice": 99900
     },
     {
       "id": "prc_palace",
       "templateId": "tpl-anniversary-gold-02",
       "currency": "INR",
-      "amount": 49900,
-      "promotionalPrice": 44900,
+      "amount": 29900,
+      "promotionalPrice": 29900,
       "discountPercent": 10,
-      "isActive": true
+      "isActive": true,
+      "originalPrice": 99900
     },
     {
       "id": "prc_temple",
       "templateId": "tpl-engagement-garden-03",
       "currency": "INR",
-      "amount": 49900,
-      "promotionalPrice": 44900,
+      "amount": 29900,
+      "promotionalPrice": 29900,
       "discountPercent": 10,
-      "isActive": true
+      "isActive": true,
+      "originalPrice": 99900
     },
     {
       "id": "prc_birthday",
       "templateId": "tpl-birthday-botanical-04",
       "currency": "INR",
-      "amount": 34900,
+      "amount": 29900,
       "promotionalPrice": 29900,
       "discountPercent": 15,
-      "isActive": true
+      "isActive": true,
+      "originalPrice": 99900
     },
     {
       "id": "prc_valentine",
       "templateId": "tpl-valentine-interactive-05",
       "currency": "INR",
-      "amount": 39900,
-      "promotionalPrice": 34900,
+      "amount": 29900,
+      "promotionalPrice": 29900,
       "discountPercent": 12,
-      "isActive": true
+      "isActive": true,
+      "originalPrice": 99900
     },
     {
       "id": "prc_date_planner",
       "templateId": "tpl-date-planner-07",
       "currency": "INR",
-      "amount": 34900,
+      "amount": 29900,
       "promotionalPrice": 29900,
       "discountPercent": 15,
-      "isActive": true
+      "isActive": true,
+      "originalPrice": 99900
     },
     {
       "id": "prc_614bd311",
       "templateId": "template-01",
       "currency": "INR",
       "amount": 29900,
-      "isActive": true
+      "isActive": true,
+      "promotionalPrice": 29900,
+      "originalPrice": 99900
     }
   ],
   "drafts": [

@@ -100,6 +100,7 @@ export const UpdateTemplateSchema = z.object({
   badge: z.string().max(50).optional(),
   tier: z.enum(["PREMIUM", "SIGNATURE", "DELUXE", "ROYAL"]).optional(),
   priceINR: z.number().min(0).max(100000).optional(),
+  originalPriceINR: z.number().min(0).max(100000).optional(),
   promotionalPriceINR: z.number().min(0).max(100000).optional(),
   rendererId: z.string().min(2).max(100).optional(),
   tags: z.array(z.string().max(50)).optional(),

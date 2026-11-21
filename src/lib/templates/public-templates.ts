@@ -31,11 +31,11 @@ export async function getPublicTemplates(): Promise<Template[]> {
 
         const priceRec = await store.getTemplatePrice(storeTpl.id);
         const priceINR =
-          priceRec && priceRec.amount !== undefined
-            ? Math.round(priceRec.amount / 100)
-            : storeTpl.priceINR !== undefined
+          storeTpl.priceINR !== undefined
             ? storeTpl.priceINR
-            : base.price;
+            : priceRec && priceRec.amount !== undefined
+            ? Math.round(priceRec.amount / 100)
+            : base.price || 299;
 
         result.push({
           ...base,
@@ -47,6 +47,7 @@ export async function getPublicTemplates(): Promise<Template[]> {
           badge: storeTpl.badge || base.badge,
           previewImage: storeTpl.previewImage || base.previewImage,
           price: priceINR,
+          originalPrice: storeTpl.originalPriceINR || base.originalPrice || 999,
           isFree: priceINR === 0,
         });
       } else {

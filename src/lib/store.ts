@@ -34,6 +34,7 @@ export interface TemplateRecord {
   isActive: boolean;
   status?: "DRAFT" | "ACTIVE" | "ARCHIVED";
   priceINR?: number;
+  originalPriceINR?: number;
   rendererId?: string;
   tags?: string[];
   createdAt?: string;
@@ -668,8 +669,8 @@ class StoreService {
     const items = paginated.map((t) => {
       const directTpl = templatesData.find((dt) => dt.id === t.id || dt.slug === t.slug || dt.slug === t.id);
       const priceRec = this.data!.prices.find((p) => p.templateId === t.id && p.isActive);
-      const priceINR = directTpl?.price || (priceRec ? Math.round(priceRec.amount / 100) : 299);
-      const originalPriceINR = directTpl?.originalPrice || 999;
+      const priceINR = t.priceINR !== undefined ? t.priceINR : (priceRec ? Math.round(priceRec.amount / 100) : (directTpl?.price || 299));
+      const originalPriceINR = t.originalPriceINR || directTpl?.originalPrice || 999;
       const draftsCount = this.data!.drafts.filter((d) => d.templateId === t.id || d.templateId === t.slug).length;
       const publicationsCount = this.data!.publications.filter((p) => p.templateId === t.id || p.templateId === t.slug).length;
 
@@ -769,6 +770,7 @@ class StoreService {
       ...current,
       ...updates,
       priceINR: updates.priceINR !== undefined ? updates.priceINR : current.priceINR,
+      originalPriceINR: updates.originalPriceINR !== undefined ? updates.originalPriceINR : (current.originalPriceINR || 999),
       updatedAt: now,
     };
 
