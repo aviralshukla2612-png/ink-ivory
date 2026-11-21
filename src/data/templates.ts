@@ -164,9 +164,9 @@ export const templatesData: Template[] = [
   {
     id: 'tpl-wedding-paper-palace-04',
     slug: 'paper-palace-wedding',
-    title: 'Tara & Kabir — Paper Palace Pop-Up Wedding',
+    title: 'Tara & Kabir — The Grand Udaipur Palace Wedding',
     occasion: 'Wedding',
-    description: 'An enchanting 3D paper craft palace with moving grand doors, Kaagaz Mahal puzzle, scratch-off event reveal, and varmala stringing.',
+    description: 'A regal royal palace celebration with 3D opening heritage gates, Udaipur palace puzzle, scratch-off event reveals, and sacred varmala stringing.',
     price: 499,
     isFree: false,
     isFeatured: true,

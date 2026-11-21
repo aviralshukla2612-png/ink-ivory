@@ -59,10 +59,10 @@ export const APPROVED_RENDERER_REGISTRY: Record<string, RendererDefinition> = {
   },
   "wedding-paper-palace": {
     id: "wedding-paper-palace",
-    name: "Paper Palace Pop-Up Wedding Invitation",
+    name: "The Grand Udaipur Palace Wedding",
     category: "Wedding",
     tier: "ROYAL",
-    description: "Interactive 3D opening doors, Kaagaz Mahal pop-up puzzle, scratch-off event reveal, flower garland stringing, and WhatsApp wishes.",
+    description: "Interactive 3D opening doors, royal palace pop-up experience, scratch-off event reveal, flower garland stringing, and WhatsApp wishes.",
     targetRoute: "/template-04",
     supportedSections: ["opening", "hero", "letter", "palace-puzzle", "countdown", "events", "varmala", "wishes", "music", "closing"],
     defaultPriceINR: 499,

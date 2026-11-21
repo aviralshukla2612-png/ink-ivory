@@ -24,7 +24,7 @@ function Template04Inner() {
       <iframe
         ref={iframeRef}
         src={src}
-        title="Template 04 - Tara & Kabir Paper Palace Invitation"
+        title="Template 04 - Tara & Kabir The Grand Udaipur Palace Wedding"
         className="w-full h-full border-none"
         allow="autoplay; encrypted-media; clipboard-write"
       />
@@ -37,7 +37,7 @@ export default function Template04Page() {
     <Suspense
       fallback={
         <div className="fixed inset-0 flex items-center justify-center bg-[#f4d6cc] text-[#5a3a3a] font-serif text-lg">
-          Opening paper palace invitation...
+          Opening royal palace invitation...
         </div>
       }
     >
