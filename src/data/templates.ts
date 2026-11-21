@@ -7,7 +7,7 @@ export const templatesData: Template[] = [
     title: 'Aarav & Riya — The Royal Navy Wedding',
     occasion: 'Wedding',
     description: 'A breathtaking imperial navy invitation page designed with hand-drawn gold foil botanicals and bespoke typography.',
-    price: 299,
+    price: 899,
     isFree: false,
     isFeatured: true,
     isTrending: true,

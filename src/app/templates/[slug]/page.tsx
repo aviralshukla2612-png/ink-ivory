@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -18,13 +18,27 @@ import { templatesData } from '@/data/templates';
 import { CardPreview } from '@/components/cards/CardPreview';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
+import { Template } from '@/types';
 
 export default function TemplateDetailsPage() {
   const params = useParams();
   const router = useRouter();
   const slug = params?.slug as string;
 
-  const template = templatesData.find((t) => t.slug === slug) || templatesData[0];
+  const baseTemplate = templatesData.find((t) => t.slug === slug || t.id === slug) || templatesData[0];
+  const [template, setTemplate] = useState<Template>(baseTemplate);
+
+  useEffect(() => {
+    fetch(`/api/templates/${encodeURIComponent(slug)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.data) {
+          setTemplate(data.data);
+        }
+      })
+      .catch((e) => console.error('Failed to load template:', e));
+  }, [slug]);
+
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
 

@@ -48,7 +48,8 @@
       "designConfig": {
         "themeColor": "#121E35",
         "accentColor": "#D7B875"
-      }
+      },
+      "priceINR": 899
     },
     {
       "id": "tpl-anniversary-gold-02",
@@ -187,7 +188,7 @@
       "id": "prc_navy",
       "templateId": "tpl-wedding-navy-01",
       "currency": "INR",
-      "amount": 29900,
+      "amount": 89900,
       "promotionalPrice": 24900,
       "discountPercent": 16,
       "isActive": true

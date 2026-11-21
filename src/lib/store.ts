@@ -32,6 +32,7 @@ export interface TemplateRecord {
   tier: string;
   isActive: boolean;
   status?: "DRAFT" | "ACTIVE" | "ARCHIVED";
+  priceINR?: number;
   rendererId?: string;
   tags?: string[];
   createdAt?: string;
@@ -432,7 +433,7 @@ function getDefaultData(): DBStore {
       },
     ],
     prices: [
-      { id: "prc_navy", templateId: "tpl-wedding-navy-01", currency: "INR", amount: 29900, promotionalPrice: 24900, discountPercent: 16, isActive: true },
+      { id: "prc_navy", templateId: "tpl-wedding-navy-01", currency: "INR", amount: 89900, promotionalPrice: 79900, discountPercent: 11, isActive: true },
       { id: "prc_palace", templateId: "tpl-anniversary-gold-02", currency: "INR", amount: 49900, promotionalPrice: 44900, discountPercent: 10, isActive: true },
       { id: "prc_temple", templateId: "tpl-engagement-garden-03", currency: "INR", amount: 49900, promotionalPrice: 44900, discountPercent: 10, isActive: true },
       { id: "prc_birthday", templateId: "tpl-birthday-botanical-04", currency: "INR", amount: 34900, promotionalPrice: 29900, discountPercent: 15, isActive: true },
@@ -542,7 +543,20 @@ class StoreService {
 
   async getTemplatePrice(templateId: string): Promise<TemplatePriceRecord | null> {
     this.init();
-    return this.data!.prices.find((p) => p.templateId === templateId && p.isActive) || null;
+    const direct = this.data!.prices.find((p) => p.templateId === templateId && p.isActive);
+    if (direct) return direct;
+
+    // Fallback: resolve template by ID, slug or liveDemoUrl
+    const exact = this.data!.templates.find(
+      (t) => t.id === templateId || t.slug === templateId || t.liveDemoUrl?.includes(templateId)
+    );
+    if (exact) {
+      const match = this.data!.prices.find(
+        (p) => (p.templateId === exact.id || p.templateId === exact.slug) && p.isActive
+      );
+      if (match) return match;
+    }
+    return null;
   }
 
   async updateTemplatePrice(templateId: string, amount: number, promo?: number): Promise<TemplatePriceRecord> {
@@ -746,6 +760,7 @@ class StoreService {
     const updated: TemplateRecord = {
       ...current,
       ...updates,
+      priceINR: updates.priceINR !== undefined ? updates.priceINR : current.priceINR,
       updatedAt: now,
     };
 
@@ -753,6 +768,13 @@ class StoreService {
 
     if (updates.priceINR !== undefined) {
       await this.updateTemplatePrice(current.id, Math.round(updates.priceINR * 100));
+      // Also update matching prices by slug or liveDemoUrl if any
+      const matchingPrice = this.data!.prices.find(
+        (p) => p.templateId === current.id || p.templateId === current.slug
+      );
+      if (matchingPrice) {
+        matchingPrice.amount = Math.round(updates.priceINR * 100);
+      }
     }
 
     this.save();

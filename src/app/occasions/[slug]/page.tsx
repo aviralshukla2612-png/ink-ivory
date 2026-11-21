@@ -1,16 +1,29 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Sparkles, Heart, Edit3 } from 'lucide-react';
 import { templatesData, occasionsList } from '@/data/templates';
 import { CardPreview } from '@/components/cards/CardPreview';
 import { useWishlist } from '@/context/WishlistContext';
+import { Template } from '@/types';
 
 export default function OccasionPage() {
   const params = useParams();
   const slug = (params?.slug as string) || '';
+  const [allTemplates, setAllTemplates] = useState<Template[]>(templatesData);
+
+  useEffect(() => {
+    fetch('/api/templates')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.data)) {
+          setAllTemplates(data.data);
+        }
+      })
+      .catch((e) => console.error('Failed to load occasion templates:', e));
+  }, []);
 
   // Match occasion name from slug
   const matchedOccasion = occasionsList.find(
@@ -20,13 +33,13 @@ export default function OccasionPage() {
     description: 'Bespoke digital invitation web pages and event portals.',
   };
 
-  const templates = templatesData.filter(
+  const templates = allTemplates.filter(
     (t) =>
       t.occasion.toLowerCase().replace(/['\s]+/g, '-') === slug.toLowerCase() ||
       t.tags.some((tag) => tag.toLowerCase() === slug.toLowerCase())
   );
 
-  const displayList = templates.length > 0 ? templates : templatesData.slice(0, 4);
+  const displayList = templates.length > 0 ? templates : allTemplates.slice(0, 4);
   const { isInWishlist, toggleWishlist } = useWishlist();
 
   return (

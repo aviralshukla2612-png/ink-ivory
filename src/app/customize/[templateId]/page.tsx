@@ -40,7 +40,7 @@ import {
 } from 'lucide-react';
 import PublishModal from '@/components/editor/PublishModal';
 import { templatesData } from '@/data/templates';
-import { EditableFields, DesignConfig } from '@/types';
+import { EditableFields, DesignConfig, Template } from '@/types';
 import { useCart } from '@/context/CartContext';
 import {
   ALL_SONGS,
@@ -117,6 +117,24 @@ export default function CustomizePage() {
 
   const templateKey = getTemplateKey();
   const { cart, addToCart } = useCart();
+
+  // Dynamic admin-managed template metadata and price
+  const [liveTemplate, setLiveTemplate] = useState<Template>(baseTemplate);
+  const [templatePrice, setTemplatePrice] = useState<number>(baseTemplate.price);
+
+  useEffect(() => {
+    fetch(`/api/templates/${encodeURIComponent(templateId)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.data) {
+          setLiveTemplate((prev: Template) => ({ ...prev, ...data.data }));
+          if (typeof data.data.price === 'number') {
+            setTemplatePrice(data.data.price);
+          }
+        }
+      })
+      .catch((e) => console.error('Failed to fetch live template price:', e));
+  }, [templateId]);
 
   // State for editable fields
   const [fields, setFields] = useState<EditableFields>(() => {
@@ -368,7 +386,7 @@ export default function CustomizePage() {
         if (templateKey === 'template-01') {
           sessionStorage.setItem('ink_ivory_custom_wedding_data', JSON.stringify(fields));
         }
-      } catch (e) {}
+      } catch (e) { }
     }
     // 2. Broadcast to iframe
     try {
@@ -376,7 +394,7 @@ export default function CustomizePage() {
         { type: 'INK_IVORY_CUSTOM_UPDATE', payload: fields },
         '*'
       );
-    } catch (e) {}
+    } catch (e) { }
     // 3. Save draft to server
     await saveDraftToServer();
     setSaveBannerMessage('✓ Dates, photos and details saved & updated in preview!');
@@ -900,11 +918,22 @@ export default function CustomizePage() {
                 const sp = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
                 const cartItemId = sp?.get('cartItemId') || undefined;
                 const savedDraftId = await saveDraftToServer('READY_TO_PUBLISH');
-                addToCart(baseTemplate, fields, design, savedDraftId || draftId || undefined, cartItemId);
+                addToCart(
+                  { ...baseTemplate, ...liveTemplate, price: templatePrice, title: liveTemplate.title || baseTemplate.title },
+                  fields,
+                  design,
+                  savedDraftId || draftId || undefined,
+                  cartItemId
+                );
                 router.push('/cart');
               } catch (e) {
                 console.error('Error adding to cart:', e);
-                addToCart(baseTemplate, fields, design, draftId || undefined);
+                addToCart(
+                  { ...baseTemplate, ...liveTemplate, price: templatePrice, title: liveTemplate.title || baseTemplate.title },
+                  fields,
+                  design,
+                  draftId || undefined
+                );
                 router.push('/cart');
               } finally {
                 setAddingToCart(false);
@@ -929,7 +958,7 @@ export default function CustomizePage() {
                     : 'Add to Cart'}
                 </span>
                 <span className="font-serif bg-black/15 px-2 py-0.5 rounded text-[11px] font-normal">
-                  ₹{baseTemplate.price}
+                  ₹{templatePrice}
                 </span>
               </>
             )}
@@ -2341,22 +2370,20 @@ export default function CustomizePage() {
                         <button
                           type="button"
                           onClick={() => handleFieldChange('photoFit', 'cover')}
-                          className={`py-1.5 px-2 text-xs rounded-lg border font-medium transition-all ${
-                            (fields.photoFit || 'cover') === 'cover'
-                              ? 'bg-[#8F6E3B] text-white border-[#8F6E3B]'
-                              : 'bg-white text-[#49341F] border-[#DFCEAF] hover:bg-[#FAF7F0]'
-                          }`}
+                          className={`py-1.5 px-2 text-xs rounded-lg border font-medium transition-all ${(fields.photoFit || 'cover') === 'cover'
+                            ? 'bg-[#8F6E3B] text-white border-[#8F6E3B]'
+                            : 'bg-white text-[#49341F] border-[#DFCEAF] hover:bg-[#FAF7F0]'
+                            }`}
                         >
                           Fill Frame (Cover)
                         </button>
                         <button
                           type="button"
                           onClick={() => handleFieldChange('photoFit', 'contain')}
-                          className={`py-1.5 px-2 text-xs rounded-lg border font-medium transition-all ${
-                            fields.photoFit === 'contain'
-                              ? 'bg-[#8F6E3B] text-white border-[#8F6E3B]'
-                              : 'bg-white text-[#49341F] border-[#DFCEAF] hover:bg-[#FAF7F0]'
-                          }`}
+                          className={`py-1.5 px-2 text-xs rounded-lg border font-medium transition-all ${fields.photoFit === 'contain'
+                            ? 'bg-[#8F6E3B] text-white border-[#8F6E3B]'
+                            : 'bg-white text-[#49341F] border-[#DFCEAF] hover:bg-[#FAF7F0]'
+                            }`}
                         >
                           Show Full (No Cut)
                         </button>
@@ -3026,7 +3053,7 @@ export default function CustomizePage() {
         isOpen={isPublishModalOpen}
         onClose={() => setIsPublishModalOpen(false)}
         draftId={draftId || undefined}
-        template={baseTemplate}
+        template={{ ...baseTemplate, ...liveTemplate, price: templatePrice }}
         customFields={fields}
         customDesign={design}
         onPublished={(slug, url) => {

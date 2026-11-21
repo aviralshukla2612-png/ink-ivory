@@ -69,6 +69,44 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } finally {
       setIsLoaded(true);
     }
+
+    // Live Sync: Fetch real-time admin-managed prices from /api/templates
+    fetch('/api/templates')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.data)) {
+          const liveTemplates: Template[] = data.data;
+          const priceMap = new Map<string, Template>();
+          liveTemplates.forEach((t) => {
+            priceMap.set(t.id, t);
+            priceMap.set(t.slug, t);
+            if (t.liveDemoUrl) priceMap.set(t.liveDemoUrl, t);
+          });
+
+          // Sync active cart items with real-time admin prices & titles
+          setCart((prev) =>
+            prev.map((item) => {
+              const live =
+                priceMap.get(item.template.id) ||
+                priceMap.get(item.template.slug) ||
+                (item.template.liveDemoUrl && priceMap.get(item.template.liveDemoUrl));
+              if (live && live.price !== undefined && live.price !== item.template.price) {
+                return {
+                  ...item,
+                  template: {
+                    ...item.template,
+                    price: live.price,
+                    title: live.title || item.template.title,
+                    isFree: live.price === 0,
+                  },
+                };
+              }
+              return item;
+            })
+          );
+        }
+      })
+      .catch((err) => console.error('CartContext templates sync error:', err));
   }, []);
 
   // Sync to localStorage whenever cart changes (including when emptied!)

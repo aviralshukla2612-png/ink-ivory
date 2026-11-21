@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, Suspense } from 'react';
+import React, { useState, useMemo, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -25,6 +25,7 @@ function TemplatesContent() {
   const initialSearch = searchParams.get('search') || '';
   const initialFilter = searchParams.get('filter') || '';
 
+  const [templatesList, setTemplatesList] = useState<Template[]>(templatesData);
   const [search, setSearch] = useState(initialSearch);
   const [selectedOccasion, setSelectedOccasion] = useState(initialOccasion);
   const [priceFilter, setPriceFilter] = useState<'all' | 'free' | 'premium'>(
@@ -36,8 +37,20 @@ function TemplatesContent() {
 
   const { isInWishlist, toggleWishlist } = useWishlist();
 
+  // Sync real-time admin-managed prices and templates from /api/templates
+  useEffect(() => {
+    fetch('/api/templates')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.data)) {
+          setTemplatesList(data.data);
+        }
+      })
+      .catch((e) => console.error('Failed to load live templates:', e));
+  }, []);
+
   const filteredTemplates = useMemo(() => {
-    return templatesData
+    return templatesList
       .filter((item) => {
         // Search filter
         if (search.trim()) {

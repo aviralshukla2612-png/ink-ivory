@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Sparkles, ArrowRight } from 'lucide-react';
@@ -12,17 +12,30 @@ import { Template } from '@/types';
 export const FeaturedTemplates: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('All');
   const [activeDemoTemplate, setActiveDemoTemplate] = useState<Template | null>(null);
+  const [allTemplates, setAllTemplates] = useState<Template[]>(templatesData);
+
+  // Sync real-time admin-managed prices and templates from /api/templates
+  useEffect(() => {
+    fetch('/api/templates')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.data)) {
+          setAllTemplates(data.data);
+        }
+      })
+      .catch((e) => console.error('Failed to load featured templates:', e));
+  }, []);
 
   const tabs = ['All', 'Wedding', 'Anniversary', 'Engagement', 'Birthday', "Valentine's Day"];
 
-  // Core interactive templates
+  // Core interactive templates with live admin prices
   const primaryTemplates = [
-    templatesData.find((t) => t.id === 'tpl-wedding-navy-01'),
-    templatesData.find((t) => t.id === 'tpl-anniversary-gold-02'),
-    templatesData.find((t) => t.id === 'tpl-engagement-garden-03'),
-    templatesData.find((t) => t.id === 'tpl-birthday-botanical-04'),
-    templatesData.find((t) => t.id === 'tpl-valentine-interactive-05'),
-    templatesData.find((t) => t.id === 'tpl-date-planner-07'),
+    allTemplates.find((t) => t.id === 'tpl-wedding-navy-01'),
+    allTemplates.find((t) => t.id === 'tpl-anniversary-gold-02'),
+    allTemplates.find((t) => t.id === 'tpl-engagement-garden-03'),
+    allTemplates.find((t) => t.id === 'tpl-birthday-botanical-04'),
+    allTemplates.find((t) => t.id === 'tpl-valentine-interactive-05'),
+    allTemplates.find((t) => t.id === 'tpl-date-planner-07'),
   ].filter(Boolean) as Template[];
 
   // Filter templates: Show all interactive templates on 'All', or filter precisely by category
