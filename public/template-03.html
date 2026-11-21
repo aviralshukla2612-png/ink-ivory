@@ -254,15 +254,6 @@ body.nobar #bar{display:none}
 @keyframes burst{to{transform:translate(var(--x),var(--y));opacity:0}}
 #msg{min-height:1.6em;font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--gold2);margin-top:14px}
 
-/* ---------- RSVP FORM ---------- */
-form{max-width:480px;width:100%;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:16px;text-align:left}
-label{font-weight:600;font-size:.9rem}
-input,select,textarea{width:100%;min-width:0;max-width:100%;padding:13px 16px;border-radius:12px;border:1.5px solid #cdb585;background:#fffaf0;font:1rem var(--sans);color:var(--ink)}
-#rsvpS label{color:var(--gold2)}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px #d9a52144}
-#rsvpS{background:linear-gradient(var(--night),#0b2a20);color:var(--cream)}
-#thanks{display:none;font:600 1.9rem var(--serif);color:var(--gold2);text-align:center}
-
 footer{background:radial-gradient(ellipse at 50% 0,#0b2a20,#04140f 70%);border-top:3px solid var(--gold);color:#cdb892;padding:54px 20px 90px;text-align:center}
 .fm{width:80px;height:80px;margin:0 auto 14px;border-radius:50%;border:2px solid var(--gold);display:grid;place-items:center;font:600 1.6rem var(--serif);color:var(--gold2);box-shadow:0 0 0 6px #d9a52122}
 .fn{font:600 1.1rem var(--serif);letter-spacing:.18em;margin-bottom:18px}
@@ -527,21 +518,6 @@ footer p.big{font:italic 1.6rem var(--serif);color:var(--gold2);margin-bottom:20
    </svg>
  </button>
  <p id="msg" aria-live="polite"></p>
-</section>
-
-<!-- ================= RSVP FORM ================= -->
-<section id="rsvpS" data-sec>
- <p class="kick">PLEASE REPLY</p>
- <h2 class="rev" style="color:var(--cream)">Will you join us?</h2>
- <p class="sub rev">Tell us who is coming so we can set your banana-leaf sadhya seat</p>
- <form id="rsvp">
-  <div><label for="nm">Your name</label><input id="nm" placeholder="Enter guest name" required></div>
-  <div><label for="gs">Number of guests</label><select id="gs"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></div>
-  <div><label for="ct">Which ceremonies will you attend?</label><select id="ct"><option>All ceremonies &amp; Sadhya</option><option>Nalangu &amp; Jaanavasam</option><option>Muhurtham (Auspicious Thali)</option><option>Reception only</option><option>Sending blessings from afar</option></select></div>
-  <div><label for="ms">Message of blessings for the couple</label><textarea id="ms" rows="3" placeholder="Write your heartfelt blessings..."></textarea></div>
-  <button class="btn" type="submit" style="justify-content:center">Confirm blessings (RSVP)</button>
- </form>
- <p id="thanks">மிக்க நன்றி! Thank you! We cannot wait to celebrate with you.</p>
 </section>
 
 <footer>
@@ -936,12 +912,6 @@ $("lantern").onclick = () => {
     setTimeout(() => s.remove(), 2500);
   }
   $("msg").textContent = "✨ The auspicious Kuthuvilakku is lit! Divine blessings showered upon the couple.";
-};
-
-$("rsvp").onsubmit = e => {
-  e.preventDefault();
-  e.target.style.display = "none";
-  $("thanks").style.display = "block";
 };
 
 /* ===== PREVIEW BAR NAVIGATION ===== */
