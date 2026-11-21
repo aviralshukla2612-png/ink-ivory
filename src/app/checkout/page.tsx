@@ -99,6 +99,7 @@ export default function CheckoutPage() {
       // 2. Create Order on Server
       let orderId = `ORD-${Date.now().toString(36).toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
       let serverOrderCreated = false;
+      let paymentOrderData: any = null;
 
       if (dId) {
         try {
@@ -111,6 +112,7 @@ export default function CheckoutPage() {
           if (orderData.success) {
             orderId = orderData.orderId;
             serverOrderCreated = true;
+            paymentOrderData = orderData;
           }
         } catch (err) {
           console.warn('Create payment order error:', err);
@@ -197,7 +199,50 @@ export default function CheckoutPage() {
         router.push(`/order-success/${orderId}`);
       };
 
-      // Complete verification and publish
+      const customerName = primaryItem?.customization?.names || 'Valued Customer';
+      const customerEmail = `${customerPhone.replace(/\D/g, '')}@customer.youaremine.online`;
+
+      // If Razorpay SDK is loaded and we have live order keys, launch official Razorpay Checkout modal
+      if ((window as any).Razorpay && paymentOrderData?.keyId && !paymentOrderData.keyId.includes("test_inkivory")) {
+        const options = {
+          key: paymentOrderData.keyId,
+          amount: paymentOrderData.amount,
+          currency: paymentOrderData.currency || 'INR',
+          name: 'You Are Mine',
+          description: `Order ${orderId}`,
+          image: '/logo.png',
+          order_id: orderId,
+          handler: async (response: any) => {
+            await completeVerificationAndRedirect(
+              response.razorpay_payment_id,
+              response.razorpay_signature
+            );
+          },
+          prefill: {
+            name: customerName,
+            contact: customerPhone,
+            email: customerEmail,
+          },
+          theme: {
+            color: '#8F6E3B',
+          },
+          modal: {
+            ondismiss: () => {
+              setIsProcessing(false);
+            },
+          },
+        };
+
+        const rzp = new (window as any).Razorpay(options);
+        rzp.on('payment.failed', (resp: any) => {
+          alert(`Payment failed: ${resp.error?.description || 'Transaction declined'}`);
+          setIsProcessing(false);
+        });
+        rzp.open();
+        return;
+      }
+
+      // Complete verification and publish (fallback)
       setTimeout(async () => {
         await completeVerificationAndRedirect(
           `pay_otp_${Math.random().toString(36).substring(2, 10)}`,

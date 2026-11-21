@@ -60,6 +60,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="theme-color" content="#F8F4EC" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+        <script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
       </head>
       <body className="min-h-screen flex flex-col bg-[#F8F4EC] text-[#49341F] selection:bg-[#EDE2CF] selection:text-[#49341F]">
         <CartProvider>

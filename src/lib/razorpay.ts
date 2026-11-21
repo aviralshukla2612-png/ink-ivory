@@ -1,8 +1,8 @@
 import crypto from "crypto";
 import { logSecurityEvent } from "./security/logger";
 
-export const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID || "rzp_test_inkivory123";
-export const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || "inkivory_secret_test_987654";
+export const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID || "rzp_live_U2OCXy6deORpA9";
+export const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || "d4wlTGIxFTK9ji36kPUhmD7";
 
 /**
  * Creates a Razorpay order via official REST API, or mock test order if in local development.

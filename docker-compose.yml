@@ -9,6 +9,12 @@ services:
       - "127.0.0.1:3050:3000"
     env_file:
       - .env.production
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - RAZORPAY_KEY_ID=rzp_live_U2OCXy6deORpA9
+      - RAZORPAY_KEY_SECRET=d4wlTGIxFTK9ji36kPUhmD7
+      - NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_live_U2OCXy6deORpA9
     volumes:
       - ./data:/app/data
       - ./public/uploads:/app/public/uploads
