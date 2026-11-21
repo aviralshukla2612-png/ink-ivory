@@ -84,6 +84,9 @@ export default function OrderSuccessPage() {
     }
   }, [orderId]);
 
+  const primaryItem = order?.items?.[0];
+  const fields = { ...primaryItem?.template?.defaultFields, ...primaryItem?.customization };
+
   const handleDownloadPng = async () => {
     if (!cardDownloadRef.current) return;
     setDownloadingPng(true);
@@ -92,8 +95,11 @@ export default function OrderSuccessPage() {
         quality: 1.0,
         pixelRatio: 3, // 300+ DPI crisp high resolution
       });
+      const safeName = (fields?.names || primaryItem?.template?.title || 'Wedding')
+        .replace(/[^a-zA-Z0-9]/g, '-')
+        .replace(/-+/g, '-');
       const link = document.createElement('a');
-      link.download = `InkIvory-${order?.items?.[0]?.template?.title || 'WebPage'}-Preview.png`;
+      link.download = `YouAreMine-${safeName}-Invitation.png`;
       link.href = dataUrl;
       link.click();
     } catch (err) {
@@ -110,7 +116,7 @@ export default function OrderSuccessPage() {
     try {
       const dataUrl = await toPng(cardDownloadRef.current, {
         quality: 1.0,
-        pixelRatio: 3,
+        pixelRatio: 3, // 300+ DPI crisp high resolution
       });
       const pdf = new jsPDF({
         orientation: 'portrait',
@@ -118,11 +124,35 @@ export default function OrderSuccessPage() {
         format: 'a5',
       });
       const imgProps = pdf.getImageProperties(dataUrl);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      const pageWidth = pdf.internal.pageSize.getWidth(); // 148 mm
+      const pageHeight = pdf.internal.pageSize.getHeight(); // 210 mm
 
-      pdf.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`InkIvory-${order?.items?.[0]?.template?.title || 'WebPage'}-Brochure.pdf`);
+      // Fill full page with rich warm parchment tone
+      pdf.setFillColor(248, 244, 236); // #F8F4EC
+      pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+
+      // Balanced margins for professional print
+      const margin = 8;
+      const maxW = pageWidth - margin * 2;
+      const maxH = pageHeight - margin * 2;
+
+      let finalW = maxW;
+      let finalH = (imgProps.height * finalW) / imgProps.width;
+
+      if (finalH > maxH) {
+        finalH = maxH;
+        finalW = (imgProps.width * finalH) / imgProps.height;
+      }
+
+      const x = (pageWidth - finalW) / 2;
+      const y = (pageHeight - finalH) / 2;
+
+      pdf.addImage(dataUrl, 'PNG', x, y, finalW, finalH, undefined, 'FAST');
+
+      const safeName = (fields?.names || primaryItem?.template?.title || 'Wedding')
+        .replace(/[^a-zA-Z0-9]/g, '-')
+        .replace(/-+/g, '-');
+      pdf.save(`YouAreMine-${safeName}-Invitation.pdf`);
     } catch (err) {
       console.error('PDF download error:', err);
       alert('Could not export PDF. Please try again.');
@@ -130,8 +160,6 @@ export default function OrderSuccessPage() {
       setDownloadingPdf(false);
     }
   };
-
-  const primaryItem = order?.items?.[0];
 
   return (
     <div className="w-full bg-[#F8F4EC] min-h-screen py-12 sm:py-20">
@@ -233,18 +261,104 @@ export default function OrderSuccessPage() {
 
           {/* Card Presentation & Download Node */}
           {primaryItem && (
-            <div className="max-w-sm mx-auto mb-8">
+            <div className="max-w-md mx-auto mb-8">
               <div
                 ref={cardDownloadRef}
-                className="bg-white p-2 rounded-2xl shadow-luxury-lg border border-[#A77B35]/40"
+                className="bg-[#0A1120] text-[#F5EADB] p-7 sm:p-9 rounded-2xl shadow-luxury-2xl border-2 border-[#D4AF37] relative overflow-hidden select-none flex flex-col justify-between"
+                style={{
+                  aspectRatio: '1 / 1.414',
+                  background:
+                    'radial-gradient(ellipse at 50% 20%, #172A46 0%, #0B1322 65%, #050912 100%)',
+                }}
               >
-                <CardPreview
-                  template={primaryItem.template}
-                  customization={primaryItem.customization}
-                  designConfig={primaryItem.designConfig}
-                  showWatermark={false}
-                  className="rounded-xl shadow-md"
+                {/* Subtle Luxury Gold Starlight / Mandala Texture */}
+                <div
+                  className="absolute inset-0 pointer-events-none opacity-15"
+                  style={{
+                    backgroundImage: `radial-gradient(circle at 50% 50%, rgba(212,175,55,0.4) 1px, transparent 1px)`,
+                    backgroundSize: '24px 24px',
+                  }}
                 />
+
+                {/* Double Gold Ornate Border Frame */}
+                <div className="absolute inset-4 sm:inset-5 border border-[#D4AF37]/80 pointer-events-none rounded-lg">
+                  <div className="absolute inset-1.5 border border-[#D4AF37]/40 rounded" />
+                  {/* Ornate Corner Accents */}
+                  <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-[#D4AF37]" />
+                  <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-[#D4AF37]" />
+                  <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-[#D4AF37]" />
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-[#D4AF37]" />
+                </div>
+
+                {/* TOP HEADER */}
+                <div className="relative z-10 text-center pt-2">
+                  <div className="inline-flex items-center justify-center gap-2 text-[#D4AF37] text-xs mb-1.5">
+                    <span className="text-[10px]">✨</span>
+                    <span className="text-[10px] sm:text-[11px] tracking-[0.3em] uppercase font-bold text-[#D4AF37]">
+                      {fields.eyebrow || 'TOGETHER WITH THEIR FAMILIES'}
+                    </span>
+                    <span className="text-[10px]">✨</span>
+                  </div>
+
+                  <p className="text-xs sm:text-sm font-serif italic text-[#E2D5BE] tracking-widest opacity-90">
+                    {fields.headline || 'The Wedding Celebration Of'}
+                  </p>
+                </div>
+
+                {/* CENTER: COUPLE NAMES & CEREMONY */}
+                <div className="relative z-10 text-center my-auto py-2">
+                  <h2 className="font-serif text-3xl sm:text-4xl md:text-[40px] font-bold text-white tracking-wide leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
+                    {fields.names || 'Aarav & Riya'}
+                  </h2>
+
+                  {/* Gold Flourish Divider */}
+                  <div className="flex items-center justify-center gap-3 my-2.5 text-[#D4AF37]">
+                    <span className="h-[1px] w-10 sm:w-16 bg-gradient-to-r from-transparent to-[#D4AF37]" />
+                    <span className="text-xs">✦</span>
+                    <span className="h-[1px] w-10 sm:w-16 bg-gradient-to-l from-transparent to-[#D4AF37]" />
+                  </div>
+
+                  {/* Date & Time */}
+                  {fields.date && (
+                    <p className="text-xs sm:text-sm font-semibold text-[#F3CF7A] tracking-[0.2em] uppercase mb-0.5">
+                      {fields.date}
+                    </p>
+                  )}
+                  {fields.time && (
+                    <p className="text-[11px] sm:text-xs text-[#E5D7C3] tracking-wider font-sans opacity-90">
+                      {fields.time}
+                    </p>
+                  )}
+
+                  {/* Couple Message / Blessing */}
+                  {fields.message && (
+                    <p className="text-[11px] sm:text-xs italic font-serif leading-relaxed text-[#D5C7B3] max-w-[88%] mx-auto mt-2.5">
+                      &ldquo;{fields.message}&rdquo;
+                    </p>
+                  )}
+                </div>
+
+                {/* BOTTOM: VENUE & LIVE INVITATION LINK */}
+                <div className="relative z-10 text-center pb-2">
+                  {fields.venue && (
+                    <p className="text-xs sm:text-[13px] font-semibold uppercase tracking-wider text-[#F4E6D0]">
+                      {fields.venue}
+                    </p>
+                  )}
+                  {fields.city && (
+                    <p className="text-[10.5px] sm:text-xs text-[#C5B49C] tracking-wide mt-0.5">
+                      {fields.city}
+                    </p>
+                  )}
+
+                  {/* Live Portal & RSVP Link */}
+                  <div className="pt-2.5 mt-2.5 border-t border-[#D4AF37]/40 flex items-center justify-between text-[9px] sm:text-[9.5px] text-[#D4AF37] px-2 font-mono">
+                    <span className="tracking-wider">YOU ARE MINE</span>
+                    <span className="tracking-tight truncate max-w-[190px] text-white/90">
+                      {liveUrl.replace(/^https?:\/\//, '')}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           )}

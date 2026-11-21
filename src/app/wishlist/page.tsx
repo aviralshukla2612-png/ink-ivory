@@ -54,13 +54,16 @@ export default function WishlistPage() {
                 className="bg-[#FCFAF6] rounded-2xl p-4 border border-[#DFCEAF] shadow-luxury flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative aspect-[4/5] bg-[#F3EDE1] rounded-xl p-3 mb-3 flex items-center justify-center overflow-hidden">
-                    <div className="w-[85%]">
-                      <CardPreview template={template} className="rounded-lg shadow-sm" />
-                    </div>
+                  <div className="relative aspect-[3/4] bg-[#0A0F1A] rounded-xl overflow-hidden mb-3 shadow-md">
+                    <img
+                      src={template.previewImage || '/images/templates/royal-navy-wedding-card.webp'}
+                      alt={template.title}
+                      className="w-full h-full object-cover object-center"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                     <button
                       onClick={() => toggleWishlist(template)}
-                      className="absolute top-3 right-3 p-2 rounded-full bg-white/80 hover:bg-white text-red-500 shadow-sm transition-colors"
+                      className="absolute top-3 right-3 p-2 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md text-white/90 hover:text-red-400 shadow-sm transition-colors z-10"
                       title="Remove from wishlist"
                     >
                       <Trash2 className="w-3.5 h-3.5" />

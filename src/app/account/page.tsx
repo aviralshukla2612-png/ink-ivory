@@ -460,10 +460,12 @@ export default function AccountPage() {
                     key={tpl.id}
                     className="bg-[#FCFAF6] rounded-2xl p-4 border border-[#DFCEAF] shadow-sm flex flex-col justify-between"
                   >
-                    <div className="aspect-[4/5] bg-[#F3EDE1] rounded-xl p-3 mb-3 flex items-center justify-center">
-                      <div className="w-[85%]">
-                        <CardPreview template={tpl} className="rounded-md" />
-                      </div>
+                    <div className="aspect-[3/4] bg-[#0A0F1A] rounded-xl overflow-hidden mb-3 shadow-md relative">
+                      <img
+                        src={tpl.previewImage || '/images/templates/royal-navy-wedding-card.webp'}
+                        alt={tpl.title}
+                        className="w-full h-full object-cover object-center"
+                      />
                     </div>
                     <h3 className="font-serif text-sm font-medium text-[#2C2114] truncate">
                       {tpl.title}

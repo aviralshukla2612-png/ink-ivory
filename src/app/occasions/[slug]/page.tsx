@@ -79,10 +79,12 @@ export default function OccasionPage() {
                 className="bg-[#FCFAF6] rounded-2xl p-4 border border-[#DFCEAF] shadow-luxury flex flex-col justify-between"
               >
                 <div>
-                  <div className="aspect-[4/5] bg-[#F3EDE1] rounded-xl p-3 mb-3 flex items-center justify-center overflow-hidden">
-                    <div className="w-[85%]">
-                      <CardPreview template={template} className="rounded-lg shadow-sm" />
-                    </div>
+                  <div className="aspect-[3/4] bg-[#0A0F1A] rounded-xl overflow-hidden mb-3 shadow-md relative">
+                    <img
+                      src={template.previewImage || '/images/templates/royal-navy-wedding-card.webp'}
+                      alt={template.title}
+                      className="w-full h-full object-cover object-center"
+                    />
                   </div>
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[#8F6E3B]">
                     {template.occasion}
