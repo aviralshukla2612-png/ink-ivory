@@ -71,6 +71,7 @@ export default function CheckoutPage() {
 
     try {
       const primaryItem = cart[0];
+      const customerName = primaryItem?.customization?.names || 'Valued Customer';
       let dId = primaryItem?.draftId;
 
       // 1. Ensure draft is saved on server if draftId wasn't stored
@@ -106,7 +107,12 @@ export default function CheckoutPage() {
           const orderRes = await fetch('/api/payments/create-order', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ draftId: dId }),
+            body: JSON.stringify({
+              draftId: dId,
+              customerPhone,
+              customerName,
+              amount: totalPrice,
+            }),
           });
           const orderData = await orderRes.json();
           if (orderData.success) {
@@ -133,6 +139,8 @@ export default function CheckoutPage() {
                 paymentId: payId,
                 signature: sig,
                 draftId: dId,
+                customerPhone,
+                customerName,
               }),
             });
             const verifyData = await verifyRes.json();
@@ -159,7 +167,6 @@ export default function CheckoutPage() {
           liveUrl = `/invite/${fallbackSlug}`;
         }
 
-        const customerName = primaryItem?.customization?.names || 'Valued Customer';
         const customerEmail = `${customerPhone.replace(/\D/g, '')}@customer.inkivory.com`;
 
         const purchasedOrder = {
@@ -199,7 +206,6 @@ export default function CheckoutPage() {
         router.push(`/order-success/${orderId}`);
       };
 
-      const customerName = primaryItem?.customization?.names || 'Valued Customer';
       const customerEmail = `${customerPhone.replace(/\D/g, '')}@customer.youaremine.online`;
 
       // Razorpay Live Key ID (from server response, env, or live default)

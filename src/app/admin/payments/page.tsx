@@ -17,6 +17,8 @@ export default function PaymentsAdminPage() {
   const [payments, setPayments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
   const fetchPayments = async () => {
     setLoading(true);
@@ -46,6 +48,9 @@ export default function PaymentsAdminPage() {
       (p.method && p.method.toLowerCase().includes(q))
     );
   });
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const paginated = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   const totalCapturedPaise = payments
     .filter((p) => p.status === 'CAPTURED')
@@ -137,7 +142,7 @@ export default function PaymentsAdminPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-[#E9DFD2] text-xs">
-            {filtered.map((p) => (
+            {paginated.map((p) => (
               <tr key={p.id} className="hover:bg-[#FAF7F2]/50 transition">
                 <td className="py-3 px-4 font-mono font-medium text-[#30231D]">{p.paymentId}</td>
                 <td className="py-3 px-4 font-mono text-[#702E3D]">{p.orderId}</td>
@@ -169,6 +174,33 @@ export default function PaymentsAdminPage() {
             ))}
           </tbody>
         </table>
+
+        {/* Pagination Bar */}
+        <div className="p-4 border-t border-[#E9DFD2] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#702E3D] bg-[#FAF7F2]">
+          <span>
+            Showing {filtered.length > 0 ? (currentPage - 1) * pageSize + 1 : 0} to{' '}
+            {Math.min(currentPage * pageSize, filtered.length)} of {filtered.length} payments
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              disabled={currentPage <= 1}
+              onClick={() => setCurrentPage((p) => p - 1)}
+              className="px-3 py-1.5 rounded-lg border border-[#E9DFD2] bg-white disabled:opacity-40 hover:bg-[#FAF7F2] font-medium transition cursor-pointer disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+            <span className="font-mono text-[#30231D] px-2">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              disabled={currentPage >= totalPages}
+              onClick={() => setCurrentPage((p) => p + 1)}
+              className="px-3 py-1.5 rounded-lg border border-[#E9DFD2] bg-white disabled:opacity-40 hover:bg-[#FAF7F2] font-medium transition cursor-pointer disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

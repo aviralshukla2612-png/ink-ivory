@@ -230,8 +230,9 @@ export default function AdminDraftsPage() {
             <p className="text-xs mt-1">Try clearing your filters or search query.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
               <thead className="bg-[#FAF5EE] text-[#705E55] uppercase text-[10px] font-mono tracking-wider border-b border-[#EAD8C8]">
                 <tr>
                   <th className="py-3 px-4">Draft Title &amp; ID</th>
@@ -334,6 +335,34 @@ export default function AdminDraftsPage() {
               </tbody>
             </table>
           </div>
+
+          {/* Pagination Bar */}
+          <div className="p-4 border-t border-[#EAD8C8] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#705E55] bg-[#FAF5EE]">
+            <span>
+              Showing {drafts.length > 0 ? (meta.page - 1) * meta.limit + 1 : 0} to{' '}
+              {Math.min(meta.page * meta.limit, meta.total)} of {meta.total} drafts
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                disabled={meta.page <= 1}
+                onClick={() => setMeta((m) => ({ ...m, page: m.page - 1 }))}
+                className="px-3 py-1.5 rounded-lg border border-[#EAD8C8] bg-white disabled:opacity-40 hover:bg-[#FAF5EE] text-[#1F1916] font-medium transition cursor-pointer disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
+              <span className="font-mono text-[#1F1916] px-2">
+                Page {meta.page} of {Math.max(1, meta.totalPages)}
+              </span>
+              <button
+                disabled={meta.page >= meta.totalPages}
+                onClick={() => setMeta((m) => ({ ...m, page: m.page + 1 }))}
+                className="px-3 py-1.5 rounded-lg border border-[#EAD8C8] bg-white disabled:opacity-40 hover:bg-[#FAF5EE] text-[#1F1916] font-medium transition cursor-pointer disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+          </>
         )}
       </div>
 

@@ -394,9 +394,8 @@ export default function AdminTemplatesPage() {
               <tr className="border-b border-[#E8DFC8] text-[10.5px] uppercase tracking-wider font-semibold text-[#7A634E]">
                 <th className="py-3 px-4">Collection</th>
                 <th className="py-3 px-4">Category &amp; Tier</th>
-                <th className="py-3 px-4">Renderer Registry ID</th>
                 <th className="py-3 px-4 text-center">Price</th>
-                <th className="py-3 px-4 text-center">Funnel (Drafts/Pubs)</th>
+                <th className="py-3 px-4 text-center">Orders &amp; Drafts</th>
                 <th className="py-3 px-4 text-center">Status</th>
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
@@ -404,14 +403,14 @@ export default function AdminTemplatesPage() {
             <tbody className="divide-y divide-[#EFE7D7] text-xs">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center">
+                  <td colSpan={6} className="py-16 text-center">
                     <Loader2 className="w-8 h-8 animate-spin text-[#8F6E3B] mx-auto mb-2" />
                     <span className="text-xs text-[#7A634E]">Loading collection catalog from backend...</span>
                   </td>
                 </tr>
               ) : templates.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center text-[#7A634E]">
+                  <td colSpan={6} className="py-16 text-center text-[#7A634E]">
                     No templates found matching your filters.
                   </td>
                 </tr>
@@ -457,28 +456,16 @@ export default function AdminTemplatesPage() {
                       </div>
                     </td>
 
-                    {/* Renderer */}
-                    <td className="py-4 px-4">
-                      <div className="space-y-0.5">
-                        <span className="font-mono text-[11px] font-semibold text-[#2C2114] block">
-                          {tpl.rendererId || 'wedding-imperial-navy'}
-                        </span>
-                        <span className="text-[10px] text-emerald-800 font-medium">
-                          ✓ Verified Approved
-                        </span>
-                      </div>
-                    </td>
-
                     {/* Price */}
                     <td className="py-4 px-4 text-center font-bold text-sm text-[#2C2114]">
                       ₹{tpl.priceINR}
                     </td>
 
-                    {/* Funnel Metrics */}
+                    {/* Orders & Drafts */}
                     <td className="py-4 px-4 text-center">
                       <div className="text-[11px] text-[#55402F]">
-                        <span className="font-bold">{tpl.draftsCount}</span> drafts &bull;{' '}
-                        <span className="font-bold text-emerald-800">{tpl.publicationsCount}</span> paid
+                        <span className="font-bold text-emerald-800">{tpl.publicationsCount}</span> paid &bull;{' '}
+                        <span className="font-bold">{tpl.draftsCount}</span> drafts
                       </div>
                     </td>
 

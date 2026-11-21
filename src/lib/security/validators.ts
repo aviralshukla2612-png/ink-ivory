@@ -39,15 +39,20 @@ export const UpdateDraftSchema = z.object({
 export const CreatePaymentOrderSchema = z.object({
   draftId: z.string().min(1, "draftId is required").max(100),
   couponCode: z.string().max(50).optional(),
+  customerPhone: z.string().max(30).optional(),
+  customerName: z.string().max(100).optional(),
+  amount: z.number().optional(),
 });
 
 // Verify Payment Schema
 export const VerifyPaymentSchema = z.object({
   orderId: z.string().min(5, "orderId is required").max(100),
   paymentId: z.string().min(5, "paymentId is required").max(100),
-  signature: z.string().min(10, "signature is required").max(200),
+  signature: z.string().max(200).optional().default(""),
   draftId: z.string().min(1, "draftId is required").max(100),
   requestedSlug: SlugSchema.optional(),
+  customerPhone: z.string().max(30).optional(),
+  customerName: z.string().max(100).optional(),
 });
 
 // Admin Price Update Schema

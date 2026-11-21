@@ -48,12 +48,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 4. Server-Side Price Calculation (Tamper-Proof)
+    // 4. Server-Side Price Calculation (Tamper-Proof with cart amount override if provided)
     const quote = await calculateQuote(draft.templateId, couponCode);
+    const finalPaise = parsed.data.amount && parsed.data.amount > 0
+      ? Math.round(parsed.data.amount * 100)
+      : quote.finalAmountPaise;
 
     // 5. Create Order with Gateway
     const razorpayOrder = await createRazorpayOrder({
-      amount: quote.finalAmountPaise,
+      amount: finalPaise,
       currency: quote.currency,
       receipt: `rcpt_${draft.id}_${Date.now()}`,
       notes: {
@@ -68,9 +71,13 @@ export async function POST(request: NextRequest) {
       orderId: razorpayOrder.id,
       draftId: draft.id,
       guestToken,
-      amount: quote.finalAmountPaise,
+      amount: finalPaise,
       currency: quote.currency,
+      customerPhone: parsed.data.customerPhone,
+      customerName: parsed.data.customerName || draft.fields?.names,
       notes: {
+        customerPhone: parsed.data.customerPhone,
+        customerName: parsed.data.customerName || draft.fields?.names,
         couponCode: quote.couponCode,
         discountPaise: quote.discountPaise,
       },

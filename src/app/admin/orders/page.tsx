@@ -20,6 +20,7 @@ import {
   CreditCard,
   User,
   ShieldCheck,
+  Phone,
 } from 'lucide-react';
 import { useAdmin } from '@/context/AdminContext';
 import { apiRequest } from '@/lib/api/client';
@@ -33,6 +34,8 @@ interface OrderItem {
   currency: string;
   status: 'CREATED' | 'ATTEMPTED' | 'PAID' | 'FAILED' | 'CANCELLED' | 'REFUNDED';
   customer: string;
+  customerName?: string;
+  customerPhone?: string;
   guestToken: string;
   userId?: string;
   templateId: string;
@@ -261,7 +264,19 @@ export default function AdminOrdersPage() {
                       {o.orderId}
                     </td>
                     <td className="py-3 px-4">
-                      <div className="text-stone-200 truncate max-w-[140px]">{o.customer}</div>
+                      <div className="text-stone-100 font-medium truncate max-w-[170px]">
+                        {o.customerName || o.customer}
+                      </div>
+                      {o.customerPhone && o.customerPhone !== '—' ? (
+                        <div className="flex items-center gap-1.5 text-[11px] text-amber-300 font-mono mt-0.5">
+                          <Phone className="w-2.5 h-2.5 shrink-0 opacity-80" />
+                          <span>{o.customerPhone}</span>
+                        </div>
+                      ) : (
+                        <div className="text-[10px] text-stone-500 font-mono truncate max-w-[140px]">
+                          {o.customer}
+                        </div>
+                      )}
                     </td>
                     <td className="py-3 px-4">
                       <div className="text-stone-300 font-medium truncate max-w-[160px]">{o.templateTitle}</div>
@@ -313,29 +328,32 @@ export default function AdminOrdersPage() {
           </table>
         </div>
 
-        {/* Pagination */}
-        {meta.totalPages > 1 && (
-          <div className="p-4 border-t border-stone-800 flex items-center justify-between text-xs text-stone-400">
-            <span>Showing {orders.length} of {meta.total} orders</span>
-            <div className="flex items-center gap-2">
-              <button
-                disabled={meta.page <= 1}
-                onClick={() => fetchOrders(meta.page - 1)}
-                className="px-2.5 py-1 bg-stone-900 border border-stone-800 rounded disabled:opacity-40 hover:border-amber-700/50 transition-colors"
-              >
-                Previous
-              </button>
-              <span>Page {meta.page} of {meta.totalPages}</span>
-              <button
-                disabled={meta.page >= meta.totalPages}
-                onClick={() => fetchOrders(meta.page + 1)}
-                className="px-2.5 py-1 bg-stone-900 border border-stone-800 rounded disabled:opacity-40 hover:border-amber-700/50 transition-colors"
-              >
-                Next
-              </button>
-            </div>
+        {/* Pagination Bar */}
+        <div className="p-4 border-t border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-400 bg-stone-950/40">
+          <span>
+            Showing {orders.length > 0 ? (meta.page - 1) * meta.limit + 1 : 0} to{' '}
+            {Math.min(meta.page * meta.limit, meta.total)} of {meta.total} orders
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              disabled={meta.page <= 1}
+              onClick={() => fetchOrders(meta.page - 1)}
+              className="px-3 py-1.5 bg-stone-900 border border-stone-800 rounded-lg disabled:opacity-40 hover:border-amber-700/50 hover:text-amber-200 transition-colors cursor-pointer disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+            <span className="font-mono text-stone-200 px-2">
+              Page {meta.page} of {Math.max(1, meta.totalPages)}
+            </span>
+            <button
+              disabled={meta.page >= meta.totalPages}
+              onClick={() => fetchOrders(meta.page + 1)}
+              className="px-3 py-1.5 bg-stone-900 border border-stone-800 rounded-lg disabled:opacity-40 hover:border-amber-700/50 hover:text-amber-200 transition-colors cursor-pointer disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
           </div>
-        )}
+        </div>
       </div>
 
       {/* Slide-over Drawer for Order Details */}
