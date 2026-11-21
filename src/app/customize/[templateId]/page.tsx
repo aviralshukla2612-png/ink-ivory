@@ -555,7 +555,39 @@ export default function CustomizePage() {
     });
   };
 
-  // Change active song (from library or custom upload)
+  // Initialize or retrieve active preview audio element
+  const getOrInitAudio = (src: string, startSec = 0): HTMLAudioElement => {
+    if (!audioPreviewRef.current) {
+      const audio = new Audio(src);
+      audio.volume = 0.7;
+      audio.currentTime = startSec;
+      audio.ontimeupdate = () => {
+        if (audioPreviewRef.current) {
+          setAudioCurrentTime(audioPreviewRef.current.currentTime);
+        }
+      };
+      audio.onloadedmetadata = () => {
+        if (audioPreviewRef.current) {
+          setAudioDuration(audioPreviewRef.current.duration || 240);
+        }
+      };
+      audio.onended = () => setIsPlayingAudio(false);
+      audioPreviewRef.current = audio;
+      return audio;
+    }
+
+    const cur = audioPreviewRef.current;
+    const isSame = cur.src === src || cur.src.endsWith(src);
+    if (!isSame) {
+      cur.pause();
+      cur.src = src;
+      cur.currentTime = startSec;
+      cur.load();
+    }
+    return cur;
+  };
+
+  // Change active song (from library or custom upload) & immediately play audio preview
   const handleSelectSong = (song: {
     title: string;
     source: string;
@@ -569,15 +601,37 @@ export default function CustomizePage() {
     handleFieldChange('audioStartTime', 0);
     setAudioCurrentTime(0);
 
-    if (audioPreviewRef.current) {
-      audioPreviewRef.current.pause();
-      audioPreviewRef.current.src = song.source;
-      audioPreviewRef.current.currentTime = 0;
-      audioPreviewRef.current.load();
-      audioPreviewRef.current
-        .play()
-        .then(() => setIsPlayingAudio(true))
-        .catch(() => { });
+    const audio = getOrInitAudio(song.source, 0);
+    audio.currentTime = 0;
+    audio
+      .play()
+      .then(() => setIsPlayingAudio(true))
+      .catch((err) => {
+        console.warn('Audio play request failed or interrupted:', err);
+      });
+  };
+
+  // Toggle play/pause for a specific song in the library
+  const handleToggleSongPlay = (song: {
+    title: string;
+    source: string;
+    artist?: string;
+    movie?: string;
+    number?: number;
+  }) => {
+    const displayTitle = song.movie ? `${song.title} (${song.movie})` : song.title;
+    const isCurrent =
+      fields.audioSource === song.source ||
+      fields.songTitle === displayTitle ||
+      fields.songTitle === song.title;
+
+    if (isCurrent && isPlayingAudio) {
+      if (audioPreviewRef.current) {
+        audioPreviewRef.current.pause();
+      }
+      setIsPlayingAudio(false);
+    } else {
+      handleSelectSong(song);
     }
   };
 
@@ -663,25 +717,10 @@ export default function CustomizePage() {
     handleFieldChange('audioStartTime', startSec);
     setAudioCurrentTime(startSec);
 
-    if (!audioPreviewRef.current) {
-      audioPreviewRef.current = new Audio(fields.audioSource || '/audio/aaj-sajeya.mp3');
-      audioPreviewRef.current.volume = 0.6;
-      audioPreviewRef.current.ontimeupdate = () => {
-        if (audioPreviewRef.current) {
-          setAudioCurrentTime(audioPreviewRef.current.currentTime);
-        }
-      };
-      audioPreviewRef.current.onloadedmetadata = () => {
-        if (audioPreviewRef.current) {
-          setAudioDuration(audioPreviewRef.current.duration || 240);
-        }
-      };
-      audioPreviewRef.current.onended = () => setIsPlayingAudio(false);
-    }
-
-    audioPreviewRef.current.currentTime = startSec;
+    const audio = getOrInitAudio(fields.audioSource || '/audio/aaj-sajeya.mp3', startSec);
+    audio.currentTime = startSec;
     if (!isPlayingAudio) {
-      audioPreviewRef.current
+      audio
         .play()
         .then(() => setIsPlayingAudio(true))
         .catch(() => { });
@@ -691,35 +730,16 @@ export default function CustomizePage() {
   const toggleAudioPreview = () => {
     const src = fields.audioSource || '/audio/aaj-sajeya.mp3';
     const startSec = Number(fields.audioStartTime) || 0;
-
-    if (!audioPreviewRef.current) {
-      audioPreviewRef.current = new Audio(src);
-      audioPreviewRef.current.volume = 0.6;
-      audioPreviewRef.current.currentTime = startSec;
-      audioPreviewRef.current.ontimeupdate = () => {
-        if (audioPreviewRef.current) {
-          setAudioCurrentTime(audioPreviewRef.current.currentTime);
-        }
-      };
-      audioPreviewRef.current.onloadedmetadata = () => {
-        if (audioPreviewRef.current) {
-          setAudioDuration(audioPreviewRef.current.duration || 240);
-        }
-      };
-      audioPreviewRef.current.onended = () => setIsPlayingAudio(false);
-    } else if (audioPreviewRef.current.src !== src) {
-      audioPreviewRef.current.src = src;
-      audioPreviewRef.current.currentTime = startSec;
-    }
+    const audio = getOrInitAudio(src, startSec);
 
     if (isPlayingAudio) {
-      audioPreviewRef.current.pause();
+      audio.pause();
       setIsPlayingAudio(false);
     } else {
-      audioPreviewRef.current
+      audio
         .play()
         .then(() => setIsPlayingAudio(true))
-        .catch(() => { });
+        .catch((err) => console.warn('Audio play interrupted:', err));
     }
   };
 
@@ -2718,19 +2738,17 @@ export default function CustomizePage() {
                         key={cat}
                         type="button"
                         onClick={() => handleCategoryChange(cat)}
-                        className={`px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
-                          isActive
-                            ? 'bg-[#8F6E3B] text-white shadow-sm'
-                            : 'bg-[#F4EFE6] text-[#6B533E] hover:bg-[#EAE2D2]'
-                        }`}
+                        className={`px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${isActive
+                          ? 'bg-[#8F6E3B] text-white shadow-sm'
+                          : 'bg-[#F4EFE6] text-[#6B533E] hover:bg-[#EAE2D2]'
+                          }`}
                       >
                         <span>{cat}</span>
                         <span
-                          className={`text-[9.5px] px-1.5 py-0.2 rounded-full ${
-                            isActive
-                              ? 'bg-white/20 text-white'
-                              : 'bg-black/5 text-[#8F6E3B]'
-                          }`}
+                          className={`text-[9.5px] px-1.5 py-0.2 rounded-full ${isActive
+                            ? 'bg-white/20 text-white'
+                            : 'bg-black/5 text-[#8F6E3B]'
+                            }`}
                         >
                           {count}
                         </span>
@@ -2774,40 +2792,53 @@ export default function CustomizePage() {
                   <div className="space-y-2">
                     {paginatedSongs.map((song) => {
                       const isSelected =
+                        fields.audioSource === song.source ||
                         fields.songTitle === `${song.title} (${song.movie})` ||
                         fields.songTitle === `${song.title} — ${song.movie}` ||
                         fields.songTitle === song.title ||
-                        (fields.songTitle?.toLowerCase().includes(song.title.toLowerCase()) &&
+                        (Boolean(fields.songTitle) &&
+                          fields.songTitle?.toLowerCase().includes(song.title.toLowerCase()) &&
                           fields.songTitle?.toLowerCase().includes(song.movie.toLowerCase()));
 
+                      const isPlayingThis = isSelected && isPlayingAudio;
+
                       return (
-                        <button
+                        <div
                           key={song.id}
-                          type="button"
                           onClick={() => handleSelectSong(song)}
-                          className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer group ${
-                            isSelected
-                              ? 'bg-[#FAF7F0] border-[#8F6E3B] ring-1.5 ring-[#8F6E3B] shadow-sm'
-                              : 'bg-white border-[#E8DFC8] hover:bg-[#FAF7F2] hover:border-[#D5C4A6]'
-                          }`}
+                          className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer group ${isSelected
+                            ? 'bg-[#FAF7F0] border-[#8F6E3B] ring-1.5 ring-[#8F6E3B] shadow-sm'
+                            : 'bg-white border-[#E8DFC8] hover:bg-[#FAF7F2] hover:border-[#D5C4A6]'
+                            }`}
                         >
                           <div className="flex items-center gap-3 min-w-0 pr-2">
-                            {/* Song Number & Icon */}
-                            <div
-                              className={`w-9 h-9 rounded-xl flex flex-col items-center justify-center shrink-0 text-center transition-colors ${
-                                isSelected
-                                  ? 'bg-[#8F6E3B] text-white shadow-sm'
-                                  : 'bg-[#F2ECE0] text-[#6B533E] group-hover:bg-[#EAE2D2]'
-                              }`}
+                            {/* Interactive Song Number & Play/Pause Button */}
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleToggleSongPlay(song);
+                              }}
+                              className={`w-10 h-10 rounded-xl flex flex-col items-center justify-center shrink-0 text-center transition-all cursor-pointer shadow-xs ${isPlayingThis
+                                ? 'bg-amber-600 text-white ring-2 ring-amber-400/50 scale-105'
+                                : isSelected
+                                  ? 'bg-[#8F6E3B] text-white'
+                                  : 'bg-[#F2ECE0] text-[#6B533E] group-hover:bg-[#E4D9C5] group-hover:text-[#4A3723]'
+                                }`}
+                              title={isPlayingThis ? 'Pause music' : 'Play audio preview'}
                             >
-                              <span className="text-[9px] font-mono font-bold leading-none">
+                              {isPlayingThis ? (
+                                <Pause className="w-4 h-4 fill-white" />
+                              ) : (
+                                <Play className="w-4 h-4 ml-0.5 fill-current opacity-85 group-hover:opacity-100" />
+                              )}
+                              <span className="text-[8px] font-mono font-bold leading-none mt-0.5">
                                 #{song.number}
                               </span>
-                              <Music className="w-3 h-3 mt-0.5" />
-                            </div>
+                            </button>
 
-                            {/* Details */}
-                            <div className="min-w-0">
+                            {/* Song Metadata */}
+                            <div className="min-w-0 flex-1">
                               <div className="flex items-center gap-2 flex-wrap">
                                 <span className="block text-xs font-bold text-[#2C2114] truncate">
                                   {song.title}
@@ -2815,6 +2846,12 @@ export default function CustomizePage() {
                                 <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#F0E8D8] text-[#7A634E] font-medium shrink-0">
                                   {song.movie}
                                 </span>
+                                {isPlayingThis && (
+                                  <span className="text-[9.5px] px-2 py-0.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 font-bold shrink-0 flex items-center gap-1 shadow-xs">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                                    <span>Playing MP3 Preview 🔊</span>
+                                  </span>
+                                )}
                               </div>
                               <div className="flex items-center gap-2 mt-0.5">
                                 <span className="text-[10px] text-[#8C7662] truncate">
@@ -2828,20 +2865,53 @@ export default function CustomizePage() {
                             </div>
                           </div>
 
-                          {/* Selection Badge */}
-                          <div className="shrink-0 flex items-center">
+                          {/* Action Controls & Active Status */}
+                          <div className="shrink-0 flex items-center gap-2">
                             {isSelected ? (
-                              <span className="px-2.5 py-1 rounded-full bg-[#8F6E3B] text-white text-[10px] font-bold flex items-center gap-1 shadow-xs">
-                                <Check className="w-3 h-3 stroke-[2.5]" />
-                                <span>Active</span>
-                              </span>
+                              <div className="flex items-center gap-1.5">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleToggleSongPlay(song);
+                                  }}
+                                  className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer shadow-xs ${isPlayingAudio
+                                    ? 'bg-amber-600 hover:bg-amber-700 text-white'
+                                    : 'bg-[#8F6E3B] hover:bg-[#7D5F31] text-white'
+                                    }`}
+                                >
+                                  {isPlayingAudio ? (
+                                    <>
+                                      <Pause className="w-3 h-3 fill-current" />
+                                      <span>Pause</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Play className="w-3 h-3 fill-current" />
+                                      <span>Play</span>
+                                    </>
+                                  )}
+                                </button>
+                                <span className="px-2.5 py-1 rounded-full bg-[#8F6E3B]/15 border border-[#8F6E3B]/30 text-[#8F6E3B] text-[10px] font-bold flex items-center gap-1">
+                                  <Check className="w-3 h-3 stroke-[2.5]" />
+                                  <span>Active</span>
+                                </span>
+                              </div>
                             ) : (
-                              <span className="px-2 py-0.5 rounded-full border border-[#D5C4A6] text-[#8F6E3B] text-[10px] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                                Select
-                              </span>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleSelectSong(song);
+                                }}
+                                className="px-3 py-1.5 rounded-full bg-[#8F6E3B] hover:bg-[#7A5D2E] text-white text-[10px] font-bold flex items-center gap-1 transition-all shadow-xs group-hover:scale-105 active:scale-95 cursor-pointer"
+                              >
+                                <Play className="w-2.5 h-2.5 fill-current" />
+                                <span>Play &amp; Choose</span>
+                              </button>
                             )}
                           </div>
-                        </button>
+                        </div>
                       );
                     })}
                   </div>
@@ -2888,11 +2958,10 @@ export default function CustomizePage() {
                                 <button
                                   type="button"
                                   onClick={() => setSongCurrentPage(pageNum)}
-                                  className={`w-7 h-7 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                                    isCurrent
-                                      ? 'bg-[#8F6E3B] text-white shadow-xs'
-                                      : 'bg-white border border-[#DFCEAF] text-[#5C4523] hover:bg-[#FAF7F2]'
-                                  }`}
+                                  className={`w-7 h-7 rounded-lg text-xs font-bold transition-all cursor-pointer ${isCurrent
+                                    ? 'bg-[#8F6E3B] text-white shadow-xs'
+                                    : 'bg-white border border-[#DFCEAF] text-[#5C4523] hover:bg-[#FAF7F2]'
+                                    }`}
                                 >
                                   {pageNum}
                                 </button>
