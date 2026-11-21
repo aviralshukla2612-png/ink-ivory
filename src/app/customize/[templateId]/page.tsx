@@ -817,7 +817,7 @@ export default function CustomizePage() {
       if (fields.venue) params.set('venue', fields.venue);
       params.set('message', fields.message || '');
       if (fields.letterMessage) params.set('letterMessage', fields.letterMessage);
-      if (fields.audioSource) params.set('audioSource', fields.audioSource);
+      params.set('audioSource', fields.audioSource || '/audio/mangal-rang.mp3');
       if (fields.audioStartTime) params.set('audioStart', String(fields.audioStartTime));
       return `/valentine?${params.toString()}`;
     }
@@ -868,7 +868,7 @@ export default function CustomizePage() {
       params.set('venue', fields.venue || 'The Grand Mahal, City Palace Road, Udaipur');
       params.set('city', fields.city || 'Udaipur, Rajasthan');
       if (fields.rsvp) params.set('whatsapp', fields.rsvp);
-      if (fields.audioSource) params.set('audioSource', fields.audioSource);
+      params.set('audioSource', fields.audioSource || '/audio/mangal-rang.mp3');
       if (fields.audioStartTime) params.set('audioStart', String(fields.audioStartTime));
       return `/template-04.html?${params.toString()}`;
     }

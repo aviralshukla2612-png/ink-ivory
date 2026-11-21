@@ -193,8 +193,8 @@ export const templatesData: Template[] = [
       host: 'With love, the Mehta & Kapoor Families',
       brideParents: 'Daughter of Meera & Rohit Mehta',
       groomParents: 'Son of Neha & Vikram Kapoor',
-      songTitle: 'Alfaaz (Hamza Malik & Zain Ali)',
-      audioSource: '/audio/alfaaz.mp3',
+      songTitle: 'Mangal Rang (Ramayana)',
+      audioSource: '/audio/mangal-rang.mp3',
       audioStartTime: 0,
       events: [
         { name: 'Haldi', icon: 'haldi', date: 'Thursday, 11 March 2027', time: '11:00 AM', venue: 'Mehta Residence, Fatehsagar Road' },
