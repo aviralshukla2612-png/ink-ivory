@@ -2688,15 +2688,15 @@ export default function CustomizePage() {
                 </form>
               </div>
 
-              {/* SECTION C: 100 Curated Iconic Soundtracks */}
+              {/* SECTION C: Curated Iconic Soundtracks */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <label className="block text-xs font-bold text-[#2C2114] uppercase tracking-wider">
-                      ✨ Option 3: Iconic Soundtrack Collection (100 Songs)
+                      ✨ Option 3: Iconic Soundtrack Collection ({ALL_SONGS.length} Songs)
                     </label>
                     <p className="text-[11px] text-[#7A634E] mt-0.5">
-                      Explore 100 hand-curated Bollywood &amp; celebration hits with instant audio preview.
+                      Explore hand-curated Bollywood &amp; celebration hits with instant audio preview.
                     </p>
                   </div>
                   <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#8F6E3B]/10 text-[#8F6E3B]">
@@ -2713,7 +2713,7 @@ export default function CustomizePage() {
                     type="text"
                     value={songSearchQuery}
                     onChange={(e) => handleSearchChange(e.target.value)}
-                    placeholder="Search 100 songs by title, movie, singer, or # (e.g. Kesariya, Phillauri, #28)..."
+                    placeholder="Search by song name, movie, singer, or # (e.g. Alfaaz, Mangal Rang, Kesariya)..."
                     className="w-full pl-9 pr-9 py-2.5 text-xs rounded-xl border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-2 focus:ring-[#8F6E3B] placeholder:text-[#A08A75] text-[#2C2114] transition-all"
                   />
                   {songSearchQuery && (
@@ -2785,7 +2785,7 @@ export default function CustomizePage() {
                       }}
                       className="text-xs text-[#8F6E3B] underline font-semibold hover:text-[#5C4523] cursor-pointer"
                     >
-                      Reset filters &amp; view all 100 songs
+                      Reset filters &amp; view all {ALL_SONGS.length} songs
                     </button>
                   </div>
                 ) : (

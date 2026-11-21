@@ -21,10 +21,10 @@ export const SONG_CATEGORIES = [
 export type SongCategory = (typeof SONG_CATEGORIES)[number];
 
 export const SONG_COUNTS = {
-  All: 100,
-  Wedding: 25,
+  All: 102,
+  Wedding: 26,
   Birthday: 25,
-  Proposal: 25,
+  Proposal: 26,
   Valentine: 25,
 } as const;
 
@@ -1143,5 +1143,27 @@ export const ALL_SONGS: SongItem[] = [
     tag: 'Heartfelt Care & Devotion',
     source: '/audio/songs/song-100.m4a',
     duration: 229,
+  },
+  {
+    id: 'song-101',
+    number: 101,
+    title: 'Alfaaz',
+    movie: 'Hamza Malik & Zain Ali',
+    artist: 'Hamza Malik & Zain Ali • Flex Musical',
+    category: 'Proposal',
+    tag: 'Soulful Acoustic Romance',
+    source: '/audio/songs/song-101.m4a',
+    duration: 182,
+  },
+  {
+    id: 'song-102',
+    number: 102,
+    title: 'Mangal Rang',
+    movie: 'Ramayana',
+    artist: 'A.R. Rahman, Arijit Singh, Shreya Ghoshal, Kumar Vishwas • Ramayana',
+    category: 'Wedding',
+    tag: 'Grand Vedic Wedding Hymn',
+    source: '/audio/songs/song-102.m4a',
+    duration: 142,
   },
 ];
