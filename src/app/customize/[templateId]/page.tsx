@@ -885,31 +885,33 @@ export default function CustomizePage() {
   return (
     <div className="w-full min-h-screen bg-[#F4EFE6] flex flex-col select-none">
       {/* Top Studio Bar */}
-      <div className="bg-[#FAF7F2] border-b border-[#DFCEAF] px-4 sm:px-6 py-3 flex items-center justify-between z-30 sticky top-0">
-        <div className="flex items-center gap-3">
+      <div className="bg-[#FAF7F2] border-b border-[#DFCEAF] px-2.5 sm:px-6 py-2 sm:py-3 flex items-center justify-between gap-2 z-30 sticky top-0">
+        <div className="flex items-center gap-1.5 sm:gap-3 min-w-0 flex-1 mr-1">
           <Link
             href="/templates"
-            className="p-1.5 rounded-lg hover:bg-[#EFE6D5] text-[#49341F] transition-colors"
+            className="p-1 sm:p-1.5 rounded-lg hover:bg-[#EFE6D5] text-[#49341F] transition-colors shrink-0"
             title="Back to Templates"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
-          <div>
-            <h1 className="text-xs sm:text-sm font-semibold text-[#2C2114] flex items-center gap-2">
-              <span>Personalizing:</span>
-              <span className="font-serif italic text-[#8F6E3B]">{baseTemplate.title}</span>
-            </h1>
-            <p className="text-[10px] text-[#7A634E] hidden sm:block">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="text-[11px] font-medium text-[#7A634E] hidden md:inline shrink-0">Personalizing:</span>
+              <h1 className="text-xs sm:text-sm font-serif italic text-[#8F6E3B] font-semibold truncate leading-tight">
+                {baseTemplate.title}
+              </h1>
+            </div>
+            <p className="text-[10px] text-[#7A634E] hidden sm:block truncate">
               {baseTemplate.occasion} • Full Digital Invitation Suite &amp; Live Music Studio
             </p>
           </div>
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <button
             onClick={handleReset}
-            className="px-3 py-1.5 text-xs text-[#6B533E] hover:text-[#2C2114] flex items-center gap-1 rounded-lg hover:bg-[#EFE6D5] transition-colors"
+            className="hidden md:flex px-2.5 py-1.5 text-xs text-[#6B533E] hover:text-[#2C2114] items-center gap-1 rounded-lg hover:bg-[#EFE6D5] transition-colors"
             title="Reset to Template Defaults"
           >
             <span>Reset</span>
@@ -919,23 +921,25 @@ export default function CustomizePage() {
           <button
             onClick={() => saveDraftToServer()}
             disabled={isDraftSaving}
-            className="px-3.5 py-1.5 text-xs font-semibold rounded-lg border border-[#A77B35] text-[#5C4523] bg-white hover:bg-[#FAF7F0] flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
+            className="px-2.5 sm:px-3.5 py-1.5 text-xs font-semibold rounded-lg border border-[#A77B35] text-[#5C4523] bg-white hover:bg-[#FAF7F0] flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs shrink-0"
             title="Save your progress to resume anytime"
           >
             {draftSaveStatus === 'saving' ? (
               <>
                 <div className="w-3.5 h-3.5 border-2 border-[#8F6E3B] border-t-transparent rounded-full animate-spin" />
-                <span>Saving...</span>
+                <span className="hidden sm:inline">Saving...</span>
               </>
             ) : draftSaveStatus === 'saved' ? (
               <>
                 <Check className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-emerald-700">Draft Saved</span>
+                <span className="text-emerald-700 hidden sm:inline">Saved</span>
+                <span className="text-emerald-700 sm:hidden">Saved</span>
               </>
             ) : (
               <>
                 <Save className="w-3.5 h-3.5 text-[#8F6E3B]" />
-                <span>Save Draft</span>
+                <span className="hidden sm:inline">Save Draft</span>
+                <span className="sm:hidden">Save</span>
               </>
             )}
           </button>
@@ -970,24 +974,19 @@ export default function CustomizePage() {
               }
             }}
             disabled={addingToCart}
-            className="px-4 sm:px-5 py-2 text-xs sm:text-[13px] font-semibold rounded-xl bg-gradient-to-r from-[#8F6E3B] via-[#A88347] to-[#8F6E3B] hover:opacity-95 text-white shadow-gold flex items-center gap-2 transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60"
+            className="px-3 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-[13px] font-semibold rounded-xl bg-gradient-to-r from-[#8F6E3B] via-[#A88347] to-[#8F6E3B] hover:opacity-95 text-white shadow-gold flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 shrink-0"
           >
             {addingToCart ? (
               <>
                 <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                <span>Saving to Cart...</span>
+                <span className="hidden sm:inline">Saving to Cart...</span>
+                <span className="sm:hidden">Adding...</span>
               </>
             ) : (
               <>
-                <ShoppingBag className="w-3.5 h-3.5 text-[#FFF2D6]" />
-                <span className="tracking-wide">
-                  {cart.some(
-                    (i) => i.template.id === baseTemplate.id || (draftId && i.draftId === draftId)
-                  )
-                    ? 'Update in Cart'
-                    : 'Add to Cart'}
-                </span>
-                <span className="font-serif bg-black/15 px-2 py-0.5 rounded text-[11px] font-normal">
+                <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
+                <span>Add to Cart</span>
+                <span className="px-1.5 py-0.5 rounded bg-black/15 text-[10.5px] sm:text-xs font-bold leading-none">
                   ₹{templatePrice}
                 </span>
               </>

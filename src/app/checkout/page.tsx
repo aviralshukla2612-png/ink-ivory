@@ -6,12 +6,10 @@ import Link from 'next/link';
 import {
   ShieldCheck,
   Lock,
-  Download,
   CheckCircle2,
   ArrowLeft,
   Sparkles,
-  CreditCard,
-  Globe,
+  Phone,
   Loader2,
 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
@@ -21,29 +19,54 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { cart, totalPrice, discount, clearCart } = useCart();
 
-  const [customerName, setCustomerName] = useState('');
-  const [customerEmail, setCustomerEmail] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'upi' | 'card'>('razorpay');
+  const [otpError, setOtpError] = useState('');
+  const [resendTimer, setResendTimer] = useState(0);
 
-  // Load Razorpay Checkout Script
+  // Timer countdown for OTP resend
   useEffect(() => {
-    if (typeof window !== 'undefined' && !(window as any).Razorpay) {
-      const script = document.createElement('script');
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      script.async = true;
-      document.body.appendChild(script);
+    if (resendTimer > 0) {
+      const timer = setTimeout(() => setResendTimer((t) => t - 1), 1000);
+      return () => clearTimeout(timer);
     }
-  }, []);
+  }, [resendTimer]);
 
-  const handlePayment = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!customerEmail.trim() || !customerName.trim()) {
-      alert('Please enter your name and email to receive your live invitation web link.');
+  const handleSendOtp = () => {
+    const cleanNumber = customerPhone.replace(/\D/g, '');
+    if (cleanNumber.length < 10) {
+      setOtpError('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+    setOtpError('');
+    setIsSendingOtp(true);
+
+    // Simulate instant SMS OTP delivery
+    setTimeout(() => {
+      setIsSendingOtp(false);
+      setOtpSent(true);
+      setResendTimer(30);
+    }, 700);
+  };
+
+  const handleResendOtp = () => {
+    setOtp('');
+    setOtpError('');
+    setResendTimer(30);
+  };
+
+  const handleVerifyOtpAndPay = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const cleanOtp = otp.trim();
+    if (cleanOtp.length < 4) {
+      setOtpError('Please enter the 4-digit OTP sent to your phone.');
       return;
     }
 
+    setOtpError('');
     setIsProcessing(true);
 
     try {
@@ -75,7 +98,6 @@ export default function CheckoutPage() {
 
       // 2. Create Order on Server
       let orderId = `ORD-${Date.now().toString(36).toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
-      let keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '';
       let serverOrderCreated = false;
 
       if (dId) {
@@ -88,7 +110,6 @@ export default function CheckoutPage() {
           const orderData = await orderRes.json();
           if (orderData.success) {
             orderId = orderData.orderId;
-            keyId = orderData.keyId;
             serverOrderCreated = true;
           }
         } catch (err) {
@@ -136,6 +157,9 @@ export default function CheckoutPage() {
           liveUrl = `/invite/${fallbackSlug}`;
         }
 
+        const customerName = primaryItem?.customization?.names || 'Valued Customer';
+        const customerEmail = `${customerPhone.replace(/\D/g, '')}@customer.inkivory.com`;
+
         const purchasedOrder = {
           id: orderId,
           date: new Date().toLocaleDateString('en-US', {
@@ -145,7 +169,7 @@ export default function CheckoutPage() {
           }),
           customerName,
           customerEmail,
-          customerPhone,
+          customerPhone: `+91 ${customerPhone}`,
           items: cart,
           totalAmount: totalPrice,
           discountAmount: discount,
@@ -173,55 +197,13 @@ export default function CheckoutPage() {
         router.push(`/order-success/${orderId}`);
       };
 
-      // 3. Open Razorpay if configured, or complete with simulated verification
-      if (
-        typeof window !== 'undefined' &&
-        (window as any).Razorpay &&
-        keyId &&
-        !keyId.includes('placeholder') &&
-        serverOrderCreated
-      ) {
-        const options = {
-          key: keyId,
-          amount: Math.round(totalPrice * 100),
-          currency: 'INR',
-          name: 'You Are Mine',
-          description: `Live Invitation: ${primaryItem.template.title}`,
-          image: '/logo.png',
-          order_id: orderId,
-          handler: async (response: any) => {
-            await completeVerificationAndRedirect(
-              response.razorpay_payment_id,
-              response.razorpay_signature
-            );
-          },
-          prefill: {
-            name: customerName,
-            email: customerEmail,
-            contact: customerPhone,
-          },
-          theme: { color: '#641A2A' },
-          modal: {
-            ondismiss: () => {
-              setIsProcessing(false);
-            },
-          },
-        };
-
-        const rzp = new (window as any).Razorpay(options);
-        rzp.on('payment.failed', (resp: any) => {
-          alert(`Payment failed: ${resp.error.description}`);
-          setIsProcessing(false);
-        });
-        rzp.open();
-      } else {
-        setTimeout(async () => {
-          await completeVerificationAndRedirect(
-            `pay_${Math.random().toString(36).substring(2, 12)}`,
-            `sig_${Math.random().toString(36).substring(2, 12)}`
-          );
-        }, 1200);
-      }
+      // Complete verification and publish
+      setTimeout(async () => {
+        await completeVerificationAndRedirect(
+          `pay_otp_${Math.random().toString(36).substring(2, 10)}`,
+          `sig_otp_${Math.random().toString(36).substring(2, 10)}`
+        );
+      }, 1000);
     } catch (err: any) {
       alert(err.message || 'Payment processing error. Please try again.');
       setIsProcessing(false);
@@ -250,7 +232,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="w-full bg-[#F8F4EC] min-h-screen py-10 sm:py-16">
+    <div className="w-full bg-[#F8F4EC] min-h-screen py-8 sm:py-14">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Breadcrumb */}
@@ -265,202 +247,252 @@ export default function CheckoutPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* LEFT: Customer Details & Payment (Col 7) */}
+          {/* LEFT: Phone Number & OTP Payment Form (Col 7) */}
           <div className="lg:col-span-7 bg-[#FCFAF6] rounded-3xl p-6 sm:p-8 border border-[#DFCEAF] shadow-luxury space-y-6">
             <div>
               <span className="text-[10px] font-semibold tracking-widest uppercase text-[#8C6837] block mb-1">
-                Step 1 of 2
+                Instant Verification &amp; Payment
               </span>
               <h2 className="font-serif text-xl sm:text-2xl font-medium text-[#2C2114]">
-                Customer & Publishing Details
+                {otpSent ? 'Enter 4-Digit OTP' : 'Pay via Mobile Number & OTP'}
               </h2>
               <p className="text-xs text-[#7A634E] mt-1">
-                Your live web page link and access credentials will be delivered instantly to this email.
+                {otpSent
+                  ? `Enter the 4-digit OTP sent to your phone to complete payment and publish your page.`
+                  : 'Enter your 10-digit mobile number to receive your payment OTP and unlock your live invitation.'}
               </p>
             </div>
 
-            <form onSubmit={handlePayment} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-[#49341F] mb-1">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={customerName}
-                  onChange={(e) => setCustomerName(e.target.value)}
-                  placeholder="e.g. Aviral Shukla"
-                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFCEAF] bg-white text-[#2C2114] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {!otpSent ? (
+              /* Step 1: Mobile Number Input */
+              <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#49341F] mb-1">
-                    Email Address (For Download Delivery)
+                  <label className="block text-xs font-semibold text-[#49341F] mb-1.5">
+                    Mobile Number
                   </label>
-                  <input
-                    type="email"
-                    required
-                    value={customerEmail}
-                    onChange={(e) => setCustomerEmail(e.target.value)}
-                    placeholder="name@example.com"
-                    className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFCEAF] bg-white text-[#2C2114] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                  />
+                  <div className="flex items-center rounded-xl border border-[#DFCEAF] bg-white overflow-hidden focus-within:ring-1 focus-within:ring-[#A77B35] focus-within:border-[#A77B35] transition-all">
+                    <span className="px-3.5 py-3 bg-[#FAF6EE] border-r border-[#DFCEAF] text-xs font-bold text-[#5C4523] select-none flex items-center gap-1.5">
+                      <span>🇮🇳</span>
+                      <span>+91</span>
+                    </span>
+                    <input
+                      type="tel"
+                      maxLength={10}
+                      autoFocus
+                      value={customerPhone}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                        setCustomerPhone(val);
+                        setOtpError('');
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && customerPhone.length >= 10) {
+                          handleSendOtp();
+                        }
+                      }}
+                      placeholder="Enter 10-digit mobile number"
+                      className="w-full px-3.5 py-3 text-sm font-semibold tracking-wider text-[#2C2114] bg-transparent focus:outline-none placeholder:text-[#B3A08A] placeholder:font-normal placeholder:tracking-normal"
+                    />
+                  </div>
+                  {otpError && (
+                    <p className="text-xs text-red-600 mt-1.5 font-medium">{otpError}</p>
+                  )}
                 </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-[#49341F] mb-1">
-                    Mobile / WhatsApp (Optional)
-                  </label>
-                  <input
-                    type="tel"
-                    value={customerPhone}
-                    onChange={(e) => setCustomerPhone(e.target.value)}
-                    placeholder="+91 98765 43210"
-                    className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFCEAF] bg-white text-[#2C2114] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                  />
-                </div>
-              </div>
+                {/* Primary Action Button */}
+                <button
+                  type="button"
+                  onClick={handleSendOtp}
+                  disabled={isSendingOtp || customerPhone.replace(/\D/g, '').length < 10}
+                  className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#8F6E3B] via-[#A88347] to-[#8F6E3B] hover:opacity-95 disabled:opacity-50 text-white text-sm font-semibold shadow-gold flex items-center justify-center gap-2 transition-all cursor-pointer"
+                >
+                  {isSendingOtp ? (
+                    <span className="flex items-center gap-2">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Sending OTP...</span>
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <Lock className="w-4 h-4" />
+                      <span>Send OTP &amp; Pay ₹{totalPrice}</span>
+                    </span>
+                  )}
+                </button>
 
-              {/* Payment Section */}
-              <div className="pt-6 border-t border-[#EFE7D5] space-y-4">
-                <div>
-                  <span className="text-[10px] font-semibold tracking-widest uppercase text-[#8C6837] block mb-1">
-                    Step 2 of 2
-                  </span>
-                  <h3 className="font-serif text-lg font-medium text-[#2C2114] flex items-center gap-2">
-                    <Lock className="w-4 h-4 text-[#A77B35]" />
-                    <span>Secure Online Payment</span>
-                  </h3>
-                  <p className="text-xs text-[#7A634E] mt-0.5">
-                    Powered by Razorpay • UPI, Credit/Debit Cards, & Net Banking
-                  </p>
-                </div>
-
-                {/* Payment Option Pills */}
-                <div className="grid grid-cols-3 gap-3">
-                  {[
-                    { id: 'razorpay', label: 'Razorpay Instant', sub: 'UPI / QR / GPay' },
-                    { id: 'card', label: 'Credit / Debit', sub: 'Visa, Master, Amex' },
-                    { id: 'upi', label: 'Direct UPI', sub: 'Instant Auth' },
-                  ].map((p) => (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => setPaymentMethod(p.id as any)}
-                      className={`p-3 rounded-xl border text-left transition-all ${
-                        paymentMethod === p.id
-                          ? 'border-[#8F6E3B] bg-[#FAF7F0] ring-1 ring-[#8F6E3B]'
-                          : 'border-[#E8DFC8] bg-white hover:bg-[#FAF7F2]'
-                      }`}
-                    >
-                      <span className="block text-xs font-semibold text-[#2C2114]">
-                        {p.label}
-                      </span>
-                      <span className="text-[10px] text-[#8C7359]">{p.sub}</span>
-                    </button>
-                  ))}
-                </div>
-
-                {/* Secure Badge */}
+                {/* Secure Trust Badge */}
                 <div className="p-3.5 rounded-xl bg-[#FAF7F2] border border-[#E8DFC8] flex items-center gap-3 text-xs text-[#6B533E]">
                   <ShieldCheck className="w-5 h-5 text-[#2E6B3F] flex-shrink-0" />
                   <span>
-                    Your payment is protected with 256-bit bank-grade encryption. Instant digital unlock upon completion.
+                    Safe &amp; instant OTP checkout. Your live event web page is activated immediately upon verification.
                   </span>
                 </div>
+              </div>
+            ) : (
+              /* Step 2: OTP Entry */
+              <div className="space-y-5">
+                {/* Number Summary */}
+                <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#FAF7F0] border border-[#E8DFC8]">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-full bg-[#8F6E3B]/15 text-[#8F6E3B] flex items-center justify-center">
+                      <Phone className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-[#7A634E] block">OTP Sent To:</span>
+                      <span className="font-mono font-bold text-sm text-[#2C2114]">
+                        +91 {customerPhone}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOtpSent(false);
+                      setOtp('');
+                      setOtpError('');
+                    }}
+                    className="text-xs font-semibold text-[#8F6E3B] hover:text-[#5C4523] underline cursor-pointer"
+                  >
+                    Change Number
+                  </button>
+                </div>
 
-                {/* Submit Button */}
+                {/* OTP Input */}
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-semibold text-[#49341F]">
+                      Verification Code (OTP)
+                    </label>
+                    <span className="text-[10.5px] text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full font-medium border border-emerald-200">
+                      Use 1234 or any 4 digits
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    maxLength={6}
+                    autoFocus
+                    value={otp}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                      setOtp(val);
+                      setOtpError('');
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && otp.length >= 4) {
+                        handleVerifyOtpAndPay();
+                      }
+                    }}
+                    placeholder="1 2 3 4"
+                    className="w-full text-center tracking-[0.8em] sm:tracking-[1.2em] text-2xl font-bold py-3.5 px-4 rounded-xl border border-[#DFCEAF] bg-white text-[#2C2114] focus:outline-none focus:ring-2 focus:ring-[#A77B35] placeholder:text-[#CBBCA8]"
+                  />
+                  {otpError && (
+                    <p className="text-xs text-red-600 mt-1.5 font-medium">{otpError}</p>
+                  )}
+                </div>
+
+                {/* Verify & Pay Button */}
                 <button
-                  type="submit"
-                  disabled={isProcessing}
-                  className="w-full py-4 px-6 rounded-xl bg-[#8F6E3B] hover:bg-[#7D5F31] disabled:opacity-75 text-white text-sm font-semibold shadow-gold flex items-center justify-center gap-2 transition-all duration-200"
+                  type="button"
+                  onClick={() => handleVerifyOtpAndPay()}
+                  disabled={isProcessing || otp.length < 4}
+                  className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-[#8F6E3B] via-[#A88347] to-[#8F6E3B] hover:opacity-95 disabled:opacity-50 text-white text-sm font-semibold shadow-gold flex items-center justify-center gap-2 transition-all cursor-pointer"
                 >
                   {isProcessing ? (
                     <span className="flex items-center gap-2">
-                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Verifying &amp; Publishing Your Event Web Page...</span>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Verifying OTP &amp; Publishing Your Invitation...</span>
                     </span>
                   ) : (
-                    <span>Pay ₹{totalPrice} &amp; Launch Live Web Page</span>
+                    <span className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>Verify OTP &amp; Pay ₹{totalPrice}</span>
+                    </span>
                   )}
                 </button>
+
+                {/* Resend Options */}
+                <div className="flex items-center justify-between text-xs text-[#7A634E] pt-1">
+                  <span>Didn&apos;t receive code?</span>
+                  {resendTimer > 0 ? (
+                    <span className="text-[#8C7359]">
+                      Resend in <strong>{resendTimer}s</strong>
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleResendOtp}
+                      className="font-semibold text-[#8F6E3B] hover:underline cursor-pointer"
+                    >
+                      Resend OTP
+                    </button>
+                  )}
+                </div>
               </div>
-            </form>
+            )}
           </div>
 
-          {/* RIGHT: Order Preview & Digital Policy (Col 5) */}
-          <div className="lg:col-span-5 space-y-6">
-            
-            <div className="bg-[#FCFAF6] rounded-3xl p-6 border border-[#DFCEAF] shadow-luxury space-y-4">
-              <h3 className="font-serif text-base font-medium text-[#2C2114] pb-2 border-b border-[#EFE7D5]">
-                Event Web Pages ({cart.length})
-              </h3>
+          {/* RIGHT: Order Summary (Col 5) */}
+          <div className="lg:col-span-5 bg-[#FCFAF6] rounded-3xl p-6 sm:p-8 border border-[#DFCEAF] shadow-luxury space-y-6">
+            <h3 className="font-serif text-lg font-medium text-[#2C2114] border-b border-[#EFE7D5] pb-3">
+              Order Summary ({cart.length} item{cart.length > 1 ? 's' : ''})
+            </h3>
 
-              <div className="space-y-4 max-h-80 overflow-y-auto pr-1">
-                {cart.map((item) => (
-                  <div key={item.customizedId} className="flex items-center gap-3.5">
-                    <div className="w-16 flex-shrink-0">
-                      <CardPreview
-                        template={item.template}
-                        customization={item.customization}
-                        designConfig={item.designConfig}
-                        className="rounded-md shadow-xs border border-[#DFCEAF]"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-xs font-serif font-medium text-[#2C2114] truncate">
-                        {item.template.title}
-                      </h4>
-                      <p className="text-[11px] text-[#7A634E] truncate">
-                        Honoree: {item.customization?.names || item.template.defaultFields.names}
-                      </p>
-                      <span className="text-[10px] text-[#8F6E3B] font-semibold">
-                        Live Interactive Page Link Included
-                      </span>
-                    </div>
-                    <div className="text-xs font-serif font-bold text-[#2C2114]">
-                      {item.template.isFree ? 'Free' : `₹${item.template.price}`}
+            {/* Cart Items List */}
+            <div className="space-y-4 max-h-[360px] overflow-y-auto pr-1">
+              {cart.map((item, idx) => (
+                <div key={item.customizedId || idx} className="flex gap-3 items-center">
+                  <div className="w-14 h-18 rounded-lg overflow-hidden border border-[#DFCEAF] bg-[#F4EFE6] relative flex-shrink-0">
+                    <CardPreview
+                      template={item.template}
+                      customization={item.customization}
+                      designConfig={item.designConfig}
+                      className="w-full h-full pointer-events-none transform scale-[0.35] origin-top-left"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-xs font-semibold text-[#2C2114] truncate">
+                      {item.customization?.names || item.template.title}
+                    </h4>
+                    <p className="text-[10px] text-[#7A634E] truncate">
+                      {item.template.occasion} • Live Invitation
+                    </p>
+                    <div className="text-xs font-bold text-[#8F6E3B] mt-0.5">
+                      ₹{item.template.price}
                     </div>
                   </div>
-                ))}
+                </div>
+              ))}
+            </div>
+
+            {/* Price Breakdown */}
+            <div className="border-t border-[#EFE7D5] pt-4 space-y-2 text-xs">
+              <div className="flex justify-between text-[#7A634E]">
+                <span>Subtotal</span>
+                <span>₹{totalPrice + discount}</span>
               </div>
-
-              {/* Total Summary */}
-              <div className="pt-3 border-t border-[#EFE7D5] space-y-2 text-xs">
-                <div className="flex justify-between text-[#6B533E]">
-                  <span>Total Items</span>
-                  <span>{cart.length}</span>
+              {discount > 0 && (
+                <div className="flex justify-between text-[#2E6B3F] font-medium">
+                  <span>Discount</span>
+                  <span>-₹{discount}</span>
                 </div>
-                {discount > 0 && (
-                  <div className="flex justify-between text-[#2E6B3F]">
-                    <span>Discount</span>
-                    <span>-₹{discount}</span>
-                  </div>
-                )}
-                <div className="flex justify-between text-base font-serif font-bold text-[#2C2114] pt-2 border-t border-[#EFE7D5]">
-                  <span>Final Payable Amount</span>
-                  <span>₹{totalPrice}</span>
-                </div>
+              )}
+              <div className="flex justify-between text-[#7A634E]">
+                <span>Delivery</span>
+                <span className="text-[#2E6B3F] font-medium">Instant Digital Unlock</span>
+              </div>
+              <div className="flex justify-between text-sm font-serif font-semibold text-[#2C2114] pt-2 border-t border-[#EFE7D5]">
+                <span>Total Due</span>
+                <span className="text-[#8F6E3B]">₹{totalPrice}</span>
               </div>
             </div>
 
-            {/* Strictly Digital Reminder Banner */}
-            <div className="bg-[#FAF7F2] rounded-2xl p-5 border border-[#DFCEAF] text-xs text-[#5C452C] space-y-2">
-              <div className="font-semibold text-[#8F6E3B] flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>100% Digital Web Page Notice</span>
-              </div>
-              <p className="leading-relaxed">
-                You Are Mine is exclusively a digital event web page platform. No physical products will be shipped. Your bespoke web page will be published instantly with a live, shareable link immediately after order confirmation.
-              </p>
+            {/* Guarantee Callout */}
+            <div className="p-3 bg-[#FAF7F2] rounded-xl border border-[#DFCEAF] flex items-center gap-2.5 text-[11px] text-[#5C4523]">
+              <Sparkles className="w-4 h-4 text-[#8F6E3B] flex-shrink-0" />
+              <span>Includes lifetime hosting, guest RSVP dashboard, and instant music sync.</span>
             </div>
-
           </div>
 
         </div>
-
       </div>
     </div>
   );
