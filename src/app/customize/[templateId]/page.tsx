@@ -28,6 +28,8 @@ import {
   Clock,
   MapPin,
   Users,
+  Plus,
+  Trash2,
 } from 'lucide-react';
 import PublishModal from '@/components/editor/PublishModal';
 import { templatesData } from '@/data/templates';
@@ -352,6 +354,102 @@ export default function CustomizePage() {
     });
   };
 
+  // Add a new celebration function
+  const handleAddEvent = () => {
+    setHasUnsavedChanges(true);
+    setFields((prev) => {
+      const defaultEvs = baseTemplate.defaultFields.events || [
+        { name: 'Haldi', icon: 'haldi', date: 'Friday, 12 February 2027', time: '10:00 AM', venue: 'Family home, Jaipur' },
+        { name: 'Mehendi', icon: 'mehendi', date: 'Friday, 12 February 2027', time: '4:00 PM', venue: 'The courtyard, Jaipur' },
+        { name: 'Sangeet', icon: 'sangeet', date: 'Friday, 12 February 2027', time: '8:00 PM', venue: 'Rooftop lawns, Jaipur' },
+        { name: 'Wedding', icon: 'wedding', date: 'Saturday, 13 February 2027', time: '7:30 PM', venue: 'Rambagh Palace, Jaipur' },
+        { name: 'Reception', icon: 'reception', date: 'Sunday, 14 February 2027', time: '8:00 PM', venue: 'Rambagh Palace, Jaipur' },
+      ];
+      const evList = prev.events && prev.events.length > 0 ? [...prev.events] : [...defaultEvs];
+      evList.push({
+        name: `Function ${evList.length + 1}`,
+        date: prev.date || 'Saturday, 13 February 2027',
+        time: '7:00 PM',
+        venue: prev.venue || '',
+      });
+      const updated = { ...prev, events: evList };
+      if (typeof window !== 'undefined') {
+        try { sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated)); } catch (e) {}
+      }
+      try {
+        iframeRef.current?.contentWindow?.postMessage({ type: 'INK_IVORY_CUSTOM_UPDATE', payload: updated }, '*');
+      } catch (e) {}
+      return updated;
+    });
+  };
+
+  // Remove a celebration function
+  const handleRemoveEvent = (index: number) => {
+    setHasUnsavedChanges(true);
+    setFields((prev) => {
+      const defaultEvs = baseTemplate.defaultFields.events || [];
+      const evList = prev.events && prev.events.length > 0 ? [...prev.events] : [...defaultEvs];
+      evList.splice(index, 1);
+      const updated = { ...prev, events: evList };
+      if (typeof window !== 'undefined') {
+        try { sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated)); } catch (e) {}
+      }
+      try {
+        iframeRef.current?.contentWindow?.postMessage({ type: 'INK_IVORY_CUSTOM_UPDATE', payload: updated }, '*');
+      } catch (e) {}
+      return updated;
+    });
+  };
+
+  // Handle Valentine story chapter changes
+  const handleStoryChange = (index: number, key: string, value: string) => {
+    setHasUnsavedChanges(true);
+    setFields((prev) => {
+      const defaultStory = baseTemplate.defaultFields.story || [
+        { title: 'The Day We Met', date: '14 February 2024', description: 'A quiet café, an accidental glance across the room...' },
+        { title: 'Our First Conversation', date: '20 February 2024', description: 'Three hours melted away in minutes...' },
+        { title: 'Our First Road Trip', date: '18 June 2024', description: 'Driving up the misty hill roads with the windows down...' },
+        { title: 'The Little Everyday Things', date: '12 November 2024', description: 'Midnight ice cream runs, cooking dinners together...' },
+        { title: 'Today & All Our Tomorrows', date: prev.date || '14 February 2026', description: 'Standing right here, asking you the simplest question...' },
+      ];
+      const storyList = prev.story && prev.story.length > 0 ? [...prev.story] : [...defaultStory];
+      if (!storyList[index]) storyList[index] = { title: '', date: '', description: '' };
+      storyList[index] = { ...storyList[index], [key]: value };
+      const updated = { ...prev, story: storyList };
+      if (typeof window !== 'undefined') {
+        try { sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated)); } catch (e) {}
+      }
+      try {
+        iframeRef.current?.contentWindow?.postMessage({ type: 'INK_IVORY_CUSTOM_UPDATE', payload: updated }, '*');
+      } catch (e) {}
+      return updated;
+    });
+  };
+
+  // Handle Birthday memory item changes
+  const handleMemoryChange = (index: number, key: string, value: string) => {
+    setHasUnsavedChanges(true);
+    setFields((prev) => {
+      const defaultMemories = baseTemplate.defaultFields.memories || [
+        { caption: "That spontaneous sunset walk where we couldn't stop laughing.", date: 'Spring Evening' },
+        { caption: 'Coffee dates that turn into hours of heartfelt conversations.', date: 'Autumn Days' },
+        { caption: 'Under fairy lights, celebrating how magical life can be with you.', date: 'December Magic' },
+        { caption: "Here's to another year of dreams, joy, and unforgettable stories.", date: 'Golden Hour' },
+      ];
+      const memList = prev.memories && prev.memories.length > 0 ? [...prev.memories] : [...defaultMemories];
+      if (!memList[index]) memList[index] = { caption: '', date: '' };
+      memList[index] = { ...memList[index], [key]: value };
+      const updated = { ...prev, memories: memList };
+      if (typeof window !== 'undefined') {
+        try { sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated)); } catch (e) {}
+      }
+      try {
+        iframeRef.current?.contentWindow?.postMessage({ type: 'INK_IVORY_CUSTOM_UPDATE', payload: updated }, '*');
+      } catch (e) {}
+      return updated;
+    });
+  };
+
   // Change active song (from library or custom upload)
   const handleSelectSong = (song: { title: string; source: string; artist?: string }) => {
     handleFieldChange('songTitle', song.title);
@@ -558,6 +656,8 @@ export default function CustomizePage() {
     if (templateKey === 'valentine') {
       params.set('names', fields.names || 'Aarav & Riya');
       params.set('headline', fields.headline || 'Will You Be My Valentine?');
+      params.set('date', fields.date || '14 February 2026');
+      if (fields.venue) params.set('venue', fields.venue);
       params.set('message', fields.message || '');
       if (fields.letterMessage) params.set('letterMessage', fields.letterMessage);
       if (fields.audioSource) params.set('audioSource', fields.audioSource);
@@ -568,6 +668,10 @@ export default function CustomizePage() {
     if (templateKey === 'birthday') {
       params.set('names', fields.names || 'Ananya & Kabir');
       params.set('heading', fields.headline || 'Birthday');
+      params.set('date', fields.date || 'Saturday, 14 November 2026');
+      if (fields.time) params.set('time', fields.time);
+      if (fields.venue) params.set('venue', fields.venue);
+      if (fields.city) params.set('city', fields.city);
       params.set('message', fields.message || 'To the one who makes life more special, may your day be as beautiful, kind and happy as you are.');
       if (fields.letterMessage) params.set('letterMessage', fields.letterMessage);
       params.set('audioSource', fields.audioSource || '/audio/happy-birthday.mp3');
@@ -582,6 +686,9 @@ export default function CustomizePage() {
       params.set('recipient', recipient);
       params.set('sender', sender);
       params.set('heading', fields.headline || 'Our Perfect Date ♡');
+      params.set('date', fields.date || 'Saturday, 14 February 2026');
+      if (fields.time) params.set('time', fields.time);
+      if (fields.venue) params.set('venue', fields.venue);
       params.set('description', fields.message || "Tell me what you'd love most, and I'll plan every detail for an unforgettable time together.");
       params.set('eyebrow', fields.eyebrow || "LET'S PLAN");
       if (fields.audioSource) params.set('songUrl', fields.audioSource);
@@ -592,6 +699,7 @@ export default function CustomizePage() {
     if (templateKey === 'template-03') {
       params.set('names', fields.names || 'Karthik & Meenakshi');
       params.set('date', fields.date || 'Sunday, 14 February 2027');
+      if (fields.time) params.set('time', fields.time);
       params.set('venue', fields.venue || 'Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai');
       params.set('city', fields.city || 'Madurai, Tamil Nadu');
       if (fields.host) params.set('family', fields.host);
@@ -603,6 +711,7 @@ export default function CustomizePage() {
     if (templateKey === 'template-02') {
       params.set('names', fields.names || 'Arjun & Sia');
       params.set('date', fields.date || 'Saturday, 13 February 2027');
+      if (fields.time) params.set('time', fields.time);
       params.set('venue', fields.venue || 'Rambagh Palace, Jaipur');
       params.set('city', fields.city || 'Jaipur, Rajasthan');
       if (fields.rsvp) params.set('rsvp', fields.rsvp);
@@ -614,6 +723,7 @@ export default function CustomizePage() {
     // Default: template-01
     params.set('names', fields.names || 'Aarav & Riya');
     params.set('date', fields.date || 'Friday, 18 December 2026');
+    params.set('time', fields.time || '5:00 PM Onwards');
     params.set('venue', fields.venue || 'The Heritage Palace & Gardens');
     params.set('city', fields.city || 'Jaipur, Rajasthan');
     if (fields.brideParents) params.set('brideParents', fields.brideParents);
@@ -886,6 +996,36 @@ export default function CustomizePage() {
                     </div>
                   </div>
 
+                  {/* Valentine: Proposal Date & Venue / Setting */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-[#B51F3B]" />
+                        <span>Proposal / Valentine Date</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.date || '14 February 2026'}
+                        onChange={(e) => handleFieldChange('date', e.target.value)}
+                        placeholder="e.g. 14 February 2026"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#B51F3B]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-[#B51F3B]" />
+                        <span>Romantic Setting / Location</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.venue || 'Our Favourite Memories'}
+                        onChange={(e) => handleFieldChange('venue', e.target.value)}
+                        placeholder="e.g. Our Favourite Memories"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#B51F3B]"
+                      />
+                    </div>
+                  </div>
+
                   {/* Proposal Question Heading */}
                   <div>
                     <label className="block text-xs font-medium text-[#49341F] mb-1">
@@ -927,6 +1067,73 @@ export default function CustomizePage() {
                       className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                     />
                   </div>
+
+                  {/* Valentine Love Story Timeline & Dates */}
+                  <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-[#8F6E3B] uppercase tracking-wider">
+                        <Calendar className="w-3.5 h-3.5 text-[#B51F3B]" />
+                        <span>Our Love Story Timeline &amp; Dates</span>
+                      </div>
+                      <span className="text-[10px] text-[#B51F3B] font-semibold bg-[#FFF2ED] border border-[#F3D0C9] px-2 py-0.5 rounded-full">
+                        5 Chapters
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-[#7A634E] leading-normal">
+                      Customize every milestone date and memory in your journey together!
+                    </p>
+
+                    <div className="space-y-3">
+                      {(fields.story && fields.story.length > 0 ? fields.story : [
+                        { title: 'The Day We Met', date: '14 February 2024', description: 'A quiet café, an accidental glance across the room, and a conversation that felt so effortlessly natural.' },
+                        { title: 'Our First Conversation', date: '20 February 2024', description: 'Three hours melted away in minutes as we shared our favorite songs, secret dreams, and laughed.' },
+                        { title: 'Our First Road Trip', date: '18 June 2024', description: 'Driving up the misty hill roads with the windows down, your hand in mine, realizing you are my home.' },
+                        { title: 'The Little Everyday Things', date: '12 November 2024', description: 'Midnight ice cream runs, cooking dinners together that never went according to recipe.' },
+                        { title: 'Today & All Our Tomorrows', date: fields.date || '14 February 2026', description: 'Standing right here, asking you the simplest and most profound question of my life.' },
+                      ]).map((st, idx) => (
+                        <div key={idx} className="p-3 bg-[#FFFDFB] border border-[#F3D0C9] rounded-xl space-y-2">
+                          <div className="flex items-center justify-between pb-1 border-b border-[#F4E3DF]">
+                            <span className="text-xs font-serif font-bold text-[#481321]">
+                              Chapter {idx + 1}: {st.title}
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <div>
+                              <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Chapter Title</label>
+                              <input
+                                type="text"
+                                value={st.title}
+                                onChange={(e) => handleStoryChange(idx, 'title', e.target.value)}
+                                className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[11px] font-semibold text-[#B51F3B] mb-0.5 flex items-center gap-1">
+                                <Calendar className="w-3 h-3 text-[#B51F3B]" />
+                                <span>Milestone Date</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={st.date}
+                                onChange={(e) => handleStoryChange(idx, 'date', e.target.value)}
+                                placeholder="e.g. 14 February 2024"
+                                className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none font-medium text-[#481321]"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Memory Note</label>
+                            <textarea
+                              rows={2}
+                              value={st.description || ''}
+                              onChange={(e) => handleStoryChange(idx, 'description', e.target.value)}
+                              className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </>
               ) : templateKey === 'birthday' ? (
                 <>
@@ -960,6 +1167,65 @@ export default function CustomizePage() {
                         }}
                         placeholder="e.g. Kabir"
                         className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Birthday Date & Time */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-[#B62A42]" />
+                        <span>Birthday Celebration Date</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.date || 'Saturday, 14 November 2026'}
+                        onChange={(e) => handleFieldChange('date', e.target.value)}
+                        placeholder="e.g. Saturday, 14 November 2026"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#B62A42]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-[#B62A42]" />
+                        <span>Party Time / Hour</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.time || '7:00 PM Onwards'}
+                        onChange={(e) => handleFieldChange('time', e.target.value)}
+                        placeholder="e.g. 7:00 PM Onwards"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#B62A42]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Birthday Venue & City */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1 flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-[#B62A42]" />
+                        <span>Celebration Venue</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.venue || 'The Grand Champagne Terrace'}
+                        onChange={(e) => handleFieldChange('venue', e.target.value)}
+                        placeholder="e.g. The Grand Champagne Terrace"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#B62A42]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        City
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.city || 'Mumbai'}
+                        onChange={(e) => handleFieldChange('city', e.target.value)}
+                        placeholder="e.g. Mumbai"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#B62A42]"
                       />
                     </div>
                   </div>
@@ -1005,6 +1271,63 @@ export default function CustomizePage() {
                       className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                     />
                   </div>
+
+                  {/* Birthday Polaroid Memories & Dates */}
+                  <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-[#8F6E3B] uppercase tracking-wider">
+                        <Calendar className="w-3.5 h-3.5 text-[#B62A42]" />
+                        <span>Cherished Memories &amp; Dates</span>
+                      </div>
+                      <span className="text-[10px] text-[#B62A42] font-semibold bg-[#FFF3EE] border border-[#F4CFCA] px-2 py-0.5 rounded-full">
+                        4 Memories
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-[#7A634E] leading-normal">
+                      Customize the date and caption printed beneath each polaroid memory!
+                    </p>
+
+                    <div className="space-y-3">
+                      {(fields.memories && fields.memories.length > 0 ? fields.memories : [
+                        { caption: "That spontaneous sunset walk where we couldn't stop laughing.", date: 'Spring Evening' },
+                        { caption: 'Coffee dates that turn into hours of heartfelt conversations.', date: 'Autumn Days' },
+                        { caption: 'Under fairy lights, celebrating how magical life can be with you.', date: 'December Magic' },
+                        { caption: "Here's to another year of dreams, joy, and unforgettable stories.", date: 'Golden Hour' },
+                      ]).map((mem, idx) => (
+                        <div key={idx} className="p-3 bg-[#FFFDFB] border border-[#F4CFCA] rounded-xl space-y-2">
+                          <div className="flex items-center justify-between pb-1 border-b border-[#F9E3DE]">
+                            <span className="text-xs font-serif font-bold text-[#481321]">
+                              Memory {idx + 1}
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <div>
+                              <label className="block text-[11px] font-semibold text-[#B62A42] mb-0.5 flex items-center gap-1">
+                                <Calendar className="w-3 h-3 text-[#B62A42]" />
+                                <span>Memory Date / Season</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={mem.date}
+                                onChange={(e) => handleMemoryChange(idx, 'date', e.target.value)}
+                                placeholder="e.g. Spring Evening"
+                                className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none font-medium text-[#481321]"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Polaroid Caption</label>
+                              <input
+                                type="text"
+                                value={mem.caption || ''}
+                                onChange={(e) => handleMemoryChange(idx, 'caption', e.target.value)}
+                                className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </>
               ) : templateKey === 'date-planner' ? (
                 <>
@@ -1040,6 +1363,51 @@ export default function CustomizePage() {
                         className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                       />
                     </div>
+                  </div>
+
+                  {/* Date Planner: Planned Date & Preferred Timing */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-[#B51F3B]" />
+                        <span>Planned Date</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.date || 'Saturday, 14 February 2026'}
+                        onChange={(e) => handleFieldChange('date', e.target.value)}
+                        placeholder="e.g. Saturday, 14 February 2026"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#B51F3B]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-[#B51F3B]" />
+                        <span>Preferred Timing</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.time || 'Evening (6:30 PM – 8:30 PM)'}
+                        onChange={(e) => handleFieldChange('time', e.target.value)}
+                        placeholder="e.g. Evening (6:30 PM – 8:30 PM)"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#B51F3B]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Romantic Setting / Location */}
+                  <div>
+                    <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-[#B51F3B]" />
+                      <span>Romantic Setting / Venue</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.venue || 'City Center & Romantic Dinner'}
+                      onChange={(e) => handleFieldChange('venue', e.target.value)}
+                      placeholder="e.g. City Center & Romantic Dinner"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#B51F3B]"
+                    />
                   </div>
 
                   {/* Eyebrow Tag */}
@@ -1116,14 +1484,44 @@ export default function CustomizePage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-medium text-[#49341F] mb-1">
-                        Muhurtham Date
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-[#A77B35]" />
+                        <span>Muhurtham Date</span>
                       </label>
                       <input
                         type="text"
                         value={fields.date || 'Sunday, 14 February 2027'}
                         onChange={(e) => handleFieldChange('date', e.target.value)}
                         placeholder="e.g. Sunday, 14 February 2027"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-[#A77B35]" />
+                        <span>Muhurtham Time</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.time || '6:15 AM – 7:45 AM (Muhurtham)'}
+                        onChange={(e) => handleFieldChange('time', e.target.value)}
+                        placeholder="e.g. 6:15 AM – 7:45 AM"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1 flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-[#A77B35]" />
+                        <span>Kalyana Mandapam Venue</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.venue || 'Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai'}
+                        onChange={(e) => handleFieldChange('venue', e.target.value)}
+                        placeholder="e.g. Sri Meenakshi Sundareswarar Kalyana Mandapam"
                         className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                       />
                     </div>
@@ -1141,19 +1539,6 @@ export default function CustomizePage() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-medium text-[#49341F] mb-1">
-                      Kalyana Mandapam Temple Venue
-                    </label>
-                    <input
-                      type="text"
-                      value={fields.venue || 'Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai'}
-                      onChange={(e) => handleFieldChange('venue', e.target.value)}
-                      placeholder="e.g. Sri Meenakshi Sundareswarar Kalyana Mandapam"
-                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                    />
-                  </div>
-
                   {/* Template 3: Celebration Functions / Auspicious Events */}
                   <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
                     <div className="flex items-center justify-between">
@@ -1162,7 +1547,7 @@ export default function CustomizePage() {
                         <span>Sacred Festivities &amp; Muhurtham</span>
                       </div>
                       <span className="text-[10px] text-[#A77B35] font-semibold bg-[#F5EEDB] border border-[#DFCDB0] px-2 py-0.5 rounded-full">
-                        4 Events
+                        {(fields.events && fields.events.length) || 4} Events
                       </span>
                     </div>
 
@@ -1178,9 +1563,21 @@ export default function CustomizePage() {
                             <span className="text-xs font-serif font-bold text-[#2C2114]">
                               {idx + 1}. {ev.name}
                             </span>
-                            <span className="text-[10px] uppercase font-semibold text-[#8F6E3B]">
-                              Ceremony {idx + 1}
-                            </span>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] uppercase font-semibold text-[#8F6E3B]">
+                                Ceremony {idx + 1}
+                              </span>
+                              {fields.events && fields.events.length > 1 && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveEvent(idx)}
+                                  className="text-red-500 hover:text-red-700 p-0.5 rounded"
+                                  title="Remove function"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              )}
+                            </div>
                           </div>
                           <div>
                             <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Function Name</label>
@@ -1193,16 +1590,22 @@ export default function CustomizePage() {
                           </div>
                           <div className="grid grid-cols-2 gap-2">
                             <div>
-                              <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Date</label>
+                              <label className="block text-[11px] font-semibold text-[#8F6E3B] mb-0.5 flex items-center gap-1">
+                                <Calendar className="w-3 h-3 text-[#A77B35]" />
+                                <span>Date</span>
+                              </label>
                               <input
                                 type="text"
                                 value={ev.date || ev.when || ''}
                                 onChange={(e) => handleEventChange(idx, 'date', e.target.value)}
-                                className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                                className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none font-medium"
                               />
                             </div>
                             <div>
-                              <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Time</label>
+                              <label className="block text-[11px] font-semibold text-[#8F6E3B] mb-0.5 flex items-center gap-1">
+                                <Clock className="w-3 h-3 text-[#A77B35]" />
+                                <span>Time</span>
+                              </label>
                               <input
                                 type="text"
                                 value={ev.time || ''}
@@ -1222,6 +1625,15 @@ export default function CustomizePage() {
                           </div>
                         </div>
                       ))}
+
+                      <button
+                        type="button"
+                        onClick={handleAddEvent}
+                        className="w-full py-2 px-3 border border-dashed border-[#A77B35] rounded-xl text-xs font-medium text-[#8F6E3B] hover:bg-[#FAF7F0] flex items-center justify-center gap-1.5 transition-colors"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>Add Celebration Function</span>
+                      </button>
                     </div>
                   </div>
 
@@ -1296,14 +1708,44 @@ export default function CustomizePage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-medium text-[#49341F] mb-1">
-                        Wedding Date
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-[#A77B35]" />
+                        <span>Wedding Date</span>
                       </label>
                       <input
                         type="text"
                         value={fields.date || 'Saturday, 13 February 2027'}
                         onChange={(e) => handleFieldChange('date', e.target.value)}
                         placeholder="e.g. Saturday, 13 February 2027"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-[#A77B35]" />
+                        <span>Muhurat / Time</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.time || '7:30 PM Onwards'}
+                        onChange={(e) => handleFieldChange('time', e.target.value)}
+                        placeholder="e.g. 7:30 PM Onwards"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1 flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-[#A77B35]" />
+                        <span>Royal Palace Venue</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.venue || 'Rambagh Palace, Jaipur'}
+                        onChange={(e) => handleFieldChange('venue', e.target.value)}
+                        placeholder="e.g. Rambagh Palace, Jaipur"
                         className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                       />
                     </div>
@@ -1321,19 +1763,6 @@ export default function CustomizePage() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-medium text-[#49341F] mb-1">
-                      Royal Palace Venue
-                    </label>
-                    <input
-                      type="text"
-                      value={fields.venue || 'Rambagh Palace, Jaipur'}
-                      onChange={(e) => handleFieldChange('venue', e.target.value)}
-                      placeholder="e.g. Rambagh Palace, Jaipur"
-                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                    />
-                  </div>
-
                   {/* ======================================================== */}
                   {/* WEDDING FUNCTIONS & ITINERARY (Haldi, Mehendi, Sangeet, Wedding, Reception) */}
                   {/* ======================================================== */}
@@ -1344,7 +1773,7 @@ export default function CustomizePage() {
                         <span>Wedding Functions &amp; Itinerary</span>
                       </div>
                       <span className="text-[10px] text-[#A77B35] font-semibold bg-[#F5EEDB] border border-[#DFCDB0] px-2 py-0.5 rounded-full">
-                        5 Celebrations
+                        {(fields.events && fields.events.length) || 5} Celebrations
                       </span>
                     </div>
                     <p className="text-[11px] text-[#7A634E] leading-normal">
@@ -1367,9 +1796,21 @@ export default function CustomizePage() {
                               </span>
                               {ev.name || `Event ${idx + 1}`}
                             </span>
-                            <span className="text-[10.5px] uppercase font-semibold text-[#8F6E3B]">
-                              Ceremony {idx + 1} of 5
-                            </span>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10.5px] uppercase font-semibold text-[#8F6E3B]">
+                                Ceremony {idx + 1}
+                              </span>
+                              {fields.events && fields.events.length > 1 && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveEvent(idx)}
+                                  className="text-red-500 hover:text-red-700 p-0.5 rounded"
+                                  title="Remove celebration"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              )}
+                            </div>
                           </div>
 
                           <div>
@@ -1387,20 +1828,22 @@ export default function CustomizePage() {
 
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <div>
-                              <label className="block text-[11px] font-medium text-[#49341F] mb-1">
-                                Date
+                              <label className="block text-[11px] font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1">
+                                <Calendar className="w-3 h-3 text-[#A77B35]" />
+                                <span>Date</span>
                               </label>
                               <input
                                 type="text"
                                 value={ev.date || ev.when || ''}
                                 onChange={(e) => handleEventChange(idx, 'date', e.target.value)}
                                 placeholder="e.g. Friday, 12 February 2027"
-                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35] font-medium"
                               />
                             </div>
                             <div>
-                              <label className="block text-[11px] font-medium text-[#49341F] mb-1">
-                                Time
+                              <label className="block text-[11px] font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1">
+                                <Clock className="w-3 h-3 text-[#A77B35]" />
+                                <span>Time</span>
                               </label>
                               <input
                                 type="text"
@@ -1426,6 +1869,15 @@ export default function CustomizePage() {
                           </div>
                         </div>
                       ))}
+
+                      <button
+                        type="button"
+                        onClick={handleAddEvent}
+                        className="w-full py-2 px-3 border border-dashed border-[#A77B35] rounded-xl text-xs font-medium text-[#8F6E3B] hover:bg-[#FAF7F0] flex items-center justify-center gap-1.5 transition-colors"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>Add Celebration Function</span>
+                      </button>
                     </div>
                   </div>
 
@@ -1610,7 +2062,7 @@ export default function CustomizePage() {
                         <span>Wedding Functions &amp; Itinerary</span>
                       </div>
                       <span className="text-[10px] text-[#A77B35] font-semibold bg-[#F5EEDB] border border-[#DFCDB0] px-2 py-0.5 rounded-full">
-                        4 Events
+                        {(fields.events && fields.events.length) || 4} Functions
                       </span>
                     </div>
 
@@ -1626,9 +2078,21 @@ export default function CustomizePage() {
                             <span className="text-xs font-serif font-bold text-[#2C2114]">
                               {idx + 1}. {ev.name}
                             </span>
-                            <span className="text-[10px] uppercase font-semibold text-[#8F6E3B]">
-                              Function {idx + 1}
-                            </span>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] uppercase font-semibold text-[#8F6E3B]">
+                                Function {idx + 1}
+                              </span>
+                              {fields.events && fields.events.length > 1 && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveEvent(idx)}
+                                  className="text-red-500 hover:text-red-700 p-0.5 rounded"
+                                  title="Remove function"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              )}
+                            </div>
                           </div>
                           <div>
                             <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Function Name</label>
@@ -1641,16 +2105,22 @@ export default function CustomizePage() {
                           </div>
                           <div className="grid grid-cols-2 gap-2">
                             <div>
-                              <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Date</label>
+                              <label className="block text-[11px] font-semibold text-[#8F6E3B] mb-0.5 flex items-center gap-1">
+                                <Calendar className="w-3 h-3 text-[#A77B35]" />
+                                <span>Date</span>
+                              </label>
                               <input
                                 type="text"
                                 value={ev.date || ev.when || ''}
                                 onChange={(e) => handleEventChange(idx, 'date', e.target.value)}
-                                className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                                className="w-full px-2 py-1 text-xs rounded border border-[#DFCEAF] bg-white focus:outline-none font-medium"
                               />
                             </div>
                             <div>
-                              <label className="block text-[11px] font-medium text-[#49341F] mb-0.5">Time</label>
+                              <label className="block text-[11px] font-semibold text-[#8F6E3B] mb-0.5 flex items-center gap-1">
+                                <Clock className="w-3 h-3 text-[#A77B35]" />
+                                <span>Time</span>
+                              </label>
                               <input
                                 type="text"
                                 value={ev.time || ''}
@@ -1670,6 +2140,15 @@ export default function CustomizePage() {
                           </div>
                         </div>
                       ))}
+
+                      <button
+                        type="button"
+                        onClick={handleAddEvent}
+                        className="w-full py-2 px-3 border border-dashed border-[#A77B35] rounded-xl text-xs font-medium text-[#8F6E3B] hover:bg-[#FAF7F0] flex items-center justify-center gap-1.5 transition-colors"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>Add Celebration Function</span>
+                      </button>
                     </div>
                   </div>
 

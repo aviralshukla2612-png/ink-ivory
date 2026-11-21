@@ -24,6 +24,20 @@ export interface WeddingEventItem {
   photo?: string | null;
 }
 
+export interface StoryMilestoneItem {
+  title: string;
+  date: string;
+  description?: string;
+  milestone?: string;
+  tag?: string;
+}
+
+export interface MemoryItem {
+  id?: number;
+  caption?: string;
+  date: string;
+}
+
 export interface EditableFields {
   eyebrow?: string;
   headline?: string;
@@ -45,6 +59,8 @@ export interface EditableFields {
   letterMessage?: string;
   reasonsText?: string;
   events?: WeddingEventItem[];
+  story?: StoryMilestoneItem[];
+  memories?: MemoryItem[];
 }
 
 export interface DesignConfig {

@@ -75,6 +75,19 @@ function Template01Content() {
   if (weddingData.families?.groomSide) {
     weddingData.families.groomSide.parents = effectiveGroomParents;
   }
+  if (sessionCustom.events && Array.isArray(sessionCustom.events) && weddingData.events) {
+    sessionCustom.events.forEach((ev, i) => {
+      if (weddingData.events[i]) {
+        if (ev.name) {
+          weddingData.events[i].name = ev.name;
+          weddingData.events[i].title = ev.name;
+        }
+        if (ev.date) weddingData.events[i].date = ev.date;
+        if (ev.time) weddingData.events[i].time = ev.time;
+        if (ev.venue) weddingData.events[i].venue = ev.venue;
+      }
+    });
+  }
 
   // Force re-render state trigger
   const [, setRenderTrigger] = useState(0);
@@ -112,7 +125,10 @@ function Template01Content() {
         if (d.events && Array.isArray(d.events) && weddingData.events) {
           d.events.forEach((ev, i) => {
             if (weddingData.events[i]) {
-              if (ev.name) weddingData.events[i].title = ev.name;
+              if (ev.name) {
+                weddingData.events[i].title = ev.name;
+                weddingData.events[i].name = ev.name;
+              }
               if (ev.date) weddingData.events[i].date = ev.date;
               if (ev.time) weddingData.events[i].time = ev.time;
               if (ev.venue) weddingData.events[i].venue = ev.venue;

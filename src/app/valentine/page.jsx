@@ -47,6 +47,51 @@ export default function ValentinePage() {
           recipientName: parts[1] || parts[0] || prev.recipientName,
         }));
       }
+      if (urlParams.get('date')) {
+        const d = urlParams.get('date');
+        setData((prev) => ({
+          ...prev,
+          date: d,
+          letter: { ...prev.letter, date: d },
+        }));
+      }
+      // Check stored custom values
+      try {
+        const stored = sessionStorage.getItem('ink_ivory_custom_valentine');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          setData((prev) => {
+            const next = { ...prev };
+            if (parsed.names) {
+              const parts = parsed.names.split(/&|\band\b/i).map(s => s.trim());
+              if (parts.length >= 2) {
+                next.senderName = parts[0];
+                next.recipientName = parts[1];
+              } else {
+                next.recipientName = parsed.names;
+              }
+            }
+            if (parsed.date) {
+              next.date = parsed.date;
+              if (next.letter) next.letter.date = parsed.date;
+              if (next.story && next.story[4]) next.story[4].date = parsed.date;
+            }
+            if (parsed.headline && next.proposal) next.proposal.heading = parsed.headline;
+            if (parsed.message && next.proposal) next.proposal.subheading = parsed.message;
+            if (parsed.letterMessage && next.letter) next.letter.paragraphs = [parsed.letterMessage];
+            if (parsed.story && Array.isArray(parsed.story) && next.story) {
+              parsed.story.forEach((st, idx) => {
+                if (next.story[idx]) {
+                  if (st.title) next.story[idx].title = st.title;
+                  if (st.date) next.story[idx].date = st.date;
+                  if (st.description) next.story[idx].description = st.description;
+                }
+              });
+            }
+            return next;
+          });
+        }
+      } catch (e) {}
       if (urlParams.get('audioSource')) {
         const src = urlParams.get('audioSource');
         setData((prev) => ({
@@ -86,6 +131,20 @@ export default function ValentinePage() {
           }
           if (p.letterMessage) {
             updated.letter.paragraphs = [p.letterMessage];
+          }
+          if (p.date) {
+            updated.date = p.date;
+            if (updated.letter) updated.letter.date = p.date;
+            if (updated.story && updated.story[4]) updated.story[4].date = p.date;
+          }
+          if (p.story && Array.isArray(p.story) && updated.story) {
+            p.story.forEach((st, idx) => {
+              if (updated.story[idx]) {
+                if (st.title) updated.story[idx].title = st.title;
+                if (st.date) updated.story[idx].date = st.date;
+                if (st.description) updated.story[idx].description = st.description;
+              }
+            });
           }
           if (p.audioSource && audioRef.current) {
             if (!audioRef.current.src.endsWith(p.audioSource)) {

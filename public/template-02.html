@@ -491,8 +491,21 @@ try {
           if (ev.date) CONFIG.events[i].date = ev.date;
           if (ev.time) CONFIG.events[i].time = ev.time;
           if (ev.venue) { CONFIG.events[i].venue = ev.venue; CONFIG.events[i].map = ev.venue; }
+        } else {
+          CONFIG.events.push({
+            name: ev.name || 'Event',
+            icon: ev.icon || (i === 0 ? 'haldi' : i === 1 ? 'mehendi' : i === 2 ? 'sangeet' : i === 3 ? 'wedding' : 'reception'),
+            date: ev.date || 'TBD',
+            time: ev.time || '10:00 AM',
+            venue: ev.venue || 'Jaipur',
+            map: ev.venue || 'Jaipur',
+            blurb: 'Join us to celebrate this joyous occasion with family and friends.'
+          });
         }
       });
+      if (CONFIG.events.length > p.events.length) {
+        CONFIG.events = CONFIG.events.slice(0, p.events.length);
+      }
     }
     if (p.groomParents && CONFIG.family[0]) CONFIG.family[0].text = p.groomParents;
     if (p.brideParents && CONFIG.family[1]) CONFIG.family[1].text = p.brideParents;
@@ -1123,6 +1136,9 @@ window.addEventListener('message', (e) => {
           });
         }
       });
+      if (CONFIG.events.length > p.events.length) {
+        CONFIG.events = CONFIG.events.slice(0, p.events.length);
+      }
       buildEvents();
       if (window.armReveal) window.armReveal();
       $$('.ev').forEach(el => el.classList.add('in'));

@@ -55,6 +55,29 @@ export default function DatePlannerPage() {
     const description = params.get("description") || params.get("message");
     const eyebrow = params.get("eyebrow");
     const songUrl = params.get("songUrl") || params.get("audioSource");
+    const customDate = params.get("date");
+    const customTime = params.get("time");
+    const customVenue = params.get("venue");
+
+    if (customDate) {
+      setPlannerState((prev) => ({ ...prev, date: customDate }));
+    }
+    if (customTime) {
+      setPlannerState((prev) => ({ ...prev, timeSlot: customTime }));
+    }
+    if (customVenue) {
+      setPlannerState((prev) => ({ ...prev, location: customVenue }));
+    }
+
+    try {
+      const stored = sessionStorage.getItem("ink_ivory_custom_date-planner");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.date) setPlannerState((prev) => ({ ...prev, date: parsed.date }));
+        if (parsed.time) setPlannerState((prev) => ({ ...prev, timeSlot: parsed.time }));
+        if (parsed.venue) setPlannerState((prev) => ({ ...prev, location: parsed.venue }));
+      }
+    } catch (e) {}
 
     let rName = recipient;
     let sName = sender;
@@ -94,6 +117,16 @@ export default function DatePlannerPage() {
 
         const newSongUrl = payload.songUrl || payload.audioSource;
         const newSongTitle = payload.songTitle;
+
+        if (payload.date) {
+          setPlannerState((prev) => ({ ...prev, date: payload.date }));
+        }
+        if (payload.time) {
+          setPlannerState((prev) => ({ ...prev, timeSlot: payload.time }));
+        }
+        if (payload.venue) {
+          setPlannerState((prev) => ({ ...prev, location: payload.venue }));
+        }
 
         setData((prev) => ({
           ...prev,
@@ -257,6 +290,7 @@ export default function DatePlannerPage() {
         <DatePlannerHero
           recipientName={data.recipientName}
           senderName={data.senderName}
+          date={plannerState.date}
           heading={data.heading}
           eyebrow={data.eyebrow}
           description={data.description}

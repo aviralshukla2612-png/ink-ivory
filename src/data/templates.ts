@@ -195,6 +195,12 @@ export const templatesData: Template[] = [
       audioSource: '/audio/happy-birthday.mp3',
       songTitle: 'Happy Birthday to You (Music Box & Piano)',
       audioStartTime: 0,
+      memories: [
+        { caption: "That spontaneous sunset walk where we couldn't stop laughing.", date: 'Spring Evening' },
+        { caption: 'Coffee dates that turn into hours of heartfelt conversations.', date: 'Autumn Days' },
+        { caption: 'Under fairy lights, celebrating how magical life can be with you.', date: 'December Magic' },
+        { caption: "Here's to another year of dreams, joy, and unforgettable stories.", date: 'Golden Hour' },
+      ],
     },
     designConfig: {
       themeColor: '#FFF3EE',
@@ -240,6 +246,13 @@ export const templatesData: Template[] = [
       songTitle: 'Until I Found You — Stephen Sanchez',
       audioSource: '/audio/valentine-theme.mp3',
       audioStartTime: 0,
+      story: [
+        { title: 'The Day We Met', date: '14 February 2024', description: 'A quiet café, an accidental glance across the room, and a conversation that felt so effortlessly natural.' },
+        { title: 'Our First Conversation', date: '20 February 2024', description: 'Three hours melted away in minutes as we shared our favorite songs, secret dreams, and laughed.' },
+        { title: 'Our First Road Trip', date: '18 June 2024', description: 'Driving up the misty hill roads with the windows down, your hand in mine, realizing you are my home.' },
+        { title: 'The Little Everyday Things', date: '12 November 2024', description: 'Midnight ice cream runs, cooking dinners together that never went according to recipe.' },
+        { title: 'Today & All Our Tomorrows', date: '14 February 2026', description: 'Standing right here, asking you the simplest and most profound question of my life.' },
+      ],
     },
     designConfig: {
       themeColor: '#FFF4F0',

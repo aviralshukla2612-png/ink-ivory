@@ -731,6 +731,48 @@ if (urlParams.get('names')) {
 if (urlParams.get('venue')) W.venue = urlParams.get('venue');
 if (urlParams.get('date')) W.date = urlParams.get('date');
 
+try {
+  const stored = sessionStorage.getItem('ink_ivory_custom_template-03');
+  if (stored) {
+    const p = JSON.parse(stored);
+    if (p.names) {
+      const parts = p.names.split(/&|\band\b/i).map(s => s.trim());
+      if (parts.length >= 2) {
+        W.n1 = parts[0];
+        W.n2 = parts[1];
+        W.labelA = parts[0];
+        W.labelB = parts[1];
+      }
+    }
+    if (p.date) W.date = p.date;
+    if (p.venue) W.venue = p.venue;
+    if (p.host || p.family) W.family = p.host || p.family;
+    if (p.events && Array.isArray(p.events)) {
+      p.events.forEach((ev, i) => {
+        const dMatch = (ev.date || ev.when || '').match(/\b([0-2]?[1-9]|10|20|30|31)\b/);
+        const dayNum = dMatch ? dMatch[1] : (i === 0 ? 12 : i === 1 ? 13 : 14);
+        if (W.events[i]) {
+          if (ev.name) W.events[i].name = ev.name;
+          if (ev.date || ev.when) W.events[i].when = ev.date || ev.when;
+          if (ev.time) W.events[i].time = ev.time;
+          if (ev.venue || ev.where) W.events[i].where = ev.venue || ev.where;
+          if (ev.note) W.events[i].note = ev.note;
+          W.events[i].d = dayNum;
+        } else {
+          W.events.push({
+            name: ev.name || 'Ceremony',
+            d: dayNum,
+            when: ev.date || ev.when || W.date,
+            time: ev.time || '10:00 AM',
+            where: ev.venue || ev.where || W.venue,
+            note: ev.note || 'Sacred wedding festivities.'
+          });
+        }
+      });
+    }
+  }
+} catch(e) {}
+
 /* Hide bar if disabled */
 if (!W.SHOW_PREVIEW_BAR) {
   document.body.classList.add('nobar');
@@ -1114,18 +1156,34 @@ window.addEventListener('message', (e) => {
     if (p.venue) W.venue = p.venue;
     if (p.date) {
       W.date = p.date;
-      D.setTime(new Date(p.date).getTime());
+      const parsedD = new Date(p.date);
+      if (!isNaN(parsedD.getTime())) {
+        D.setTime(parsedD.getTime());
+      }
       buildCalendar();
     }
-    if (p.family) W.family = p.family;
+    if (p.venue) W.venue = p.venue;
+    if (p.host || p.family) W.family = p.host || p.family;
     if (p.events && Array.isArray(p.events)) {
       p.events.forEach((ev, i) => {
+        const dMatch = (ev.date || ev.when || '').match(/\b([0-2]?[1-9]|10|20|30|31)\b/);
+        const dayNum = dMatch ? dMatch[1] : (i === 0 ? 12 : i === 1 ? 13 : 14);
         if (W.events[i]) {
           if (ev.name) W.events[i].name = ev.name;
           if (ev.date || ev.when) W.events[i].when = ev.date || ev.when;
           if (ev.time) W.events[i].time = ev.time;
           if (ev.venue || ev.where) W.events[i].where = ev.venue || ev.where;
           if (ev.note) W.events[i].note = ev.note;
+          W.events[i].d = dayNum;
+        } else {
+          W.events.push({
+            name: ev.name || 'Ceremony',
+            d: dayNum,
+            when: ev.date || ev.when || W.date,
+            time: ev.time || '10:00 AM',
+            where: ev.venue || ev.where || W.venue,
+            note: ev.note || 'Sacred wedding festivities.'
+          });
         }
       });
       buildEvents();

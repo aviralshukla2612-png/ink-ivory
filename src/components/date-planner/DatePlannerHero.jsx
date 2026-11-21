@@ -7,6 +7,7 @@ import { Heart, Sparkles, ArrowDown } from "lucide-react";
 export default function DatePlannerHero({
   recipientName = "Riya",
   senderName = "Aarav",
+  date = "",
   heading = "Our Perfect Date ♡",
   eyebrow = "LET'S PLAN",
   description = "Tell me what you'd love most, and I'll plan every detail for an unforgettable time together.",
@@ -41,6 +42,11 @@ export default function DatePlannerHero({
 
           <div className="font-serif italic text-lg sm:text-xl text-[#B51F3B] mb-6 sm:mb-8">
             For {recipientName} &bull; With love, {senderName}
+            {date && (
+              <span className="block text-xs sm:text-sm font-sans font-semibold tracking-wide text-[#641A2A] mt-2">
+                ✦ Planned Date: {date} ✦
+              </span>
+            )}
           </div>
 
           {/* Actions */}

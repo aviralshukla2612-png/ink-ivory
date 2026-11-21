@@ -56,6 +56,60 @@ export default function BirthdayPage() {
       }));
     }
 
+    if (params.get('date')) {
+      const dt = params.get('date');
+      setData((prev) => ({
+        ...prev,
+        occasionDate: dt,
+        date: dt,
+      }));
+    }
+
+    try {
+      const stored = sessionStorage.getItem('ink_ivory_custom_birthday');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setData((prev) => {
+          const next = { ...prev };
+          if (parsed.names) {
+            const parts = parsed.names.split(/&|\band\b/i).map((s) => s.trim());
+            if (parts.length >= 2) {
+              next.recipientName = parts[0];
+              next.senderName = parts[1];
+            } else {
+              next.recipientName = parsed.names;
+            }
+          }
+          if (parsed.headline && next.hero) next.hero.heading = parsed.headline;
+          if (parsed.message && next.hero) next.hero.message = parsed.message;
+          if (parsed.date) {
+            next.occasionDate = parsed.date;
+            next.date = parsed.date;
+          }
+          if (parsed.letterMessage && next.letter) {
+            next.letter = {
+              ...next.letter,
+              paragraphs: [
+                `Dear ${next.recipientName},`,
+                parsed.letterMessage,
+                'Happy Birthday!',
+                `With all my love,\n${next.senderName}`,
+              ],
+            };
+          }
+          if (parsed.memories && Array.isArray(parsed.memories) && next.memories) {
+            parsed.memories.forEach((m, idx) => {
+              if (next.memories[idx]) {
+                if (m.date) next.memories[idx].date = m.date;
+                if (m.caption) next.memories[idx].caption = m.caption;
+              }
+            });
+          }
+          return next;
+        });
+      }
+    } catch (e) {}
+
     if (params.get('audioSource')) {
       const src = params.get('audioSource');
       setData((prev) => ({
@@ -95,6 +149,18 @@ export default function BirthdayPage() {
         }
         if (p.message) {
           next.hero = { ...next.hero, message: p.message };
+        }
+        if (p.date) {
+          next.occasionDate = p.date;
+          next.date = p.date;
+        }
+        if (p.memories && Array.isArray(p.memories) && next.memories) {
+          p.memories.forEach((m, idx) => {
+            if (next.memories[idx]) {
+              if (m.date) next.memories[idx].date = m.date;
+              if (m.caption) next.memories[idx].caption = m.caption;
+            }
+          });
         }
         if (p.letterMessage) {
           next.letter = {
@@ -197,6 +263,7 @@ export default function BirthdayPage() {
       <BirthdayHero
         recipientName={data.recipientName}
         senderName={data.senderName}
+        date={data.occasionDate || data.date}
         heading={data.hero.heading}
         message={data.hero.message}
         buttonText={data.hero.buttonText}
@@ -233,6 +300,7 @@ export default function BirthdayPage() {
       <BirthdayLetter
         heading={data.letter.heading}
         prompt={data.letter.prompt}
+        date={data.occasionDate || data.date}
         paragraphs={data.letter.paragraphs}
         recipientName={data.recipientName}
         senderName={data.senderName}

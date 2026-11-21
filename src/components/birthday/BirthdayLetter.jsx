@@ -8,6 +8,7 @@ export function BirthdayLetter({
   heading = 'A Little Note For You',
   prompt = 'Open Your Letter ♡',
   paragraphs = [],
+  date = '14 November',
   recipientName = 'Ananya',
   senderName = 'Kabir',
 }) {
@@ -98,9 +99,16 @@ export function BirthdayLetter({
                     <div className="w-8 h-8 rounded-full bg-[#FFF3EE] border border-[#E9CFA9] flex items-center justify-center text-[#B62A42]">
                       <Heart className="w-4 h-4 fill-current" />
                     </div>
-                    <span className="font-serif italic text-sm text-[#681C2C] font-semibold">
-                      You Are Mine Love Letter
-                    </span>
+                    <div>
+                      <span className="font-serif italic text-sm text-[#681C2C] font-semibold block leading-tight">
+                        You Are Mine Love Letter
+                      </span>
+                      {date && (
+                        <span className="text-[11px] font-sans text-[#8F6E3B] font-medium block">
+                          {date}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <button
                     onClick={() => setIsOpen(false)}

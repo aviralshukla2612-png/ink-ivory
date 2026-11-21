@@ -8,6 +8,7 @@ import Image from 'next/image';
 export function BirthdayHero({
   recipientName = 'Ananya',
   senderName = 'Kabir',
+  date = '14 November',
   heading = 'Birthday',
   message = 'To the one who makes life more special, may your day be as beautiful, kind and happy as you are.',
   buttonText = 'Open Your Surprise ♡',
@@ -98,9 +99,9 @@ export function BirthdayHero({
             className="lg:col-span-6 text-center flex flex-col items-center justify-center px-2 sm:px-6 order-1 lg:order-2"
           >
             {/* Small Elegant Overhead Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/70 backdrop-blur-sm border border-[#E9CFA9]/80 text-[#B62A42] text-[11px] font-sans font-semibold uppercase tracking-[0.25em] mb-4 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/70 backdrop-blur-sm border border-[#E9CFA9]/80 text-[#B62A42] text-[11px] font-sans font-semibold uppercase tracking-[0.2em] mb-4 shadow-sm">
               <Sparkles className="w-3 h-3 text-[#D9A441]" />
-              <span>A Special Day For A Special Soul</span>
+              <span>{date ? `✦ Celebrating ${date} ✦` : 'A Special Day For A Special Soul'}</span>
               <Sparkles className="w-3 h-3 text-[#D9A441]" />
             </div>
 
