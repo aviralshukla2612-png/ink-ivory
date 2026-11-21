@@ -548,9 +548,6 @@ export default function CheckoutPage() {
                     <label className="block text-xs font-semibold text-[#49341F]">
                       Verification Code (OTP)
                     </label>
-                    <span className="text-[10.5px] text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full font-medium border border-emerald-200">
-                      SMS sent to your phone • Test code: 1234
-                    </span>
                   </div>
 
                   <div className="flex items-center justify-center gap-3 sm:gap-4 my-2">
