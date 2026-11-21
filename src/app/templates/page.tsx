@@ -236,7 +236,7 @@ function TemplatesContent() {
 
       </div>
 
-      {/* Live Demo Modal with Phone Auto-advance (2s) and Laptop View */}
+      {/* Live Demo Modal with Phone and Laptop View */}
       {activeDemoTemplate && (
         <LiveDemoModal
           isOpen={!!activeDemoTemplate}

@@ -9,10 +9,6 @@ import {
   ChevronRight,
   Smartphone,
   Laptop,
-  Play,
-  Pause,
-  Sparkles,
-  ExternalLink,
 } from 'lucide-react';
 import { Template } from '@/types';
 
@@ -30,7 +26,6 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
   initialDevice = 'phone',
 }) => {
   const [device, setDevice] = useState<'phone' | 'laptop'>(initialDevice);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [mounted, setMounted] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -42,7 +37,6 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       setDevice(initialDevice);
-      setIsAutoPlaying(true);
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -68,7 +62,7 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
   const baseUrl = template.liveDemoUrl || '/template-01';
   const demoUrl =
     device === 'phone'
-      ? `${baseUrl}?mode=demo&view=phone&auto=${isAutoPlaying ? '2000' : 'false'}`
+      ? `${baseUrl}?mode=demo&view=phone&auto=false`
       : `${baseUrl}?mode=demo&view=laptop`;
 
   const handlePrev = () => {
@@ -77,12 +71,6 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
 
   const handleNext = () => {
     iframeRef.current?.contentWindow?.postMessage({ action: 'nextSlide' }, '*');
-  };
-
-  const toggleAutoPlay = () => {
-    const nextState = !isAutoPlaying;
-    setIsAutoPlaying(nextState);
-    iframeRef.current?.contentWindow?.postMessage({ action: 'toggleAutoPlay' }, '*');
   };
 
   return createPortal(
@@ -131,30 +119,26 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
         <div className="flex items-center bg-[#131B2C] p-1 rounded-full border border-[#263450] shadow-inner">
           <button
             onClick={() => setDevice('phone')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${device === 'phone'
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+              device === 'phone'
                 ? 'bg-[#E5A842] text-[#0E1524] font-semibold shadow-md'
                 : 'text-[#94A3B8] hover:text-[#E2D5BE]'
-              }`}
+            }`}
           >
             <Smartphone className="w-3.5 h-3.5" />
             <span>Phone</span>
-            <span className="hidden sm:inline text-[10px] px-1.5 py-0.2 rounded-full bg-black/20">
-              Auto 2s
-            </span>
           </button>
 
           <button
             onClick={() => setDevice('laptop')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${device === 'laptop'
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+              device === 'laptop'
                 ? 'bg-[#E5A842] text-[#0E1524] font-semibold shadow-md'
                 : 'text-[#94A3B8] hover:text-[#E2D5BE]'
-              }`}
+            }`}
           >
             <Laptop className="w-3.5 h-3.5" />
             <span>Laptop</span>
-            <span className="hidden sm:inline text-[10px] px-1.5 py-0.2 rounded-full bg-black/20">
-              Scroll
-            </span>
           </button>
         </div>
 
@@ -180,7 +164,7 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
         </div>
 
         {/* =========================================================================
-            PHONE VIEW (Realistic Smartphone Mockup + Auto-scroll every 2 seconds)
+            PHONE VIEW (Realistic Smartphone Mockup)
             ========================================================================= */}
         {device === 'phone' && (
           <div className="flex flex-col items-center justify-center h-full max-h-full">
@@ -200,30 +184,6 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
                 title="Live Mobile Wedding Invitation Demo"
                 className="w-full h-full border-none bg-[#091321]"
               />
-            </div>
-
-            {/* Bottom Floating Status Bar */}
-            <div className="mt-3 flex items-center gap-3 bg-[#111827]/90 px-4 py-1.5 rounded-full border border-[#2B3A59] shadow-lg text-xs text-[#CBD5E1]">
-              <div className="flex items-center gap-1.5">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E5A842] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E5A842]"></span>
-                </span>
-                <span className="text-[11px] font-medium text-[#E2D5BE]">
-                  {isAutoPlaying ? 'Auto-advancing every 2s' : 'Auto-advance paused'}
-                </span>
-              </div>
-
-              <span className="text-[#475569]">|</span>
-
-              <button
-                onClick={toggleAutoPlay}
-                className="p-1 rounded hover:bg-[#1E293B] text-[#E5A842] transition-colors flex items-center gap-1 cursor-pointer"
-                title={isAutoPlaying ? 'Pause Auto-slide' : 'Resume Auto-slide'}
-              >
-                {isAutoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                <span className="text-[10px] font-semibold">{isAutoPlaying ? 'Pause' : 'Resume'}</span>
-              </button>
             </div>
           </div>
         )}
