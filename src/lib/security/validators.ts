@@ -14,13 +14,13 @@ export const SlugSchema = z
 
 // Draft Creation Schema
 export const CreateDraftSchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.string().max(100).optional(),
   templateId: z.string().min(1, "templateId is required").max(100),
   title: z.string().max(200).optional().default("My Invitation Draft"),
   userId: z.string().max(100).optional(),
   fields: z.record(z.string(), z.any()).optional().default({}),
   design: z.record(z.string(), z.any()).optional().default({}),
-  customAudioUrl: z.string().url().max(500).optional().or(z.string().regex(/^\/uploads\//).max(500)).nullable(),
+  customAudioUrl: z.string().max(500).optional().nullable(),
   customAudioTitle: z.string().max(200).optional().nullable(),
   status: z.enum(["DRAFT", "READY_TO_PUBLISH", "PAYMENT_PENDING", "PUBLISHED", "ARCHIVED"]).optional().default("DRAFT"),
 });

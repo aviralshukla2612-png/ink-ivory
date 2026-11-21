@@ -12,7 +12,7 @@ export async function createRazorpayOrder(params: {
   currency: string;
   receipt: string;
   notes?: Record<string, any>;
-}): Promise<{ id: string; amount: number; currency: string }> {
+}): Promise<{ id: string; amount: number; currency: string; isLiveRazorpayOrder: boolean }> {
   const activeKeyId = process.env.RAZORPAY_KEY_ID || RAZORPAY_KEY_ID;
   const activeKeySecret = process.env.RAZORPAY_KEY_SECRET || RAZORPAY_KEY_SECRET;
 
@@ -46,22 +46,28 @@ export async function createRazorpayOrder(params: {
 
       if (!res.ok) {
         const err = await res.text();
-        console.warn(`Razorpay Order Creation notice (${res.status}): ${err}`);
+        console.warn(`Razorpay Order API Notice (${res.status}): ${err}`);
       } else {
         const data = await res.json();
-        return { id: data.id, amount: data.amount, currency: data.currency };
+        return {
+          id: data.id,
+          amount: data.amount,
+          currency: data.currency,
+          isLiveRazorpayOrder: true,
+        };
       }
     } catch (apiErr) {
       console.warn("Razorpay order API connection notice:", apiErr);
     }
   }
 
-  // Safe developer sandbox / fallback order generator
-  const mockOrderId = "order_" + crypto.randomBytes(8).toString("hex");
+  // Fallback local tracking order (never passed as Razorpay order_id to avoid 400 error)
+  const localOrderId = "local_order_" + crypto.randomBytes(8).toString("hex");
   return {
-    id: mockOrderId,
+    id: localOrderId,
     amount: params.amount,
     currency: params.currency || "INR",
+    isLiveRazorpayOrder: false,
   };
 }
 

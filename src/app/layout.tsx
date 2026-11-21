@@ -56,6 +56,7 @@ export default function RootLayout({
           type="image/webp"
           fetchPriority="high"
         />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="theme-color" content="#F8F4EC" />

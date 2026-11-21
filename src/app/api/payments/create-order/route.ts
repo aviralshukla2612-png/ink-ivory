@@ -100,6 +100,7 @@ export async function POST(request: NextRequest) {
       currency: razorpayOrder.currency,
       keyId: RAZORPAY_KEY_ID,
       draftId: draft.id,
+      isLiveRazorpayOrder: razorpayOrder.isLiveRazorpayOrder,
       quote,
     });
   } catch (error: any) {
