@@ -118,6 +118,7 @@ export async function getPublicTemplateById(idOrSlug: string): Promise<Template 
         (idOrSlug === "template-01" && (t.id === "tpl-wedding-navy-01" || t.slug === "the-royal-navy-wedding")) ||
         (idOrSlug === "template-02" && (t.id === "tpl-anniversary-gold-02" || t.slug === "golden-botanical-anniversary")) ||
         (idOrSlug === "template-03" && (t.id === "tpl-engagement-garden-03" || t.slug === "thirumanam-south-indian-temple-wedding")) ||
+        (idOrSlug === "template-04" && (t.id === "tpl-wedding-paper-palace-04" || t.slug === "paper-palace-wedding")) ||
         (idOrSlug === "birthday" && (t.id === "tpl-birthday-botanical-04" || t.slug === "interactive-birthday-celebration")) ||
         (idOrSlug === "valentine" && (t.id === "tpl-valentine-interactive-05" || t.slug === "will-you-be-my-valentine")) ||
         (idOrSlug === "date-planner" && (t.id === "tpl-date-planner-07" || t.slug === "our-date-planner"))

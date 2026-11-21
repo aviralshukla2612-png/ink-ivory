@@ -65,7 +65,8 @@ export default function CustomizePage() {
         (templateId === 'valentine' && t.liveDemoUrl === '/valentine') ||
         (templateId === 'birthday' && t.liveDemoUrl === '/birthday') ||
         (templateId === 'template-02' && t.liveDemoUrl === '/template-02') ||
-        (templateId === 'template-03' && t.liveDemoUrl === '/template-03')
+        (templateId === 'template-03' && t.liveDemoUrl === '/template-03') ||
+        (templateId === 'template-04' && t.liveDemoUrl === '/template-04')
     ) || templatesData[0];
 
   // Resolve template key
