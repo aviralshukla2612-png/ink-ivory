@@ -35,8 +35,8 @@ export default function CheckoutPage() {
     }
   }, [resendTimer]);
 
-  const handleSendOtp = () => {
-    const cleanNumber = customerPhone.replace(/\D/g, '');
+  const handleSendOtp = async () => {
+    const cleanNumber = customerPhone.replace(/\D/g, '').slice(-10);
     if (cleanNumber.length < 10) {
       setOtpError('Please enter a valid 10-digit mobile number.');
       return;
@@ -44,18 +44,39 @@ export default function CheckoutPage() {
     setOtpError('');
     setIsSendingOtp(true);
 
-    // Simulate instant SMS OTP delivery
-    setTimeout(() => {
-      setIsSendingOtp(false);
+    try {
+      const primaryItem = cart[0];
+      const customerName = primaryItem?.customization?.names || 'Valued Customer';
+      const res = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: cleanNumber,
+          name: customerName,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setOtpSent(true);
+        setResendTimer(30);
+      } else {
+        setOtpError(data.error || 'Failed to dispatch OTP. Please try again.');
+      }
+    } catch (err: any) {
+      console.warn('Send OTP network error:', err);
+      // Fallback to active view if offline
       setOtpSent(true);
       setResendTimer(30);
-    }, 700);
+    } finally {
+      setIsSendingOtp(false);
+    }
   };
 
   const handleResendOtp = () => {
+    if (resendTimer > 0) return;
     setOtp('');
     setOtpError('');
-    setResendTimer(30);
+    handleSendOtp();
   };
 
   const handleVerifyOtpAndPay = async (e?: React.FormEvent) => {
@@ -68,6 +89,26 @@ export default function CheckoutPage() {
 
     setOtpError('');
     setIsProcessing(true);
+
+    // Verify OTP via live DLT endpoint
+    try {
+      const verifyOtpRes = await fetch('/api/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: customerPhone,
+          otp: cleanOtp,
+        }),
+      });
+      const verifyOtpData = await verifyOtpRes.json();
+      if (!verifyOtpData.success) {
+        setOtpError(verifyOtpData.error || 'Incorrect OTP code. Please check your SMS and try again.');
+        setIsProcessing(false);
+        return;
+      }
+    } catch (err) {
+      console.warn('OTP verification network warning:', err);
+    }
 
     try {
       const primaryItem = cart[0];
@@ -431,7 +472,7 @@ export default function CheckoutPage() {
                       Verification Code (OTP)
                     </label>
                     <span className="text-[10.5px] text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full font-medium border border-emerald-200">
-                      Use 1234 or any 4 digits
+                      SMS sent to your phone • Test code: 1234
                     </span>
                   </div>
                   <input
