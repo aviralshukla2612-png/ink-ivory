@@ -40,7 +40,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Jasleen Royal • Phillauri',
     category: 'Wedding',
     tag: 'Bridal Entry Classic',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4f/cc/f8/4fccf86a-eedd-0bba-a3ba-c44041835c9a/mzaf_10644835758459052916.plus.aac.p.m4a',
+    source: '/audio/songs/song-1.m4a',
     duration: 215,
   },
   {
@@ -51,7 +51,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Labh Janjua, Sonu Kakkar, Neha Kakkar • Queen',
     category: 'Wedding',
     tag: 'Sangeet Party',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/04/f2/15/04f2159c-f378-3323-d3a0-c055474ec688/mzaf_11306147181651969029.plus.aac.p.m4a',
+    source: '/audio/songs/song-2.m4a',
     duration: 230,
   },
   {
@@ -62,7 +62,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Yashita Sharma, Manish Kumar Tipu, Shankar Mahadevan • Dil Dhadakne Do',
     category: 'Wedding',
     tag: 'Family Sangeet Dance',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0a/b1/65/0ab165c2-5461-139b-3361-43d39f4f7f77/mzaf_13810064433892693288.plus.aac.p.m4a',
+    source: '/audio/songs/song-3.m4a',
     duration: 297,
   },
   {
@@ -73,7 +73,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Jasleen Royal, Harshdeep Kaur, Siddharth Mahadevan • Baar Baar Dekho',
     category: 'Wedding',
     tag: 'Celebration Sangeet',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2a/fc/80/2afc8083-29a5-56bf-9cb6-5c6c995e6998/mzaf_15761810932781093493.plus.aac.p.m4a',
+    source: '/audio/songs/song-4.m4a',
     duration: 195,
   },
   {
@@ -84,7 +84,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Sunidhi Chauhan, Swanand Kirkire, Neelambari Kirkire • English Vinglish',
     category: 'Wedding',
     tag: 'Traditional Wedding Delight',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fd/14/58/fd145825-28bc-1b97-2555-ce24af71d6a4/mzaf_8781952178431129035.plus.aac.p.m4a',
+    source: '/audio/songs/song-5.m4a',
     duration: 263,
   },
   {
@@ -95,7 +95,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Amit Kumar, Sonu Nigam, Alka Yagnik, Udit Narayan, Kavita K. • K3G',
     category: 'Wedding',
     tag: 'Evergreen Bollywood Wedding',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f4/2a/45/f42a4573-fb69-35de-f613-452240ae2132/mzaf_7059332756905048572.plus.aac.p.m4a',
+    source: '/audio/songs/song-6.m4a',
     duration: 408,
   },
   {
@@ -106,7 +106,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Lata Mangeshkar, Udit Narayan • DDLJ',
     category: 'Wedding',
     tag: 'Iconic Mehendi Anthem',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5e/2f/7e/5e2f7efb-98e3-2169-eef9-c5c73cf7c893/mzaf_4538192949110006143.plus.aac.p.m4a',
+    source: '/audio/songs/song-7.m4a',
     duration: 287,
   },
   {
@@ -117,7 +117,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Sadhana Sargam, Sujata Bhattacharya, Udit Narayan, Shankar • Kal Ho Naa Ho',
     category: 'Wedding',
     tag: 'Sangeet Royal Dance',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/35/38/75/3538750b-7a10-f07c-e100-01190a54ddb4/mzaf_2130822837600874432.plus.aac.p.m4a',
+    source: '/audio/songs/song-8.m4a',
     duration: 367,
   },
   {
@@ -128,7 +128,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Abhijeet Bhattacharya, Alka Yagnik • Pyaar To Hona Hi Tha',
     category: 'Wedding',
     tag: 'Engagement Classic',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a2/70/15/a270157d-574b-2c41-7aff-4a80c0da6cbe/mzaf_602291646256107869.plus.aac.p.m4a',
+    source: '/audio/songs/song-9.m4a',
     duration: 431,
   },
   {
@@ -139,7 +139,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Sonu Nigam, Mahalakshmi Iyer • Salaam-E-Ishq',
     category: 'Wedding',
     tag: 'Baaraat Grand Entry',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/82/57/6c/82576cfa-fabd-f0bf-bb5a-5f146c112410/mzaf_7855436305613527218.plus.aac.p.m4a',
+    source: '/audio/songs/song-10.m4a',
     duration: 274,
   },
   {
@@ -150,7 +150,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Shankar Mahadevan, Sunidhi Chauhan, Vishal Dadlani • Dostana',
     category: 'Wedding',
     tag: 'Sangeet Groove',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b4/58/80/b45880d1-8f73-2281-aedb-384f28e5d76c/mzaf_5076496193019092454.plus.aac.p.m4a',
+    source: '/audio/songs/song-11.m4a',
     duration: 307,
   },
   {
@@ -161,7 +161,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Lehmber Hussainpuri • Tanu Weds Manu',
     category: 'Wedding',
     tag: 'High Energy Baaraat',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/af/63/02/af630221-e849-8d2f-f279-a8159cec4c19/mzaf_1012138708851747762.plus.aac.p.m4a',
+    source: '/audio/songs/song-12.m4a',
     duration: 265,
   },
   {
@@ -172,7 +172,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Pardeep Singh Sran, Nakash Aziz • Ae Dil Hai Mushkil',
     category: 'Wedding',
     tag: 'Fun Wedding Vibe',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5c/3f/33/5c3f331c-42c9-49b3-7f37-c4d63281a348/mzaf_246153374526810785.plus.aac.p.m4a',
+    source: '/audio/songs/song-13.m4a',
     duration: 232,
   },
   {
@@ -183,7 +183,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Sunidhi Chauhan, Benny Dayal • Hasee Toh Phasee',
     category: 'Wedding',
     tag: 'Punjabi Wedding Craze',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/94/6e/b1/946eb1b1-a758-79b0-2f50-43edd1b1faf0/mzaf_8661949036957218883.plus.aac.p.m4a',
+    source: '/audio/songs/song-14.m4a',
     duration: 234,
   },
   {
@@ -194,7 +194,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Amar Arshi, Badshah, Neha Kakkar • Baar Baar Dekho',
     category: 'Wedding',
     tag: 'Global Wedding Viral',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0b/40/3e/0b403e59-7e56-248f-9363-662fa5d4a6d8/mzaf_7321027000281469165.plus.aac.p.m4a',
+    source: '/audio/songs/song-15.m4a',
     duration: 187,
   },
   {
@@ -205,7 +205,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Salim Merchant, Sunidhi Chauhan • Band Baaja Baaraat',
     category: 'Wedding',
     tag: 'Wedding Planners Anthem',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/75/1b/8e/751b8e3a-f8c0-6fad-53c3-fb47e8be7eb3/mzaf_4204017061187993793.plus.aac.p.m4a',
+    source: '/audio/songs/song-16.m4a',
     duration: 269,
   },
   {
@@ -216,7 +216,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Tochi Raina • Aisha',
     category: 'Wedding',
     tag: 'Sweet Wedding Harmony',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c5/69/40/c5694028-e7dd-f282-8650-b9490a882385/mzaf_15530524377610201066.plus.aac.p.m4a',
+    source: '/audio/songs/song-17.m4a',
     duration: 256,
   },
   {
@@ -227,7 +227,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Harshdeep Kaur, Arijit Singh • YJHD',
     category: 'Wedding',
     tag: 'Emotional Vidaai & Pheras',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/21/58/5a/21585ab6-e922-7ecf-c5a7-485034d15ccd/mzaf_14190128101415650266.plus.aac.p.m4a',
+    source: '/audio/songs/song-18.m4a',
     duration: 270,
   },
   {
@@ -238,7 +238,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Jasbir Jassi, Mahalakshmi Iyer, Hard Kaur • Patiala House',
     category: 'Wedding',
     tag: 'Punjabi Sangeet Blast',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6a/b0/a5/6ab0a5a2-855a-6df6-cc1e-485dc049dd79/mzaf_5707473899973575242.plus.aac.p.m4a',
+    source: '/audio/songs/song-19.m4a',
     duration: 304,
   },
   {
@@ -249,7 +249,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Diljit Dosanjh, Sukhbir, Dhvani Bhanushali • Good Newwz',
     category: 'Wedding',
     tag: 'Baaraat Sensation',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0f/a6/c4/0fa6c4a4-b637-6526-e833-12074ca52d17/mzaf_16482950889515066075.plus.aac.p.m4a',
+    source: '/audio/songs/song-20.m4a',
     duration: 211,
   },
   {
@@ -260,7 +260,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Guru Randhawa, Neha Kakkar • Badhaai Ho',
     category: 'Wedding',
     tag: 'Fun Sangeet Couple Dance',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/41/08/f7/4108f738-5d75-ff53-1dcc-e66a858bd6df/mzaf_11800009458843134496.plus.aac.p.m4a',
+    source: '/audio/songs/song-21.m4a',
     duration: 198,
   },
   {
@@ -271,7 +271,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Yo Yo Honey Singh, Simar Kaur, Ishers • SKTKS',
     category: 'Wedding',
     tag: 'Cocktail Night Banger',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4c/a3/86/4ca38658-3bb6-e81e-5da1-241eb1e4f4d7/mzaf_7991506045824959497.plus.aac.p.m4a',
+    source: '/audio/songs/song-22.m4a',
     duration: 227,
   },
   {
@@ -282,7 +282,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Salim Merchant, Sunidhi Chauhan • Wedding Pullav',
     category: 'Wedding',
     tag: 'Festive Wedding Flavours',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ba/01/58/ba015820-fb63-df1a-635d-e07973caa349/mzaf_13689789911820800583.plus.aac.p.m4a',
+    source: '/audio/songs/song-23.m4a',
     duration: 189,
   },
   {
@@ -293,7 +293,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Neha Bhasin • Folk Wedding Melody',
     category: 'Wedding',
     tag: 'Folk Bridal Elegance',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6f/7f/97/6f7f97a1-621e-78db-c3c6-73d922e98dbd/mzaf_8949429233727581287.plus.aac.p.m4a',
+    source: '/audio/songs/song-24.m4a',
     duration: 255,
   },
   {
@@ -304,7 +304,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'B Praak, Jasleen Royal • Shershaah',
     category: 'Wedding',
     tag: 'Modern Soulful Pheras',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/56/65/9c/56659cff-c9d3-0c40-eca6-cdef3543b209/mzaf_1437769840194003232.plus.aac.p.m4a',
+    source: '/audio/songs/song-25.m4a',
     duration: 229,
   },
 
@@ -319,7 +319,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Mohammed Rafi • Farz',
     category: 'Birthday',
     tag: 'Timeless Birthday Anthem',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/00/51/63/0051630f-0c67-02df-4a51-0e93ea55e922/mzaf_1906037364965549989.plus.aac.p.m4a',
+    source: '/audio/songs/song-26.m4a',
     duration: 428,
   },
   {
@@ -330,7 +330,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Asha Bhosle • Sujata',
     category: 'Birthday',
     tag: 'Golden Vintage Birthday Blessing',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a0/98/0f/a0980f91-cd42-50dd-3a70-6bc5c3ccef15/mzaf_10208005427210501100.plus.aac.p.m4a',
+    source: '/audio/songs/song-27.m4a',
     duration: 194,
   },
   {
@@ -341,7 +341,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Sachin-Jigar, D Soldierz • ABCD 2',
     category: 'Birthday',
     tag: 'Urban Birthday Groove',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/17/58/e9/1758e947-10c2-9ad7-2b5e-d34b4d532502/mzaf_6152626137778764288.plus.aac.p.m4a',
+    source: '/audio/songs/song-28.m4a',
     duration: 250,
   },
   {
@@ -352,7 +352,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Yo Yo Honey Singh, Alfaaz • DZG',
     category: 'Birthday',
     tag: 'Birthday Night Party Club',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f0/d5/18/f0d518d5-f597-f9e4-b8fc-9c30d0a994e6/mzaf_5610695627261090599.plus.aac.p.m4a',
+    source: '/audio/songs/song-29.m4a',
     duration: 252,
   },
   {
@@ -363,7 +363,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Sukhwinder Singh, Shankar Mahadevan • Kill Dil',
     category: 'Birthday',
     tag: 'Energetic Birthday Vibes',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e8/d5/8b/e8d58b35-bf23-b5c3-ab20-3b57029d01da/mzaf_3087339375233899170.plus.aac.p.m4a',
+    source: '/audio/songs/song-30.m4a',
     duration: 267,
   },
   {
@@ -374,7 +374,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Mika Singh • Bajrangi Bhaijaan',
     category: 'Birthday',
     tag: 'High Voltage Party',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/95/f8/01/95f8015b-567f-ee1f-ff70-9a8c80242cce/mzaf_3063914786017774065.plus.aac.p.m4a',
+    source: '/audio/songs/song-31.m4a',
     duration: 281,
   },
   {
@@ -385,7 +385,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Badshah, Aastha Gill • Khoobsurat',
     category: 'Birthday',
     tag: 'Ultimate Party Starter',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/cd/b9/90/cdb990a5-155d-41ef-78d1-72f404da8438/mzaf_9064427207501693721.plus.aac.p.m4a',
+    source: '/audio/songs/song-32.m4a',
     duration: 180,
   },
   {
@@ -396,7 +396,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Badshah, Benny Dayal, Nucleya • Kapoor & Sons',
     category: 'Birthday',
     tag: 'EDM Party Banger',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c7/18/63/c71863b7-9659-0820-486a-9210e39b8c72/mzaf_5664363915621521960.plus.aac.p.m4a',
+    source: '/audio/songs/song-33.m4a',
     duration: 215,
   },
   {
@@ -407,7 +407,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Badshah, Fazilpuria, Sukriti Kakar, Neha Kakkar • Kapoor & Sons',
     category: 'Birthday',
     tag: 'House Party Favorite',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a2/73/42/a273426d-66bc-2d7d-abd6-a3000b37ec5f/mzaf_14832496167081149978.plus.aac.p.m4a',
+    source: '/audio/songs/song-34.m4a',
     duration: 188,
   },
   {
@@ -418,7 +418,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Benny Dayal, Nazia Hassan, Sunidhi Chauhan • SOTY',
     category: 'Birthday',
     tag: 'Retro Disco Mashup',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0f/d2/08/0fd208aa-6c86-63d9-7b78-0516d62f2dcd/mzaf_7185609313160297339.plus.aac.p.m4a',
+    source: '/audio/songs/song-35.m4a',
     duration: 342,
   },
   {
@@ -429,7 +429,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Benny Dayal, Shefali Alvares • YJHD',
     category: 'Birthday',
     tag: 'Bollywood Celebration Anthem',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/88/e2/af/88e2af36-3b58-3f34-32c3-d94d3086c8d5/mzaf_15476348080733865142.plus.aac.p.m4a',
+    source: '/audio/songs/song-36.m4a',
     duration: 253,
   },
   {
@@ -440,7 +440,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Sunidhi Chauhan • YJHD',
     category: 'Birthday',
     tag: 'Youth Party Favorite',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/95/f6/5f/95f65f13-4a42-6b9a-2689-0b221473ea3b/mzaf_12878159079636166594.plus.aac.p.m4a',
+    source: '/audio/songs/song-37.m4a',
     duration: 261,
   },
   {
@@ -451,7 +451,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Yo Yo Honey Singh • Boss',
     category: 'Birthday',
     tag: 'Non-stop Celebration',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b1/99/2d/b1992d36-69f9-ea3a-8e68-9902188d4d2d/mzaf_10555862624820278739.plus.aac.p.m4a',
+    source: '/audio/songs/song-38.m4a',
     duration: 283,
   },
   {
@@ -462,7 +462,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Badshah, Indeep Bakshi, Akriti Kakar • HSKD',
     category: 'Birthday',
     tag: 'Weekend Party Vibe',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3f/36/ec/3f36ec8a-06b8-f14d-c715-b80e1526d4a2/mzaf_1485983431588059130.plus.aac.p.m4a',
+    source: '/audio/songs/song-39.m4a',
     duration: 211,
   },
   {
@@ -473,7 +473,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Meet Bros Anjjan, Mika Singh • Bhoothnath Returns',
     category: 'Birthday',
     tag: 'Celebration Groove',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/21/28/6f/21286fd3-2208-54fa-5801-a750e2c0052c/mzaf_4542570556145334395.plus.aac.p.m4a',
+    source: '/audio/songs/song-40.m4a',
     duration: 260,
   },
   {
@@ -484,7 +484,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'KK, Bob • Desi Boyz',
     category: 'Birthday',
     tag: 'Fun Squad Birthday',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/82/79/43/827943ee-59e8-b535-52dd-c2b68ae62163/mzaf_5249414782359432432.plus.aac.p.m4a',
+    source: '/audio/songs/song-41.m4a',
     duration: 244,
   },
   {
@@ -495,7 +495,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Mika Singh, Amitabh Bhattacharya, Nakash Aziz • Agent Vinod',
     category: 'Birthday',
     tag: 'Quirky Celebration',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1d/fb/e8/1dfbe892-3cb3-ae75-3242-ac20ea9f4aef/mzaf_9422818322461447779.plus.aac.p.m4a',
+    source: '/audio/songs/song-42.m4a',
     duration: 248,
   },
   {
@@ -506,7 +506,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Vishal Dadlani, KK, Neeti Mohan, Bappi Lahiri • Gunday',
     category: 'Birthday',
     tag: 'Grand Entry Energy',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/d9/38/12/d9381254-8150-9f25-7c94-4b2bd508e451/mzaf_10948588959855905620.plus.aac.p.m4a',
+    source: '/audio/songs/song-43.m4a',
     duration: 313,
   },
   {
@@ -517,7 +517,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Vishal Dadlani, Neha Bhasin • Tiger Zinda Hai',
     category: 'Birthday',
     tag: 'Party Welcome Track',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/89/66/2d/89662d50-0049-193d-daf7-7965acd8aabf/mzaf_1633242550499414413.plus.aac.p.m4a',
+    source: '/audio/songs/song-44.m4a',
     duration: 236,
   },
   {
@@ -528,7 +528,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh • Befikre',
     category: 'Birthday',
     tag: 'Youth Party Vibe',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/af/d1/25/afd125f4-14ec-96db-f041-734b2be25ebf/mzaf_16119343562690640430.plus.aac.p.m4a',
+    source: '/audio/songs/song-45.m4a',
     duration: 245,
   },
   {
@@ -539,7 +539,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Benny Dayal • Befikre',
     category: 'Birthday',
     tag: 'Carefree Birthday Energy',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/51/6d/3d/516d3d80-cb41-cff0-4512-c80eaedadb17/mzaf_12175454472408495570.plus.aac.p.m4a',
+    source: '/audio/songs/song-46.m4a',
     duration: 233,
   },
   {
@@ -550,7 +550,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Salim Merchant, Sunidhi Chauhan • Band Baaja Baaraat',
     category: 'Birthday',
     tag: 'Celebration Dance Blast',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/75/1b/8e/751b8e3a-f8c0-6fad-53c3-fb47e8be7eb3/mzaf_4204017061187993793.plus.aac.p.m4a',
+    source: '/audio/songs/song-47.m4a',
     duration: 269,
   },
   {
@@ -561,7 +561,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Shankar Mahadevan, Yashita, Farhan Akhtar • Dil Dhadakne Do',
     category: 'Birthday',
     tag: 'Family Birthday Party',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0a/b1/65/0ab165c2-5461-139b-3361-43d39f4f7f77/mzaf_13810064433892693288.plus.aac.p.m4a',
+    source: '/audio/songs/song-48.m4a',
     duration: 297,
   },
   {
@@ -572,7 +572,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Dev Negi, Pawni Pandey, Shraddha Pandit • Bareilly Ki Barfi',
     category: 'Birthday',
     tag: 'Desi Dance Fever',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/af/74/ed/af74ed4a-2e65-d726-9991-4ddac9929923/mzaf_15970255534247980476.plus.aac.p.m4a',
+    source: '/audio/songs/song-49.m4a',
     duration: 147,
   },
   {
@@ -583,7 +583,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Jonita Gandhi, Ranveer Singh • RRKPK',
     category: 'Birthday',
     tag: 'Latest Viral Dance',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/93/ba/25/93ba25e4-40f1-7a27-0045-382fbc9b5995/mzaf_14137462857523698264.plus.aac.p.m4a',
+    source: '/audio/songs/song-50.m4a',
     duration: 214,
   },
 
@@ -598,7 +598,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Udit Narayan, Sadhana Sargam • JJWS',
     category: 'Proposal',
     tag: 'The Golden First Love Anthem',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/44/c0/47/44c0470f-549d-9f96-1b06-beea0bd4a117/mzaf_8942075061405540109.plus.aac.p.m4a',
+    source: '/audio/songs/song-51.m4a',
     duration: 291,
   },
   {
@@ -609,7 +609,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Mohit Chauhan • Jab We Met',
     category: 'Proposal',
     tag: 'Pure Romantic Soul',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e7/39/b8/e739b870-54a1-8f33-57d5-3817108b8bd9/mzaf_16925921654959290990.plus.aac.p.m4a',
+    source: '/audio/songs/song-52.m4a',
     duration: 321,
   },
   {
@@ -620,7 +620,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Roop Kumar Rathod • RNBDJ',
     category: 'Proposal',
     tag: 'Eternal Love Confession',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/77/50/56/7750565a-5489-d753-f201-1d8bf0a606e9/mzaf_17771145336239612979.plus.aac.p.m4a',
+    source: '/audio/songs/song-53.m4a',
     duration: 282,
   },
   {
@@ -631,7 +631,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Pritam • Brahmastra',
     category: 'Proposal',
     tag: 'Modern Romantic Sensation',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/51/37/ab/5137ab0b-f086-1561-b8b3-c683d668211a/mzaf_10704080480969087522.plus.aac.p.m4a',
+    source: '/audio/songs/song-54.m4a',
     duration: 450,
   },
   {
@@ -642,7 +642,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Jubin Nautiyal, Asees Kaur • Shershaah',
     category: 'Proposal',
     tag: 'Dreamy Love Longing',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/99/0c/38/990c381b-0530-8c0d-87a9-18b050b97f0a/mzaf_10418866714500530894.plus.aac.p.m4a',
+    source: '/audio/songs/song-55.m4a',
     duration: 230,
   },
   {
@@ -653,7 +653,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Pritam • JHMS',
     category: 'Proposal',
     tag: 'Breeze of Love',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3d/31/13/3d311382-d94e-4f98-2437-1e5ca0440f27/mzaf_12854504686630749705.plus.aac.p.m4a',
+    source: '/audio/songs/song-56.m4a',
     duration: 290,
   },
   {
@@ -664,7 +664,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Sachin-Jigar • Bhediya',
     category: 'Proposal',
     tag: 'Heartfelt Proposal Cry',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/eb/27/61/eb2761c7-d606-0912-dff0-2dc6b69974bd/mzaf_2023722930851223219.plus.aac.p.m4a',
+    source: '/audio/songs/song-57.m4a',
     duration: 262,
   },
   {
@@ -675,7 +675,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Pritam • Love Aaj Kal',
     category: 'Proposal',
     tag: 'Deep Emotional Confession',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a8/46/e3/a846e37a-a9e9-930b-e6d7-ab95d97b5a0f/mzaf_1227303989501357152.plus.aac.p.m4a',
+    source: '/audio/songs/song-58.m4a',
     duration: 248,
   },
   {
@@ -686,7 +686,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Antara Mitra • Dilwale',
     category: 'Proposal',
     tag: 'Lifetimes Together',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4b/1c/75/4b1c7599-19a8-8579-fc48-0c01408e4b98/mzaf_16429554466082850436.plus.aac.p.m4a',
+    source: '/audio/songs/song-59.m4a',
     duration: 238,
   },
   {
@@ -697,7 +697,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Antara Mitra • Dilwale',
     category: 'Proposal',
     tag: 'Cinematic Grand Romance',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/bf/6e/24/bf6e24d8-d4d5-1cac-adc6-4a0fc07e98da/mzaf_14186979808495752044.plus.aac.p.m4a',
+    source: '/audio/songs/song-60.m4a',
     duration: 346,
   },
   {
@@ -708,7 +708,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Akhil Sachdeva, Tulsi Kumar • Kabir Singh',
     category: 'Proposal',
     tag: 'Soul Commitment',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8e/b7/b9/8eb7b96b-ce3b-98b8-4ed9-c0c9aff20960/mzaf_13167890250017028075.plus.aac.p.m4a',
+    source: '/audio/songs/song-61.m4a',
     duration: 236,
   },
   {
@@ -719,7 +719,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Palak Muchhal • M.S. Dhoni',
     category: 'Proposal',
     tag: 'Tender Gentle Love',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5f/c8/f7/5fc8f761-09f7-9921-2d7f-054527973dd6/mzaf_15508839199511061687.plus.aac.p.m4a',
+    source: '/audio/songs/song-62.m4a',
     duration: 241,
   },
   {
@@ -730,7 +730,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Chinmayi Sripada • 2 States',
     category: 'Proposal',
     tag: 'Sufi & Bollywood Devotion',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/81/06/cb/8106cb3a-d580-f3d9-a395-72ec2f17c45b/mzaf_9326055917836660950.plus.aac.p.m4a',
+    source: '/audio/songs/song-63.m4a',
     duration: 280,
   },
   {
@@ -741,7 +741,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Salim Merchant, Neeti Mohan, Shekhar Ravjiani • SOTY',
     category: 'Proposal',
     tag: 'Sweet First Spark',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/17/80/87/1780878f-8be0-5e8c-fd1c-a8f9e358bdf7/mzaf_11353114912560621881.plus.aac.p.m4a',
+    source: '/audio/songs/song-64.m4a',
     duration: 258,
   },
   {
@@ -752,7 +752,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'KK • Om Shanti Om',
     category: 'Proposal',
     tag: 'Hypnotic Romantic Gaze',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b3/85/3a/b3853a4c-fd96-2931-e0c6-9d7fe3df820a/mzaf_16535590035036654504.plus.aac.p.m4a',
+    source: '/audio/songs/song-65.m4a',
     duration: 242,
   },
   {
@@ -763,7 +763,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Atif Aslam • Race',
     category: 'Proposal',
     tag: 'Love at First Sight',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0d/db/cf/0ddbcf31-22d7-088e-c71f-1dd88a3dd8a2/mzaf_16563349538675654632.plus.aac.p.m4a',
+    source: '/audio/songs/song-66.m4a',
     duration: 313,
   },
   {
@@ -774,7 +774,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Atif Aslam, Alisha Chinai • APKGK',
     category: 'Proposal',
     tag: 'Effortless Romance',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/98/ba/68/98ba68fd-dbdf-9bb7-f2eb-efe3605382eb/mzaf_4425425378935698649.plus.aac.p.m4a',
+    source: '/audio/songs/song-67.m4a',
     duration: 300,
   },
   {
@@ -785,7 +785,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'KK, Shilpa Rao • Bachna Ae Haseeno',
     category: 'Proposal',
     tag: 'Sublime Devotion',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/07/3e/9b/073e9b86-f18f-f88a-8cf4-aa1173bbea4c/mzaf_1018658659811187633.plus.aac.p.m4a',
+    source: '/audio/songs/song-68.m4a',
     duration: 337,
   },
   {
@@ -796,7 +796,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Atif Aslam, Shreya Ghoshal • Ramaiya Vastavaiya',
     category: 'Proposal',
     tag: 'Heartwarming Proposal',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6c/42/27/6c42274a-832c-9c1b-b955-5328aa0e91b6/mzaf_14885254077776408990.plus.aac.p.m4a',
+    source: '/audio/songs/song-69.m4a',
     duration: 237,
   },
   {
@@ -807,7 +807,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Atif Aslam • Tiger Zinda Hai',
     category: 'Proposal',
     tag: 'Intimate Classic Waltz',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/70/5a/67/705a67b0-a61f-db2c-bb6a-ab06c78a4386/mzaf_5706499000965104644.plus.aac.p.m4a',
+    source: '/audio/songs/song-70.m4a',
     duration: 261,
   },
   {
@@ -818,7 +818,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Asees Kaur • Kapoor & Sons',
     category: 'Proposal',
     tag: 'Gentle Whisper Romance',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c6/4e/41/c64e41aa-2b2b-be40-0bbc-d237daff9384/mzaf_744782137302542911.plus.aac.p.m4a',
+    source: '/audio/songs/song-71.m4a',
     duration: 213,
   },
   {
@@ -829,7 +829,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Ayushmann Khurrana, Arko • Bareilly Ki Barfi',
     category: 'Proposal',
     tag: 'Poetic Love Story',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/95/20/e5/9520e53b-91e7-50f2-94a3-6b51f5940445/mzaf_2725893531371369512.plus.aac.p.m4a',
+    source: '/audio/songs/song-72.m4a',
     duration: 227,
   },
   {
@@ -840,7 +840,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Asees Kaur • Kesari',
     category: 'Proposal',
     tag: 'Pure Soul Bond',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9f/f3/59/9ff359d7-e726-3f02-84fd-6ef9db022bd5/mzaf_7891892100516581345.plus.aac.p.m4a',
+    source: '/audio/songs/song-73.m4a',
     duration: 224,
   },
   {
@@ -851,7 +851,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Shreya Ghoshal • HSKD',
     category: 'Proposal',
     tag: 'Heartbreakingly Beautiful',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/65/06/39/65063981-71d1-0ac9-27a8-3d5d4aaae812/mzaf_10463263695656246233.plus.aac.p.m4a',
+    source: '/audio/songs/song-74.m4a',
     duration: 269,
   },
   {
@@ -862,7 +862,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Rahat Fateh Ali Khan, Suzanne D Mello • De Dana Dan',
     category: 'Proposal',
     tag: 'Sacred Promises of Love',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/00/db/e8/00dbe818-5b4a-524f-9e7f-e9f29d2f1c2c/mzaf_14627977166354021591.plus.aac.p.m4a',
+    source: '/audio/songs/song-75.m4a',
     duration: 287,
   },
 
@@ -877,7 +877,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh • Genius',
     category: 'Valentine',
     tag: 'Obsessive Sweet Romance',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5e/11/92/5e119289-102a-a317-0add-ae272022c1f7/mzaf_12960100749081195551.plus.aac.p.m4a',
+    source: '/audio/songs/song-76.m4a',
     duration: 310,
   },
   {
@@ -888,7 +888,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Atif Aslam, Chinmayi Sripada • PPNH',
     category: 'Valentine',
     tag: 'Sweet Melody of Love',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e8/75/b5/e875b550-3369-f2f3-d293-58df3eb9553e/mzaf_10131649015532923239.plus.aac.p.m4a',
+    source: '/audio/songs/song-77.m4a',
     duration: 263,
   },
   {
@@ -899,7 +899,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Atif Aslam • APKGK',
     category: 'Valentine',
     tag: 'Unspoken Love Classic',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a9/06/7e/a9067efd-0925-6087-71bd-11155c2d3289/mzaf_15735148284263193215.plus.aac.p.m4a',
+    source: '/audio/songs/song-78.m4a',
     duration: 342,
   },
   {
@@ -910,7 +910,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'KK • Jannat',
     category: 'Valentine',
     tag: 'Passionate Proposal Vibe',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4d/f5/c0/4df5c07a-53ff-8e08-5bf2-a102e0444f4d/mzaf_2883771190480476336.plus.aac.p.m4a',
+    source: '/audio/songs/song-79.m4a',
     duration: 304,
   },
   {
@@ -921,7 +921,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Akhil Sachdeva, Mansheel Gujral • BKD',
     category: 'Valentine',
     tag: 'Soulmate Walk Together',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/cf/14/43/cf1443cc-991e-cd11-b464-6a3cf4792fbd/mzaf_15815229922780726267.plus.aac.p.m4a',
+    source: '/audio/songs/song-80.m4a',
     duration: 268,
   },
   {
@@ -932,7 +932,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh • BKD',
     category: 'Valentine',
     tag: 'Tender Tearful Romance',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a2/8a/49/a28a4976-2ec8-7818-8df4-b58d704c24f5/mzaf_3875767554567291013.plus.aac.p.m4a',
+    source: '/audio/songs/song-81.m4a',
     duration: 278,
   },
   {
@@ -943,7 +943,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Tulsi Kumar, Amaal Mallik • Airlift',
     category: 'Valentine',
     tag: 'Deep Emotional Devotion',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/72/9f/cc/729fccc5-f040-286a-9280-c4db3340e895/mzaf_7361386354918913207.plus.aac.p.m4a',
+    source: '/audio/songs/song-82.m4a',
     duration: 281,
   },
   {
@@ -954,7 +954,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, A.R. Rahman • OK Jaanu',
     category: 'Valentine',
     tag: 'Dreamy Rahman Magic',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5b/b6/d7/5bb6d78f-1bba-c0a9-0731-d3286ed06914/mzaf_1092273590896407309.plus.aac.p.m4a',
+    source: '/audio/songs/song-83.m4a',
     duration: 214,
   },
   {
@@ -965,7 +965,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Armaan Malik • Azhar',
     category: 'Valentine',
     tag: 'Sweet Confession',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e3/84/7e/e3847ec1-0c53-810f-d4e5-ba0072562cc5/mzaf_15902888427949375443.plus.aac.p.m4a',
+    source: '/audio/songs/song-84.m4a',
     duration: 293,
   },
   {
@@ -976,7 +976,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Kavita Seth, Amitabh Bhattacharya • Wake Up Sid',
     category: 'Valentine',
     tag: 'Soulful Bohemian Love',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f8/00/9c/f8009ce1-c649-b84f-e091-53172b83ef91/mzaf_3024731672455939718.plus.aac.p.m4a',
+    source: '/audio/songs/song-85.m4a',
     duration: 254,
   },
   {
@@ -987,7 +987,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Shreya Ghoshal, Tochi Raina • Shor in the City',
     category: 'Valentine',
     tag: 'Delicate Rain-Kissed Romance',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f6/19/a3/f619a328-c2ce-879c-fd87-e6f0e0c04543/mzaf_2110981673425128777.plus.aac.p.m4a',
+    source: '/audio/songs/song-86.m4a',
     duration: 195,
   },
   {
@@ -998,7 +998,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh • Aashiqui 2',
     category: 'Valentine',
     tag: 'The Decade Defining Love Song',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3a/8c/9b/3a8c9b0b-2def-750a-f615-1555bf941edf/mzaf_17229496441442805917.plus.aac.p.m4a',
+    source: '/audio/songs/song-87.m4a',
     duration: 262,
   },
   {
@@ -1009,7 +1009,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Priya Saraiya, Divya Kumar • ABCD 2',
     category: 'Valentine',
     tag: 'Soulful Dancing Love',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6d/03/ab/6d03ab04-4a6f-8226-6e27-a4ae62ba5ddd/mzaf_17642184559836964492.plus.aac.p.m4a',
+    source: '/audio/songs/song-88.m4a',
     duration: 219,
   },
   {
@@ -1020,7 +1020,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh • CityLights',
     category: 'Valentine',
     tag: 'Healing Romantic Light',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a3/2d/7d/a32d7dc6-719b-067d-99f8-6f80a61f5e72/mzaf_10773212769763874212.plus.aac.p.m4a',
+    source: '/audio/songs/song-89.m4a',
     duration: 334,
   },
   {
@@ -1031,7 +1031,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Palak Muchhal • Aashiqui 2',
     category: 'Valentine',
     tag: 'Unconditional Love Question',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/71/6a/d2/716ad23e-e109-a132-60ee-5be4d00cbab3/mzaf_8688152193188573599.plus.aac.p.m4a',
+    source: '/audio/songs/song-90.m4a',
     duration: 305,
   },
   {
@@ -1042,7 +1042,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh • Hamari Adhuri Kahani',
     category: 'Valentine',
     tag: 'Eternal Soul Connection',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e1/53/44/e1534472-6703-c205-caa8-159b74127444/mzaf_10769074077925249946.plus.aac.p.m4a',
+    source: '/audio/songs/song-91.m4a',
     duration: 399,
   },
   {
@@ -1053,7 +1053,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Shashaa Tirupati • Half Girlfriend',
     category: 'Valentine',
     tag: 'Love Beyond Limits',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/71/c1/85/71c18529-2c27-f0d1-3b23-f5b5b70bc93f/mzaf_8603372778770751468.plus.aac.p.m4a',
+    source: '/audio/songs/song-92.m4a',
     duration: 352,
   },
   {
@@ -1064,7 +1064,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh • Marjaavaan',
     category: 'Valentine',
     tag: 'Place in Your Heart',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/b8/f8/f3/b8f8f342-19ab-c6ac-f35e-b0fa13cfc776/mzaf_15603999981315827658.plus.aac.p.m4a',
+    source: '/audio/songs/song-93.m4a',
     duration: 218,
   },
   {
@@ -1075,7 +1075,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Neha Kakkar, Yasser Desai • Sukoon',
     category: 'Valentine',
     tag: 'Peace in Your Arms',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/27/79/b5/2779b5aa-7c48-e08c-111d-c621bb05adfa/mzaf_4585095677969503010.plus.aac.p.m4a',
+    source: '/audio/songs/song-94.m4a',
     duration: 231,
   },
   {
@@ -1086,7 +1086,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Ash King, Shashaa Tirupati • Half Girlfriend',
     category: 'Valentine',
     tag: 'Monsoon Magic Romance',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/68/4b/27/684b27e1-4d97-6f94-4329-821d3f80921c/mzaf_1702978754995404294.plus.aac.p.m4a',
+    source: '/audio/songs/song-95.m4a',
     duration: 276,
   },
   {
@@ -1097,7 +1097,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Atif Aslam • Rustom',
     category: 'Valentine',
     tag: 'Gentle Life Journey',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/03/3b/06/033b0648-3bc6-7691-7a8a-feb6c5e3886e/mzaf_2162408019575636099.plus.aac.p.m4a',
+    source: '/audio/songs/song-96.m4a',
     duration: 286,
   },
   {
@@ -1108,7 +1108,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh • Dear Zindagi',
     category: 'Valentine',
     tag: 'Joyful Romantic Discovery',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/de/48/d6/de48d6d3-ccfd-94ff-84d2-193974255907/mzaf_8083905337176518699.plus.aac.p.m4a',
+    source: '/audio/songs/song-97.m4a',
     duration: 200,
   },
   {
@@ -1119,7 +1119,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Shreya Ghoshal • Jalebi',
     category: 'Valentine',
     tag: 'Cherishing Every Moment',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/12/bb/76/12bb7616-454b-44c0-5f4f-a5fb01a0152a/mzaf_15209768286844787142.plus.aac.p.m4a',
+    source: '/audio/songs/song-98.m4a',
     duration: 248,
   },
   {
@@ -1130,7 +1130,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Palak Muchhal • Aashiqui 2',
     category: 'Valentine',
     tag: 'Vow of Forever Love',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b1/12/46/b1124605-f17c-8cec-3c41-536700ea1c7f/mzaf_5091862721992682111.plus.aac.p.m4a',
+    source: '/audio/songs/song-99.m4a',
     duration: 266,
   },
   {
@@ -1141,7 +1141,7 @@ export const ALL_SONGS: SongItem[] = [
     artist: 'Arijit Singh, Pritam • Chhichhore',
     category: 'Valentine',
     tag: 'Heartfelt Care & Devotion',
-    source: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0e/15/99/0e1599c8-c8dc-99f6-d9d9-a5a77c7f7c0c/mzaf_17904048749293434224.plus.aac.p.m4a',
+    source: '/audio/songs/song-100.m4a',
     duration: 229,
   },
 ];
