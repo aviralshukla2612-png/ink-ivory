@@ -183,7 +183,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           <div className="flex items-center justify-center mx-auto mb-6">
             <div className="px-5 py-3.5 bg-[#25201A] border border-[#3E3429] rounded-2xl shadow-lg">
               <NextImage
-                src="/logo.webp"
+                src="/logo.webp?v=3"
                 alt="You Are Mine"
                 width={220}
                 height={65}

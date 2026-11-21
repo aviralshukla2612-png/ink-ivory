@@ -177,7 +177,7 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center py-1 flex-shrink-0">
             <Link href="/" onClick={handleHomeClick} className="group flex items-center focus:outline-none">
               <Image
-                src="/logo.webp"
+                src="/logo.webp?v=3"
                 alt="You Are Mine"
                 width={360}
                 height={120}
@@ -457,7 +457,7 @@ export const Navbar: React.FC = () => {
             <div className="flex items-center justify-between pb-3 border-b border-[#E8DFC8]">
               <div className="flex items-center gap-2.5">
                 <Image
-                  src="/logo.webp"
+                  src="/logo.webp?v=3"
                   alt="You Are Mine"
                   width={32}
                   height={32}
