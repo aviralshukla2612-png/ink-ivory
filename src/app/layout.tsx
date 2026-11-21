@@ -55,12 +55,16 @@ export default function RootLayout({
           type="image/webp"
           fetchPriority="high"
         />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="theme-color" content="#F8F4EC" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
       </head>
       <body className="min-h-screen flex flex-col bg-[#F8F4EC] text-[#49341F] selection:bg-[#EDE2CF] selection:text-[#49341F]">
         <CartProvider>
           <WishlistProvider>
             <Navbar />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 pb-16 lg:pb-0">{children}</main>
             <Footer />
           </WishlistProvider>
         </CartProvider>
