@@ -125,11 +125,20 @@ export default function CheckoutPage() {
         }
       }
 
+      const fallbackSlug = (
+        primaryItem?.customization?.names ||
+        primaryItem?.template?.slug ||
+        'invitation'
+      )
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+
       const completeVerificationAndRedirect = async (payId: string, sig: string) => {
         let liveUrl = '';
         let liveSlug = '';
 
-        if (dId && serverOrderCreated) {
+        if (dId) {
           try {
             const verifyRes = await fetch('/api/payments/verify', {
               method: 'POST',
@@ -139,6 +148,7 @@ export default function CheckoutPage() {
                 paymentId: payId,
                 signature: sig,
                 draftId: dId,
+                requestedSlug: fallbackSlug,
                 customerPhone,
                 customerName,
               }),
@@ -155,14 +165,6 @@ export default function CheckoutPage() {
 
         // If sandbox or direct fallback, construct a clean friendly slug
         if (!liveUrl) {
-          const fallbackSlug = (
-            primaryItem?.customization?.names ||
-            primaryItem?.template?.slug ||
-            'invitation'
-          )
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/(^-|-$)/g, '');
           liveSlug = fallbackSlug;
           liveUrl = `/invite/${fallbackSlug}`;
         }

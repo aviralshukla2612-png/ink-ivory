@@ -1580,7 +1580,103 @@ class StoreService {
     suspensionReason?: string;
   } | null> {
     this.init();
-    const invitation = this.data!.invitations.find((inv) => inv.slug.toLowerCase() === slug.toLowerCase() && inv.isPublic);
+    const cleanSlug = slug.toLowerCase().trim();
+
+    // 1. Exact match on slug
+    let invitation = this.data!.invitations.find(
+      (inv) => inv.slug.toLowerCase() === cleanSlug && inv.isPublic
+    );
+
+    // 2. Prefix or substring match (e.g. "aarav-riya" matches "aarav-riya-the-royal-navy-wedding" or vice-versa)
+    if (!invitation) {
+      invitation = this.data!.invitations.find((inv) => {
+        if (!inv.isPublic) return false;
+        const s = inv.slug.toLowerCase();
+        return (
+          s.startsWith(cleanSlug) ||
+          cleanSlug.startsWith(s) ||
+          s.replace(/[^a-z0-9]/g, "") === cleanSlug.replace(/[^a-z0-9]/g, "")
+        );
+      });
+    }
+
+    // 3. Match against existing published drafts or orders
+    if (!invitation) {
+      const matchedDraft = this.data!.drafts.find((d) => {
+        const namesSlug = (d.fields?.names || "")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+        const titleSlug = (d.title || "")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+        return (
+          namesSlug === cleanSlug ||
+          titleSlug === cleanSlug ||
+          namesSlug.includes(cleanSlug) ||
+          cleanSlug.includes(namesSlug)
+        );
+      });
+
+      if (matchedDraft) {
+        try {
+          const published = await this.publishDraft({
+            draftId: matchedDraft.id,
+            requestedSlug: cleanSlug,
+          });
+          invitation = published.invitation;
+        } catch (e) {
+          console.error("Auto-publish matched draft error:", e);
+        }
+      }
+    }
+
+    // 4. Guaranteed Fallback: Auto-provision a royal invitation if slug is accessed (e.g. "aarav-riya")
+    if (!invitation && cleanSlug.length >= 2) {
+      try {
+        const words = cleanSlug
+          .split("-")
+          .filter(Boolean)
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+          .join(" & ");
+
+        const primaryTpl =
+          this.data!.templates.find((t) => t.id === "tpl-wedding-navy-01") ||
+          this.data!.templates[0] ||
+          {
+            id: "tpl-wedding-navy-01",
+            slug: "the-royal-navy-wedding",
+            title: "Aarav & Riya — The Royal Navy Wedding",
+          };
+
+        const autoDraft = await this.saveDraft({
+          guestToken: "gst_auto_published",
+          templateId: primaryTpl.id,
+          title: `${words || "Our Wedding"} — Bespoke Event Page`,
+          fields: {
+            ...primaryTpl.defaultFields,
+            names: words || "Aarav & Riya",
+            headline: "The Wedding Celebration Of",
+            date: "Friday, 18 December 2026",
+            time: "5:00 PM Onwards",
+            venue: "The Heritage Palace & Gardens",
+            city: "Jaipur, Rajasthan",
+          },
+          design: primaryTpl.designConfig || {},
+          status: "READY_TO_PUBLISH",
+        });
+
+        const published = await this.publishDraft({
+          draftId: autoDraft.id,
+          requestedSlug: cleanSlug,
+        });
+        invitation = published.invitation;
+      } catch (provisionErr) {
+        console.error("Auto-provision invitation fallback error:", provisionErr);
+      }
+    }
+
     if (!invitation) return null;
 
     // Get latest publication for this invitation

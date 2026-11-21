@@ -87,14 +87,155 @@ export default function OrderSuccessPage() {
   const primaryItem = order?.items?.[0];
   const fields = { ...primaryItem?.template?.defaultFields, ...primaryItem?.customization };
 
+  // Fallback high-res direct canvas renderer (300 DPI, completely immune to DOM/CORS font errors)
+  const renderCardCanvas = (): string => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1748;
+    canvas.height = 2480;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return '';
+
+    // 1. Royal Navy Gradient Background
+    const bgGrad = ctx.createRadialGradient(874, 500, 50, 874, 1240, 1300);
+    bgGrad.addColorStop(0, '#172A46');
+    bgGrad.addColorStop(0.65, '#0B1322');
+    bgGrad.addColorStop(1, '#050912');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, 1748, 2480);
+
+    // 2. Double 24K Gold Borders
+    ctx.strokeStyle = '#D4AF37';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(90, 90, 1568, 2300);
+
+    ctx.strokeStyle = 'rgba(212, 175, 55, 0.45)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(106, 106, 1536, 2268);
+
+    // Corner Ornaments
+    ctx.fillStyle = '#D4AF37';
+    ctx.fillRect(80, 80, 24, 6);
+    ctx.fillRect(80, 80, 6, 24);
+    ctx.fillRect(1644, 80, 24, 6);
+    ctx.fillRect(1662, 80, 6, 24);
+    ctx.fillRect(80, 2394, 24, 6);
+    ctx.fillRect(80, 2376, 6, 24);
+    ctx.fillRect(1644, 2394, 24, 6);
+    ctx.fillRect(1662, 2376, 6, 24);
+
+    // 3. Top Eyebrow
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#D4AF37';
+    ctx.font = 'bold 30px sans-serif';
+    ctx.fillText(`✨ ${(fields.eyebrow || 'TOGETHER WITH THEIR FAMILIES').toUpperCase()} ✨`, 874, 380);
+
+    // 4. Headline
+    ctx.fillStyle = '#E2D5BE';
+    ctx.font = 'italic 44px serif';
+    ctx.fillText(fields.headline || 'The Wedding Celebration Of', 874, 500);
+
+    // 5. Couple Names
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 100px serif';
+    ctx.fillText(fields.names || 'Aarav & Riya', 874, 820);
+
+    // 6. Gold Flourish Divider
+    ctx.strokeStyle = '#D4AF37';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(600, 910);
+    ctx.lineTo(820, 910);
+    ctx.moveTo(928, 910);
+    ctx.lineTo(1148, 910);
+    ctx.stroke();
+    ctx.fillStyle = '#D4AF37';
+    ctx.font = '36px serif';
+    ctx.fillText('✦', 874, 922);
+
+    // 7. Date & Time
+    if (fields.date) {
+      ctx.fillStyle = '#F3CF7A';
+      ctx.font = 'bold 42px sans-serif';
+      ctx.fillText(fields.date.toUpperCase(), 874, 1070);
+    }
+    if (fields.time) {
+      ctx.fillStyle = '#E5D7C3';
+      ctx.font = '34px sans-serif';
+      ctx.fillText(fields.time, 874, 1140);
+    }
+
+    // 8. Blessing Message
+    if (fields.message) {
+      ctx.fillStyle = '#D5C7B3';
+      ctx.font = 'italic 36px serif';
+      const words = fields.message.split(' ');
+      let line = '';
+      let y = 1320;
+      for (const w of words) {
+        const testLine = line + w + ' ';
+        if (ctx.measureText(testLine).width > 1200) {
+          ctx.fillText(`“${line.trim()}”`, 874, y);
+          line = w + ' ';
+          y += 55;
+        } else {
+          line = testLine;
+        }
+      }
+      if (line) ctx.fillText(`“${line.trim()}”`, 874, y);
+    }
+
+    // 9. Venue & City
+    if (fields.venue) {
+      ctx.fillStyle = '#F4E6D0';
+      ctx.font = 'bold 44px sans-serif';
+      ctx.fillText(fields.venue.toUpperCase(), 874, 1850);
+    }
+    if (fields.city) {
+      ctx.fillStyle = '#C5B49C';
+      ctx.font = '36px sans-serif';
+      ctx.fillText(fields.city, 874, 1920);
+    }
+
+    // 10. Bottom Brand & Live Invitation Link
+    ctx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
+    ctx.beginPath();
+    ctx.moveTo(200, 2150);
+    ctx.lineTo(1548, 2150);
+    ctx.stroke();
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#D4AF37';
+    ctx.font = 'bold 26px monospace';
+    ctx.fillText('YOU ARE MINE', 220, 2220);
+
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '26px monospace';
+    ctx.fillText(liveUrl.replace(/^https?:\/\//, ''), 1528, 2220);
+
+    return canvas.toDataURL('image/png', 1.0);
+  };
+
+  const getCardImage = async (): Promise<string> => {
+    if (cardDownloadRef.current) {
+      try {
+        return await toPng(cardDownloadRef.current, {
+          quality: 1.0,
+          pixelRatio: 3,
+          skipFonts: true,
+          cacheBust: true,
+        });
+      } catch (domErr) {
+        console.warn('DOM toPng fallback triggered:', domErr);
+      }
+    }
+    return renderCardCanvas();
+  };
+
   const handleDownloadPng = async () => {
-    if (!cardDownloadRef.current) return;
     setDownloadingPng(true);
     try {
-      const dataUrl = await toPng(cardDownloadRef.current, {
-        quality: 1.0,
-        pixelRatio: 3, // 300+ DPI crisp high resolution
-      });
+      const dataUrl = await getCardImage();
       const safeName = (fields?.names || primaryItem?.template?.title || 'Wedding')
         .replace(/[^a-zA-Z0-9]/g, '-')
         .replace(/-+/g, '-');
@@ -104,20 +245,21 @@ export default function OrderSuccessPage() {
       link.click();
     } catch (err) {
       console.error('PNG download error:', err);
-      alert('Could not export PNG. Please try again.');
+      // Final resilient fallback
+      const fallbackUrl = renderCardCanvas();
+      const link = document.createElement('a');
+      link.download = `YouAreMine-Wedding-Invitation.png`;
+      link.href = fallbackUrl;
+      link.click();
     } finally {
       setDownloadingPng(false);
     }
   };
 
   const handleDownloadPdf = async () => {
-    if (!cardDownloadRef.current) return;
     setDownloadingPdf(true);
     try {
-      const dataUrl = await toPng(cardDownloadRef.current, {
-        quality: 1.0,
-        pixelRatio: 3, // 300+ DPI crisp high resolution
-      });
+      const dataUrl = await getCardImage();
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -127,12 +269,12 @@ export default function OrderSuccessPage() {
       const pageWidth = pdf.internal.pageSize.getWidth(); // 148 mm
       const pageHeight = pdf.internal.pageSize.getHeight(); // 210 mm
 
-      // Fill full page with rich warm parchment tone
-      pdf.setFillColor(248, 244, 236); // #F8F4EC
+      // Rich warm parchment background fill
+      pdf.setFillColor(248, 244, 236);
       pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
       // Balanced margins for professional print
-      const margin = 8;
+      const margin = 6;
       const maxW = pageWidth - margin * 2;
       const maxH = pageHeight - margin * 2;
 
@@ -155,7 +297,15 @@ export default function OrderSuccessPage() {
       pdf.save(`YouAreMine-${safeName}-Invitation.pdf`);
     } catch (err) {
       console.error('PDF download error:', err);
-      alert('Could not export PDF. Please try again.');
+      // Resilient PDF fallback
+      try {
+        const fallbackUrl = renderCardCanvas();
+        const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a5' });
+        pdf.addImage(fallbackUrl, 'PNG', 6, 6, 136, 198);
+        pdf.save(`YouAreMine-Wedding-Invitation.pdf`);
+      } catch (fErr) {
+        alert('Could not export PDF. Please try again.');
+      }
     } finally {
       setDownloadingPdf(false);
     }
