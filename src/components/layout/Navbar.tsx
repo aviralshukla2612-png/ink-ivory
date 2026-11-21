@@ -108,14 +108,17 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [pathname]);
 
+  // Never render navbar inside an iframe or demo preview
+  if (typeof window !== 'undefined' && window.self !== window.top) {
+    return null;
+  }
+
   // Hide global e-commerce navbar on admin portal, public invitations, template previews, and customize studio
   if (
     pathname &&
     (pathname.startsWith('/admin') ||
       pathname.startsWith('/invite') ||
-      pathname.startsWith('/template-01') ||
-      pathname.startsWith('/template-02') ||
-      pathname.startsWith('/template-03') ||
+      pathname.startsWith('/template-') ||
       pathname.startsWith('/valentine') ||
       pathname.startsWith('/birthday') ||
       pathname.startsWith('/date-planner') ||
