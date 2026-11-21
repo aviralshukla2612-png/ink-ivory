@@ -16,7 +16,7 @@ import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 
-const BASE_URL = "http://127.0.0.1:3000";
+const BASE_URL = process.env.TEST_BASE_URL || "http://127.0.0.1:3000";
 const ADMIN_SECRET = process.env.ADMIN_SECRET_KEY || "ink_ivory_admin_key_replace_with_high_entropy_secret_2026";
 const HMAC_SECRET = process.env.SESSION_SECRET || "ink_ivory_dev_fallback_hmac_secret_2026_salt";
 

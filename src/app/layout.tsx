@@ -4,6 +4,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
+import { NativeAppProvider } from '@/components/native/NativeAppProvider';
 
 export const metadata: Metadata = {
   title: 'You Are Mine — Bespoke Digital Invitation Web Pages for Life’s Special Moments',
@@ -63,9 +64,11 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-[#F8F4EC] text-[#49341F] selection:bg-[#EDE2CF] selection:text-[#49341F]">
         <CartProvider>
           <WishlistProvider>
-            <Navbar />
-            <main className="flex-1 pb-16 lg:pb-0">{children}</main>
-            <Footer />
+            <NativeAppProvider>
+              <Navbar />
+              <main className="flex-1 pb-16 lg:pb-0">{children}</main>
+              <Footer />
+            </NativeAppProvider>
           </WishlistProvider>
         </CartProvider>
       </body>

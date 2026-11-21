@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">YOU ARE MINE</string>
+    <string name="title_activity_main">YOU ARE MINE</string>
+    <string name="package_name">com.youaremine.app</string>
+    <string name="custom_url_scheme">com.youaremine.app</string>
+</resources>

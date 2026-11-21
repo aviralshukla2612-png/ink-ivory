@@ -13,11 +13,17 @@ export async function createRazorpayOrder(params: {
   receipt: string;
   notes?: Record<string, any>;
 }): Promise<{ id: string; amount: number; currency: string }> {
-  // If real live keys are provided and not default mock
+  const isPlaceholderKey =
+    !process.env.RAZORPAY_KEY_ID ||
+    process.env.RAZORPAY_KEY_ID.includes("test_inkivory") ||
+    process.env.RAZORPAY_KEY_ID.includes("PLEASE_PASTE") ||
+    process.env.RAZORPAY_KEY_ID.includes("placeholder");
+
+  // If real live keys are provided and not default mock/placeholder
   if (
     process.env.RAZORPAY_KEY_ID &&
     process.env.RAZORPAY_KEY_SECRET &&
-    !process.env.RAZORPAY_KEY_ID.includes("test_inkivory")
+    !isPlaceholderKey
   ) {
     const authHeader = Buffer.from(`${process.env.RAZORPAY_KEY_ID}:${process.env.RAZORPAY_KEY_SECRET}`).toString("base64");
     const res = await fetch("https://api.razorpay.com/v1/orders", {

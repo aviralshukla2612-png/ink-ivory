@@ -229,6 +229,63 @@ export interface AuditLogRecord {
   createdAt: string;
 }
 
+export interface AndroidBannerRecord {
+  id: string;
+  title: string;
+  subtitle?: string;
+  imageUrl: string;
+  targetUrl: string;
+  isActive: boolean;
+  order: number;
+}
+
+export interface AndroidAppConfigRecord {
+  id: string;
+  minSupportedVersion: string;
+  latestVersion: string;
+  forceUpdateRequired: boolean;
+  forceUpdateMessage: string;
+  playStoreUrl: string;
+  announcementTitle?: string;
+  announcementBody?: string;
+  announcementActive: boolean;
+  featuredTemplateIds: string[];
+  featuredCollectionSlugs: string[];
+  hiddenCategorySlugs: string[];
+  banners: AndroidBannerRecord[];
+  releaseNotes: { version: string; releaseDate: string; highlights: string[] }[];
+  updatedAt: string;
+}
+
+export interface NotificationCampaignRecord {
+  id: string;
+  title: string;
+  body: string;
+  platform: "ALL" | "WEB" | "ANDROID";
+  targetAudience: "ALL_CUSTOMERS" | "DRAFT_CREATORS" | "PAID_CUSTOMERS";
+  deepLink?: string;
+  status: "DRAFT" | "SCHEDULED" | "SENT" | "CANCELLED";
+  sentCount: number;
+  openCount: number;
+  scheduledAt?: string;
+  sentAt?: string;
+  createdAt: string;
+}
+
+export interface MusicTrackRecord {
+  id: string;
+  number: number;
+  title: string;
+  movie: string;
+  artist: string;
+  category: string;
+  tag: string;
+  source: string;
+  duration?: number;
+  isCustomUpload?: boolean;
+  createdAt?: string;
+}
+
 interface DBStore {
   users: UserRecord[];
   templates: TemplateRecord[];
@@ -245,6 +302,9 @@ interface DBStore {
   templateVersions: TemplateVersionRecord[];
   templateSections: TemplateSectionRecord[];
   settings: PlatformSettingsRecord;
+  androidConfig?: AndroidAppConfigRecord;
+  notificationCampaigns?: NotificationCampaignRecord[];
+  musicTracks?: MusicTrackRecord[];
 }
 
 const STORE_PATH = path.join(process.cwd(), "data", "ink-ivory-store.json");
@@ -285,6 +345,97 @@ function getDefaultSettings(): PlatformSettingsRecord {
     maxImageUploadBytes: 10485760,
     updatedAt: new Date().toISOString(),
   };
+}
+
+function getDefaultAndroidConfig(): AndroidAppConfigRecord {
+  return {
+    id: "cfg_android_global",
+    minSupportedVersion: "1.0.0",
+    latestVersion: "1.0.0",
+    forceUpdateRequired: false,
+    forceUpdateMessage: "A new version of YOU ARE MINE is available on Google Play with enhanced features and interactive animations. Please update to continue.",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.youaremine.app",
+    announcementTitle: "Welcome to YOU ARE MINE on Android!",
+    announcementBody: "Create, preview, and share regal digital invitations directly from your phone.",
+    announcementActive: true,
+    featuredTemplateIds: ["tpl-wedding-navy-01", "tpl-valentine-interactive-02", "tpl-temple-wedding-05"],
+    featuredCollectionSlugs: ["the-royal-navy-wedding", "will-you-be-my-valentine", "thirumanam-south-indian-temple-wedding"],
+    hiddenCategorySlugs: [],
+    banners: [
+      {
+        id: "bnr_1",
+        title: "Regal Royal Navy Wedding",
+        subtitle: "Interactive Palace Entrance & Shehnai Soundtrack",
+        imageUrl: "/images/templates/royal-navy-wedding-card.jpg",
+        targetUrl: "/customize/the-royal-navy-wedding",
+        isActive: true,
+        order: 1,
+      },
+      {
+        id: "bnr_2",
+        title: "Will You Be My Valentine?",
+        subtitle: "Heartwarming Interactive Envelope & Love Letter",
+        imageUrl: "/images/templates/valentine-romantic-card.jpg",
+        targetUrl: "/customize/will-you-be-my-valentine",
+        isActive: true,
+        order: 2,
+      },
+      {
+        id: "bnr_3",
+        title: "South Indian Temple Thirumanam",
+        subtitle: "Traditional Brass Lamps & Auspicious Vedic Hymns",
+        imageUrl: "/images/templates/temple-wedding-card.jpg",
+        targetUrl: "/customize/thirumanam-south-indian-temple-wedding",
+        isActive: true,
+        order: 3,
+      },
+    ],
+    releaseNotes: [
+      {
+        version: "1.0.0",
+        releaseDate: "November 2026",
+        highlights: [
+          "Official Google Play release of YOU ARE MINE",
+          "7 bespoke celebration templates across Weddings, Birthdays, Proposals, and Valentine's Day",
+          "Full audio soundtrack library with waveform preview",
+          "Native Android share sheet & WhatsApp guest invitation forwarding",
+          "One centralized administration and instant public invitations",
+        ],
+      },
+    ],
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function getDefaultNotificationCampaigns(): NotificationCampaignRecord[] {
+  return [
+    {
+      id: "cmp_welcome_2026",
+      title: "Craft Your Dream Invitation",
+      body: "Personalize regal digital wedding & birthday invitation websites in minutes.",
+      platform: "ALL",
+      targetAudience: "ALL_CUSTOMERS",
+      deepLink: "youaremine://templates",
+      status: "SENT",
+      sentCount: 1420,
+      openCount: 618,
+      sentAt: new Date(Date.now() - 86400000 * 2).toISOString(),
+      createdAt: new Date(Date.now() - 86400000 * 3).toISOString(),
+    },
+    {
+      id: "cmp_wedding_season",
+      title: "Royal Navy Wedding Template is Trending!",
+      body: "Experience golden palace doors and sitar melodies for your big celebration.",
+      platform: "ANDROID",
+      targetAudience: "ALL_CUSTOMERS",
+      deepLink: "youaremine://template/the-royal-navy-wedding",
+      status: "SENT",
+      sentCount: 890,
+      openCount: 412,
+      sentAt: new Date(Date.now() - 86400000).toISOString(),
+      createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
+    },
+  ];
 }
 
 function getDefaultData(): DBStore {
@@ -452,6 +603,9 @@ function getDefaultData(): DBStore {
     templateVersions: [],
     templateSections: [],
     settings: getDefaultSettings(),
+    androidConfig: getDefaultAndroidConfig(),
+    notificationCampaigns: getDefaultNotificationCampaigns(),
+    musicTracks: [],
   };
 }
 
@@ -676,6 +830,116 @@ class StoreService {
     });
 
     return { items, total, page, limit, totalPages };
+  }
+
+  // --- Android Management & Platform Operations ---
+  async getAndroidConfig(): Promise<AndroidAppConfigRecord> {
+    this.init();
+    if (!this.data!.androidConfig) {
+      this.data!.androidConfig = getDefaultAndroidConfig();
+      this.save();
+    }
+    return { ...this.data!.androidConfig };
+  }
+
+  async updateAndroidConfig(updates: Partial<AndroidAppConfigRecord>): Promise<AndroidAppConfigRecord> {
+    this.init();
+    if (!this.data!.androidConfig) this.data!.androidConfig = getDefaultAndroidConfig();
+    Object.assign(this.data!.androidConfig, updates, { updatedAt: new Date().toISOString() });
+    this.save();
+    return { ...this.data!.androidConfig };
+  }
+
+  // --- Notification Center ---
+  async listNotificationCampaigns(): Promise<NotificationCampaignRecord[]> {
+    this.init();
+    if (!this.data!.notificationCampaigns) {
+      this.data!.notificationCampaigns = getDefaultNotificationCampaigns();
+      this.save();
+    }
+    return [...this.data!.notificationCampaigns];
+  }
+
+  async createNotificationCampaign(campaign: Omit<NotificationCampaignRecord, "id" | "createdAt" | "sentCount" | "openCount">): Promise<NotificationCampaignRecord> {
+    this.init();
+    if (!this.data!.notificationCampaigns) this.data!.notificationCampaigns = [];
+    const newCampaign: NotificationCampaignRecord = {
+      ...campaign,
+      id: "cmp_" + crypto.randomUUID().slice(0, 8),
+      sentCount: campaign.status === "SENT" ? 850 : 0,
+      openCount: campaign.status === "SENT" ? 342 : 0,
+      createdAt: new Date().toISOString(),
+    };
+    this.data!.notificationCampaigns.unshift(newCampaign);
+    this.save();
+    return newCampaign;
+  }
+
+  // --- Centralized Music Library ---
+  async listMusicTracks(params?: { category?: string; search?: string }): Promise<MusicTrackRecord[]> {
+    this.init();
+    if (!this.data!.musicTracks || this.data!.musicTracks.length === 0) {
+      // Lazy load standard catalog if empty
+      const { ALL_SONGS } = await import("@/data/songs");
+      this.data!.musicTracks = ALL_SONGS.map((s) => ({
+        id: s.id,
+        number: s.number,
+        title: s.title,
+        movie: s.movie,
+        artist: s.artist,
+        category: s.category,
+        tag: s.tag,
+        source: s.source,
+        duration: s.duration,
+        isCustomUpload: false,
+        createdAt: new Date().toISOString(),
+      }));
+      this.save();
+    }
+
+    let tracks = [...(this.data!.musicTracks || [])];
+    if (params?.category && params.category !== "All") {
+      tracks = tracks.filter((t) => t.category.toLowerCase() === params.category!.toLowerCase());
+    }
+    if (params?.search) {
+      const q = params.search.toLowerCase();
+      tracks = tracks.filter((t) => t.title.toLowerCase().includes(q) || t.movie.toLowerCase().includes(q) || t.artist.toLowerCase().includes(q));
+    }
+    return tracks;
+  }
+
+  async saveMusicTrack(track: Omit<MusicTrackRecord, "id"> & { id?: string }): Promise<MusicTrackRecord> {
+    this.init();
+    if (!this.data!.musicTracks) this.data!.musicTracks = [];
+    if (track.id) {
+      const idx = this.data!.musicTracks.findIndex((t) => t.id === track.id);
+      if (idx !== -1) {
+        this.data!.musicTracks[idx] = { ...this.data!.musicTracks[idx], ...track };
+        this.save();
+        return this.data!.musicTracks[idx];
+      }
+    }
+    const newTrack: MusicTrackRecord = {
+      ...track,
+      id: track.id || "song_" + crypto.randomUUID().slice(0, 8),
+      number: (this.data!.musicTracks.length || 0) + 1,
+      createdAt: new Date().toISOString(),
+    };
+    this.data!.musicTracks.push(newTrack);
+    this.save();
+    return newTrack;
+  }
+
+  async deleteMusicTrack(id: string): Promise<boolean> {
+    this.init();
+    if (!this.data!.musicTracks) return false;
+    const initialLen = this.data!.musicTracks.length;
+    this.data!.musicTracks = this.data!.musicTracks.filter((t) => t.id !== id);
+    if (this.data!.musicTracks.length !== initialLen) {
+      this.save();
+      return true;
+    }
+    return false;
   }
 
   async createTemplate(params: {
@@ -1258,6 +1522,116 @@ class StoreService {
     return { items, total, page, limit, totalPages };
   }
 
+  // --- Android Management & Platform Operations ---
+  async getAndroidConfig(): Promise<AndroidAppConfigRecord> {
+    this.init();
+    if (!this.data!.androidConfig) {
+      this.data!.androidConfig = getDefaultAndroidConfig();
+      this.save();
+    }
+    return { ...this.data!.androidConfig };
+  }
+
+  async updateAndroidConfig(updates: Partial<AndroidAppConfigRecord>): Promise<AndroidAppConfigRecord> {
+    this.init();
+    if (!this.data!.androidConfig) this.data!.androidConfig = getDefaultAndroidConfig();
+    Object.assign(this.data!.androidConfig, updates, { updatedAt: new Date().toISOString() });
+    this.save();
+    return { ...this.data!.androidConfig };
+  }
+
+  // --- Notification Center ---
+  async listNotificationCampaigns(): Promise<NotificationCampaignRecord[]> {
+    this.init();
+    if (!this.data!.notificationCampaigns) {
+      this.data!.notificationCampaigns = getDefaultNotificationCampaigns();
+      this.save();
+    }
+    return [...this.data!.notificationCampaigns];
+  }
+
+  async createNotificationCampaign(campaign: Omit<NotificationCampaignRecord, "id" | "createdAt" | "sentCount" | "openCount">): Promise<NotificationCampaignRecord> {
+    this.init();
+    if (!this.data!.notificationCampaigns) this.data!.notificationCampaigns = [];
+    const newCampaign: NotificationCampaignRecord = {
+      ...campaign,
+      id: "cmp_" + crypto.randomUUID().slice(0, 8),
+      sentCount: campaign.status === "SENT" ? 850 : 0,
+      openCount: campaign.status === "SENT" ? 342 : 0,
+      createdAt: new Date().toISOString(),
+    };
+    this.data!.notificationCampaigns.unshift(newCampaign);
+    this.save();
+    return newCampaign;
+  }
+
+  // --- Centralized Music Library ---
+  async listMusicTracks(params?: { category?: string; search?: string }): Promise<MusicTrackRecord[]> {
+    this.init();
+    if (!this.data!.musicTracks || this.data!.musicTracks.length === 0) {
+      // Lazy load standard catalog if empty
+      const { ALL_SONGS } = await import("@/data/songs");
+      this.data!.musicTracks = ALL_SONGS.map((s) => ({
+        id: s.id,
+        number: s.number,
+        title: s.title,
+        movie: s.movie,
+        artist: s.artist,
+        category: s.category,
+        tag: s.tag,
+        source: s.source,
+        duration: s.duration,
+        isCustomUpload: false,
+        createdAt: new Date().toISOString(),
+      }));
+      this.save();
+    }
+
+    let tracks = [...(this.data!.musicTracks || [])];
+    if (params?.category && params.category !== "All") {
+      tracks = tracks.filter((t) => t.category.toLowerCase() === params.category!.toLowerCase());
+    }
+    if (params?.search) {
+      const q = params.search.toLowerCase();
+      tracks = tracks.filter((t) => t.title.toLowerCase().includes(q) || t.movie.toLowerCase().includes(q) || t.artist.toLowerCase().includes(q));
+    }
+    return tracks;
+  }
+
+  async saveMusicTrack(track: Omit<MusicTrackRecord, "id"> & { id?: string }): Promise<MusicTrackRecord> {
+    this.init();
+    if (!this.data!.musicTracks) this.data!.musicTracks = [];
+    if (track.id) {
+      const idx = this.data!.musicTracks.findIndex((t) => t.id === track.id);
+      if (idx !== -1) {
+        this.data!.musicTracks[idx] = { ...this.data!.musicTracks[idx], ...track };
+        this.save();
+        return this.data!.musicTracks[idx];
+      }
+    }
+    const newTrack: MusicTrackRecord = {
+      ...track,
+      id: track.id || "song_" + crypto.randomUUID().slice(0, 8),
+      number: (this.data!.musicTracks.length || 0) + 1,
+      createdAt: new Date().toISOString(),
+    };
+    this.data!.musicTracks.push(newTrack);
+    this.save();
+    return newTrack;
+  }
+
+  async deleteMusicTrack(id: string): Promise<boolean> {
+    this.init();
+    if (!this.data!.musicTracks) return false;
+    const initialLen = this.data!.musicTracks.length;
+    this.data!.musicTracks = this.data!.musicTracks.filter((t) => t.id !== id);
+    if (this.data!.musicTracks.length !== initialLen) {
+      this.save();
+      return true;
+    }
+    return false;
+  }
+
   async getCustomerDetails(customerId: string): Promise<any | null> {
     this.init();
     const drafts = this.data!.drafts.filter((d) => d.userId === customerId || d.guestToken === customerId);
@@ -1656,6 +2030,116 @@ class StoreService {
     return { items, total, page, limit, totalPages };
   }
 
+  // --- Android Management & Platform Operations ---
+  async getAndroidConfig(): Promise<AndroidAppConfigRecord> {
+    this.init();
+    if (!this.data!.androidConfig) {
+      this.data!.androidConfig = getDefaultAndroidConfig();
+      this.save();
+    }
+    return { ...this.data!.androidConfig };
+  }
+
+  async updateAndroidConfig(updates: Partial<AndroidAppConfigRecord>): Promise<AndroidAppConfigRecord> {
+    this.init();
+    if (!this.data!.androidConfig) this.data!.androidConfig = getDefaultAndroidConfig();
+    Object.assign(this.data!.androidConfig, updates, { updatedAt: new Date().toISOString() });
+    this.save();
+    return { ...this.data!.androidConfig };
+  }
+
+  // --- Notification Center ---
+  async listNotificationCampaigns(): Promise<NotificationCampaignRecord[]> {
+    this.init();
+    if (!this.data!.notificationCampaigns) {
+      this.data!.notificationCampaigns = getDefaultNotificationCampaigns();
+      this.save();
+    }
+    return [...this.data!.notificationCampaigns];
+  }
+
+  async createNotificationCampaign(campaign: Omit<NotificationCampaignRecord, "id" | "createdAt" | "sentCount" | "openCount">): Promise<NotificationCampaignRecord> {
+    this.init();
+    if (!this.data!.notificationCampaigns) this.data!.notificationCampaigns = [];
+    const newCampaign: NotificationCampaignRecord = {
+      ...campaign,
+      id: "cmp_" + crypto.randomUUID().slice(0, 8),
+      sentCount: campaign.status === "SENT" ? 850 : 0,
+      openCount: campaign.status === "SENT" ? 342 : 0,
+      createdAt: new Date().toISOString(),
+    };
+    this.data!.notificationCampaigns.unshift(newCampaign);
+    this.save();
+    return newCampaign;
+  }
+
+  // --- Centralized Music Library ---
+  async listMusicTracks(params?: { category?: string; search?: string }): Promise<MusicTrackRecord[]> {
+    this.init();
+    if (!this.data!.musicTracks || this.data!.musicTracks.length === 0) {
+      // Lazy load standard catalog if empty
+      const { ALL_SONGS } = await import("@/data/songs");
+      this.data!.musicTracks = ALL_SONGS.map((s) => ({
+        id: s.id,
+        number: s.number,
+        title: s.title,
+        movie: s.movie,
+        artist: s.artist,
+        category: s.category,
+        tag: s.tag,
+        source: s.source,
+        duration: s.duration,
+        isCustomUpload: false,
+        createdAt: new Date().toISOString(),
+      }));
+      this.save();
+    }
+
+    let tracks = [...(this.data!.musicTracks || [])];
+    if (params?.category && params.category !== "All") {
+      tracks = tracks.filter((t) => t.category.toLowerCase() === params.category!.toLowerCase());
+    }
+    if (params?.search) {
+      const q = params.search.toLowerCase();
+      tracks = tracks.filter((t) => t.title.toLowerCase().includes(q) || t.movie.toLowerCase().includes(q) || t.artist.toLowerCase().includes(q));
+    }
+    return tracks;
+  }
+
+  async saveMusicTrack(track: Omit<MusicTrackRecord, "id"> & { id?: string }): Promise<MusicTrackRecord> {
+    this.init();
+    if (!this.data!.musicTracks) this.data!.musicTracks = [];
+    if (track.id) {
+      const idx = this.data!.musicTracks.findIndex((t) => t.id === track.id);
+      if (idx !== -1) {
+        this.data!.musicTracks[idx] = { ...this.data!.musicTracks[idx], ...track };
+        this.save();
+        return this.data!.musicTracks[idx];
+      }
+    }
+    const newTrack: MusicTrackRecord = {
+      ...track,
+      id: track.id || "song_" + crypto.randomUUID().slice(0, 8),
+      number: (this.data!.musicTracks.length || 0) + 1,
+      createdAt: new Date().toISOString(),
+    };
+    this.data!.musicTracks.push(newTrack);
+    this.save();
+    return newTrack;
+  }
+
+  async deleteMusicTrack(id: string): Promise<boolean> {
+    this.init();
+    if (!this.data!.musicTracks) return false;
+    const initialLen = this.data!.musicTracks.length;
+    this.data!.musicTracks = this.data!.musicTracks.filter((t) => t.id !== id);
+    if (this.data!.musicTracks.length !== initialLen) {
+      this.save();
+      return true;
+    }
+    return false;
+  }
+
   async suspendPublication(publicationId: string, reason: string): Promise<PublicationRecord> {
     this.init();
     const pub = this.data!.publications.find((p) => p.id === publicationId);
@@ -2007,6 +2491,116 @@ class StoreService {
     return { items, total, page, limit, totalPages };
   }
 
+  // --- Android Management & Platform Operations ---
+  async getAndroidConfig(): Promise<AndroidAppConfigRecord> {
+    this.init();
+    if (!this.data!.androidConfig) {
+      this.data!.androidConfig = getDefaultAndroidConfig();
+      this.save();
+    }
+    return { ...this.data!.androidConfig };
+  }
+
+  async updateAndroidConfig(updates: Partial<AndroidAppConfigRecord>): Promise<AndroidAppConfigRecord> {
+    this.init();
+    if (!this.data!.androidConfig) this.data!.androidConfig = getDefaultAndroidConfig();
+    Object.assign(this.data!.androidConfig, updates, { updatedAt: new Date().toISOString() });
+    this.save();
+    return { ...this.data!.androidConfig };
+  }
+
+  // --- Notification Center ---
+  async listNotificationCampaigns(): Promise<NotificationCampaignRecord[]> {
+    this.init();
+    if (!this.data!.notificationCampaigns) {
+      this.data!.notificationCampaigns = getDefaultNotificationCampaigns();
+      this.save();
+    }
+    return [...this.data!.notificationCampaigns];
+  }
+
+  async createNotificationCampaign(campaign: Omit<NotificationCampaignRecord, "id" | "createdAt" | "sentCount" | "openCount">): Promise<NotificationCampaignRecord> {
+    this.init();
+    if (!this.data!.notificationCampaigns) this.data!.notificationCampaigns = [];
+    const newCampaign: NotificationCampaignRecord = {
+      ...campaign,
+      id: "cmp_" + crypto.randomUUID().slice(0, 8),
+      sentCount: campaign.status === "SENT" ? 850 : 0,
+      openCount: campaign.status === "SENT" ? 342 : 0,
+      createdAt: new Date().toISOString(),
+    };
+    this.data!.notificationCampaigns.unshift(newCampaign);
+    this.save();
+    return newCampaign;
+  }
+
+  // --- Centralized Music Library ---
+  async listMusicTracks(params?: { category?: string; search?: string }): Promise<MusicTrackRecord[]> {
+    this.init();
+    if (!this.data!.musicTracks || this.data!.musicTracks.length === 0) {
+      // Lazy load standard catalog if empty
+      const { ALL_SONGS } = await import("@/data/songs");
+      this.data!.musicTracks = ALL_SONGS.map((s) => ({
+        id: s.id,
+        number: s.number,
+        title: s.title,
+        movie: s.movie,
+        artist: s.artist,
+        category: s.category,
+        tag: s.tag,
+        source: s.source,
+        duration: s.duration,
+        isCustomUpload: false,
+        createdAt: new Date().toISOString(),
+      }));
+      this.save();
+    }
+
+    let tracks = [...(this.data!.musicTracks || [])];
+    if (params?.category && params.category !== "All") {
+      tracks = tracks.filter((t) => t.category.toLowerCase() === params.category!.toLowerCase());
+    }
+    if (params?.search) {
+      const q = params.search.toLowerCase();
+      tracks = tracks.filter((t) => t.title.toLowerCase().includes(q) || t.movie.toLowerCase().includes(q) || t.artist.toLowerCase().includes(q));
+    }
+    return tracks;
+  }
+
+  async saveMusicTrack(track: Omit<MusicTrackRecord, "id"> & { id?: string }): Promise<MusicTrackRecord> {
+    this.init();
+    if (!this.data!.musicTracks) this.data!.musicTracks = [];
+    if (track.id) {
+      const idx = this.data!.musicTracks.findIndex((t) => t.id === track.id);
+      if (idx !== -1) {
+        this.data!.musicTracks[idx] = { ...this.data!.musicTracks[idx], ...track };
+        this.save();
+        return this.data!.musicTracks[idx];
+      }
+    }
+    const newTrack: MusicTrackRecord = {
+      ...track,
+      id: track.id || "song_" + crypto.randomUUID().slice(0, 8),
+      number: (this.data!.musicTracks.length || 0) + 1,
+      createdAt: new Date().toISOString(),
+    };
+    this.data!.musicTracks.push(newTrack);
+    this.save();
+    return newTrack;
+  }
+
+  async deleteMusicTrack(id: string): Promise<boolean> {
+    this.init();
+    if (!this.data!.musicTracks) return false;
+    const initialLen = this.data!.musicTracks.length;
+    this.data!.musicTracks = this.data!.musicTracks.filter((t) => t.id !== id);
+    if (this.data!.musicTracks.length !== initialLen) {
+      this.save();
+      return true;
+    }
+    return false;
+  }
+
   async deleteMedia(id: string): Promise<boolean> {
     this.init();
     // Safe soft disassociation
@@ -2298,6 +2892,116 @@ class StoreService {
     const items = logs.slice((page - 1) * limit, page * limit);
 
     return { items, total, page, limit, totalPages };
+  }
+
+  // --- Android Management & Platform Operations ---
+  async getAndroidConfig(): Promise<AndroidAppConfigRecord> {
+    this.init();
+    if (!this.data!.androidConfig) {
+      this.data!.androidConfig = getDefaultAndroidConfig();
+      this.save();
+    }
+    return { ...this.data!.androidConfig };
+  }
+
+  async updateAndroidConfig(updates: Partial<AndroidAppConfigRecord>): Promise<AndroidAppConfigRecord> {
+    this.init();
+    if (!this.data!.androidConfig) this.data!.androidConfig = getDefaultAndroidConfig();
+    Object.assign(this.data!.androidConfig, updates, { updatedAt: new Date().toISOString() });
+    this.save();
+    return { ...this.data!.androidConfig };
+  }
+
+  // --- Notification Center ---
+  async listNotificationCampaigns(): Promise<NotificationCampaignRecord[]> {
+    this.init();
+    if (!this.data!.notificationCampaigns) {
+      this.data!.notificationCampaigns = getDefaultNotificationCampaigns();
+      this.save();
+    }
+    return [...this.data!.notificationCampaigns];
+  }
+
+  async createNotificationCampaign(campaign: Omit<NotificationCampaignRecord, "id" | "createdAt" | "sentCount" | "openCount">): Promise<NotificationCampaignRecord> {
+    this.init();
+    if (!this.data!.notificationCampaigns) this.data!.notificationCampaigns = [];
+    const newCampaign: NotificationCampaignRecord = {
+      ...campaign,
+      id: "cmp_" + crypto.randomUUID().slice(0, 8),
+      sentCount: campaign.status === "SENT" ? 850 : 0,
+      openCount: campaign.status === "SENT" ? 342 : 0,
+      createdAt: new Date().toISOString(),
+    };
+    this.data!.notificationCampaigns.unshift(newCampaign);
+    this.save();
+    return newCampaign;
+  }
+
+  // --- Centralized Music Library ---
+  async listMusicTracks(params?: { category?: string; search?: string }): Promise<MusicTrackRecord[]> {
+    this.init();
+    if (!this.data!.musicTracks || this.data!.musicTracks.length === 0) {
+      // Lazy load standard catalog if empty
+      const { ALL_SONGS } = await import("@/data/songs");
+      this.data!.musicTracks = ALL_SONGS.map((s) => ({
+        id: s.id,
+        number: s.number,
+        title: s.title,
+        movie: s.movie,
+        artist: s.artist,
+        category: s.category,
+        tag: s.tag,
+        source: s.source,
+        duration: s.duration,
+        isCustomUpload: false,
+        createdAt: new Date().toISOString(),
+      }));
+      this.save();
+    }
+
+    let tracks = [...(this.data!.musicTracks || [])];
+    if (params?.category && params.category !== "All") {
+      tracks = tracks.filter((t) => t.category.toLowerCase() === params.category!.toLowerCase());
+    }
+    if (params?.search) {
+      const q = params.search.toLowerCase();
+      tracks = tracks.filter((t) => t.title.toLowerCase().includes(q) || t.movie.toLowerCase().includes(q) || t.artist.toLowerCase().includes(q));
+    }
+    return tracks;
+  }
+
+  async saveMusicTrack(track: Omit<MusicTrackRecord, "id"> & { id?: string }): Promise<MusicTrackRecord> {
+    this.init();
+    if (!this.data!.musicTracks) this.data!.musicTracks = [];
+    if (track.id) {
+      const idx = this.data!.musicTracks.findIndex((t) => t.id === track.id);
+      if (idx !== -1) {
+        this.data!.musicTracks[idx] = { ...this.data!.musicTracks[idx], ...track };
+        this.save();
+        return this.data!.musicTracks[idx];
+      }
+    }
+    const newTrack: MusicTrackRecord = {
+      ...track,
+      id: track.id || "song_" + crypto.randomUUID().slice(0, 8),
+      number: (this.data!.musicTracks.length || 0) + 1,
+      createdAt: new Date().toISOString(),
+    };
+    this.data!.musicTracks.push(newTrack);
+    this.save();
+    return newTrack;
+  }
+
+  async deleteMusicTrack(id: string): Promise<boolean> {
+    this.init();
+    if (!this.data!.musicTracks) return false;
+    const initialLen = this.data!.musicTracks.length;
+    this.data!.musicTracks = this.data!.musicTracks.filter((t) => t.id !== id);
+    if (this.data!.musicTracks.length !== initialLen) {
+      this.save();
+      return true;
+    }
+    return false;
   }
 }
 

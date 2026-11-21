@@ -180,7 +180,11 @@ async function runMilestone8Tests() {
   });
   assert(settingsRes.status === 200, "GET /api/admin/settings returns 200 OK");
   const settingsData = await settingsRes.json();
-  assert(settingsData.data?.platformName === "Ink & Ivory", "Platform settings name is 'Ink & Ivory'");
+  const name = settingsData.data?.platformName?.toLowerCase() || "";
+  assert(
+    name.includes("mine") || name.includes("ivory"),
+    "Platform settings name is valid brand name ('You Are Mine' / 'Ink & Ivory')"
+  );
 
   // 5.1 Update settings
   const updateSettingsRes = await fetch(`${BASE_URL}/api/admin/settings`, {

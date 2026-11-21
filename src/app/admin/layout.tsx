@@ -31,6 +31,11 @@ import {
   ShieldCheck,
   User,
   AlertCircle,
+  Music,
+  Bell,
+  Smartphone,
+  CreditCard,
+  RotateCcw,
 } from 'lucide-react';
 import { AdminRole, AdminPermission } from '@/lib/security/rbac';
 import { AdminProvider, useAdmin } from '@/context/AdminContext';
@@ -70,18 +75,28 @@ const NAV_SECTIONS: NavSection[] = [
   {
     title: 'Commerce & Finance',
     items: [
-      { name: 'Orders & Payments', href: '/admin/orders', icon: ShoppingBag, permission: 'FINANCIALS_VIEW' },
+      { name: 'Orders', href: '/admin/orders', icon: ShoppingBag, permission: 'FINANCIALS_VIEW' },
+      { name: 'Payments', href: '/admin/payments', icon: CreditCard, permission: 'FINANCIALS_VIEW' },
+      { name: 'Refunds', href: '/admin/refunds', icon: RotateCcw, permission: 'REFUNDS_MANAGE' },
       { name: 'Coupons & Promos', href: '/admin/coupons', icon: Percent, permission: 'COUPONS_MANAGE' },
     ],
   },
   {
-    title: 'Operations & Staff',
+    title: 'Media & Communications',
     items: [
+      { name: 'Music Library', href: '/admin/music', icon: Music, permission: 'MEDIA_MANAGE', badge: '100+' },
       { name: 'Media Library', href: '/admin/media', icon: LucideImage, permission: 'MEDIA_MANAGE' },
+      { name: 'Notifications', href: '/admin/notifications', icon: Bell, permission: 'SETTINGS_MANAGE' },
+    ],
+  },
+  {
+    title: 'Android & Platform Ops',
+    items: [
+      { name: 'Android App Management', href: '/admin/android', icon: Smartphone, permission: 'SETTINGS_MANAGE', badge: 'Play Store' },
       { name: 'Support Inquiries', href: '/admin/support', icon: LifeBuoy, permission: 'SUPPORT_MANAGE' },
       { name: 'Staff & Roles', href: '/admin/staff', icon: ShieldAlert, permission: 'STAFF_MANAGE' },
-      { name: 'Audit Logs', href: '/admin/audit', icon: FileCode, permission: 'AUDIT_LOGS_VIEW' },
       { name: 'Platform Settings', href: '/admin/settings', icon: Settings, permission: 'SETTINGS_MANAGE' },
+      { name: 'Audit Logs', href: '/admin/audit', icon: FileCode, permission: 'AUDIT_LOGS_VIEW' },
     ],
   },
 ];
@@ -94,6 +109,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [platformFilter, setPlatformFilter] = useState<'ALL' | 'WEB' | 'ANDROID'>('ALL');
 
   // Login form state (Standard Email & Password)
   const [emailInput, setEmailInput] = useState<string>('');
@@ -277,9 +293,8 @@ function AdminShell({ children }: { children: React.ReactNode }) {
       {/* DESKTOP SIDEBAR                                                */}
       {/* ============================================================== */}
       <aside
-        className={`hidden md:flex flex-col bg-[#1A1612] border-r border-[#2B231B] text-[#FAF8F5] transition-all duration-300 select-none z-30 shrink-0 ${
-          sidebarCollapsed ? 'w-20' : 'w-72'
-        }`}
+        className={`hidden md:flex flex-col bg-[#1A1612] border-r border-[#2B231B] text-[#FAF8F5] transition-all duration-300 select-none z-30 shrink-0 ${sidebarCollapsed ? 'w-20' : 'w-72'
+          }`}
       >
         {/* Top Brand Monogram */}
         <div className="h-20 flex items-center justify-between px-5 border-b border-[#2B231B]">
@@ -335,27 +350,24 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                       key={item.href}
                       href={item.href}
                       title={sidebarCollapsed ? item.name : undefined}
-                      className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all group ${
-                        isActive
+                      className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all group ${isActive
                           ? 'bg-gradient-to-r from-[#D4AF37] to-[#B38F24] text-[#1C1814] font-semibold shadow-md'
                           : 'text-[#C7BCAD] hover:bg-[#28221B] hover:text-[#FAF8F5]'
-                      }`}
+                        }`}
                     >
                       <Icon
-                        className={`w-4 h-4 shrink-0 transition-transform group-hover:scale-110 ${
-                          isActive ? 'text-[#1C1814]' : 'text-[#A69B8D] group-hover:text-[#D4AF37]'
-                        }`}
+                        className={`w-4 h-4 shrink-0 transition-transform group-hover:scale-110 ${isActive ? 'text-[#1C1814]' : 'text-[#A69B8D] group-hover:text-[#D4AF37]'
+                          }`}
                       />
                       {!sidebarCollapsed && (
                         <div className="flex-1 flex items-center justify-between">
                           <span>{item.name}</span>
                           {item.badge && (
                             <span
-                              className={`text-[9.5px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider ${
-                                isActive
+                              className={`text-[9.5px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider ${isActive
                                   ? 'bg-[#1C1814]/20 text-[#1C1814]'
                                   : 'bg-[#D4AF37]/20 text-[#D4AF37]'
-                              }`}
+                                }`}
                             >
                               {item.badge}
                             </span>
@@ -461,11 +473,10 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                         key={item.href}
                         href={item.href}
                         onClick={() => setMobileDrawerOpen(false)}
-                        className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium ${
-                          isActive
+                        className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium ${isActive
                             ? 'bg-[#D4AF37] text-[#1C1814] font-semibold'
                             : 'text-[#C7BCAD] hover:bg-[#28221B]'
-                        }`}
+                          }`}
                       >
                         <Icon className="w-4 h-4" />
                         <span>{item.name}</span>
@@ -534,6 +545,23 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                 placeholder="Universal search..."
                 className="w-full pl-8 pr-3 py-1.5 text-xs rounded-full bg-[#F4EFE6] border border-[#DFCEAF] text-[#2C2114] placeholder-[#9E8975] focus:outline-none focus:ring-1 focus:ring-[#8F6E3B]"
               />
+            </div>
+
+            {/* Centralized Platform Scope Selector */}
+            <div className="hidden md:flex items-center p-0.5 rounded-full bg-[#EDE2CF]/80 border border-[#DFCEAF]">
+              {(['ALL', 'WEB', 'ANDROID'] as const).map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => setPlatformFilter(p)}
+                  className={`px-2.5 py-1 text-[10px] font-bold rounded-full transition-all uppercase tracking-wider ${platformFilter === p
+                      ? 'bg-[#8F6E3B] text-white shadow-xs'
+                      : 'text-[#695034] hover:text-[#2C2114]'
+                    }`}
+                >
+                  {p === 'ALL' ? 'All Platforms' : p === 'WEB' ? 'Website' : 'Android App'}
+                </button>
+              ))}
             </div>
 
             {/* View Public Store */}

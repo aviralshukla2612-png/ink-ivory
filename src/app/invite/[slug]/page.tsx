@@ -2,6 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { store } from "@/lib/store";
+import { InvitationShareButton } from "@/components/invitation/InvitationShareButton";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -137,6 +138,13 @@ export default async function PublicInvitationPage({ params }: Props) {
         title={template?.title || "Bespoke Invitation"}
         className="w-full h-full border-none"
         allow="autoplay; encrypted-media; clipboard-write"
+      />
+
+      {/* Native & Omnichannel Share Button */}
+      <InvitationShareButton
+        title={template?.title || "Bespoke Invitation"}
+        names={snapshotData.fields?.names || "Our Celebration"}
+        slug={invitation.slug}
       />
 
       {/* Floating You Are Mine Watermark Badge */}
