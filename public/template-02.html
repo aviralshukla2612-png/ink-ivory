@@ -511,6 +511,9 @@ try {
     if (p.groomParents && CONFIG.family[0]) CONFIG.family[0].text = p.groomParents;
     if (p.brideParents && CONFIG.family[1]) CONFIG.family[1].text = p.brideParents;
     if (p.host && CONFIG.family[3]) CONFIG.family[3].text = p.host;
+    if (p.photoUrl) {
+      CONFIG.events.forEach(e => { e.photo = p.photoUrl; });
+    }
     if (p.audioSource && CONFIG.song) CONFIG.song.source = p.audioSource;
   }
 } catch(_) {}
@@ -1119,6 +1122,12 @@ window.addEventListener('message', (e) => {
       if (CONFIG.events.length > p.events.length) {
         CONFIG.events = CONFIG.events.slice(0, p.events.length);
       }
+      buildEvents();
+      if (window.armReveal) window.armReveal();
+      $$('.ev').forEach(el => el.classList.add('in'));
+    }
+    if (p.photoUrl) {
+      CONFIG.events.forEach(e => { e.photo = p.photoUrl; });
       buildEvents();
       if (window.armReveal) window.armReveal();
       $$('.ev').forEach(el => el.classList.add('in'));

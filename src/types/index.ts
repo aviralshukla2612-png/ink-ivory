@@ -51,6 +51,10 @@ export interface EditableFields {
   rsvp?: string;
   host?: string;
   photoUrl?: string;
+  photoPositionY?: number;
+  photoPositionX?: number;
+  photoFit?: 'cover' | 'contain';
+  photoScale?: number;
   brideParents?: string;
   groomParents?: string;
   songTitle?: string;

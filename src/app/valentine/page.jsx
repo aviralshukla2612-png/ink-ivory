@@ -55,6 +55,13 @@ export default function ValentinePage() {
           letter: { ...prev.letter, date: d },
         }));
       }
+      if (urlParams.get('photoUrl')) {
+        const pUrl = urlParams.get('photoUrl');
+        setData((prev) => ({
+          ...prev,
+          story: prev.story?.map((st, i) => (i === 0 ? { ...st, image: pUrl } : st)) || prev.story,
+        }));
+      }
       // Check stored custom values
       try {
         const stored = sessionStorage.getItem('ink_ivory_custom_valentine');
@@ -136,6 +143,9 @@ export default function ValentinePage() {
             updated.date = p.date;
             if (updated.letter) updated.letter.date = p.date;
             if (updated.story && updated.story[4]) updated.story[4].date = p.date;
+          }
+          if (p.photoUrl && updated.story) {
+            updated.story[0].image = p.photoUrl;
           }
           if (p.story && Array.isArray(p.story) && updated.story) {
             p.story.forEach((st, idx) => {

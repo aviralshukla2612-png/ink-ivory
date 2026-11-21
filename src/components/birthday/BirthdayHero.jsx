@@ -14,6 +14,10 @@ export function BirthdayHero({
   buttonText = 'Open Your Surprise ♡',
   backgroundImage = '/images/birthday/birthday-hero-bg.png',
   profileImage = '/images/birthday/profile.jpg',
+  photoPositionY = 50,
+  photoPositionX = 50,
+  photoFit = 'cover',
+  photoScale = 1,
   cakeImage = '/images/birthday/cake.png',
   teddyImage = '/images/birthday/teddy.png',
   onOpenSurprise,
@@ -52,7 +56,11 @@ export function BirthdayHero({
                     alt={recipientName}
                     fill
                     sizes="(max-width: 768px) 260px, 320px"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    className={`${photoFit === 'contain' ? 'object-contain' : 'object-cover'} transition-all duration-300`}
+                    style={{
+                      objectPosition: `${photoPositionX}% ${photoPositionY}%`,
+                      transform: `scale(${photoScale})`,
+                    }}
                     priority
                   />
                   {/* Soft golden photo shimmer overlay */}

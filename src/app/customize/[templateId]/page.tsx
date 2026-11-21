@@ -28,6 +28,11 @@ import {
   Users,
   Plus,
   Trash2,
+  Camera,
+  MoveVertical,
+  MoveHorizontal,
+  ZoomIn,
+  RotateCcw,
 } from 'lucide-react';
 import PublishModal from '@/components/editor/PublishModal';
 import { templatesData } from '@/data/templates';
@@ -169,7 +174,7 @@ export default function CustomizePage() {
       try {
         const stored = sessionStorage.getItem(`ink_ivory_custom_${templateKey}`);
         if (stored) saved = JSON.parse(stored);
-      } catch (e) {}
+      } catch (e) { }
     }
     const defaultEvents = baseTemplate.defaultFields.events || (templateKey === 'template-02' ? [
       { name: 'Haldi', icon: 'haldi', date: 'Friday, 12 February 2027', time: '10:00 AM', venue: 'Family home, Jaipur' },
@@ -293,6 +298,95 @@ export default function CustomizePage() {
   const audioPreviewRef = useRef<HTMLAudioElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const photoInputRef = useRef<HTMLInputElement>(null);
+
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const [photoUploadError, setPhotoUploadError] = useState<string | null>(null);
+  const [photoUploadSuccess, setPhotoUploadSuccess] = useState<string | null>(null);
+  const [customPhotoUrlInput, setCustomPhotoUrlInput] = useState('');
+  const [saveBannerMessage, setSaveBannerMessage] = useState<string | null>(null);
+
+  const getEffectivePhoto = () => {
+    if (fields.photoUrl) return fields.photoUrl;
+    if (templateKey === 'birthday') return '/images/birthday/profile.jpg';
+    if (templateKey === 'valentine') return '/bgv.png';
+    if (templateKey === 'template-01') return '/template-01/gallery-1.jpg';
+    if (templateKey === 'template-02') return '/images/hero-luxury.png';
+    if (templateKey === 'template-03') return '/images/templates/south-indian-temple.png';
+    if (templateKey === 'date-planner') return '/images/templates/date-planner.png';
+    return '/images/birthday/profile.jpg';
+  };
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Instant local preview
+    const localUrl = URL.createObjectURL(file);
+    handleFieldChange('photoUrl', localUrl);
+
+    try {
+      setIsUploadingPhoto(true);
+      setPhotoUploadError(null);
+      setPhotoUploadSuccess(`Uploading "${file.name}"...`);
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch('/api/upload/image', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to upload image');
+      }
+
+      handleFieldChange('photoUrl', data.url);
+      setPhotoUploadSuccess(`✓ Photo uploaded & framed successfully!`);
+      setTimeout(() => setPhotoUploadSuccess(null), 5000);
+    } catch (err: any) {
+      console.error('Photo upload error:', err);
+      setPhotoUploadError(err.message || 'Upload failed. Please upload a JPG or PNG under 15MB.');
+      setTimeout(() => setPhotoUploadError(null), 5000);
+    } finally {
+      setIsUploadingPhoto(false);
+      if (photoInputRef.current) photoInputRef.current.value = '';
+    }
+  };
+
+  const handleApplyCustomPhotoUrl = () => {
+    if (!customPhotoUrlInput.trim()) return;
+    handleFieldChange('photoUrl', customPhotoUrlInput.trim());
+    setPhotoUploadSuccess(`✓ Photo URL applied!`);
+    setTimeout(() => setPhotoUploadSuccess(null), 4000);
+    setCustomPhotoUrlInput('');
+  };
+
+  const handleManualSave = async () => {
+    setIsDraftSaving(true);
+    // 1. Sync sessionStorage immediately
+    if (typeof window !== 'undefined') {
+      try {
+        sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(fields));
+        if (templateKey === 'template-01') {
+          sessionStorage.setItem('ink_ivory_custom_wedding_data', JSON.stringify(fields));
+        }
+      } catch (e) {}
+    }
+    // 2. Broadcast to iframe
+    try {
+      iframeRef.current?.contentWindow?.postMessage(
+        { type: 'INK_IVORY_CUSTOM_UPDATE', payload: fields },
+        '*'
+      );
+    } catch (e) {}
+    // 3. Save draft to server
+    await saveDraftToServer();
+    setSaveBannerMessage('✓ Dates, photos and details saved & updated in preview!');
+    setTimeout(() => setSaveBannerMessage(null), 5000);
+  };
 
   const formatSeconds = (sec: number) => {
     const m = Math.floor(sec / 60);
@@ -308,14 +402,14 @@ export default function CustomizePage() {
       if (typeof window !== 'undefined') {
         try {
           sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated));
-        } catch (e) {}
+        } catch (e) { }
       }
       try {
         iframeRef.current?.contentWindow?.postMessage(
           { type: 'INK_IVORY_CUSTOM_UPDATE', payload: updated },
           '*'
         );
-      } catch (e) {}
+      } catch (e) { }
       return updated;
     });
   };
@@ -340,14 +434,14 @@ export default function CustomizePage() {
       if (typeof window !== 'undefined') {
         try {
           sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated));
-        } catch (e) {}
+        } catch (e) { }
       }
       try {
         iframeRef.current?.contentWindow?.postMessage(
           { type: 'INK_IVORY_CUSTOM_UPDATE', payload: updated },
           '*'
         );
-      } catch (e) {}
+      } catch (e) { }
       return updated;
     });
   };
@@ -372,11 +466,11 @@ export default function CustomizePage() {
       });
       const updated = { ...prev, events: evList };
       if (typeof window !== 'undefined') {
-        try { sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated)); } catch (e) {}
+        try { sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated)); } catch (e) { }
       }
       try {
         iframeRef.current?.contentWindow?.postMessage({ type: 'INK_IVORY_CUSTOM_UPDATE', payload: updated }, '*');
-      } catch (e) {}
+      } catch (e) { }
       return updated;
     });
   };
@@ -390,11 +484,11 @@ export default function CustomizePage() {
       evList.splice(index, 1);
       const updated = { ...prev, events: evList };
       if (typeof window !== 'undefined') {
-        try { sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated)); } catch (e) {}
+        try { sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated)); } catch (e) { }
       }
       try {
         iframeRef.current?.contentWindow?.postMessage({ type: 'INK_IVORY_CUSTOM_UPDATE', payload: updated }, '*');
-      } catch (e) {}
+      } catch (e) { }
       return updated;
     });
   };
@@ -415,11 +509,11 @@ export default function CustomizePage() {
       storyList[index] = { ...storyList[index], [key]: value };
       const updated = { ...prev, story: storyList };
       if (typeof window !== 'undefined') {
-        try { sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated)); } catch (e) {}
+        try { sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated)); } catch (e) { }
       }
       try {
         iframeRef.current?.contentWindow?.postMessage({ type: 'INK_IVORY_CUSTOM_UPDATE', payload: updated }, '*');
-      } catch (e) {}
+      } catch (e) { }
       return updated;
     });
   };
@@ -439,11 +533,11 @@ export default function CustomizePage() {
       memList[index] = { ...memList[index], [key]: value };
       const updated = { ...prev, memories: memList };
       if (typeof window !== 'undefined') {
-        try { sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated)); } catch (e) {}
+        try { sessionStorage.setItem(`ink_ivory_custom_${templateKey}`, JSON.stringify(updated)); } catch (e) { }
       }
       try {
         iframeRef.current?.contentWindow?.postMessage({ type: 'INK_IVORY_CUSTOM_UPDATE', payload: updated }, '*');
-      } catch (e) {}
+      } catch (e) { }
       return updated;
     });
   };
@@ -463,7 +557,7 @@ export default function CustomizePage() {
       audioPreviewRef.current
         .play()
         .then(() => setIsPlayingAudio(true))
-        .catch(() => {});
+        .catch(() => { });
     }
   };
 
@@ -531,7 +625,7 @@ export default function CustomizePage() {
       if (last && last.includes('.')) {
         extractedName = decodeURIComponent(last.replace(/\.[^/.]+$/, ''));
       }
-    } catch (e) {}
+    } catch (e) { }
 
     setAudioUploadMessage(`✓ Direct audio link applied & playing!`);
     setTimeout(() => setAudioUploadMessage(null), 6000);
@@ -570,7 +664,7 @@ export default function CustomizePage() {
       audioPreviewRef.current
         .play()
         .then(() => setIsPlayingAudio(true))
-        .catch(() => {});
+        .catch(() => { });
     }
   };
 
@@ -605,7 +699,7 @@ export default function CustomizePage() {
       audioPreviewRef.current
         .play()
         .then(() => setIsPlayingAudio(true))
-        .catch(() => {});
+        .catch(() => { });
     }
   };
 
@@ -650,6 +744,11 @@ export default function CustomizePage() {
     params.set('mode', 'demo');
     params.set('view', 'phone');
     params.set('auto', 'false');
+    if (fields.photoUrl) params.set('photoUrl', fields.photoUrl);
+    if (fields.photoPositionY !== undefined) params.set('photoPosY', String(fields.photoPositionY));
+    if (fields.photoPositionX !== undefined) params.set('photoPosX', String(fields.photoPositionX));
+    if (fields.photoFit) params.set('photoFit', fields.photoFit);
+    if (fields.photoScale !== undefined) params.set('photoScale', String(fields.photoScale));
 
     if (templateKey === 'valentine') {
       params.set('names', fields.names || 'Aarav & Riya');
@@ -894,11 +993,10 @@ export default function CustomizePage() {
           <div className="flex border-b border-[#EFE7D5] bg-[#FAF7F2] sticky top-0 z-10">
             <button
               onClick={() => setActiveTab('text')}
-              className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border-b-2 cursor-pointer ${
-                activeTab === 'text'
-                  ? 'border-[#8F6E3B] text-[#8F6E3B] bg-white'
-                  : 'border-transparent text-[#6B533E] hover:text-[#2C2114]'
-              }`}
+              className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border-b-2 cursor-pointer ${activeTab === 'text'
+                ? 'border-[#8F6E3B] text-[#8F6E3B] bg-white'
+                : 'border-transparent text-[#6B533E] hover:text-[#2C2114]'
+                }`}
             >
               <Type className="w-3.5 h-3.5" />
               <span>Details</span>
@@ -906,11 +1004,10 @@ export default function CustomizePage() {
 
             <button
               onClick={() => setActiveTab('music')}
-              className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border-b-2 cursor-pointer ${
-                activeTab === 'music'
-                  ? 'border-[#8F6E3B] text-[#8F6E3B] bg-white'
-                  : 'border-transparent text-[#6B533E] hover:text-[#2C2114]'
-              }`}
+              className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border-b-2 cursor-pointer ${activeTab === 'music'
+                ? 'border-[#8F6E3B] text-[#8F6E3B] bg-white'
+                : 'border-transparent text-[#6B533E] hover:text-[#2C2114]'
+                }`}
             >
               <Music className="w-3.5 h-3.5" />
               <span>Music Freedom</span>
@@ -2131,6 +2228,322 @@ export default function CustomizePage() {
                   </div>
                 </>
               )}
+
+              {/* ======================================================== */}
+              {/* PHOTO & VISUAL FRAMING STUDIO (Fix cutting & reposition) */}
+              {/* ======================================================== */}
+              <div className="pt-5 border-t border-[#EFE7D5] space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-[#8F6E3B] uppercase tracking-wider">
+                    <Camera className="w-3.5 h-3.5 text-[#A77B35]" />
+                    <span>Photo &amp; Framing Studio</span>
+                  </div>
+                  <span className="text-[10px] text-[#A77B35] font-semibold bg-[#F5EEDB] border border-[#DFCDB0] px-2 py-0.5 rounded-full">
+                    Visual Framing
+                  </span>
+                </div>
+                <p className="text-[11px] text-[#7A634E] leading-normal">
+                  Upload your photo and adjust framing sliders so faces, outfits, or celebration elements are never cut off.
+                </p>
+
+                {/* Status / Alert Messages */}
+                {photoUploadSuccess && (
+                  <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-medium flex items-center gap-2">
+                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span>{photoUploadSuccess}</span>
+                  </div>
+                )}
+                {photoUploadError && (
+                  <div className="p-2.5 rounded-lg bg-red-50 border border-red-200 text-red-800 text-[11px] font-medium flex items-center gap-2">
+                    <AlertCircle className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                    <span>{photoUploadError}</span>
+                  </div>
+                )}
+
+                {/* Photo Upload & Preview Grid */}
+                <div className="p-3.5 bg-[#FAF7F0] border border-[#E4D8BA] rounded-xl space-y-3">
+                  <div className="flex items-start gap-3.5">
+                    {/* Live Mini Preview with exact Framing applied */}
+                    <div className="relative w-24 h-28 rounded-xl overflow-hidden border-2 border-[#A77B35] bg-black/10 shrink-0 shadow-inner">
+                      <img
+                        src={getEffectivePhoto()}
+                        alt="Framed Photo Preview"
+                        className="w-full h-full transition-all duration-150"
+                        style={{
+                          objectFit: fields.photoFit || 'cover',
+                          objectPosition: `${fields.photoPositionX ?? 50}% ${fields.photoPositionY ?? 50}%`,
+                          transform: `scale(${fields.photoScale ?? 1})`,
+                        }}
+                      />
+                      <div className="absolute inset-0 border border-white/30 rounded-xl pointer-events-none" />
+                      <span className="absolute bottom-1 right-1 bg-black/60 text-white text-[9px] px-1 py-0.5 rounded font-mono">
+                        Preview
+                      </span>
+                    </div>
+
+                    {/* Upload Controls */}
+                    <div className="flex-1 space-y-2">
+                      <input
+                        ref={photoInputRef}
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        onChange={handlePhotoUpload}
+                        className="hidden"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => photoInputRef.current?.click()}
+                        disabled={isUploadingPhoto}
+                        className="w-full py-2 px-3 rounded-lg bg-[#A77B35] hover:bg-[#8F6E3B] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer"
+                      >
+                        {isUploadingPhoto ? (
+                          <>
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            <span>Uploading Photo...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="w-3.5 h-3.5" />
+                            <span>Upload New Photo</span>
+                          </>
+                        )}
+                      </button>
+
+                      <div className="flex items-center gap-1.5 pt-1">
+                        <input
+                          type="text"
+                          value={customPhotoUrlInput}
+                          onChange={(e) => setCustomPhotoUrlInput(e.target.value)}
+                          placeholder="Or paste photo URL..."
+                          className="flex-1 px-2 py-1 text-[11px] rounded border border-[#DFCEAF] bg-white focus:outline-none"
+                        />
+                        <button
+                          type="button"
+                          onClick={handleApplyCustomPhotoUrl}
+                          className="px-2.5 py-1 text-[11px] font-semibold bg-[#FAF5EA] hover:bg-[#F2ECE0] text-[#5C4523] border border-[#DFCDB0] rounded transition-colors"
+                        >
+                          Apply
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Framing Adjustments */}
+                  <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
+                    {/* Fit Mode */}
+                    <div>
+                      <label className="block text-[11px] font-semibold text-[#8F6E3B] mb-1">
+                        Frame Fit Style
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleFieldChange('photoFit', 'cover')}
+                          className={`py-1.5 px-2 text-xs rounded-lg border font-medium transition-all ${
+                            (fields.photoFit || 'cover') === 'cover'
+                              ? 'bg-[#8F6E3B] text-white border-[#8F6E3B]'
+                              : 'bg-white text-[#49341F] border-[#DFCEAF] hover:bg-[#FAF7F0]'
+                          }`}
+                        >
+                          Fill Frame (Cover)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleFieldChange('photoFit', 'contain')}
+                          className={`py-1.5 px-2 text-xs rounded-lg border font-medium transition-all ${
+                            fields.photoFit === 'contain'
+                              ? 'bg-[#8F6E3B] text-white border-[#8F6E3B]'
+                              : 'bg-white text-[#49341F] border-[#DFCEAF] hover:bg-[#FAF7F0]'
+                          }`}
+                        >
+                          Show Full (No Cut)
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Vertical Position (Move Up / Down) */}
+                    <div>
+                      <div className="flex items-center justify-between text-[11px] font-semibold text-[#49341F] mb-1">
+                        <span className="flex items-center gap-1">
+                          <MoveVertical className="w-3 h-3 text-[#A77B35]" />
+                          <span>Vertical Position (Fix Top/Bottom Cutting)</span>
+                        </span>
+                        <span className="font-mono text-[#8F6E3B]">{fields.photoPositionY ?? 50}%</span>
+                      </div>
+                      <input
+                        type="range"
+                        min={0}
+                        max={100}
+                        step={1}
+                        value={fields.photoPositionY ?? 50}
+                        onChange={(e) => handleFieldChange('photoPositionY', Number(e.target.value))}
+                        className="w-full accent-[#A77B35] cursor-pointer"
+                      />
+                      <div className="flex items-center justify-between text-[10px] text-[#8F6E3B] mt-1">
+                        <button
+                          type="button"
+                          onClick={() => handleFieldChange('photoPositionY', 10)}
+                          className="hover:underline"
+                        >
+                          Top (10%)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleFieldChange('photoPositionY', 50)}
+                          className="hover:underline font-semibold"
+                        >
+                          Center (50%)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleFieldChange('photoPositionY', 85)}
+                          className="hover:underline font-semibold text-[#B62A42]"
+                          title="Pulls photo up so cupcakes, hands, or outfits at bottom aren't cut"
+                        >
+                          Show Bottom (85%)
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Horizontal Position (Move Left / Right) */}
+                    <div>
+                      <div className="flex items-center justify-between text-[11px] font-semibold text-[#49341F] mb-1">
+                        <span className="flex items-center gap-1">
+                          <MoveHorizontal className="w-3 h-3 text-[#A77B35]" />
+                          <span>Horizontal Position (Left / Right)</span>
+                        </span>
+                        <span className="font-mono text-[#8F6E3B]">{fields.photoPositionX ?? 50}%</span>
+                      </div>
+                      <input
+                        type="range"
+                        min={0}
+                        max={100}
+                        step={1}
+                        value={fields.photoPositionX ?? 50}
+                        onChange={(e) => handleFieldChange('photoPositionX', Number(e.target.value))}
+                        className="w-full accent-[#A77B35] cursor-pointer"
+                      />
+                      <div className="flex items-center justify-between text-[10px] text-[#8F6E3B] mt-1">
+                        <button
+                          type="button"
+                          onClick={() => handleFieldChange('photoPositionX', 15)}
+                          className="hover:underline"
+                        >
+                          Left (15%)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleFieldChange('photoPositionX', 50)}
+                          className="hover:underline font-semibold"
+                        >
+                          Center (50%)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleFieldChange('photoPositionX', 85)}
+                          className="hover:underline"
+                        >
+                          Right (85%)
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Zoom / Scale */}
+                    <div>
+                      <div className="flex items-center justify-between text-[11px] font-semibold text-[#49341F] mb-1">
+                        <span className="flex items-center gap-1">
+                          <ZoomIn className="w-3 h-3 text-[#A77B35]" />
+                          <span>Scale &amp; Zoom</span>
+                        </span>
+                        <span className="font-mono text-[#8F6E3B]">
+                          {Math.round((fields.photoScale ?? 1) * 100)}%
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min={0.7}
+                        max={1.5}
+                        step={0.05}
+                        value={fields.photoScale ?? 1}
+                        onChange={(e) => handleFieldChange('photoScale', Number(e.target.value))}
+                        className="w-full accent-[#A77B35] cursor-pointer"
+                      />
+                      <div className="flex items-center justify-between text-[10px] text-[#8F6E3B] mt-1">
+                        <button
+                          type="button"
+                          onClick={() => handleFieldChange('photoScale', 0.85)}
+                          className="hover:underline"
+                        >
+                          Fit In (85%)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleFieldChange('photoScale', 1)}
+                          className="hover:underline font-semibold"
+                        >
+                          Original (100%)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleFieldChange('photoScale', 1.2)}
+                          className="hover:underline"
+                        >
+                          Zoom In (120%)
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Reset Framing Button */}
+                    <div className="flex justify-end pt-1">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleFieldChange('photoPositionY', 50);
+                          handleFieldChange('photoPositionX', 50);
+                          handleFieldChange('photoScale', 1);
+                          handleFieldChange('photoFit', 'cover');
+                        }}
+                        className="text-[10.5px] text-[#7A634E] hover:text-[#2C2114] flex items-center gap-1 underline cursor-pointer"
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                        <span>Reset to Default Framing</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ======================================================== */}
+              {/* SAVE & APPLY CHANGES BUTTON (At the end of Details)     */}
+              {/* ======================================================== */}
+              <div className="pt-4 border-t border-[#DFCDB0] sticky bottom-0 bg-[#FFFDF9]/95 backdrop-blur-md p-4 -mx-6 -mb-6 shadow-[0_-8px_25px_rgba(73,52,31,0.08)] z-20 space-y-2">
+                <button
+                  type="button"
+                  onClick={handleManualSave}
+                  disabled={isDraftSaving}
+                  className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#8F6E3B] via-[#A77B35] to-[#7A5722] hover:from-[#7A5722] hover:to-[#8F6E3B] text-white font-serif font-bold text-sm tracking-wide shadow-lg shadow-[#A77B35]/25 flex items-center justify-center gap-2 transition-all transform active:scale-[0.99] cursor-pointer"
+                >
+                  {saveBannerMessage ? (
+                    <>
+                      <Check className="w-4.5 h-4.5 text-emerald-300" />
+                      <span>{saveBannerMessage}</span>
+                    </>
+                  ) : isDraftSaving ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-white" />
+                      <span>Saving &amp; Updating...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4 text-[#FFF2D4]" />
+                      <span>Save &amp; Apply Changes</span>
+                    </>
+                  )}
+                </button>
+                <p className="text-center text-[10.5px] text-[#8F6E3B]">
+                  ✦ Saves all custom dates, names, venues &amp; photos to your invitation preview.
+                </p>
+              </div>
             </div>
           )}
 
@@ -2187,9 +2600,8 @@ export default function CustomizePage() {
                   type="button"
                   disabled={isUploadingAudio}
                   onClick={() => fileInputRef.current?.click()}
-                  className={`w-full p-4 rounded-xl border-2 border-dashed border-[#A77B35] bg-[#FFFDF9] hover:bg-[#FAF5EA] text-[#5C4523] flex flex-col items-center justify-center gap-2 transition-all cursor-pointer group ${
-                    isUploadingAudio ? 'opacity-60 cursor-not-allowed' : ''
-                  }`}
+                  className={`w-full p-4 rounded-xl border-2 border-dashed border-[#A77B35] bg-[#FFFDF9] hover:bg-[#FAF5EA] text-[#5C4523] flex flex-col items-center justify-center gap-2 transition-all cursor-pointer group ${isUploadingAudio ? 'opacity-60 cursor-not-allowed' : ''
+                    }`}
                 >
                   {isUploadingAudio ? (
                     <Loader2 className="w-6 h-6 text-[#A77B35] animate-spin" />
@@ -2240,19 +2652,17 @@ export default function CustomizePage() {
                         key={song.id}
                         type="button"
                         onClick={() => handleSelectSong(song)}
-                        className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer ${
-                          isSelected
-                            ? 'bg-[#FAF7F0] border-[#8F6E3B] ring-1 ring-[#8F6E3B] shadow-sm'
-                            : 'bg-white border-[#E8DFC8] hover:bg-[#FAF7F2]'
-                        }`}
+                        className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer ${isSelected
+                          ? 'bg-[#FAF7F0] border-[#8F6E3B] ring-1 ring-[#8F6E3B] shadow-sm'
+                          : 'bg-white border-[#E8DFC8] hover:bg-[#FAF7F2]'
+                          }`}
                       >
                         <div className="flex items-center gap-3">
                           <div
-                            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                              isSelected
-                                ? 'bg-[#8F6E3B] text-white'
-                                : 'bg-[#F2ECE0] text-[#6B533E]'
-                            }`}
+                            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${isSelected
+                              ? 'bg-[#8F6E3B] text-white'
+                              : 'bg-[#F2ECE0] text-[#6B533E]'
+                              }`}
                           >
                             <Music className="w-3.5 h-3.5" />
                           </div>
@@ -2332,13 +2742,12 @@ export default function CustomizePage() {
                       return (
                         <div
                           key={i}
-                          className={`flex-1 rounded-full transition-all duration-150 ${
-                            isPlayed
-                              ? 'bg-[#E5A842] shadow-[0_0_8px_rgba(229,168,66,0.8)]'
-                              : isHighlighted
+                          className={`flex-1 rounded-full transition-all duration-150 ${isPlayed
+                            ? 'bg-[#E5A842] shadow-[0_0_8px_rgba(229,168,66,0.8)]'
+                            : isHighlighted
                               ? 'bg-[#D6B477]/70'
                               : 'bg-white/20'
-                          }`}
+                            }`}
                           style={{ height: `${height}%` }}
                         />
                       );
@@ -2390,11 +2799,10 @@ export default function CustomizePage() {
                           key={preset.time}
                           type="button"
                           onClick={() => handleSeekAudio(preset.time)}
-                          className={`px-2 py-1.5 rounded-lg text-[11px] font-semibold text-center transition-all cursor-pointer border ${
-                            isSelected
-                              ? 'bg-[#E5A842] text-[#0E1524] border-[#E5A842] shadow-sm font-bold scale-[1.02]'
-                              : 'bg-[#152136] text-[#E2D5BE] border-[#2B3A59] hover:border-[#D6B477]/60 hover:bg-[#1E2E4A]'
-                          }`}
+                          className={`px-2 py-1.5 rounded-lg text-[11px] font-semibold text-center transition-all cursor-pointer border ${isSelected
+                            ? 'bg-[#E5A842] text-[#0E1524] border-[#E5A842] shadow-sm font-bold scale-[1.02]'
+                            : 'bg-[#152136] text-[#E2D5BE] border-[#2B3A59] hover:border-[#D6B477]/60 hover:bg-[#1E2E4A]'
+                            }`}
                         >
                           <div>{preset.label}</div>
                           <div className={`text-[9px] ${isSelected ? 'text-[#0E1524]/80' : 'text-[#8A9DBA]'}`}>

@@ -65,6 +65,46 @@ export default function BirthdayPage() {
       }));
     }
 
+    if (params.get('photoUrl')) {
+      const url = params.get('photoUrl');
+      setData((prev) => ({
+        ...prev,
+        hero: { ...prev.hero, profileImage: url },
+      }));
+    }
+
+    if (params.get('photoPosY')) {
+      const y = parseFloat(params.get('photoPosY')) || 50;
+      setData((prev) => ({
+        ...prev,
+        hero: { ...prev.hero, photoPositionY: y },
+      }));
+    }
+
+    if (params.get('photoPosX')) {
+      const x = parseFloat(params.get('photoPosX')) || 50;
+      setData((prev) => ({
+        ...prev,
+        hero: { ...prev.hero, photoPositionX: x },
+      }));
+    }
+
+    if (params.get('photoFit')) {
+      const fit = params.get('photoFit');
+      setData((prev) => ({
+        ...prev,
+        hero: { ...prev.hero, photoFit: fit },
+      }));
+    }
+
+    if (params.get('photoScale')) {
+      const scale = parseFloat(params.get('photoScale')) || 1;
+      setData((prev) => ({
+        ...prev,
+        hero: { ...prev.hero, photoScale: scale },
+      }));
+    }
+
     try {
       const stored = sessionStorage.getItem('ink_ivory_custom_birthday');
       if (stored) {
@@ -97,6 +137,11 @@ export default function BirthdayPage() {
               ],
             };
           }
+          if (parsed.photoUrl && next.hero) next.hero.profileImage = parsed.photoUrl;
+          if (parsed.photoPositionY !== undefined && next.hero) next.hero.photoPositionY = parsed.photoPositionY;
+          if (parsed.photoPositionX !== undefined && next.hero) next.hero.photoPositionX = parsed.photoPositionX;
+          if (parsed.photoFit && next.hero) next.hero.photoFit = parsed.photoFit;
+          if (parsed.photoScale !== undefined && next.hero) next.hero.photoScale = parsed.photoScale;
           if (parsed.memories && Array.isArray(parsed.memories) && next.memories) {
             parsed.memories.forEach((m, idx) => {
               if (next.memories[idx]) {
@@ -153,6 +198,21 @@ export default function BirthdayPage() {
         if (p.date) {
           next.occasionDate = p.date;
           next.date = p.date;
+        }
+        if (p.photoUrl && next.hero) {
+          next.hero = { ...next.hero, profileImage: p.photoUrl };
+        }
+        if (p.photoPositionY !== undefined && next.hero) {
+          next.hero = { ...next.hero, photoPositionY: p.photoPositionY };
+        }
+        if (p.photoPositionX !== undefined && next.hero) {
+          next.hero = { ...next.hero, photoPositionX: p.photoPositionX };
+        }
+        if (p.photoFit && next.hero) {
+          next.hero = { ...next.hero, photoFit: p.photoFit };
+        }
+        if (p.photoScale !== undefined && next.hero) {
+          next.hero = { ...next.hero, photoScale: p.photoScale };
         }
         if (p.memories && Array.isArray(p.memories) && next.memories) {
           p.memories.forEach((m, idx) => {
@@ -269,6 +329,10 @@ export default function BirthdayPage() {
         buttonText={data.hero.buttonText}
         backgroundImage={data.hero.backgroundImage}
         profileImage={data.hero.profileImage}
+        photoPositionY={data.hero.photoPositionY}
+        photoPositionX={data.hero.photoPositionX}
+        photoFit={data.hero.photoFit}
+        photoScale={data.hero.photoScale}
         cakeImage={data.hero.cakeImage}
         teddyImage={data.hero.teddyImage}
         onOpenSurprise={() => handleScrollTo('surprise')}
