@@ -485,12 +485,11 @@ export default function CheckoutPage() {
             <div className="space-y-4 max-h-[360px] overflow-y-auto pr-1">
               {cart.map((item, idx) => (
                 <div key={item.customizedId || idx} className="flex gap-3 items-center">
-                  <div className="w-14 h-18 rounded-lg overflow-hidden border border-[#DFCEAF] bg-[#F4EFE6] relative flex-shrink-0">
-                    <CardPreview
-                      template={item.template}
-                      customization={item.customization}
-                      designConfig={item.designConfig}
-                      className="w-full h-full pointer-events-none transform scale-[0.35] origin-top-left"
+                  <div className="w-14 h-18 sm:w-16 sm:h-20 rounded-xl overflow-hidden border border-[#DFCEAF] bg-[#111827] relative flex-shrink-0 shadow-sm aspect-[3/4]">
+                    <img
+                      src={item.template?.previewImage || '/images/templates/royal-navy-wedding-card.webp'}
+                      alt={item.template?.title || 'Card thumbnail'}
+                      className="w-full h-full object-cover object-center"
                     />
                   </div>
                   <div className="flex-1 min-w-0">

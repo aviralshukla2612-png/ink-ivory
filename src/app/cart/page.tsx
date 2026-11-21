@@ -100,12 +100,11 @@ export default function CartPage() {
                   className="bg-[#FCFAF6] rounded-2xl p-5 border border-[#E8DFC8] shadow-sm flex flex-col sm:flex-row items-center gap-5"
                 >
                   {/* Thumbnail */}
-                  <div className="w-24 sm:w-28 flex-shrink-0">
-                    <CardPreview
-                      template={item.template}
-                      customization={item.customization}
-                      designConfig={item.designConfig}
-                      className="rounded-lg shadow-sm border border-[#DFCEAF]"
+                  <div className="w-20 sm:w-24 aspect-[3/4] rounded-xl overflow-hidden shadow-sm border border-[#DFCEAF] flex-shrink-0 relative bg-[#111827]">
+                    <img
+                      src={item.template?.previewImage || '/images/templates/royal-navy-wedding-card.webp'}
+                      alt={item.template?.title || 'Card thumbnail'}
+                      className="w-full h-full object-cover object-center"
                     />
                   </div>
 

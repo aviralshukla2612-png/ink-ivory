@@ -18,14 +18,50 @@ export const CardPreview: React.FC<CardPreviewProps> = ({
   className = '',
   showWatermark = false,
 }) => {
-  const fields = { ...template.defaultFields, ...customization };
-  const config = { ...template.designConfig, ...designConfig };
+  const fields = { ...template?.defaultFields, ...customization };
+  const config = { ...template?.designConfig, ...designConfig };
 
   const isDark =
     config.themeColor === '#121E35' ||
     config.themeColor === '#361219' ||
     config.themeColor === '#0E1726' ||
     config.themeColor === '#301808';
+
+  // If a high-resolution template cover/preview image exists, render it
+  if (template?.previewImage) {
+    return (
+      <div
+        className={`relative overflow-hidden transition-all duration-300 shadow-luxury select-none aspect-[3/4] bg-[#0A0F1A] ${className}`}
+      >
+        <img
+          src={template.previewImage}
+          alt={template.title || 'Card Preview'}
+          className="w-full h-full object-cover object-center"
+        />
+
+        {/* Soft bottom vignette for contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
+
+        {/* Customized couple name banner if available */}
+        {fields.names && (
+          <div className="absolute inset-x-0 bottom-2.5 px-3 text-center pointer-events-none">
+            <p className="text-[11px] sm:text-xs font-serif font-semibold text-[#F4E6D0] truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+              {fields.names}
+            </p>
+          </div>
+        )}
+
+        {/* Watermark for preview if enabled */}
+        {showWatermark && (
+          <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center opacity-25 rotate-[-30deg]">
+            <span className="text-2xl sm:text-3xl font-serif text-white tracking-widest font-bold drop-shadow-md">
+              You Are Mine Preview
+            </span>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div
