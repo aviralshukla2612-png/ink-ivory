@@ -25,7 +25,7 @@ function Template04Inner() {
         ref={iframeRef}
         src={src}
         title="Template 04 - Tara & Kabir The Grand Udaipur Palace Wedding"
-        className="w-full h-full border-none"
+        className="w-full h-full border-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         allow="autoplay; encrypted-media; clipboard-write"
       />
     </div>

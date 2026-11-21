@@ -186,7 +186,7 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
                 ref={iframeRef}
                 src={demoUrl}
                 title="Live Mobile Wedding Invitation Demo"
-                className="w-full h-full border-none bg-[#091321]"
+                className="w-full h-full border-none bg-[#091321] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
               />
             </div>
           </div>
@@ -211,7 +211,7 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
                 ref={iframeRef}
                 src={demoUrl}
                 title="Live Laptop Wedding Invitation Demo"
-                className="w-full h-full border-none bg-[#091321]"
+                className="w-full h-full border-none bg-[#091321] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
               />
             </div>
 
