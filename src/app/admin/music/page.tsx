@@ -165,11 +165,10 @@ export default function MusicLibraryAdminPage() {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition ${
-                selectedCategory === cat
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition ${selectedCategory === cat
                   ? 'bg-[#30231D] text-white shadow-sm'
                   : 'bg-[#FAF7F2] text-[#702E3D] hover:bg-[#E9DFD2]'
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -306,11 +305,10 @@ export default function MusicLibraryAdminPage() {
                   <td className="py-3 px-4">
                     <button
                       onClick={() => togglePlay(track)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
-                        playingId === track.id
+                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${playingId === track.id
                           ? 'bg-[#C69A50] text-white shadow-sm'
                           : 'bg-[#FAF7F2] text-[#30231D] hover:bg-[#E9DFD2]'
-                      }`}
+                        }`}
                     >
                       {playingId === track.id ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
                       {playingId === track.id ? 'Playing' : 'Listen'}

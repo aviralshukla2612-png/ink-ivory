@@ -20,12 +20,23 @@ export default function CheckoutPage() {
   const { cart, totalPrice, discount, clearCart } = useCart();
 
   const [customerPhone, setCustomerPhone] = useState('');
-  const [otp, setOtp] = useState('');
+  const [otpDigits, setOtpDigits] = useState(['', '', '', '']);
+  const otpInputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
+  const otp = otpDigits.join('');
   const [otpSent, setOtpSent] = useState(false);
   const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [otpError, setOtpError] = useState('');
   const [resendTimer, setResendTimer] = useState(0);
+
+  // Auto-focus first OTP digit when OTP step appears
+  useEffect(() => {
+    if (otpSent) {
+      setTimeout(() => {
+        otpInputRefs.current[0]?.focus();
+      }, 100);
+    }
+  }, [otpSent]);
 
   // Timer countdown for OTP resend
   useEffect(() => {
@@ -74,9 +85,75 @@ export default function CheckoutPage() {
 
   const handleResendOtp = () => {
     if (resendTimer > 0) return;
-    setOtp('');
+    setOtpDigits(['', '', '', '']);
     setOtpError('');
     handleSendOtp();
+  };
+
+  const handleDigitChange = (index: number, value: string) => {
+    const cleanDigits = value.replace(/\D/g, '');
+    if (!cleanDigits) {
+      const updated = [...otpDigits];
+      updated[index] = '';
+      setOtpDigits(updated);
+      setOtpError('');
+      return;
+    }
+
+    if (cleanDigits.length === 1) {
+      const updated = [...otpDigits];
+      updated[index] = cleanDigits;
+      setOtpDigits(updated);
+      setOtpError('');
+      if (index < 3) {
+        otpInputRefs.current[index + 1]?.focus();
+      }
+    } else {
+      // Pasted or typed multi-character input
+      const updated = [...otpDigits];
+      cleanDigits.slice(0, 4 - index).split('').forEach((d, i) => {
+        if (index + i < 4) {
+          updated[index + i] = d;
+        }
+      });
+      setOtpDigits(updated);
+      setOtpError('');
+      const nextIdx = Math.min(index + cleanDigits.length, 3);
+      otpInputRefs.current[nextIdx]?.focus();
+    }
+  };
+
+  const handleDigitKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Backspace') {
+      if (!otpDigits[index] && index > 0) {
+        const updated = [...otpDigits];
+        updated[index - 1] = '';
+        setOtpDigits(updated);
+        otpInputRefs.current[index - 1]?.focus();
+      }
+    } else if (e.key === 'ArrowLeft' && index > 0) {
+      otpInputRefs.current[index - 1]?.focus();
+    } else if (e.key === 'ArrowRight' && index < 3) {
+      otpInputRefs.current[index + 1]?.focus();
+    } else if (e.key === 'Enter') {
+      if (otpDigits.join('').length === 4) {
+        handleVerifyOtpAndPay();
+      }
+    }
+  };
+
+  const handleOtpPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pasteData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 4);
+    if (!pasteData) return;
+    const updated = [...otpDigits];
+    pasteData.split('').forEach((d, i) => {
+      if (i < 4) updated[i] = d;
+    });
+    setOtpDigits(updated);
+    setOtpError('');
+    const targetIdx = Math.min(pasteData.length, 3);
+    otpInputRefs.current[targetIdx]?.focus();
   };
 
   const handleVerifyOtpAndPay = async (e?: React.FormEvent) => {
@@ -456,7 +533,7 @@ export default function CheckoutPage() {
                     type="button"
                     onClick={() => {
                       setOtpSent(false);
-                      setOtp('');
+                      setOtpDigits(['', '', '', '']);
                       setOtpError('');
                     }}
                     className="text-xs font-semibold text-[#8F6E3B] hover:text-[#5C4523] underline cursor-pointer"
@@ -465,9 +542,9 @@ export default function CheckoutPage() {
                   </button>
                 </div>
 
-                {/* OTP Input */}
+                {/* 4 Separate Box OTP UI */}
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center justify-between mb-3">
                     <label className="block text-xs font-semibold text-[#49341F]">
                       Verification Code (OTP)
                     </label>
@@ -475,26 +552,33 @@ export default function CheckoutPage() {
                       SMS sent to your phone • Test code: 1234
                     </span>
                   </div>
-                  <input
-                    type="text"
-                    maxLength={6}
-                    autoFocus
-                    value={otp}
-                    onChange={(e) => {
-                      const val = e.target.value.replace(/\D/g, '').slice(0, 6);
-                      setOtp(val);
-                      setOtpError('');
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && otp.length >= 4) {
-                        handleVerifyOtpAndPay();
-                      }
-                    }}
-                    placeholder="1 2 3 4"
-                    className="w-full text-center tracking-[0.8em] sm:tracking-[1.2em] text-2xl font-bold py-3.5 px-4 rounded-xl border border-[#DFCEAF] bg-white text-[#2C2114] focus:outline-none focus:ring-2 focus:ring-[#A77B35] placeholder:text-[#CBBCA8]"
-                  />
+
+                  <div className="flex items-center justify-center gap-3 sm:gap-4 my-2">
+                    {[0, 1, 2, 3].map((idx) => (
+                      <input
+                        key={idx}
+                        ref={(el) => {
+                          otpInputRefs.current[idx] = el;
+                        }}
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        maxLength={1}
+                        value={otpDigits[idx]}
+                        onChange={(e) => handleDigitChange(idx, e.target.value)}
+                        onKeyDown={(e) => handleDigitKeyDown(idx, e)}
+                        onPaste={handleOtpPaste}
+                        className={`w-14 h-16 sm:w-16 sm:h-20 text-center text-2xl sm:text-3xl font-bold rounded-2xl border-2 transition-all outline-none ${
+                          otpDigits[idx]
+                            ? 'border-[#8F6E3B] bg-[#FFFDF9] text-[#2C2114] shadow-xs'
+                            : 'border-[#DFCEAF] bg-white text-[#2C2114] hover:border-[#C4B293] focus:border-[#8F6E3B] focus:ring-4 focus:ring-[#8F6E3B]/10'
+                        }`}
+                      />
+                    ))}
+                  </div>
+
                   {otpError && (
-                    <p className="text-xs text-red-600 mt-1.5 font-medium">{otpError}</p>
+                    <p className="text-xs text-red-600 mt-2 text-center font-medium">{otpError}</p>
                   )}
                 </div>
 
