@@ -6,11 +6,9 @@ import Link from 'next/link';
 import {
   ArrowLeft,
   Type,
-  Palette,
   Sparkles,
   Check,
   ShoppingBag,
-  Sliders,
   Smartphone,
   Music,
   ExternalLink,
@@ -194,7 +192,7 @@ export default function CustomizePage() {
     ...baseTemplate.designConfig,
   });
 
-  const [activeTab, setActiveTab] = useState<'text' | 'music' | 'typography' | 'colors'>('text');
+  const [activeTab, setActiveTab] = useState<'text' | 'music'>('text');
   const [isSavedToCart, setIsSavedToCart] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [audioCurrentTime, setAudioCurrentTime] = useState<number>(() => Number(fields.audioStartTime) || 0);
@@ -735,15 +733,6 @@ export default function CustomizePage() {
 
   const fullInvitationUrl = getPreviewUrl().replace('&mode=demo&view=phone&auto=false', '');
 
-  const colorPalettes = [
-    { name: 'Royal Navy & Gold', theme: '#121E35', text: '#EDE2CF', accent: '#D7B875' },
-    { name: 'Warm Ivory & Bronze', theme: '#FDFBF7', text: '#49341F', accent: '#A77B35' },
-    { name: 'South Indian Crimson & Gold', theme: '#4A0715', text: '#F8EFD6', accent: '#D9A521' },
-    { name: 'Valentine Rose & Wine', theme: '#FFF4F0', text: '#4B3035', accent: '#B51F3B' },
-    { name: 'Dark Emerald & Gold', theme: '#0E241B', text: '#F8F4EC', accent: '#D7B875' },
-    { name: 'Blush & Champagne', theme: '#FAF2EE', text: '#3E2A1E', accent: '#B88E4B' },
-  ];
-
   return (
     <div className="w-full min-h-screen bg-[#F4EFE6] flex flex-col select-none">
       {/* Top Studio Bar */}
@@ -925,30 +914,6 @@ export default function CustomizePage() {
             >
               <Music className="w-3.5 h-3.5" />
               <span>Music Freedom</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('typography')}
-              className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border-b-2 cursor-pointer ${
-                activeTab === 'typography'
-                  ? 'border-[#8F6E3B] text-[#8F6E3B] bg-white'
-                  : 'border-transparent text-[#6B533E] hover:text-[#2C2114]'
-              }`}
-            >
-              <Sliders className="w-3.5 h-3.5" />
-              <span>Typography</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('colors')}
-              className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border-b-2 cursor-pointer ${
-                activeTab === 'colors'
-                  ? 'border-[#8F6E3B] text-[#8F6E3B] bg-white'
-                  : 'border-transparent text-[#6B533E] hover:text-[#2C2114]'
-              }`}
-            >
-              <Palette className="w-3.5 h-3.5" />
-              <span>Palette</span>
             </button>
           </div>
 
@@ -2439,130 +2404,6 @@ export default function CustomizePage() {
                       );
                     })}
                   </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* TAB 3: TYPOGRAPHY */}
-          {activeTab === 'typography' && (
-            <div className="p-6 space-y-6">
-              <div>
-                <label className="block text-xs font-semibold text-[#49341F] mb-2">
-                  Headline Typography Pair
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {[
-                    { id: 'serif', name: 'Classic Editorial Serif', desc: 'Cormorant Garamond' },
-                    { id: 'display', name: 'Royal Grand Display', desc: 'Playfair Display' },
-                    { id: 'script', name: 'Handwritten Romance', desc: 'Allura & Script' },
-                    { id: 'sans', name: 'Clean Modern Minimal', desc: 'Karla & Inter' },
-                  ].map((f) => (
-                    <button
-                      key={f.id}
-                      onClick={() => setDesign({ ...design, fontFamily: f.id as any })}
-                      className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
-                        design.fontFamily === f.id
-                          ? 'border-[#8F6E3B] bg-[#FAF7F0] ring-1 ring-[#8F6E3B]'
-                          : 'border-[#E8DFC8] bg-white hover:bg-[#FAF7F2]'
-                      }`}
-                    >
-                      <span className="block text-xs font-semibold text-[#2C2114]">{f.name}</span>
-                      <span className="text-[10px] text-[#8C7359]">{f.desc}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-[#49341F] mb-2">
-                  Border &amp; Frame Detailing
-                </label>
-                <div className="grid grid-cols-2 gap-2.5">
-                  {[
-                    { id: 'gold-floral', name: 'Gold Foil Botanicals' },
-                    { id: 'minimal-gold', name: 'Clean Gold Border' },
-                    { id: 'temple-silk', name: 'Temple Silk Brocade' },
-                    { id: 'ornate', name: 'Classic Flourishes' },
-                  ].map((b) => (
-                    <button
-                      key={b.id}
-                      onClick={() => setDesign({ ...design, borderStyle: b.id as any })}
-                      className={`px-3 py-2 text-xs rounded-lg border text-center transition-all cursor-pointer ${
-                        design.borderStyle === b.id
-                          ? 'border-[#8F6E3B] bg-[#FAF7F0] font-semibold text-[#8F6E3B]'
-                          : 'border-[#E8DFC8] bg-white text-[#574330]'
-                      }`}
-                    >
-                      {b.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* TAB 4: PALETTES & COLORS */}
-          {activeTab === 'colors' && (
-            <div className="p-6 space-y-6">
-              <div>
-                <label className="block text-xs font-semibold text-[#49341F] mb-3">
-                  Curated Luxury Color Harmonizers
-                </label>
-                <div className="space-y-2.5">
-                  {colorPalettes.map((p) => (
-                    <button
-                      key={p.name}
-                      onClick={() =>
-                        setDesign({
-                          ...design,
-                          themeColor: p.theme,
-                          textColor: p.text,
-                          accentColor: p.accent,
-                        })
-                      }
-                      className={`w-full p-3 rounded-xl border flex items-center justify-between transition-all cursor-pointer ${
-                        design.themeColor === p.theme
-                          ? 'border-[#8F6E3B] bg-[#FAF7F2] ring-1 ring-[#8F6E3B]'
-                          : 'border-[#E8DFC8] bg-white hover:bg-[#FAF7F2]'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div
-                          className="w-6 h-6 rounded-full border shadow-sm"
-                          style={{ backgroundColor: p.theme }}
-                        />
-                        <div
-                          className="w-4 h-4 rounded-full border shadow-sm -ml-2"
-                          style={{ backgroundColor: p.accent }}
-                        />
-                        <span className="text-xs font-medium text-[#2C2114] ml-1">
-                          {p.name}
-                        </span>
-                      </div>
-                      {design.themeColor === p.theme && (
-                        <Check className="w-4 h-4 text-[#8F6E3B]" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Custom Hex Color Override */}
-              <div className="pt-4 border-t border-[#F2ECE0] space-y-3">
-                <label className="block text-xs font-semibold text-[#49341F]">
-                  Manual Accent Gold Color Picker
-                </label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="color"
-                    value={design.accentColor || '#A77B35'}
-                    onChange={(e) => setDesign({ ...design, accentColor: e.target.value })}
-                    className="w-10 h-10 rounded-lg cursor-pointer border border-[#DFCEAF]"
-                  />
-                  <span className="text-xs font-mono text-[#574330] uppercase">
-                    {design.accentColor || '#A77B35'}
-                  </span>
                 </div>
               </div>
             </div>
