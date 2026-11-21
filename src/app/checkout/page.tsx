@@ -210,12 +210,13 @@ export default function CheckoutPage() {
 
       // If Razorpay SDK is loaded, launch official Razorpay Checkout modal
       if ((window as any).Razorpay && rzpKey && !rzpKey.includes('test_inkivory')) {
+        const orderAmountPaise = Math.round(totalPrice * 100);
         const options: any = {
           key: rzpKey,
-          amount: paymentOrderData?.amount || totalPrice * 100,
-          currency: paymentOrderData?.currency || 'INR',
+          amount: orderAmountPaise,
+          currency: 'INR',
           name: 'You Are Mine',
-          description: `Order ${orderId}`,
+          description: `Digital Invitation Suite (${cart.length} item${cart.length > 1 ? 's' : ''})`,
           image: '/logo.png',
           handler: async (response: any) => {
             await completeVerificationAndRedirect(

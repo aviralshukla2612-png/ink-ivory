@@ -1,4 +1,5 @@
 import { store } from "@/lib/store";
+import { templatesData } from "@/data/templates";
 
 export interface PricingQuote {
   templateId: string;
@@ -24,11 +25,16 @@ const PROMO_CODES: Record<string, { type: "percent" | "flat"; value: number; des
 };
 
 export async function calculateQuote(templateId: string, couponCode?: string): Promise<PricingQuote> {
-  const template = await store.getTemplate(templateId);
+  const directTpl = templatesData.find(
+    (t) => t.id === templateId || t.slug === templateId
+  );
+  const template = directTpl || (await store.getTemplate(templateId));
   const priceRecord = await store.getTemplatePrice(template?.id || templateId);
 
-  // Default fallback base amount ₹349 in paise (34900)
-  const baseAmountPaise = priceRecord?.amount || 34900;
+  // Exact template price in paise (e.g. ₹899 -> 89900 paise, ₹499 -> 49900 paise)
+  const baseAmountPaise = directTpl?.price
+    ? directTpl.price * 100
+    : priceRecord?.amount || 49900;
   let discountPaise = 0;
   let couponApplied = false;
 
@@ -42,9 +48,6 @@ export async function calculateQuote(templateId: string, couponCode?: string): P
       discountPaise = Math.min(baseAmountPaise, promo.value);
     }
     couponApplied = true;
-  } else if (priceRecord?.promotionalPrice && priceRecord.promotionalPrice < baseAmountPaise) {
-    // Automatic active template promo
-    discountPaise = baseAmountPaise - priceRecord.promotionalPrice;
   }
 
   const finalAmountPaise = Math.max(0, baseAmountPaise - discountPaise);
