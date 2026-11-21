@@ -6,7 +6,7 @@ const config: CapacitorConfig = {
   webDir: 'public',
   server: {
     // Allows loading live Next.js SSR & API endpoints with native Android bridge
-    url: process.env.CAPACITOR_SERVER_URL || 'https://youaremine-online.com',
+    url: process.env.CAPACITOR_SERVER_URL || 'https://youaremine.online',
     cleartext: false,
     androidScheme: 'https',
   },

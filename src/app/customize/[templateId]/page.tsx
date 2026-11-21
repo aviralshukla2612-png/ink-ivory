@@ -80,6 +80,15 @@ export default function CustomizePage() {
       return 'date-planner';
     }
     if (
+      templateId === 'template-04' ||
+      templateId === 'tpl-wedding-paper-palace-04' ||
+      templateId === 'paper-palace-wedding' ||
+      baseTemplate.id === 'tpl-wedding-paper-palace-04' ||
+      baseTemplate.liveDemoUrl === '/template-04'
+    ) {
+      return 'template-04';
+    }
+    if (
       templateId === 'template-02' ||
       templateId === 'tpl-anniversary-gold-02' ||
       baseTemplate.id === 'tpl-anniversary-gold-02' ||
@@ -843,6 +852,26 @@ export default function CustomizePage() {
       return `/date-planner?${params.toString()}`;
     }
 
+    if (templateKey === 'template-04') {
+      const parts = (fields.names || 'Tara & Kabir').split(/&|\band\b/i).map((s) => s.trim());
+      const bride = parts[0] || 'Tara';
+      const groom = parts[1] || 'Kabir';
+      params.set('names', fields.names || 'Tara & Kabir');
+      params.set('groom', groom);
+      params.set('bride', bride);
+      if (fields.groomParents) params.set('groomParents', fields.groomParents);
+      if (fields.brideParents) params.set('brideParents', fields.brideParents);
+      if (fields.host) params.set('family', fields.host);
+      params.set('date', fields.date || 'Saturday, 13 March 2027');
+      if (fields.time) params.set('time', fields.time);
+      params.set('venue', fields.venue || 'The Grand Mahal, City Palace Road, Udaipur');
+      params.set('city', fields.city || 'Udaipur, Rajasthan');
+      if (fields.rsvp) params.set('whatsapp', fields.rsvp);
+      if (fields.audioSource) params.set('audioSource', fields.audioSource);
+      if (fields.audioStartTime) params.set('audioStart', String(fields.audioStartTime));
+      return `/template-04.html?${params.toString()}`;
+    }
+
     if (templateKey === 'template-03') {
       params.set('names', fields.names || 'Karthik & Meenakshi');
       params.set('date', fields.date || 'Sunday, 14 February 2027');
@@ -885,8 +914,8 @@ export default function CustomizePage() {
   return (
     <div className="w-full min-h-screen bg-[#F4EFE6] flex flex-col select-none">
       {/* Top Studio Bar */}
-      <div className="bg-[#FAF7F2] border-b border-[#DFCEAF] px-2.5 sm:px-6 py-2 sm:py-3 flex items-center justify-between gap-2 z-30 sticky top-0">
-        <div className="flex items-center gap-1.5 sm:gap-3 min-w-0 flex-1 mr-1">
+      <div className="bg-[#FAF7F2] border-b border-[#DFCEAF] px-2 sm:px-6 py-2 sm:py-3 flex items-center justify-between gap-1.5 sm:gap-2 z-30 sticky top-0 max-w-full overflow-hidden">
+        <div className="flex items-center gap-1.5 sm:gap-3 min-w-0 flex-1 mr-1 overflow-hidden">
           <Link
             href="/templates"
             className="p-1 sm:p-1.5 rounded-lg hover:bg-[#EFE6D5] text-[#49341F] transition-colors shrink-0"
@@ -894,10 +923,10 @@ export default function CustomizePage() {
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 overflow-hidden">
             <div className="flex items-center gap-1.5 min-w-0">
               <span className="text-[11px] font-medium text-[#7A634E] hidden md:inline shrink-0">Personalizing:</span>
-              <h1 className="text-xs sm:text-sm font-serif italic text-[#8F6E3B] font-semibold truncate leading-tight">
+              <h1 className="text-xs sm:text-sm font-serif italic text-[#8F6E3B] font-semibold truncate leading-tight max-w-[130px] xs:max-w-[180px] sm:max-w-xs md:max-w-md">
                 {baseTemplate.title}
               </h1>
             </div>
@@ -908,7 +937,7 @@ export default function CustomizePage() {
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        <div className="flex items-center gap-1 sm:gap-2.5 shrink-0">
           <button
             onClick={handleReset}
             className="hidden md:flex px-2.5 py-1.5 text-xs text-[#6B533E] hover:text-[#2C2114] items-center gap-1 rounded-lg hover:bg-[#EFE6D5] transition-colors"
@@ -921,7 +950,7 @@ export default function CustomizePage() {
           <button
             onClick={() => saveDraftToServer()}
             disabled={isDraftSaving}
-            className="px-2.5 sm:px-3.5 py-1.5 text-xs font-semibold rounded-lg border border-[#A77B35] text-[#5C4523] bg-white hover:bg-[#FAF7F0] flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs shrink-0"
+            className="px-2 sm:px-3.5 py-1.5 text-xs font-semibold rounded-lg border border-[#A77B35] text-[#5C4523] bg-white hover:bg-[#FAF7F0] flex items-center gap-1 sm:gap-1.5 transition-colors cursor-pointer shadow-xs shrink-0"
             title="Save your progress to resume anytime"
           >
             {draftSaveStatus === 'saving' ? (
@@ -939,7 +968,7 @@ export default function CustomizePage() {
               <>
                 <Save className="w-3.5 h-3.5 text-[#8F6E3B]" />
                 <span className="hidden sm:inline">Save Draft</span>
-                <span className="sm:hidden">Save</span>
+                <span className="sm:hidden text-[11px]">Save</span>
               </>
             )}
           </button>
@@ -974,7 +1003,7 @@ export default function CustomizePage() {
               }
             }}
             disabled={addingToCart}
-            className="px-3 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-[13px] font-semibold rounded-xl bg-gradient-to-r from-[#8F6E3B] via-[#A88347] to-[#8F6E3B] hover:opacity-95 text-white shadow-gold flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 shrink-0"
+            className="px-2.5 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-[13px] font-semibold rounded-xl bg-gradient-to-r from-[#8F6E3B] via-[#A88347] to-[#8F6E3B] hover:opacity-95 text-white shadow-gold flex items-center gap-1 sm:gap-2 transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 shrink-0"
           >
             {addingToCart ? (
               <>
@@ -984,8 +1013,9 @@ export default function CustomizePage() {
               </>
             ) : (
               <>
-                <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
-                <span>Add to Cart</span>
+                <ShoppingBag className="w-3.5 h-3.5 shrink-0 hidden xs:inline" />
+                <span className="hidden sm:inline">Add to Cart</span>
+                <span className="sm:hidden font-bold">Add</span>
                 <span className="px-1.5 py-0.5 rounded bg-black/15 text-[10.5px] sm:text-xs font-bold leading-none">
                   ₹{templatePrice}
                 </span>

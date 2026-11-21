@@ -445,6 +445,42 @@
         "themeColor": "#FFF2ED",
         "accentColor": "#B51F3B"
       }
+    },
+    {
+      "id": "tpl-wedding-paper-palace-04",
+      "slug": "paper-palace-wedding",
+      "title": "Tara & Kabir — Paper Palace Pop-Up Wedding",
+      "occasion": "Wedding",
+      "rendererId": "wedding-paper-palace",
+      "description": "Interactive 3D opening doors, Kaagaz Mahal pop-up puzzle, scratch-off event reveal, flower garland stringing, and WhatsApp wishes.",
+      "previewImage": "/images/templates/paper-palace-card.jpg",
+      "liveDemoUrl": "/template-04",
+      "badge": "👑 ROYAL",
+      "tier": "ROYAL",
+      "status": "ACTIVE",
+      "isActive": true,
+      "defaultFields": {
+        "eyebrow": "TOGETHER WITH THEIR FAMILIES",
+        "headline": "The Wedding Of",
+        "names": "Tara & Kabir",
+        "groom": "Kabir",
+        "bride": "Tara",
+        "groomParents": "Son of Neha & Vikram Kapoor",
+        "brideParents": "Daughter of Meera & Rohit Mehta",
+        "family": "With love, the Mehta & Kapoor Families",
+        "date": "Saturday, 13 March 2027",
+        "time": "6:30 PM Onwards",
+        "venue": "The Grand Mahal, City Palace Road",
+        "city": "Udaipur, Rajasthan",
+        "message": "Join us as we step into forever surrounded by the people who mean the most to us.",
+        "audioSource": "/audio/alfaaz.mp3",
+        "songTitle": "Alfaaz (Hamza Malik & Zain Ali)"
+      },
+      "designConfig": {
+        "themeColor": "#f4d6cc",
+        "accentColor": "#a24a6a"
+      },
+      "priceINR": 499
     }
   ],
   "prices": [

@@ -57,6 +57,18 @@ export const APPROVED_RENDERER_REGISTRY: Record<string, RendererDefinition> = {
     previewThumbnail: "/images/templates/thirumanam-temple-card.jpg",
     isAvailable: true,
   },
+  "wedding-paper-palace": {
+    id: "wedding-paper-palace",
+    name: "Paper Palace Pop-Up Wedding Invitation",
+    category: "Wedding",
+    tier: "ROYAL",
+    description: "Interactive 3D opening doors, Kaagaz Mahal pop-up puzzle, scratch-off event reveal, flower garland stringing, and WhatsApp wishes.",
+    targetRoute: "/template-04",
+    supportedSections: ["opening", "hero", "letter", "palace-puzzle", "countdown", "events", "varmala", "wishes", "music", "closing"],
+    defaultPriceINR: 499,
+    previewThumbnail: "/images/templates/paper-palace-card.jpg",
+    isAvailable: true,
+  },
   "birthday-interactive": {
     id: "birthday-interactive",
     name: "Interactive Birthday Surprise",
