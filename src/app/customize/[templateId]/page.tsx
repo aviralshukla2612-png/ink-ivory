@@ -913,9 +913,9 @@ export default function CustomizePage() {
   const fullInvitationUrl = getPreviewUrl().replace('&mode=demo&view=phone&auto=false', '');
 
   return (
-    <div className="w-full min-h-screen bg-[#F4EFE6] flex flex-col select-none">
+    <div className="w-full h-screen max-h-screen bg-[#F4EFE6] flex flex-col select-none overflow-hidden">
       {/* Top Studio Bar */}
-      <div className="bg-[#FAF7F2] border-b border-[#DFCEAF] px-2 sm:px-6 py-2 sm:py-3 flex items-center justify-between gap-1.5 sm:gap-2 z-30 sticky top-0 max-w-full overflow-hidden">
+      <div className="bg-[#FAF7F2] border-b border-[#DFCEAF] px-2 sm:px-6 py-2 sm:py-3 flex items-center justify-between gap-1.5 sm:gap-2 z-30 sticky top-0 max-w-full overflow-hidden shrink-0">
         <div className="flex items-center gap-1.5 sm:gap-3 min-w-0 flex-1 mr-1 overflow-hidden">
           <Link
             href="/templates"
@@ -1027,9 +1027,9 @@ export default function CustomizePage() {
       </div>
 
       {/* Main Studio Work Area */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-12 min-h-0 h-full overflow-hidden">
         {/* LEFT / CENTER: Interactive Live Mockup Viewport (Col 7) */}
-        <div className="lg:col-span-7 bg-[#0B1220] p-4 sm:p-6 flex flex-col items-center justify-between overflow-y-auto relative min-h-[550px]">
+        <div className="md:col-span-6 lg:col-span-7 bg-[#0B1220] p-3 sm:p-6 flex flex-col items-center justify-between h-full min-h-0 overflow-hidden relative md:sticky md:top-0">
           {/* Header Status Badge */}
           <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#152136] border border-[#2B3A59] shadow-lg mb-3 z-10 text-xs font-semibold text-[#E7CEA0]">
             <Smartphone className="w-3.5 h-3.5 text-[#E5A842]" />
@@ -1079,7 +1079,7 @@ export default function CustomizePage() {
         </div>
 
         {/* RIGHT PANEL: Customization Controls (Col 5) */}
-        <div className="lg:col-span-5 bg-white border-t lg:border-t-0 lg:border-l border-[#DFCEAF] flex flex-col h-full overflow-y-auto">
+        <div className="md:col-span-6 lg:col-span-5 bg-white border-t md:border-t-0 md:border-l border-[#DFCEAF] flex flex-col h-full min-h-0 overflow-y-auto">
           {/* Tabs Navigation */}
           <div className="flex border-b border-[#EFE7D5] bg-[#FAF7F2] sticky top-0 z-10">
             <button
