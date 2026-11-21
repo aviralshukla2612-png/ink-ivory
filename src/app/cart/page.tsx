@@ -138,8 +138,11 @@ export default function CartPage() {
                   {/* Price & Actions */}
                   <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-[#F2ECE0] gap-3">
                     <div className="text-right">
-                      <div className="text-base sm:text-lg font-serif font-bold text-[#2C2114]">
-                        {item.template.isFree ? 'Free' : `₹${item.template.price}`}
+                      <div className="flex items-center gap-1.5 justify-end">
+                        <span className="text-xs text-[#99816B] line-through font-medium">₹{item.template.originalPrice || 999}</span>
+                        <span className="text-base sm:text-lg font-serif font-bold text-[#2C2114]">
+                          {item.template.isFree ? 'Free' : `₹${item.template.price}`}
+                        </span>
                       </div>
                     </div>
 

@@ -48,6 +48,7 @@ export interface TemplatePriceRecord {
   currency: string;
   amount: number; // in paise
   promotionalPrice?: number;
+  originalPrice?: number;
   discountPercent?: number;
   isActive: boolean;
 }
@@ -436,12 +437,13 @@ function getDefaultData(): DBStore {
       },
     ],
     prices: [
-      { id: "prc_navy", templateId: "tpl-wedding-navy-01", currency: "INR", amount: 89900, promotionalPrice: 79900, discountPercent: 11, isActive: true },
-      { id: "prc_palace", templateId: "tpl-anniversary-gold-02", currency: "INR", amount: 49900, promotionalPrice: 44900, discountPercent: 10, isActive: true },
-      { id: "prc_temple", templateId: "tpl-engagement-garden-03", currency: "INR", amount: 49900, promotionalPrice: 44900, discountPercent: 10, isActive: true },
-      { id: "prc_birthday", templateId: "tpl-birthday-botanical-04", currency: "INR", amount: 34900, promotionalPrice: 29900, discountPercent: 15, isActive: true },
-      { id: "prc_valentine", templateId: "tpl-valentine-interactive-05", currency: "INR", amount: 39900, promotionalPrice: 34900, discountPercent: 12, isActive: true },
-      { id: "prc_date_planner", templateId: "tpl-date-planner-07", currency: "INR", amount: 34900, promotionalPrice: 29900, discountPercent: 15, isActive: true },
+      { id: "prc_navy", templateId: "tpl-wedding-navy-01", currency: "INR", amount: 29900, promotionalPrice: 29900, originalPrice: 99900, discountPercent: 70, isActive: true },
+      { id: "prc_palace", templateId: "tpl-anniversary-gold-02", currency: "INR", amount: 29900, promotionalPrice: 29900, originalPrice: 99900, discountPercent: 70, isActive: true },
+      { id: "prc_temple", templateId: "tpl-engagement-garden-03", currency: "INR", amount: 29900, promotionalPrice: 29900, originalPrice: 99900, discountPercent: 70, isActive: true },
+      { id: "prc_palace_wedding", templateId: "tpl-wedding-paper-palace-04", currency: "INR", amount: 29900, promotionalPrice: 29900, originalPrice: 99900, discountPercent: 70, isActive: true },
+      { id: "prc_birthday", templateId: "tpl-birthday-botanical-04", currency: "INR", amount: 29900, promotionalPrice: 29900, originalPrice: 99900, discountPercent: 70, isActive: true },
+      { id: "prc_valentine", templateId: "tpl-valentine-interactive-05", currency: "INR", amount: 29900, promotionalPrice: 29900, originalPrice: 99900, discountPercent: 70, isActive: true },
+      { id: "prc_date_planner", templateId: "tpl-date-planner-07", currency: "INR", amount: 29900, promotionalPrice: 29900, originalPrice: 99900, discountPercent: 70, isActive: true },
     ],
     drafts: [],
     orders: [],
@@ -594,7 +596,7 @@ class StoreService {
     sortBy?: string;
     sortOrder?: "asc" | "desc";
   }): Promise<{
-    items: (TemplateRecord & { priceINR: number; draftsCount: number; publicationsCount: number })[];
+    items: (TemplateRecord & { priceINR: number; originalPriceINR?: number; draftsCount: number; publicationsCount: number })[];
     total: number;
     page: number;
     limit: number;
@@ -666,7 +668,8 @@ class StoreService {
     const items = paginated.map((t) => {
       const directTpl = templatesData.find((dt) => dt.id === t.id || dt.slug === t.slug || dt.slug === t.id);
       const priceRec = this.data!.prices.find((p) => p.templateId === t.id && p.isActive);
-      const priceINR = directTpl?.price || (priceRec ? Math.round(priceRec.amount / 100) : 499);
+      const priceINR = directTpl?.price || (priceRec ? Math.round(priceRec.amount / 100) : 299);
+      const originalPriceINR = directTpl?.originalPrice || 999;
       const draftsCount = this.data!.drafts.filter((d) => d.templateId === t.id || d.templateId === t.slug).length;
       const publicationsCount = this.data!.publications.filter((p) => p.templateId === t.id || p.templateId === t.slug).length;
 
@@ -674,6 +677,7 @@ class StoreService {
         ...t,
         status: t.status || (t.isActive ? "ACTIVE" : "DRAFT"),
         priceINR,
+        originalPriceINR,
         draftsCount,
         publicationsCount,
       };

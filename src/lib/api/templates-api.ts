@@ -15,6 +15,7 @@ export interface TemplateListItem {
   rendererId?: string;
   tags?: string[];
   priceINR: number;
+  originalPriceINR?: number;
   draftsCount: number;
   publicationsCount: number;
   createdAt?: string;

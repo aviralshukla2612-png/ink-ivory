@@ -45,7 +45,7 @@ export default function AdminTemplatesPage() {
   const [templates, setTemplates] = useState<TemplateListItem[]>([]);
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [meta, setMeta] = useState({ page: 1, limit: 15, total: 0, totalPages: 1 });
+  const [meta, setMeta] = useState({ page: 1, limit: 5, total: 0, totalPages: 1 });
 
   // Filters state
   const [search, setSearch] = useState('');
@@ -457,8 +457,16 @@ export default function AdminTemplatesPage() {
                     </td>
 
                     {/* Price */}
-                    <td className="py-4 px-4 text-center font-bold text-sm text-[#2C2114]">
-                      ₹{tpl.priceINR}
+                    <td className="py-4 px-4 text-center">
+                      <div className="flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 justify-center">
+                          <span className="text-xs line-through text-[#7A634E]/60">₹{tpl.originalPriceINR || 999}</span>
+                          <span className="font-bold text-sm text-[#8F6E3B]">₹{tpl.priceINR}</span>
+                        </div>
+                        <span className="text-[9.5px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 mt-0.5">
+                          70% OFF
+                        </span>
+                      </div>
                     </td>
 
                     {/* Orders & Drafts */}
@@ -549,11 +557,11 @@ export default function AdminTemplatesPage() {
           </table>
         </div>
 
-        {/* Pagination Bar */}
-        <div className="flex items-center justify-between pt-4 border-t border-[#E8DFC8] text-xs text-[#7A634E]">
+        {/* Prominent Pagination Controls */}
+        <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-[#FAF7F2] border-t border-[#DFCEAF] text-xs text-[#55402F] gap-3">
           <div>
-            Showing <span className="font-bold">{templates.length}</span> of{' '}
-            <span className="font-bold">{meta.total}</span> templates
+            Showing <span className="font-bold text-[#2C2114]">{templates.length}</span> of{' '}
+            <span className="font-bold text-[#2C2114]">{meta.total}</span> templates
           </div>
 
           <div className="flex items-center gap-2">
@@ -561,20 +569,22 @@ export default function AdminTemplatesPage() {
               type="button"
               disabled={meta.page <= 1}
               onClick={() => setMeta((prev) => ({ ...prev, page: prev.page - 1 }))}
-              className="p-1.5 rounded-lg border border-[#DFCEAF] bg-white hover:bg-[#FAF7F2] disabled:opacity-40 cursor-pointer"
+              className="px-3.5 py-1.5 rounded-xl border border-[#DFCEAF] bg-white hover:bg-[#F3EDE1] disabled:opacity-40 font-medium flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-3.5 h-3.5" />
+              <span>Previous</span>
             </button>
-            <span className="font-medium">
+            <span className="font-semibold px-2 text-[#2C2114]">
               Page {meta.page} of {meta.totalPages}
             </span>
             <button
               type="button"
               disabled={meta.page >= meta.totalPages}
               onClick={() => setMeta((prev) => ({ ...prev, page: prev.page + 1 }))}
-              className="p-1.5 rounded-lg border border-[#DFCEAF] bg-white hover:bg-[#FAF7F2] disabled:opacity-40 cursor-pointer"
+              className="px-3.5 py-1.5 rounded-xl border border-[#DFCEAF] bg-white hover:bg-[#F3EDE1] disabled:opacity-40 font-medium flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
             >
-              <ChevronRight className="w-4 h-4" />
+              <span>Next</span>
+              <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

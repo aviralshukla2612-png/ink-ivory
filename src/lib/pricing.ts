@@ -31,10 +31,10 @@ export async function calculateQuote(templateId: string, couponCode?: string): P
   const template = directTpl || (await store.getTemplate(templateId));
   const priceRecord = await store.getTemplatePrice(template?.id || templateId);
 
-  // Exact template price in paise (e.g. ₹899 -> 89900 paise, ₹499 -> 49900 paise)
+  // Exact template price in paise (e.g. ₹299 -> 29900 paise)
   const baseAmountPaise = directTpl?.price
     ? directTpl.price * 100
-    : priceRecord?.amount || 49900;
+    : priceRecord?.amount || 29900;
   let discountPaise = 0;
   let couponApplied = false;
 

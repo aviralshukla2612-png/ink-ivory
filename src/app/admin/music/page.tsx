@@ -15,6 +15,8 @@ import {
   Volume2,
   Sliders,
   Scissors,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { MusicTrackRecord } from '@/lib/android-store';
 
@@ -23,6 +25,8 @@ export default function MusicLibraryAdminPage() {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
   // Audio Playback state
   const [playingId, setPlayingId] = useState<string | null>(null);
@@ -60,6 +64,7 @@ export default function MusicLibraryAdminPage() {
   };
 
   useEffect(() => {
+    setCurrentPage(1);
     fetchTracks();
   }, [selectedCategory, searchQuery]);
 
@@ -270,8 +275,10 @@ export default function MusicLibraryAdminPage() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-[#E9DFD2] bg-[#FAF7F2] text-[11px] font-semibold text-[#702E3D] uppercase tracking-wider">
-                <th className="py-3 px-4 w-12 text-center">#</th>
-                <th className="py-3 px-4">Song & Movie</th>
+                <th className="py-3 px-4 w-10 text-center">
+                  <Music className="w-3.5 h-3.5 mx-auto text-[#C69A50]" />
+                </th>
+                <th className="py-3 px-4">Song &amp; Movie</th>
                 <th className="py-3 px-4">Artist Credits</th>
                 <th className="py-3 px-4">Category</th>
                 <th className="py-3 px-4">Waveform Audio</th>
@@ -279,9 +286,13 @@ export default function MusicLibraryAdminPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E9DFD2] text-xs">
-              {tracks.map((track) => (
+              {tracks.slice((currentPage - 1) * pageSize, currentPage * pageSize).map((track) => (
                 <tr key={track.id} className="hover:bg-[#FAF7F2]/50 transition">
-                  <td className="py-3 px-4 text-center font-mono text-[#702E3D]/70">{track.number}</td>
+                  <td className="py-3 px-4 text-center">
+                    <div className="w-7 h-7 rounded-lg bg-[#FAF7F2] text-[#C69A50] flex items-center justify-center mx-auto border border-[#E9DFD2]">
+                      <Volume2 className="w-3.5 h-3.5" />
+                    </div>
+                  </td>
                   <td className="py-3 px-4">
                     <div className="font-semibold text-[#30231D]">{track.title}</div>
                     <div className="text-[11px] text-[#702E3D]/80">{track.movie}</div>
@@ -295,7 +306,7 @@ export default function MusicLibraryAdminPage() {
                   <td className="py-3 px-4">
                     <button
                       onClick={() => togglePlay(track)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
                         playingId === track.id
                           ? 'bg-[#C69A50] text-white shadow-sm'
                           : 'bg-[#FAF7F2] text-[#30231D] hover:bg-[#E9DFD2]'
@@ -322,6 +333,45 @@ export default function MusicLibraryAdminPage() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Music Library Pagination Bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between p-4 border-t border-[#E9DFD2] bg-[#FAF7F2] text-xs text-[#702E3D] gap-3">
+          <div>
+            Showing{' '}
+            <span className="font-bold text-[#30231D]">
+              {tracks.length === 0 ? 0 : (currentPage - 1) * pageSize + 1}
+            </span>{' '}
+            to{' '}
+            <span className="font-bold text-[#30231D]">
+              {Math.min(currentPage * pageSize, tracks.length)}
+            </span>{' '}
+            of <span className="font-bold text-[#30231D]">{tracks.length}</span> tracks
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              disabled={currentPage <= 1}
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              className="px-3 py-1.5 rounded-lg border border-[#E9DFD2] bg-white hover:bg-[#FAF7F2] disabled:opacity-40 text-xs font-medium flex items-center gap-1 transition cursor-pointer"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" />
+              <span>Previous</span>
+            </button>
+            <span className="font-semibold px-2 text-[#30231D]">
+              Page {currentPage} of {Math.max(1, Math.ceil(tracks.length / pageSize))}
+            </span>
+            <button
+              type="button"
+              disabled={currentPage >= Math.ceil(tracks.length / pageSize)}
+              onClick={() => setCurrentPage((p) => Math.min(Math.ceil(tracks.length / pageSize), p + 1))}
+              className="px-3 py-1.5 rounded-lg border border-[#E9DFD2] bg-white hover:bg-[#FAF7F2] disabled:opacity-40 text-xs font-medium flex items-center gap-1 transition cursor-pointer"
+            >
+              <span>Next</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

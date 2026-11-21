@@ -86,6 +86,7 @@ export interface Template {
   occasion: OccasionCategory;
   description: string;
   price: number;
+  originalPrice?: number;
   isFree: boolean;
   isFeatured: boolean;
   isTrending?: boolean;

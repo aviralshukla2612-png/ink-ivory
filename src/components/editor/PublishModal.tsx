@@ -421,7 +421,7 @@ export default function PublishModal({
                   </span>
                 )}
                 <span className="font-serif text-2xl sm:text-3xl font-bold text-[#641A2A]">
-                  ₹{quote?.finalAmountRupees || 349}
+                  ₹{quote?.finalAmountRupees || 299}
                 </span>
               </div>
             </div>
@@ -434,7 +434,7 @@ export default function PublishModal({
               className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-full bg-gradient-to-r from-[#641A2A] via-[#872236] to-[#B51F3B] hover:opacity-95 text-white font-medium text-sm shadow-[0_10px_25px_-5px_rgba(100,26,42,0.4)] transition-all cursor-pointer disabled:opacity-50"
             >
               <CreditCard className="w-4 h-4" />
-              <span>{isProcessing ? "Processing..." : `Pay ₹${quote?.finalAmountRupees || 349} & Publish Live`}</span>
+              <span>{isProcessing ? "Processing..." : `Pay ₹${quote?.finalAmountRupees || 299} & Publish Live`}</span>
             </button>
 
             {/* Cancel & Return to Editor Button */}

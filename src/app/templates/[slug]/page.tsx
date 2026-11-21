@@ -133,10 +133,10 @@ export default function TemplateDetailsPage() {
                       ₹{template.price}
                     </span>
                     <span className="text-sm text-[#99816B] line-through">
-                      ₹{template.price + 200}
+                      ₹{template.originalPrice || 999}
                     </span>
-                    <span className="text-xs font-semibold text-[#2E6B3F] bg-[#E8F3EA] px-2 py-0.5 rounded-full">
-                      Digital Edition
+                    <span className="text-xs font-semibold text-[#8F6E3B] bg-[#F7F2E8] border border-[#DFCEAF] px-2 py-0.5 rounded-full">
+                      70% OFF • Special Discount
                     </span>
                   </>
                 )}

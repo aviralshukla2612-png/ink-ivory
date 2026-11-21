@@ -563,8 +563,10 @@ export default function CheckoutPage() {
                     <p className="text-[10px] text-[#7A634E] truncate">
                       {item.template.occasion} • Live Invitation
                     </p>
-                    <div className="text-xs font-bold text-[#8F6E3B] mt-0.5">
-                      ₹{item.template.price}
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <span className="text-[11px] text-[#99816B] line-through">₹{item.template.originalPrice || 999}</span>
+                      <span className="text-xs font-bold text-[#8F6E3B]">₹{item.template.price}</span>
+                      <span className="text-[9px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-1 py-0.5 rounded font-semibold">70% OFF</span>
                     </div>
                   </div>
                 </div>
