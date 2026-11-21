@@ -253,7 +253,7 @@ export default function DatePlannerPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#FFF2ED] text-[#50363A] font-sans antialiased selection:bg-[#B51F3B]/20 selection:text-[#641A2A] overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#FFF2ED] text-[#50363A] font-sans antialiased selection:bg-[#B51F3B]/20 selection:text-[#641A2A] overflow-x-hidden no-scrollbar">
       {/* Background Falling Rose Petals */}
       <RosePetals count={18} />
 

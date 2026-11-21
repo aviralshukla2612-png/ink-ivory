@@ -30,8 +30,8 @@ function Template01Content() {
   const viewMode = searchParams.get('view') || 'laptop';
   const autoParam = searchParams.get('auto');
   
-  // In demo mode or if auto=true/phone view, auto-advance slides every 2 seconds
-  const shouldAutoAdvance = autoParam === 'true' || autoParam === '2000' || (isDemo && viewMode === 'phone');
+  // Completely disable auto-advance so user manually browses at their own pace
+  const shouldAutoAdvance = false;
 
   // Synchronously extract custom personalization parameters from searchParams
   const customNames = searchParams.get('names');

@@ -65,6 +65,23 @@ body {
   background: #A77B35;
 }
 
+/* Hide scrollbars for invitation cards, phone preview mockups and iframe embeds */
+.no-scrollbar,
+.scrollbar-none,
+iframe {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar,
+iframe::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
+}
+
 /* Text Selection */
 ::selection {
   background: #EDE2CF;

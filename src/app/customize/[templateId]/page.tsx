@@ -862,7 +862,7 @@ export default function CustomizePage() {
                 key={`${templateKey}-${fields.names}-${fields.audioSource}-${fields.audioStartTime || 0}`}
                 src={getPreviewUrl()}
                 title="Live Mobile Invitation Preview"
-                className="w-full h-full border-none bg-[#091321]"
+                className="w-full h-full border-none bg-[#091321] no-scrollbar"
                 allow="autoplay; encrypted-media"
               />
             </div>

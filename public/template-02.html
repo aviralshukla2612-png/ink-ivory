@@ -19,8 +19,9 @@
   --bar-h:34px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:var(--bar-h)}
-body{font-family:var(--serif);color:var(--ink);background:var(--green-d);overflow:hidden;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;scroll-padding-top:var(--bar-h);scrollbar-width:none!important;-ms-overflow-style:none!important}
+html::-webkit-scrollbar,body::-webkit-scrollbar,::-webkit-scrollbar{display:none!important;width:0px!important;height:0px!important;background:transparent!important}
+body{font-family:var(--serif);color:var(--ink);background:var(--green-d);overflow:hidden;-webkit-font-smoothing:antialiased;scrollbar-width:none!important;-ms-overflow-style:none!important}
 body.ready{overflow-y:auto;overflow-x:hidden}
 button{font-family:var(--sans);cursor:pointer;border:0;background:none;color:inherit}
 a{color:inherit}
@@ -1048,38 +1049,17 @@ function observe(){
    PHONE AUTO-SCROLL (When viewed in Phone Preview Mode)
    ===================================================================== */
 let autoScrollTimer = null;
-let isAutoPlaying = urlParams.get('view') === 'phone' || urlParams.get('auto') === '2000' || urlParams.get('auto') === 'true';
+let isAutoPlaying = false;
 
 function startAutoScroll() {
-  if (autoScrollTimer) clearInterval(autoScrollTimer);
-  if (!isAutoPlaying) return;
-  autoScrollTimer = setInterval(() => {
-    if (!document.body.classList.contains('ready')) return;
-    const cur = curIndex();
-    const all = SECS();
-    if (cur >= all.length - 1) {
-      goto(0);
-    } else {
-      goto(cur + 1);
-    }
-  }, 2400);
+  // Disabled: No auto-scroll, card is manually scrolled by user
+  return;
 }
 
 function stopAutoScroll() {
   if (autoScrollTimer) clearInterval(autoScrollTimer);
   autoScrollTimer = null;
 }
-
-// User interaction pauses auto-scroll temporarily
-window.addEventListener('wheel', () => {
-  stopAutoScroll();
-  setTimeout(() => { if (isAutoPlaying) startAutoScroll(); }, 4000);
-}, { passive: true });
-
-window.addEventListener('touchstart', () => {
-  stopAutoScroll();
-  setTimeout(() => { if (isAutoPlaying) startAutoScroll(); }, 4000);
-}, { passive: true });
 
 /* =====================================================================
    STUDIO IFRAME MESSAGING (Live Customization + Navigation Controls)

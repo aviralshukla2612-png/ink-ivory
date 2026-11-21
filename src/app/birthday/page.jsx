@@ -227,7 +227,7 @@ export default function BirthdayPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#FFF3EE] text-[#51363A] overflow-x-hidden selection:bg-[#F4CFCA] selection:text-[#681C2C]">
+    <div className="relative min-h-screen bg-[#FFF3EE] text-[#51363A] overflow-x-hidden selection:bg-[#F4CFCA] selection:text-[#681C2C] no-scrollbar">
       {/* Background Audio */}
       <audio
         ref={audioRef}

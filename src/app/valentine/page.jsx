@@ -231,7 +231,7 @@ export default function ValentinePage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#FFF4F0] text-[#4B3035] selection:bg-[#F6D3D0] selection:text-[#641D2B]">
+    <div className="relative min-h-screen bg-[#FFF4F0] text-[#4B3035] selection:bg-[#F6D3D0] selection:text-[#641D2B] no-scrollbar">
       {/* Background Audio */}
       <audio
         ref={audioRef}
