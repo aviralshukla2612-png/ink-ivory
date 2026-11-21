@@ -66,7 +66,7 @@ export const APPROVED_RENDERER_REGISTRY: Record<string, RendererDefinition> = {
     targetRoute: "/template-04",
     supportedSections: ["opening", "hero", "letter", "palace-puzzle", "countdown", "events", "varmala", "wishes", "music", "closing"],
     defaultPriceINR: 499,
-    previewThumbnail: "/images/templates/paper-palace-card.jpg",
+    previewThumbnail: "/images/templates/udaipur-palace-wedding-card.webp",
     isAvailable: true,
   },
   "birthday-interactive": {

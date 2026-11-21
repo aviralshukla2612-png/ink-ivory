@@ -173,7 +173,7 @@ export const templatesData: Template[] = [
     isTrending: true,
     rating: 5.0,
     reviewsCount: 98,
-    previewImage: '/images/templates/paper-palace-card.webp',
+    previewImage: '/images/templates/udaipur-palace-wedding-card.webp',
     badge: '👑 ROYAL',
     tier: 'ROYAL',
     photoOption: 'Couple photo or two separate',
