@@ -85,7 +85,9 @@ h2{font-size:42px;line-height:1.1;margin:4px 0}
 .cal{background:var(--bg);border-radius:12px;padding:10px;font-size:12px}
 .cal b{display:block;margin-bottom:4px;font-size:14px}
 .cal div.g{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cal i{font-style:normal;padding:2px 0;border-radius:50%}.cal i.on{background:var(--plum);color:#fff;font-weight:700}
+.cal i{font-style:normal;padding:3px 0;border-radius:50%;display:grid;place-items:center;transition:background .4s,color .4s,transform .4s}
+.cal i.on{background:var(--plum);color:#fff;font-weight:700;animation:popCal .6s cubic-bezier(.3,1.8,.5,1);box-shadow:0 2px 8px rgba(162,74,106,.4)}
+@keyframes popCal{0%{transform:scale(0.3);opacity:0}70%{transform:scale(1.35)}100%{transform:scale(1);opacity:1}}
 .sv{display:inline-block;margin-top:10px;font:700 12px 'Baloo 2';color:#2f6a55;text-decoration:none}
 
 /* SCRATCH */
@@ -415,8 +417,8 @@ tick();setInterval(tick,1000);
 // Events
 const pad=n=>String(n).padStart(2,"0");
 function cal(d){const y=d.getFullYear(),m=d.getMonth(),f=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate();
- let h=`<b>${M[m]} ${y}</b><div class="g">`+"SMTWTFS".split("").map(x=>`<i>${x}</i>`).join("")+"<i></i>".repeat(f);
- for(let i=1;i<=n;i++)h+=`<i class="${i==d.getDate()?"on":""}">${i}</i>`;return h+"</div>"}
+ let h=`<b>${M[m]} ${y}</b><div class="g" data-target-day="${d.getDate()}">`+"SMTWTFS".split("").map(x=>`<i>${x}</i>`).join("")+"<i></i>".repeat(f);
+ for(let i=1;i<=n;i++)h+=`<i data-d="${i}">${i}</i>`;return h+"</div>"}
 $("#events").innerHTML=C.events.map(e=>{const d=new Date(e.d),end=new Date(+d+36e5*3);
  const f=x=>x.getFullYear()+pad(x.getMonth()+1)+pad(x.getDate())+"T"+pad(x.getHours())+pad(x.getMinutes())+"00";
  const h=d.getHours()%12||12,ap=d.getHours()<12?"am":"pm";
@@ -439,7 +441,20 @@ function initScr(box){
  x.fillStyle="#8a3a62";x.font="700 17px 'Baloo 2',sans-serif";x.textAlign="center";x.textBaseline="middle";x.fillText("✨ Scratch here for the date 💗",w/2,h/2);
  let down=false,n=0;
  const sc=e=>{if(!down)return;const r=cv.getBoundingClientRect();x.globalCompositeOperation="destination-out";x.beginPath();x.arc((e.clientX-r.left)*w/r.width,(e.clientY-r.top)*h/r.height,18,0,7);x.fill();
-  if(++n%10==0){const d=x.getImageData(0,0,w,h).data;let c=0,t=0;for(let i=3;i<d.length;i+=64){t++;if(!d[i])c++}if(c/t>.4){cv.style.opacity=0;box.classList.add("ok");setTimeout(()=>cv.remove(),900);burst(8)}}};
+  if(++n%10==0){const d=x.getImageData(0,0,w,h).data;let c=0,t=0;for(let i=3;i<d.length;i+=64){t++;if(!d[i])c++}if(c/t>.4){
+    cv.style.opacity=0;box.classList.add("ok");setTimeout(()=>cv.remove(),900);burst(8);
+    const evCard=box.closest(".ev");
+    if(evCard){
+      const gGrid=evCard.querySelector(".cal .g");
+      if(gGrid){
+        const targetDay=gGrid.dataset.targetDay;
+        const targetDayEl=gGrid.querySelector(`i[data-d="${targetDay}"]`);
+        if(targetDayEl&&!targetDayEl.classList.contains("on")){
+          setTimeout(()=>{targetDayEl.classList.add("on");spark(targetDayEl);},300);
+        }
+      }
+    }
+  }}};
  cv.onpointerdown=e=>{down=true;cv.setPointerCapture(e.pointerId);sc(e)};cv.onpointermove=sc;cv.onpointerup=cv.onpointercancel=()=>down=false;
 }
 const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){initScr(e.target);so.unobserve(e.target)}}),{threshold:.2});
