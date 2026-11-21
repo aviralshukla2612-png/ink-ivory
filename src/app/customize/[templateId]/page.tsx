@@ -567,8 +567,13 @@ export default function CustomizePage() {
         }
       };
       audio.onloadedmetadata = () => {
-        if (audioPreviewRef.current) {
-          setAudioDuration(audioPreviewRef.current.duration || 240);
+        if (audioPreviewRef.current && audioPreviewRef.current.duration) {
+          setAudioDuration(audioPreviewRef.current.duration);
+        }
+      };
+      audio.ondurationchange = () => {
+        if (audioPreviewRef.current && audioPreviewRef.current.duration) {
+          setAudioDuration(audioPreviewRef.current.duration);
         }
       };
       audio.onended = () => setIsPlayingAudio(false);
@@ -594,12 +599,16 @@ export default function CustomizePage() {
     artist?: string;
     movie?: string;
     number?: number;
+    duration?: number;
   }) => {
     const displayTitle = song.movie ? `${song.title} (${song.movie})` : song.title;
     handleFieldChange('songTitle', displayTitle);
     handleFieldChange('audioSource', song.source);
     handleFieldChange('audioStartTime', 0);
     setAudioCurrentTime(0);
+    if (song.duration) {
+      setAudioDuration(song.duration);
+    }
 
     const audio = getOrInitAudio(song.source, 0);
     audio.currentTime = 0;
@@ -618,6 +627,7 @@ export default function CustomizePage() {
     artist?: string;
     movie?: string;
     number?: number;
+    duration?: number;
   }) => {
     const displayTitle = song.movie ? `${song.title} (${song.movie})` : song.title;
     const isCurrent =
@@ -2849,7 +2859,7 @@ export default function CustomizePage() {
                                 {isPlayingThis && (
                                   <span className="text-[9.5px] px-2 py-0.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 font-bold shrink-0 flex items-center gap-1 shadow-xs">
                                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                                    <span>Playing MP3 Preview 🔊</span>
+                                    <span>Playing Full Song 🔊</span>
                                   </span>
                                 )}
                               </div>
@@ -3001,7 +3011,7 @@ export default function CustomizePage() {
                         </span>
                       </div>
                       <span className="text-[10px] text-[#A7B5CC]">
-                        Live Audio Cropping &bull; Instant Preview
+                        Full Song Playback &bull; Custom Start Cropping
                       </span>
                     </div>
                   </div>
