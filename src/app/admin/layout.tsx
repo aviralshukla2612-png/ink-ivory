@@ -297,18 +297,31 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           sidebarCollapsed ? 'w-20' : 'w-72'
         }`}
       >
-        {/* Top Brand Monogram */}
-        <div className="h-20 flex items-center justify-between px-5 border-b border-[#2B231B]">
+        {/* Top Brand Logo */}
+        <div className="h-20 flex items-center justify-between px-4 border-b border-[#2B231B]">
           <Link href="/admin" className="flex items-center gap-3 overflow-hidden">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#8C6D23] flex items-center justify-center font-serif font-bold text-sm text-[#1C1814] shrink-0 shadow-md tracking-wider">
-              YAM
-            </div>
-            {!sidebarCollapsed && (
+            {sidebarCollapsed ? (
+              <div className="w-10 h-10 flex items-center justify-center shrink-0">
+                <NextImage
+                  src="/logo-icon.webp"
+                  alt="You Are Mine"
+                  width={36}
+                  height={36}
+                  className="w-9 h-9 object-contain"
+                  priority
+                />
+              </div>
+            ) : (
               <div className="flex flex-col">
-                <span className="font-serif tracking-[0.18em] font-medium text-sm text-[#FAF8F5] leading-tight">
-                  YOU ARE MINE
-                </span>
-                <span className="text-[10px] text-[#A69B8D] uppercase tracking-wider font-sans">
+                <NextImage
+                  src="/logo-dark-bg.webp"
+                  alt="You Are Mine"
+                  width={160}
+                  height={44}
+                  className="h-8 w-auto object-contain"
+                  priority
+                />
+                <span className="text-[9px] text-[#A69B8D] uppercase tracking-[0.22em] font-sans font-medium mt-0.5 pl-0.5">
                   Admin Portal
                 </span>
               </div>
@@ -443,12 +456,17 @@ function AdminShell({ children }: { children: React.ReactNode }) {
 
           <div className="relative w-4/5 max-w-xs bg-[#1A1612] text-[#FAF8F5] flex flex-col h-full z-10 shadow-2xl">
             <div className="h-16 flex items-center justify-between px-5 border-b border-[#2B231B]">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#D4AF37] to-[#8C6D23] flex items-center justify-center font-serif font-bold text-xs text-[#1C1814] tracking-wider">
-                  YAM
-                </div>
-                <span className="font-serif tracking-widest text-sm text-[#FAF8F5]">
-                  YOU ARE MINE
+              <div className="flex flex-col">
+                <NextImage
+                  src="/logo-dark-bg.webp"
+                  alt="You Are Mine"
+                  width={150}
+                  height={40}
+                  className="h-7 w-auto object-contain"
+                  priority
+                />
+                <span className="text-[9px] text-[#A69B8D] uppercase tracking-[0.2em] font-sans font-medium mt-0.5">
+                  Admin Portal
                 </span>
               </div>
               <button

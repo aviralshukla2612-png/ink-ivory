@@ -65,14 +65,14 @@ export default function AdminSupportPage() {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [total, setTotal] = useState(412);
+  const [total, setTotal] = useState(0);
 
   const [stats, setStats] = useState({
-    totalInquiries: 412,
-    resolved: 368,
-    inProgress: 32,
-    pending: 8,
-    escalated: 4,
+    totalInquiries: 0,
+    resolved: 0,
+    inProgress: 0,
+    pending: 0,
+    escalated: 0,
   });
 
   // Modal States

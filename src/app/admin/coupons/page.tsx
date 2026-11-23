@@ -55,14 +55,14 @@ export default function AdminCouponsPage() {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [total, setTotal] = useState(12);
+  const [total, setTotal] = useState(0);
 
   const [stats, setStats] = useState({
-    totalCoupons: 12,
-    activeCoupons: 10,
-    inactiveCoupons: 1,
-    totalUses: '1,240',
-    totalDiscountGiven: '₹48,750',
+    totalCoupons: 0,
+    activeCoupons: 0,
+    inactiveCoupons: 0,
+    totalUses: '0',
+    totalDiscountGiven: '₹0',
   });
 
   const [showCreateModal, setShowCreateModal] = useState(false);

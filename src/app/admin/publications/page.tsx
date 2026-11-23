@@ -51,13 +51,13 @@ export default function AdminPublicationsPage() {
 
   const [publications, setPublications] = useState<PublicationListItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [meta, setMeta] = useState({ page: 1, limit: 5, total: 6, totalPages: 2 });
+  const [meta, setMeta] = useState({ page: 1, limit: 5, total: 0, totalPages: 1 });
   const [stats, setStats] = useState({
-    activeInvitations: 6,
-    totalPublications: 6,
-    guestViews: 16,
-    totalVisits: 248,
-    lastPublished: '21 Nov, 2026',
+    activeInvitations: 0,
+    totalPublications: 0,
+    guestViews: 0,
+    totalVisits: 0,
+    lastPublished: '—',
   });
 
   // Filters

@@ -1203,51 +1203,59 @@ export default function AdminExecutiveDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#EAD8C8]/40">
-                {recentOrders.map((o) => (
-                  <tr key={o.id} className="hover:bg-[#FAF5EE]/50 transition-colors">
-                    {/* Order ID */}
-                    <td className="py-3 px-2 font-mono font-bold text-[#7D1935]">
-                      <Link href="/admin/orders" className="hover:underline">
-                        {o.orderId}
-                      </Link>
-                    </td>
-
-                    {/* Customer */}
-                    <td className="py-3 px-2 text-[#705E55] whitespace-nowrap">
-                      {o.customerPhone}
-                    </td>
-
-                    {/* Template */}
-                    <td className="py-3 px-2 font-medium text-[#171412] truncate max-w-[120px]" title={o.templateTitle}>
-                      {o.templateTitle}
-                    </td>
-
-                    {/* Amount */}
-                    <td className="py-3 px-2 text-right font-bold text-[#171412]">
-                      ₹{o.amount}
-                    </td>
-
-                    {/* Status */}
-                    <td className="py-3 px-2 text-center">
-                      <span
-                        className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${
-                          o.status === 'Paid'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : o.status === 'Refunded'
-                            ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                            : 'bg-amber-50 text-amber-700 border border-amber-200'
-                        }`}
-                      >
-                        {o.status}
-                      </span>
-                    </td>
-
-                    {/* Date */}
-                    <td className="py-3 px-2 text-right text-[#705E55] whitespace-nowrap">
-                      {o.date}
+                {recentOrders.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="py-8 text-center text-[#8C6D3B]/70 italic text-xs">
+                      No customer orders recorded yet.
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  recentOrders.map((o) => (
+                    <tr key={o.id} className="hover:bg-[#FAF5EE]/50 transition-colors">
+                      {/* Order ID */}
+                      <td className="py-3 px-2 font-mono font-bold text-[#7D1935]">
+                        <Link href="/admin/orders" className="hover:underline">
+                          {o.orderId}
+                        </Link>
+                      </td>
+
+                      {/* Customer */}
+                      <td className="py-3 px-2 text-[#705E55] whitespace-nowrap">
+                        {o.customerPhone}
+                      </td>
+
+                      {/* Template */}
+                      <td className="py-3 px-2 font-medium text-[#171412] truncate max-w-[120px]" title={o.templateTitle}>
+                        {o.templateTitle}
+                      </td>
+
+                      {/* Amount */}
+                      <td className="py-3 px-2 text-right font-bold text-[#171412]">
+                        ₹{o.amount}
+                      </td>
+
+                      {/* Status */}
+                      <td className="py-3 px-2 text-center">
+                        <span
+                          className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${
+                            o.status === 'Paid'
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              : o.status === 'Refunded'
+                              ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                              : 'bg-amber-50 text-amber-700 border border-amber-200'
+                          }`}
+                        >
+                          {o.status}
+                        </span>
+                      </td>
+
+                      {/* Date */}
+                      <td className="py-3 px-2 text-right text-[#705E55] whitespace-nowrap">
+                        {o.date}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -1273,8 +1281,13 @@ export default function AdminExecutiveDashboard() {
 
           {/* Event Timeline */}
           <div className="mt-3 divide-y divide-[#EAD8C8]/40">
-            {recentActivity.map((act) => (
-              <div key={act.id} className="py-3 flex items-start gap-3 hover:bg-[#FAF5EE]/50 transition-colors rounded-lg px-1">
+            {recentActivity.length === 0 ? (
+              <div className="py-8 text-center text-[#8C6D3B]/70 italic text-xs">
+                No recent platform activity recorded yet.
+              </div>
+            ) : (
+              recentActivity.map((act) => (
+                <div key={act.id} className="py-3 flex items-start gap-3 hover:bg-[#FAF5EE]/50 transition-colors rounded-lg px-1">
                 {/* Event Icon Badge */}
                 <div className="shrink-0 mt-0.5">
                   {act.type === 'PAYMENT' && (
@@ -1319,7 +1332,7 @@ export default function AdminExecutiveDashboard() {
                   {act.timestamp}
                 </div>
               </div>
-            ))}
+            )))}
           </div>
         </div>
       </div>

@@ -24,49 +24,44 @@ export async function GET(request: NextRequest) {
 
   const result = await store.listPayments({ page, limit, search, status });
 
-  const defaultPhones = [
-    '+91 98765 43210',
-    '+91 98250 77123',
-    '+91 99099 55432',
-    '+91 89876 12345',
-    '+91 98240 66789',
-    '+91 99090 11223',
-  ];
-
-  const items = result.items.map((p, idx) => {
-    const cleanPayId = p.paymentId || `pay_O8f7a8g${idx}wL`;
-    const cleanOrderId = p.orderId?.startsWith('ORD-') ? p.orderId : `ORD-000${248 - idx}`;
-    const phone = defaultPhones[idx % defaultPhones.length];
-
+  const items = result.items.map((p) => {
     return {
       ...p,
-      paymentId: cleanPayId,
-      orderId: cleanOrderId,
-      customerPhone: phone,
-      amountRupees: Math.round((p.amount || 49900) / 100),
-      method: p.method || (idx % 3 === 0 ? 'UPI' : idx % 3 === 1 ? 'CARD' : 'NETBANKING'),
-      statusDisplay: p.status === 'CAPTURED' ? 'Captured' : p.status === 'REFUNDED' ? 'Refunded' : 'Captured',
+      paymentId: p.paymentId || p.id,
+      orderId: p.orderId || '—',
+      customerPhone: p.customerPhone && p.customerPhone !== '—' ? p.customerPhone : '—',
+      amountRupees: Math.round((p.amount || 0) / 100),
+      method: p.method || 'UPI',
+      statusDisplay: p.status === 'CAPTURED' ? 'Captured' : p.status === 'REFUNDED' ? 'Refunded' : 'Pending',
     };
   });
+
+  const totalAmount = result.items.reduce((s, p) => s + (p.amount || 0), 0) / 100;
+  const settled = result.items.filter((p) => p.status === 'CAPTURED');
+  const settledAmount = settled.reduce((s, p) => s + (p.amount || 0), 0) / 100;
+  const pending = result.items.filter((p) => p.status === 'PENDING');
+  const pendingAmount = pending.reduce((s, p) => s + (p.amount || 0), 0) / 100;
+  const refunded = result.items.filter((p) => p.status === 'REFUNDED');
+  const refundedAmount = refunded.reduce((s, p) => s + (p.amount || 0), 0) / 100;
 
   return NextResponse.json({
     success: true,
     data: items,
     stats: {
-      totalPayments: '₹1,24,560',
-      settledPayments: '₹1,18,570',
-      settledOrders: 236,
-      pendingPayments: '₹4,990',
-      pendingOrders: 8,
-      refundedAmount: '₹4,980',
-      refundCount: 4,
-      refundRate: '3.9%',
+      totalPayments: `₹${totalAmount.toLocaleString('en-IN')}`,
+      settledPayments: `₹${settledAmount.toLocaleString('en-IN')}`,
+      settledOrders: settled.length,
+      pendingPayments: `₹${pendingAmount.toLocaleString('en-IN')}`,
+      pendingOrders: pending.length,
+      refundedAmount: `₹${refundedAmount.toLocaleString('en-IN')}`,
+      refundCount: refunded.length,
+      refundRate: result.total > 0 ? `${Math.round((refunded.length / result.total) * 1000) / 10}%` : '0%',
     },
     meta: {
       page: result.page,
       limit: result.limit,
-      total: Math.max(248, result.total),
-      totalPages: Math.ceil(248 / limit),
+      total: result.total,
+      totalPages: result.totalPages,
     },
   });
 }

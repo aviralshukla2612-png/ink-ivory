@@ -50,13 +50,13 @@ export default function AdminOrdersPage() {
 
   const [orders, setOrders] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [meta, setMeta] = useState({ page: 1, limit: 10, total: 248, totalPages: 25 });
+  const [meta, setMeta] = useState({ page: 1, limit: 10, total: 0, totalPages: 1 });
   const [stats, setStats] = useState({
-    totalOrders: 248,
-    paidOrders: 236,
-    pendingOrders: 8,
-    refundedOrders: 4,
-    totalRevenue: '₹1,24,560',
+    totalOrders: 0,
+    paidOrders: 0,
+    pendingOrders: 0,
+    refundedOrders: 0,
+    totalRevenue: '₹0',
   });
 
   const [search, setSearch] = useState('');

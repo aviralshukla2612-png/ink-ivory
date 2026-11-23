@@ -2198,6 +2198,7 @@ class StoreService {
       auditLogs: this.data!.auditLogs?.length || 0,
     };
 
+    this.data!.users = (this.data!.users || []).filter((u) => u.role === "ADMIN" || u.id === "usr_admin_default");
     this.data!.drafts = [];
     this.data!.orders = [];
     this.data!.payments = [];

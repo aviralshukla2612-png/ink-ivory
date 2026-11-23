@@ -26,50 +26,46 @@ export async function GET(request: NextRequest) {
   const allTemplates = await store.getAllTemplates();
   const templateMap = new Map(allTemplates.map((t) => [t.id, t]));
 
-  const defaultPhones = [
-    '+91 98765 43210',
-    '+91 98250 77123',
-    '+91 99099 55432',
-    '+91 89876 12345',
-    '+91 98240 66789',
-    '+91 99090 11223',
-  ];
-
-  const items = result.items.map((o, idx) => {
+  const items = result.items.map((o) => {
     const tpl = templateMap.get(o.templateId);
-    const phone = o.customerPhone && o.customerPhone !== '—' ? o.customerPhone : defaultPhones[idx % defaultPhones.length];
-    const platform = idx % 2 === 1 ? 'Android App' : 'Website';
-    const cleanOrderId = o.orderId.startsWith('ORD-') ? o.orderId : `ORD-000${248 - idx}`;
-    const cleanPayId = o.paymentId || `pay_Qw8e7X9s${idx}kL`;
+    const phone = o.customerPhone && o.customerPhone !== '—' ? o.customerPhone : '—';
+    const platform = o.platform || 'Website';
 
     return {
       ...o,
-      orderId: cleanOrderId,
-      thumbnail: tpl?.previewImage || '/images/templates/udaipur-palace-wedding-card.webp',
-      occasionBadge: (tpl?.occasion || 'Wedding').toUpperCase().includes('WEDDING') ? '👑 WEDDING' : '💍 ENGAGEMENT',
+      orderId: o.orderId || o.id,
+      thumbnail: tpl?.previewImage || '/images/templates/udaipur-royal-palace-card.jpg',
+      occasionBadge: (tpl?.occasion || 'Wedding').toUpperCase().includes('WEDDING') ? '👑 WEDDING' : '💍 CELEBRATION',
       customerPhone: phone,
       customerPlatform: platform,
-      paymentId: cleanPayId,
-      amountRupees: o.amountRupees || 499,
+      paymentId: o.paymentId || '—',
+      amountRupees: o.amountRupees || Math.round((o.amount || 0) / 100),
       statusDisplay: o.status === 'PAID' ? 'Paid' : o.status === 'REFUNDED' ? 'Refunded' : 'Pending',
     };
   });
+
+  const paidCount = result.items.filter((o) => o.status === 'PAID').length;
+  const pendingCount = result.items.filter((o) => o.status === 'PENDING').length;
+  const refundedCount = result.items.filter((o) => o.status === 'REFUNDED').length;
+  const totalRevenue = result.items
+    .filter((o) => o.status === 'PAID')
+    .reduce((sum, o) => sum + (o.amount || 0), 0) / 100;
 
   return NextResponse.json({
     success: true,
     data: items,
     stats: {
-      totalOrders: 248,
-      paidOrders: 236,
-      pendingOrders: 8,
-      refundedOrders: 4,
-      totalRevenue: '₹1,24,560',
+      totalOrders: result.total,
+      paidOrders: paidCount,
+      pendingOrders: pendingCount,
+      refundedOrders: refundedCount,
+      totalRevenue: `₹${totalRevenue.toLocaleString('en-IN')}`,
     },
     meta: {
       page: result.page,
       limit: result.limit,
-      total: Math.max(248, result.total),
-      totalPages: Math.ceil(248 / limit),
+      total: result.total,
+      totalPages: result.totalPages,
     },
   });
 }

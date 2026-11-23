@@ -28,26 +28,17 @@ export async function GET(request: NextRequest) {
   const allUsers = await store.getAllUsers();
   const userMap = new Map(allUsers.map((u) => [u.id, u]));
 
-  const defaultPhones = [
-    '+91 98765 43210',
-    '+91 98250 77123',
-    '+91 99099 55432',
-    '+91 89876 12345',
-    '+91 98240 66789',
-    '+91 99090 11223',
-  ];
-
-  const items = result.items.map((p, idx) => {
+  const items = result.items.map((p) => {
     const tpl = templateMap.get(p.templateId);
     const u = p.userId ? userMap.get(p.userId) : null;
-    const phone = u?.phone || defaultPhones[idx % defaultPhones.length];
+    const phone = u?.phone || '—';
     const occasion = (tpl?.occasion || 'Wedding').toUpperCase();
 
     return {
       ...p,
       customerPhone: phone,
-      thumbnail: tpl?.previewImage || '/images/templates/udaipur-palace-wedding-card.webp',
-      occasionBadge: occasion.includes('WEDDING') ? '👑 WEDDING' : '💍 ENGAGEMENT',
+      thumbnail: tpl?.previewImage || '/images/templates/udaipur-royal-palace-card.jpg',
+      occasionBadge: occasion.includes('WEDDING') ? '👑 WEDDING' : '💍 CELEBRATION',
     };
   });
 
@@ -59,11 +50,11 @@ export async function GET(request: NextRequest) {
     success: true,
     data: items,
     stats: {
-      activeInvitations: Math.max(6, activeCount),
-      totalPublications: Math.max(6, result.total),
-      guestViews: Math.max(16, totalViews),
-      totalVisits: 248,
-      lastPublished: '21 Nov, 2026',
+      activeInvitations: activeCount,
+      totalPublications: result.total,
+      guestViews: totalViews,
+      totalVisits: totalViews,
+      lastPublished: result.items[0]?.updatedAt ? new Date(result.items[0].updatedAt).toLocaleDateString('en-GB') : '—',
     },
     meta: {
       page: result.page,

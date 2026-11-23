@@ -26,97 +26,29 @@ export async function GET(request: NextRequest) {
   const status = searchParams.get("status") || undefined;
   const priority = searchParams.get("priority") || undefined;
 
-  let result = await store.listSupportTickets({ page, limit, search, status, priority });
+  const result = await store.listSupportTickets({ page, limit, search, status, priority });
+  const items = result.items || [];
 
-  const defaultTickets = [
-    {
-      id: 'tck_1042',
-      ticketNumber: 'TCK-1042',
-      customerEmail: 'karthik.subramanian@gmail.com',
-      customerPhone: '+91 98765 43210',
-      subject: 'Custom audio loop cut timing adjustment for Muhurtham gate',
-      status: 'RESOLVED',
-      priority: 'HIGH',
-      assignedTo: { name: 'Srajan Shukla', initials: 'SS' },
-      updatedAt: '2026-11-23T11:45:00Z',
-      createdAt: '2026-11-23T09:30:00Z',
-    },
-    {
-      id: 'tck_1041',
-      ticketNumber: 'TCK-1041',
-      customerEmail: 'ananya.sharma@yahoo.com',
-      customerPhone: '+91 98250 77123',
-      subject: 'Add separate RSVP form for Sangeet & Reception guests',
-      status: 'IN_PROGRESS',
-      priority: 'MEDIUM',
-      assignedTo: { name: 'Srajan Shukla', initials: 'SS' },
-      updatedAt: '2026-11-23T10:15:00Z',
-      createdAt: '2026-11-23T08:00:00Z',
-    },
-    {
-      id: 'tck_1040',
-      ticketNumber: 'TCK-1040',
-      customerEmail: 'rohit.mehta@outlook.com',
-      customerPhone: '+91 99099 55432',
-      subject: 'QR Code download failing on high-res PNG export',
-      status: 'RESOLVED',
-      priority: 'LOW',
-      assignedTo: { name: 'Admin Staff', initials: 'AS' },
-      updatedAt: '2026-11-22T18:20:00Z',
-      createdAt: '2026-11-22T14:10:00Z',
-    },
-    {
-      id: 'tck_1039',
-      ticketNumber: 'TCK-1039',
-      customerEmail: 'priya.nair@gmail.com',
-      customerPhone: '+91 89876 12345',
-      subject: 'Change couple cover portrait after payment confirmation',
-      status: 'OPEN',
-      priority: 'HIGH',
-      assignedTo: { name: 'Srajan Shukla', initials: 'SS' },
-      updatedAt: '2026-11-22T15:30:00Z',
-      createdAt: '2026-11-22T12:00:00Z',
-    },
-    {
-      id: 'tck_1038',
-      ticketNumber: 'TCK-1038',
-      customerEmail: 'vikram.singh@gmail.com',
-      customerPhone: '+91 98240 66789',
-      subject: 'Payment receipt GST invoice request for corporate celebration',
-      status: 'RESOLVED',
-      priority: 'LOW',
-      assignedTo: { name: 'Finance Lead', initials: 'FL' },
-      updatedAt: '2026-11-21T19:00:00Z',
-      createdAt: '2026-11-21T16:30:00Z',
-    },
-  ];
-
-  let items = result.items;
-  if (!items || items.length === 0) {
-    items = defaultTickets as any;
-  } else {
-    items = items.map((t, idx) => ({
-      ...t,
-      ticketNumber: t.ticketNumber || `TCK-10${42 - idx}`,
-      assignedTo: { name: 'Srajan Shukla', initials: 'SS' },
-    }));
-  }
+  const resolvedCount = items.filter((t: any) => t.status === 'RESOLVED').length;
+  const inProgressCount = items.filter((t: any) => t.status === 'IN_PROGRESS').length;
+  const pendingCount = items.filter((t: any) => t.status === 'OPEN').length;
+  const escalatedCount = items.filter((t: any) => t.status === 'ESCALATED').length;
 
   return NextResponse.json({
     success: true,
     data: items,
     stats: {
-      totalInquiries: 412,
-      resolved: 368,
-      inProgress: 32,
-      pending: 8,
-      escalated: 4,
+      totalInquiries: result.total,
+      resolved: resolvedCount,
+      inProgress: inProgressCount,
+      pending: pendingCount,
+      escalated: escalatedCount,
     },
     meta: {
       page,
       limit,
-      total: 412,
-      totalPages: 42,
+      total: result.total,
+      totalPages: result.totalPages,
     },
   });
 }

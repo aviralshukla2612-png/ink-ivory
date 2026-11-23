@@ -75,14 +75,14 @@ export default function AdminCustomersPage() {
   const { hasPermission } = useAdmin();
   const [customers, setCustomers] = useState<CustomerListItem[]>([]);
   const [stats, setStats] = useState<CustomerStats>({
-    totalCustomers: 142,
-    registeredCount: 118,
-    guestCount: 24,
-    totalOrdersCount: 57,
-    totalRevenueINR: 42760,
+    totalCustomers: 0,
+    registeredCount: 0,
+    guestCount: 0,
+    totalOrdersCount: 0,
+    totalRevenueINR: 0,
   });
   const [loading, setLoading] = useState(true);
-  const [meta, setMeta] = useState({ page: 1, limit: 10, total: 142, totalPages: 15 });
+  const [meta, setMeta] = useState({ page: 1, limit: 10, total: 0, totalPages: 1 });
 
   // Filters
   const [search, setSearch] = useState('');

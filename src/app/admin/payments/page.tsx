@@ -30,17 +30,17 @@ export default function PaymentsAdminPage() {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [total, setTotal] = useState(248);
+  const [total, setTotal] = useState(0);
 
   const [stats, setStats] = useState({
-    totalPayments: '₹1,24,560',
-    settledPayments: '₹1,18,570',
-    settledOrders: 236,
-    pendingPayments: '₹4,990',
-    pendingOrders: 8,
-    refundedAmount: '₹4,980',
-    refundCount: 4,
-    refundRate: '3.9%',
+    totalPayments: '₹0',
+    settledPayments: '₹0',
+    settledOrders: 0,
+    pendingPayments: '₹0',
+    pendingOrders: 0,
+    refundedAmount: '₹0',
+    refundCount: 0,
+    refundRate: '0%',
   });
 
   const copyToClipboard = (text: string, id: string) => {

@@ -58,12 +58,12 @@ export default function AdminDraftsPage() {
   const [drafts, setDrafts] = useState<DraftListItem[]>([]);
   const [templates, setTemplates] = useState<TemplateListItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [meta, setMeta] = useState({ page: 1, limit: 10, total: 31, totalPages: 4 });
+  const [meta, setMeta] = useState({ page: 1, limit: 10, total: 0, totalPages: 1 });
   const [stats, setStats] = useState({
-    totalDrafts: 31,
-    inProgress: 24,
-    published: 5,
-    inactive: 2,
+    totalDrafts: 0,
+    inProgress: 0,
+    published: 0,
+    inactive: 0,
   });
 
   // Filters
