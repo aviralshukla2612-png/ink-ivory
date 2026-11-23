@@ -162,7 +162,16 @@ export default function CustomizePage() {
     if (typeof window !== 'undefined') {
       try {
         const stored = sessionStorage.getItem(`ink_ivory_custom_${templateKey}`);
-        if (stored) saved = JSON.parse(stored);
+        if (stored) {
+          saved = JSON.parse(stored);
+          // Purge any expired/dead blob: URLs from previous sessions
+          Object.keys(saved).forEach((k) => {
+            const val = (saved as any)[k];
+            if (typeof val === 'string' && val.startsWith('blob:')) {
+              delete (saved as any)[k];
+            }
+          });
+        }
       } catch (e) { }
     }
     const defaultEvents = baseTemplate.defaultFields.events || (templateKey === 'template-02' ? [
@@ -341,13 +350,13 @@ export default function CustomizePage() {
   const [genericUploadProgress, setGenericUploadProgress] = useState<Record<string, boolean>>({});
 
   const getEffectivePhoto = () => {
-    if (fields.photoUrl) return fields.photoUrl;
+    if (fields.photoUrl && !fields.photoUrl.startsWith('blob:')) return fields.photoUrl;
     if (templateKey === 'template-05') return '/images/templates/traditional-south-indian/hero.jpg';
     if (templateKey === 'birthday') return '/images/birthday/profile.jpg';
     if (templateKey === 'valentine') return '/bgv.png';
     if (templateKey === 'template-01') return '/template-01/gallery-1.jpg';
     if (templateKey === 'template-02') return '/images/hero-luxury.png';
-    if (templateKey === 'template-03') return '/images/templates/south-indian-temple.png';
+    if (templateKey === 'template-03') return '/images/templates/thirumanam-temple-card.jpg';
     if (templateKey === 'date-planner') return '/images/templates/date-planner.png';
     return '/images/birthday/profile.jpg';
   };
@@ -356,9 +365,15 @@ export default function CustomizePage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Instant local preview
-    const localUrl = URL.createObjectURL(file);
-    handleFieldChange('photoUrl', localUrl);
+    // Instant, persistent local preview via Base64 Data URL (survives refresh and avoids dead blob: URLs)
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target?.result as string;
+      if (dataUrl) {
+        handleFieldChange('photoUrl', dataUrl);
+      }
+    };
+    reader.readAsDataURL(file);
 
     try {
       setIsUploadingPhoto(true);
@@ -404,14 +419,20 @@ export default function CustomizePage() {
     const progressKey = eventIndex !== undefined ? `event_${eventIndex}` : fieldKey;
     setGenericUploadProgress((prev) => ({ ...prev, [progressKey]: true }));
 
-    // Instant local preview
-    const localUrl = URL.createObjectURL(file);
-    if (eventIndex !== undefined) {
-      handleEventChange(eventIndex, 'photo', localUrl);
-      handleFieldChange(`evPhoto${eventIndex + 1}` as any, localUrl);
-    } else {
-      handleFieldChange(fieldKey as any, localUrl);
-    }
+    // Instant, persistent local preview via Base64 Data URL
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target?.result as string;
+      if (dataUrl) {
+        if (eventIndex !== undefined) {
+          handleEventChange(eventIndex, 'photo', dataUrl);
+          handleFieldChange(`evPhoto${eventIndex + 1}` as any, dataUrl);
+        } else {
+          handleFieldChange(fieldKey as any, dataUrl);
+        }
+      }
+    };
+    reader.readAsDataURL(file);
 
     try {
       setPhotoUploadSuccess(`Uploading "${file.name}"...`);
@@ -986,6 +1007,7 @@ export default function CustomizePage() {
       for (let i = 1; i <= 4; i++) {
         if (fields[`evPhoto${i}`]) params.set(`evPhoto${i}`, fields[`evPhoto${i}`]);
       }
+      params.set('skipOpening', 'true');
       return `/template-05.html?${params.toString()}`;
     }
 

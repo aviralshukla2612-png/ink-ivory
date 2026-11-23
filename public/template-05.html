@@ -86,7 +86,7 @@ nav a:hover{color:var(--ink)}
 .hero{min-height:100vh;padding:112px 12px 118px;text-align:center;position:relative;overflow:hidden;background:radial-gradient(circle,#b08a3e18 1px,transparent 1.5px) 0 0/26px 26px,linear-gradient(180deg,#faf5e8 0%,#f5ecd6 55%,#eddcb5 100%)}
 .toran{position:absolute;left:0;right:0;top:58px;height:46px;background:var(--tor) repeat-x center top/56px 46px}
 .stage{position:relative;display:flex;justify-content:center;align-items:flex-end;gap:4px;margin:22px auto 0;max-width:366px}
-.hero .photo{width:276px;height:330px;margin:0;border-radius:200px 200px 0 0;border-bottom:0;font-size:0;flex:none}
+.hero .photo{width:276px;height:330px;margin:0;border-radius:200px 200px 0 0;border-bottom:0;font-size:0;flex:none;background-size:cover;background-position:center top;background-repeat:no-repeat;background-color:#f4ebd9}
 .lamp{width:34px;flex:none}.flame{transform-origin:20px 20px;animation:fl 1.6s ease-in-out infinite}
 @keyframes fl{50%{transform:scale(.92,1.14)}}
 .cta{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:276px;padding:40px 0 12px;background:linear-gradient(#0000 0,#2a1210d6 62%);text-shadow:0 1px 6px #000a}
@@ -198,7 +198,7 @@ body.opened .hero .stage{animation:rise 1.2s .4s both}
   <div class="eyebrow" id="heroDateCity" style="color:var(--ink)">25 – 26 January 2027<br>Chennai, Tamil Nadu</div>
   <div class="stage">
     <svg class="lamp" viewBox="0 0 40 90" aria-hidden="true"><g class="flame"><path d="M20 2C27 11 26 17 20 20C14 17 13 11 20 2Z" fill="#ffb42a"/><path d="M20 8C23 12 23 15 20 17C17 15 17 12 20 8Z" fill="#fff2a8"/></g><path d="M7 22Q20 36 33 22Z" fill="#c8922a"/><rect x="18" y="30" width="4" height="30" fill="#b88220"/><ellipse cx="20" cy="46" rx="9" ry="3" fill="#d9a63a"/><path d="M7 86Q20 58 33 86Z" fill="#b88220"/></svg>
-    <div class="photo ph1" id="heroPhoto" data-img="hero" aria-label="Couple portrait"></div>
+    <div class="photo" id="heroPhoto" data-img="hero" aria-label="Couple portrait" style="background-image:url('/images/templates/traditional-south-indian/hero.jpg');background-size:cover;background-position:center top;background-repeat:no-repeat;"></div>
     <svg class="lamp" viewBox="0 0 40 90" aria-hidden="true"><g class="flame"><path d="M20 2C27 11 26 17 20 20C14 17 13 11 20 2Z" fill="#ffb42a"/><path d="M20 8C23 12 23 15 20 17C17 15 17 12 20 8Z" fill="#fff2a8"/></g><path d="M7 22Q20 36 33 22Z" fill="#c8922a"/><rect x="18" y="30" width="4" height="30" fill="#b88220"/><ellipse cx="20" cy="46" rx="9" ry="3" fill="#d9a63a"/><path d="M7 86Q20 58 33 86Z" fill="#b88220"/></svg>
     <div class="cta"><button class="btn cream" id="shower">Shower the Atchathai</button>
       <div class="eyebrow" style="color:#fff3cf;margin-top:12px">Muhurtham in</div><div class="count" id="count"></div></div>
@@ -329,8 +329,8 @@ body.opened .hero .stage{animation:rise 1.2s .4s both}
 <button id="music" aria-label="Toggle music" aria-pressed="false" title="Play / Pause Music">♫</button>
 
 <script>
-// --- Base Image Map ---
-var IMAGES = {
+// --- Base Image Map & Defaults ---
+var DEFAULT_IMAGES = {
   "hero": "/images/templates/traditional-south-indian/hero.jpg",
   "story1": "/images/templates/traditional-south-indian/story1.jpg",
   "story2": "/images/templates/traditional-south-indian/story2.jpg",
@@ -346,18 +346,39 @@ var IMAGES = {
   "end": "/images/templates/traditional-south-indian/end.jpg"
 };
 
+var IMAGES = Object.assign({}, DEFAULT_IMAGES);
+
 // Default Song requested by user: Kaafi Hai Na
 var MUSIC_URL = "/audio/kaafi-hai-na.mp3";
 var WEDDING = new Date("2027-01-26T09:00:00+05:30");
+
+function applyImageSafely(el, requestedUrl, fallbackUrl) {
+  var url = (requestedUrl && typeof requestedUrl === 'string' && requestedUrl.trim() !== '' && requestedUrl !== 'undefined' && requestedUrl !== 'null') ? requestedUrl.trim() : fallbackUrl;
+  
+  // If it's a dead blob URL from an expired session
+  if (url.startsWith('blob:') && !window.location.href.startsWith('blob:')) {
+    // Attempt to load; if fails, fall back immediately
+  }
+  
+  var probe = new Image();
+  probe.onload = function() {
+    el.style.backgroundImage = "url('" + url + "')";
+    el.textContent = "";
+  };
+  probe.onerror = function() {
+    console.warn("Failed to load image:", url, "falling back to default:", fallbackUrl);
+    el.style.backgroundImage = "url('" + fallbackUrl + "')";
+    el.textContent = "";
+  };
+  probe.src = url;
+}
 
 function refreshImages() {
   document.querySelectorAll("[data-img]").forEach(function(el){
     var k = el.dataset.img;
     var u = IMAGES[k];
-    if (u) {
-      el.style.backgroundImage = "url('" + u + "')";
-      el.textContent = "";
-    }
+    var fb = DEFAULT_IMAGES[k] || DEFAULT_IMAGES["hero"];
+    applyImageSafely(el, u, fb);
   });
 }
 refreshImages();
@@ -501,12 +522,16 @@ function applyCustomization(data) {
     var scale = (data.photoScale !== undefined && data.photoScale !== null && data.photoScale !== "") ? Number(data.photoScale) : 1;
 
     heroEl.style.backgroundPosition = posX + "% " + posY + "%";
+    heroEl.style.backgroundRepeat = "no-repeat";
     if (fit === "contain") {
       heroEl.style.backgroundSize = (scale * 100) + "% auto";
     } else {
-      heroEl.style.backgroundSize = (scale * 100) + "%";
+      if (scale === 1) {
+        heroEl.style.backgroundSize = "cover";
+      } else {
+        heroEl.style.backgroundSize = "max(" + (scale * 100) + "%, 100%) auto";
+      }
     }
-    heroEl.style.backgroundRepeat = "no-repeat";
   }
 }
 
