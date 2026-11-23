@@ -16,16 +16,19 @@ import {
 } from 'lucide-react';
 import { getTemplates, TemplateListItem } from '@/lib/api/templates-api';
 import { APPROVED_RENDERER_REGISTRY } from '@/lib/templates/renderer-registry';
+import AdminPagination from '@/components/admin/AdminPagination';
 
 export default function AdminBuilderSelectorPage() {
   const [templates, setTemplates] = useState<TemplateListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
 
   useEffect(() => {
     async function load() {
       try {
-        const res = await getTemplates({ limit: 50 });
+        const res = await getTemplates({ limit: 100 });
         setTemplates(res.items);
       } catch (err) {
         console.error('Failed to load templates for builder:', err);
@@ -41,6 +44,11 @@ export default function AdminBuilderSelectorPage() {
       t.title.toLowerCase().includes(search.toLowerCase()) ||
       t.occasion.toLowerCase().includes(search.toLowerCase()) ||
       t.slug.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const paginatedTemplates = filtered.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
   );
 
   return (
@@ -80,7 +88,10 @@ export default function AdminBuilderSelectorPage() {
             type="text"
             placeholder="Search templates by title, occasion or slug..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setCurrentPage(1);
+            }}
             className="w-full pl-9 pr-4 py-2 bg-[#FAF5EE]/60 border border-[#EAD8C8] rounded-xl text-xs text-[#1F1916] placeholder-[#8C6D3B]/50 focus:outline-none focus:border-[#8C6D3B] focus:bg-white"
           />
         </div>
@@ -102,88 +113,105 @@ export default function AdminBuilderSelectorPage() {
           <p className="text-xs text-[#705E55] mt-1">Try adjusting your search criteria.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filtered.map((tpl) => {
-            const renderer = tpl.rendererId ? APPROVED_RENDERER_REGISTRY[tpl.rendererId] : null;
-            return (
-              <div
-                key={tpl.id}
-                className="bg-white rounded-2xl border border-[#EAD8C8] overflow-hidden shadow-sm hover:shadow-md hover:border-[#8C6D3B]/50 transition-all flex flex-col group"
-              >
-                {/* Thumbnail Header */}
-                <div className="relative h-44 bg-[#FAF5EE] overflow-hidden">
-                  <Image
-                    src={tpl.previewImage || '/images/templates/royal-navy-wedding-card.jpg'}
-                    alt={tpl.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  
-                  {/* Badges */}
-                  <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase font-bold tracking-wider bg-white/90 text-[#1F1916] backdrop-blur-sm shadow-sm">
-                      {tpl.occasion}
-                    </span>
-                    {tpl.badge && (
-                      <span className="px-2 py-0.5 rounded-full text-[9px] font-mono uppercase font-bold bg-[#641A2A] text-white shadow-sm">
-                        {tpl.badge}
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {paginatedTemplates.map((tpl) => {
+              const renderer = tpl.rendererId ? APPROVED_RENDERER_REGISTRY[tpl.rendererId] : null;
+              return (
+                <div
+                  key={tpl.id}
+                  className="bg-white rounded-2xl border border-[#EAD8C8] overflow-hidden shadow-sm hover:shadow-md hover:border-[#8C6D3B]/50 transition-all flex flex-col group"
+                >
+                  {/* Thumbnail Header */}
+                  <div className="relative h-44 bg-[#FAF5EE] overflow-hidden">
+                    <Image
+                      src={tpl.previewImage || '/images/templates/royal-navy-wedding-card.jpg'}
+                      alt={tpl.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    
+                    {/* Badges */}
+                    <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase font-bold tracking-wider bg-white/90 text-[#1F1916] backdrop-blur-sm shadow-sm">
+                        {tpl.occasion}
                       </span>
-                    )}
-                  </div>
-
-                  <div className="absolute bottom-3 left-3 right-3 text-white">
-                    <h3 className="font-serif font-bold text-base line-clamp-1 drop-shadow-sm">
-                      {tpl.title}
-                    </h3>
-                    <p className="text-[11px] text-white/80 line-clamp-1 font-mono">
-                      {tpl.slug}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Body Content */}
-                <div className="p-4 flex-1 flex flex-col justify-between space-y-4">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-xs font-mono">
-                      <span className="text-[#705E55]">Approved Renderer:</span>
-                      <span className="font-semibold text-[#8C6D3B] truncate max-w-[170px]">
-                        {renderer?.name || tpl.rendererId || 'Default'}
-                      </span>
+                      {tpl.badge && (
+                        <span className="px-2 py-0.5 rounded-full text-[9px] font-mono uppercase font-bold bg-[#641A2A] text-white shadow-sm">
+                          {tpl.badge}
+                        </span>
+                      )}
                     </div>
 
-                    <div className="flex items-center justify-between text-xs font-mono">
-                      <span className="text-[#705E55]">Supported Sections:</span>
-                      <span className="font-semibold text-[#1F1916]">
-                        {renderer?.supportedSections?.length || 5} sections
-                      </span>
+                    <div className="absolute bottom-3 left-3 right-3 text-white">
+                      <h3 className="font-serif font-bold text-base line-clamp-1 drop-shadow-sm">
+                        {tpl.title}
+                      </h3>
+                      <p className="text-[11px] text-white/80 line-clamp-1 font-mono">
+                        {tpl.slug}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Body Content */}
+                  <div className="p-4 flex-1 flex flex-col justify-between space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-xs font-mono">
+                        <span className="text-[#705E55]">Approved Renderer:</span>
+                        <span className="font-semibold text-[#8C6D3B] truncate max-w-[170px]">
+                          {renderer?.name || tpl.rendererId || 'Default'}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between text-xs font-mono">
+                        <span className="text-[#705E55]">Supported Sections:</span>
+                        <span className="font-semibold text-[#1F1916]">
+                          {renderer?.supportedSections?.length || 5} sections
+                        </span>
+                      </div>
+
+                      <p className="text-xs text-[#705E55] line-clamp-2 leading-relaxed pt-1 border-t border-[#EAD8C8]/60">
+                        {tpl.description}
+                      </p>
                     </div>
 
-                    <p className="text-xs text-[#705E55] line-clamp-2 leading-relaxed pt-1 border-t border-[#EAD8C8]/60">
-                      {tpl.description}
-                    </p>
-                  </div>
+                    {/* Actions */}
+                    <div className="pt-2 border-t border-[#EAD8C8]/60 flex items-center justify-between">
+                      <span className="text-xs font-mono font-bold text-[#641A2A]">
+                        ₹{tpl.priceINR}
+                      </span>
 
-                  {/* Actions */}
-                  <div className="pt-2 border-t border-[#EAD8C8]/60 flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-[#641A2A]">
-                      ₹{tpl.priceINR}
-                    </span>
-
-                    <Link
-                      href={`/admin/templates/${encodeURIComponent(tpl.id)}/builder`}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#641A2A] hover:bg-[#4E1320] text-white text-xs font-semibold rounded-xl shadow-sm transition-all"
-                    >
-                      <Sliders className="w-3.5 h-3.5" />
-                      <span>Launch Builder</span>
-                      <ArrowRight className="w-3 h-3 ml-0.5" />
-                    </Link>
+                      <Link
+                        href={`/admin/templates/${encodeURIComponent(tpl.id)}/builder`}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#641A2A] hover:bg-[#4E1320] text-white text-xs font-semibold rounded-xl shadow-sm transition-all"
+                      >
+                        <Sliders className="w-3.5 h-3.5" />
+                        <span>Launch Builder</span>
+                        <ArrowRight className="w-3 h-3 ml-0.5" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+
+          {filtered.length > 0 && (
+            <AdminPagination
+              currentPage={currentPage}
+              totalItems={filtered.length}
+              pageSize={pageSize}
+              pageSizeOptions={[6, 9, 12, 24]}
+              itemName="templates"
+              onPageChange={(page) => setCurrentPage(page)}
+              onPageSizeChange={(size) => {
+                setPageSize(size);
+                setCurrentPage(1);
+              }}
+            />
+          )}
         </div>
       )}
     </div>

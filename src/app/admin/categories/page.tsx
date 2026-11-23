@@ -31,6 +31,7 @@ import {
   deleteCategory,
   CategoryItem,
 } from '@/lib/api/templates-api';
+import AdminPagination from '@/components/admin/AdminPagination';
 
 const AVAILABLE_ICONS = [
   { name: 'Tag', icon: Tag },
@@ -48,6 +49,8 @@ export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(7);
 
   // Modals state
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -227,6 +230,11 @@ export default function AdminCategoriesPage() {
     (c.description && c.description.toLowerCase().includes(search.toLowerCase()))
   );
 
+  const paginatedCategories = filteredCategories.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
   return (
     <div className="space-y-6">
       {/* Top Banner */}
@@ -311,7 +319,10 @@ export default function AdminCategoriesPage() {
             type="text"
             placeholder="Search categories by name, slug or description..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setCurrentPage(1);
+            }}
             className="w-full pl-9 pr-4 py-2 bg-[#FAF5EE]/60 border border-[#EAD8C8] rounded-xl text-xs text-[#1F1916] placeholder-[#8C6D3B]/50 focus:outline-none focus:border-[#8C6D3B] focus:bg-white transition-all"
           />
         </div>
@@ -349,34 +360,36 @@ export default function AdminCategoriesPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#EAD8C8]/60">
-                {filteredCategories.map((cat, idx) => (
-                  <tr key={cat.id} className="hover:bg-[#FAF5EE]/40 transition-colors">
-                    {/* Order Controls */}
-                    <td className="py-3.5 px-4 text-center">
-                      <div className="flex items-center justify-center gap-1 font-mono text-[11px] font-semibold text-[#8C6D3B]">
-                        <span>{cat.displayOrder}</span>
-                        {canManage && (
-                          <div className="flex flex-col">
-                            <button
-                              onClick={() => handleMoveOrder(idx, 'up')}
-                              disabled={idx === 0}
-                              className="p-0.5 hover:text-[#1F1916] disabled:opacity-30 transition-opacity"
-                              title="Move Up"
-                            >
-                              <ArrowUp className="w-2.5 h-2.5" />
-                            </button>
-                            <button
-                              onClick={() => handleMoveOrder(idx, 'down')}
-                              disabled={idx === filteredCategories.length - 1}
-                              className="p-0.5 hover:text-[#1F1916] disabled:opacity-30 transition-opacity"
-                              title="Move Down"
-                            >
-                              <ArrowDown className="w-2.5 h-2.5" />
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </td>
+                {paginatedCategories.map((cat) => {
+                  const globalIdx = categories.findIndex((c) => c.id === cat.id);
+                  return (
+                    <tr key={cat.id} className="hover:bg-[#FAF5EE]/40 transition-colors">
+                      {/* Order Controls */}
+                      <td className="py-3.5 px-4 text-center">
+                        <div className="flex items-center justify-center gap-1 font-mono text-[11px] font-semibold text-[#8C6D3B]">
+                          <span>{cat.displayOrder}</span>
+                          {canManage && (
+                            <div className="flex flex-col">
+                              <button
+                                onClick={() => handleMoveOrder(globalIdx, 'up')}
+                                disabled={globalIdx <= 0}
+                                className="p-0.5 hover:text-[#1F1916] disabled:opacity-30 transition-opacity"
+                                title="Move Up"
+                              >
+                                <ArrowUp className="w-2.5 h-2.5" />
+                              </button>
+                              <button
+                                onClick={() => handleMoveOrder(globalIdx, 'down')}
+                                disabled={globalIdx < 0 || globalIdx >= categories.length - 1}
+                                className="p-0.5 hover:text-[#1F1916] disabled:opacity-30 transition-opacity"
+                                title="Move Down"
+                              >
+                                <ArrowDown className="w-2.5 h-2.5" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </td>
 
                     {/* Name & Icon */}
                     <td className="py-3.5 px-4">
@@ -453,9 +466,25 @@ export default function AdminCategoriesPage() {
                       )}
                     </td>
                   </tr>
-                ))}
+                );
+              })}
               </tbody>
             </table>
+
+            {filteredCategories.length > 0 && (
+              <AdminPagination
+                currentPage={currentPage}
+                totalItems={filteredCategories.length}
+                pageSize={pageSize}
+                pageSizeOptions={[5, 7, 10, 20]}
+                itemName="categories"
+                onPageChange={(page) => setCurrentPage(page)}
+                onPageSizeChange={(size) => {
+                  setPageSize(size);
+                  setCurrentPage(1);
+                }}
+              />
+            )}
           </div>
         )}
       </div>
