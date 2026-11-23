@@ -105,10 +105,10 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({ template, onOpenDemo
               ₹{template.price}
             </span>
             <span className="text-xs line-through text-[#94A3B8]/80 font-medium">
-              ₹{template.originalPrice || 999}
+              ₹{template.originalPrice || template.originalPriceINR || 999}
             </span>
             <span className="text-[10px] bg-[#E5A842]/20 text-[#E5A842] border border-[#E5A842]/40 px-1.5 py-0.5 rounded font-bold">
-              70% OFF
+              {template.discountBadge || '70% OFF'}
             </span>
             <span className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-[#E5A842] ml-auto">
               <span>✦</span>

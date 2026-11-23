@@ -41,6 +41,7 @@ export interface TemplateRecord {
   status?: "DRAFT" | "ACTIVE" | "ARCHIVED";
   priceINR?: number;
   originalPriceINR?: number;
+  discountBadge?: string;
   rendererId?: string;
   tags?: string[];
   createdAt?: string;
@@ -728,6 +729,7 @@ class StoreService {
         status: t.status || (t.isActive ? "ACTIVE" : "DRAFT"),
         priceINR,
         originalPriceINR,
+        discountBadge: t.discountBadge || "70% OFF",
         draftsCount,
         publicationsCount,
       };
@@ -820,6 +822,7 @@ class StoreService {
       ...updates,
       priceINR: updates.priceINR !== undefined ? updates.priceINR : current.priceINR,
       originalPriceINR: updates.originalPriceINR !== undefined ? updates.originalPriceINR : (current.originalPriceINR || 999),
+      discountBadge: updates.discountBadge !== undefined ? updates.discountBadge : (current.discountBadge || '70% OFF'),
       updatedAt: now,
     };
 

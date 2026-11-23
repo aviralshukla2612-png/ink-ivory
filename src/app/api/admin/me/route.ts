@@ -4,7 +4,7 @@ import { checkRateLimit } from "@/lib/security/rate-limit";
 import { createRateLimitResponse } from "@/lib/security/rate-limit-response";
 
 export async function GET(request: NextRequest) {
-  const rl = checkRateLimit(request, "adminApi");
+  const rl = checkRateLimit(request, "adminMe");
   if (!rl.success) return createRateLimitResponse(rl);
 
   const actor = getAdminActor(request);

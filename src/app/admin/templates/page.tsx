@@ -69,6 +69,8 @@ export default function AdminTemplatesPage() {
   const [formDescription, setFormDescription] = useState('');
   const [formTier, setFormTier] = useState<'PREMIUM' | 'SIGNATURE' | 'DELUXE' | 'ROYAL'>('SIGNATURE');
   const [formPriceINR, setFormPriceINR] = useState(349);
+  const [formOriginalPriceINR, setFormOriginalPriceINR] = useState(999);
+  const [formDiscountBadge, setFormDiscountBadge] = useState('70% OFF');
   const [formRendererId, setFormRendererId] = useState('wedding-imperial-navy');
   const [formPreviewImage, setFormPreviewImage] = useState('/images/templates/royal-navy-wedding-card.jpg');
   const [formBadge, setFormBadge] = useState('NEW');
@@ -130,6 +132,8 @@ export default function AdminTemplatesPage() {
         description: formDescription,
         tier: formTier,
         priceINR: Number(formPriceINR),
+        originalPriceINR: Number(formOriginalPriceINR),
+        discountBadge: formDiscountBadge,
         rendererId: formRendererId,
         previewImage: formPreviewImage,
         badge: formBadge,
@@ -160,6 +164,8 @@ export default function AdminTemplatesPage() {
         description: formDescription,
         tier: formTier,
         priceINR: Number(formPriceINR),
+        originalPriceINR: Number(formOriginalPriceINR),
+        discountBadge: formDiscountBadge,
         badge: formBadge,
         previewImage: formPreviewImage,
         rendererId: formRendererId,
@@ -223,6 +229,8 @@ export default function AdminTemplatesPage() {
     setFormDescription(tpl.description);
     setFormTier((tpl.tier as any) || 'SIGNATURE');
     setFormPriceINR(tpl.priceINR);
+    setFormOriginalPriceINR(tpl.originalPriceINR || 999);
+    setFormDiscountBadge(tpl.discountBadge || '70% OFF');
     setFormRendererId(tpl.rendererId || 'wedding-imperial-navy');
     setFormPreviewImage(tpl.previewImage || '');
     setFormBadge(tpl.badge || '');
@@ -235,6 +243,8 @@ export default function AdminTemplatesPage() {
     setFormDescription('');
     setFormTier('SIGNATURE');
     setFormPriceINR(349);
+    setFormOriginalPriceINR(999);
+    setFormDiscountBadge('70% OFF');
     setFormRendererId('wedding-imperial-navy');
     setFormPreviewImage('/images/templates/royal-navy-wedding-card.jpg');
     setFormBadge('NEW');
@@ -473,7 +483,7 @@ export default function AdminTemplatesPage() {
                           <span className="font-bold text-sm text-[#8F6E3B]">₹{tpl.priceINR}</span>
                         </div>
                         <span className="text-[9.5px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 mt-0.5">
-                          70% OFF
+                          {tpl.discountBadge || '70% OFF'}
                         </span>
                       </div>
                     </td>
@@ -687,7 +697,7 @@ export default function AdminTemplatesPage() {
                     required
                     value={formPriceINR}
                     onChange={(e) => setFormPriceINR(Number(e.target.value))}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#DFCEAF] bg-white text-[#2C2114] focus:outline-none focus:ring-1 focus:ring-[#8F6E3B]"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#DFCEAF] bg-white text-[#2C2114] font-bold focus:outline-none focus:ring-1 focus:ring-[#8F6E3B]"
                   />
                 </div>
 
@@ -703,6 +713,60 @@ export default function AdminTemplatesPage() {
                     placeholder="e.g. 🎬 MOVING or BESTSELLER"
                     className="w-full px-3 py-2 text-xs rounded-xl border border-[#DFCEAF] bg-white text-[#2C2114] focus:outline-none focus:ring-1 focus:ring-[#8F6E3B]"
                   />
+                </div>
+
+                {/* Original Strikethrough Price (Option 1) */}
+                <div>
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#2C2114] mb-1">
+                    Original Price / MRP (₹ INR)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100000"
+                    value={formOriginalPriceINR}
+                    onChange={(e) => setFormOriginalPriceINR(Number(e.target.value))}
+                    placeholder="999"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#DFCEAF] bg-white text-[#2C2114] line-through focus:outline-none focus:ring-1 focus:ring-[#8F6E3B]"
+                  />
+                  <p className="text-[10px] text-[#7A634E] mt-0.5">
+                    Strikethrough original price on card (e.g. ₹999)
+                  </p>
+                </div>
+
+                {/* Discount Badge Pill (Option 2) */}
+                <div>
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#2C2114] mb-1">
+                    Discount Badge Tag
+                  </label>
+                  <input
+                    type="text"
+                    value={formDiscountBadge}
+                    onChange={(e) => setFormDiscountBadge(e.target.value)}
+                    placeholder="e.g. 70% OFF"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#DFCEAF] bg-white text-[#2C2114] font-bold focus:outline-none focus:ring-1 focus:ring-[#8F6E3B]"
+                  />
+                  <p className="text-[10px] text-[#7A634E] mt-0.5">
+                    Offer tag next to strike price (e.g. 70% OFF)
+                  </p>
+                </div>
+              </div>
+
+              {/* Live Price Tag Preview matching Card Display */}
+              <div className="p-3 bg-[#0A0F1A] rounded-2xl border border-[#232F46] flex items-center justify-between shadow-inner">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[#94A3B8]">
+                  Live Card Price Preview:
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="font-serif text-lg font-bold text-[#FFFDF8]">
+                    ₹{formPriceINR}
+                  </span>
+                  <span className="text-xs line-through text-[#94A3B8]/80 font-medium">
+                    ₹{formOriginalPriceINR}
+                  </span>
+                  <span className="text-[10px] bg-[#E5A842]/20 text-[#E5A842] border border-[#E5A842]/40 px-2 py-0.5 rounded font-bold">
+                    {formDiscountBadge || '70% OFF'}
+                  </span>
                 </div>
               </div>
 

@@ -48,6 +48,8 @@ export async function getPublicTemplates(): Promise<Template[]> {
           previewImage: storeTpl.previewImage || base.previewImage,
           price: priceINR,
           originalPrice: storeTpl.originalPriceINR || base.originalPrice || 999,
+          originalPriceINR: storeTpl.originalPriceINR || base.originalPrice || 999,
+          discountBadge: storeTpl.discountBadge || '70% OFF',
           isFree: priceINR === 0,
         });
       } else {

@@ -16,6 +16,7 @@ export interface TemplateListItem {
   tags?: string[];
   priceINR: number;
   originalPriceINR?: number;
+  discountBadge?: string;
   draftsCount: number;
   publicationsCount: number;
   createdAt?: string;
@@ -79,6 +80,8 @@ export async function createTemplate(payload: {
   badge?: string;
   tier?: string;
   priceINR?: number;
+  originalPriceINR?: number;
+  discountBadge?: string;
   rendererId: string;
   tags?: string[];
 }) {

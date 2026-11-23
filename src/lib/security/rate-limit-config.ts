@@ -18,16 +18,22 @@ export interface RateLimitRule {
 export const RATE_LIMIT_CONFIG: Record<string, RateLimitRule> = {
   // Authentication & Admin
   adminAuth: {
-    limit: 5,
-    windowMs: 15 * 60 * 1000, // 5 requests / 15 min
+    limit: 15,
+    windowMs: 15 * 60 * 1000, // 15 requests / 15 min
     message: "Too many administrative attempts. Access temporarily restricted.",
     category: "admin_auth",
   },
   adminApi: {
-    limit: 30,
-    windowMs: 60 * 1000, // 30 requests / 1 min
+    limit: 180,
+    windowMs: 60 * 1000, // 180 requests / 1 min
     message: "Administrative request threshold exceeded.",
     category: "admin_api",
+  },
+  adminMe: {
+    limit: 600,
+    windowMs: 60 * 1000, // 600 requests / 1 min for session checks / hot-reloads
+    message: "Administrative session verification threshold exceeded.",
+    category: "admin_session",
   },
 
   // Payment Security

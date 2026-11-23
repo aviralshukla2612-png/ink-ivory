@@ -100,6 +100,8 @@ export interface Template {
   description: string;
   price: number;
   originalPrice?: number;
+  originalPriceINR?: number;
+  discountBadge?: string;
   isFree: boolean;
   isFeatured: boolean;
   isTrending?: boolean;
