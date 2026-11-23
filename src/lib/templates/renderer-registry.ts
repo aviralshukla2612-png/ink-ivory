@@ -69,6 +69,18 @@ export const APPROVED_RENDERER_REGISTRY: Record<string, RendererDefinition> = {
     previewThumbnail: "/images/templates/udaipur-palace-wedding-card.webp",
     isAvailable: true,
   },
+  "wedding-traditional-tamil": {
+    id: "wedding-traditional-tamil",
+    name: "Traditional South Indian Tamil Wedding",
+    category: "Wedding",
+    tier: "SIGNATURE",
+    description: "Authentic South Indian wedding featuring an interactive wax-sealed envelope gate, toran garlands, Muhurtham countdown, live atchathai flower shower, and a 5-chapter love story.",
+    targetRoute: "/template-05",
+    supportedSections: ["gate", "hero", "welcome", "story", "invitation", "celebrations", "venue", "music", "closing"],
+    defaultPriceINR: 299,
+    previewThumbnail: "/images/templates/traditional-south-indian/hero.jpg",
+    isAvailable: true,
+  },
   "birthday-interactive": {
     id: "birthday-interactive",
     name: "Interactive Birthday Surprise",

@@ -115,6 +115,14 @@ export default async function PublicInvitationPage({ params }: Props) {
   } else if (templateId === "tpl-birthday-botanical-04" || template?.liveDemoUrl === "/birthday") {
     targetUrl = `/birthday?${searchParams.toString()}`;
   } else if (
+    templateId === "tpl-wedding-south-indian-05" ||
+    template?.slug === "traditional-south-indian-wedding" ||
+    template?.rendererId === "wedding-traditional-tamil" ||
+    template?.liveDemoUrl === "/template-05" ||
+    template?.liveDemoUrl === "/template-05.html"
+  ) {
+    targetUrl = `/template-05.html?${searchParams.toString()}`;
+  } else if (
     templateId === "tpl-wedding-paper-palace-04" ||
     template?.slug === "paper-palace-wedding" ||
     template?.rendererId === "wedding-paper-palace" ||

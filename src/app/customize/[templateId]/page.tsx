@@ -81,6 +81,15 @@ export default function CustomizePage() {
       return 'date-planner';
     }
     if (
+      templateId === 'template-05' ||
+      templateId === 'tpl-wedding-south-indian-05' ||
+      templateId === 'traditional-south-indian-wedding' ||
+      baseTemplate.id === 'tpl-wedding-south-indian-05' ||
+      baseTemplate.liveDemoUrl === '/template-05'
+    ) {
+      return 'template-05';
+    }
+    if (
       templateId === 'template-04' ||
       templateId === 'tpl-wedding-paper-palace-04' ||
       templateId === 'paper-palace-wedding' ||
@@ -331,6 +340,7 @@ export default function CustomizePage() {
 
   const getEffectivePhoto = () => {
     if (fields.photoUrl) return fields.photoUrl;
+    if (templateKey === 'template-05') return '/images/templates/traditional-south-indian/hero.jpg';
     if (templateKey === 'birthday') return '/images/birthday/profile.jpg';
     if (templateKey === 'valentine') return '/bgv.png';
     if (templateKey === 'template-01') return '/template-01/gallery-1.jpg';
@@ -851,6 +861,27 @@ export default function CustomizePage() {
       if (fields.audioSource) params.set('songUrl', fields.audioSource);
       params.set('skipOpening', 'true');
       return `/date-planner?${params.toString()}`;
+    }
+
+    if (templateKey === 'template-05') {
+      params.set('names', fields.names || 'Arun Kumar & Meenakshi Priya');
+      params.set('date', fields.date || '25 – 26 January 2027');
+      if (fields.time) params.set('time', fields.time);
+      params.set('venue', fields.venue || 'AVM Rajeswari Kalyana Mandapam');
+      params.set('city', fields.city || 'Chennai, Tamil Nadu');
+      if (fields.venueAddress) params.set('venueAddress', fields.venueAddress);
+      if (fields.stayInfo) params.set('stayInfo', fields.stayInfo);
+      if (fields.mapUrl) params.set('mapUrl', fields.mapUrl);
+      if (fields.brideParents) params.set('brideParents', fields.brideParents);
+      if (fields.groomParents) params.set('groomParents', fields.groomParents);
+      if (fields.eyebrow) params.set('eyebrow', fields.eyebrow);
+      if (fields.tamilBlessing) params.set('tamilBlessing', fields.tamilBlessing);
+      if (fields.tamilTagline) params.set('tamilTagline', fields.tamilTagline);
+      if (fields.closingBlessing) params.set('closingBlessing', fields.closingBlessing);
+      if (fields.photoUrl) params.set('photoUrl', fields.photoUrl);
+      if (fields.audioSource) params.set('audioSource', fields.audioSource);
+      if (fields.audioStartTime) params.set('audioStart', String(fields.audioStartTime));
+      return `/template-05.html?${params.toString()}`;
     }
 
     if (templateKey === 'template-04') {
@@ -1841,6 +1872,223 @@ export default function CustomizePage() {
                       placeholder="Invitation message..."
                       className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                     />
+                  </div>
+                </>
+              ) : templateKey === 'template-05' ? (
+                <>
+                  {/* Template 5: Arun & Meenakshi Traditional South Indian Wedding */}
+                  <div>
+                    <label className="block text-xs font-semibold text-[#8F6E3B] mb-1">
+                      Couple&apos;s Names (Groom &amp; Bride)
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.names || 'Arun Kumar & Meenakshi Priya'}
+                      onChange={(e) => handleFieldChange('names', e.target.value)}
+                      placeholder="e.g. Arun Kumar & Meenakshi Priya"
+                      className="w-full px-3.5 py-2.5 text-sm font-serif font-medium rounded-lg border border-[#A77B35]/50 bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-[#A77B35]" />
+                        <span>Wedding Dates</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.date || '25 – 26 January 2027'}
+                        onChange={(e) => handleFieldChange('date', e.target.value)}
+                        placeholder="25 – 26 January 2027"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-[#8F6E3B] mb-1 flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-[#A77B35]" />
+                        <span>Muhurtham Time</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.time || '9:00 AM Onwards'}
+                        onChange={(e) => handleFieldChange('time', e.target.value)}
+                        placeholder="9:00 AM Onwards"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        Kalyana Mandapam (Venue)
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.venue || 'AVM Rajeswari Kalyana Mandapam'}
+                        onChange={(e) => handleFieldChange('venue', e.target.value)}
+                        placeholder="AVM Rajeswari Kalyana Mandapam"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        City &amp; State
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.city || 'Chennai, Tamil Nadu'}
+                        onChange={(e) => handleFieldChange('city', e.target.value)}
+                        placeholder="Chennai, Tamil Nadu"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-[#8F6E3B] uppercase tracking-wider">
+                      <Heart className="w-3.5 h-3.5 text-[#A77B35]" />
+                      <span>Family Hosts &amp; Parents</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-[11px] font-medium text-[#49341F] mb-1">
+                          Groom&apos;s Parents
+                        </label>
+                        <input
+                          type="text"
+                          value={fields.groomParents || 'Sri. R. Ramesh & Smt. Latha Ramesh'}
+                          onChange={(e) => handleFieldChange('groomParents', e.target.value)}
+                          placeholder="Sri. R. Ramesh & Smt. Latha Ramesh"
+                          className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] font-medium text-[#49341F] mb-1">
+                          Bride&apos;s Parents
+                        </label>
+                        <input
+                          type="text"
+                          value={fields.brideParents || 'Sri. K. Subramanian & Smt. Deepa Subramanian'}
+                          onChange={(e) => handleFieldChange('brideParents', e.target.value)}
+                          placeholder="Sri. K. Subramanian & Smt. Deepa Subramanian"
+                          className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        Tamil Blessing Header
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.tamilBlessing || 'ஸ்ரீ கணேசாய நமஹ'}
+                        onChange={(e) => handleFieldChange('tamilBlessing', e.target.value)}
+                        placeholder="ஸ்ரீ கணேசாய நமஹ"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-[#49341F] mb-1">
+                        Tamil Tagline
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.tamilTagline || 'இரு இதயங்கள், ஒரு பயணம்'}
+                        onChange={(e) => handleFieldChange('tamilTagline', e.target.value)}
+                        placeholder="இரு இதயங்கள், ஒரு பயணம்"
+                        className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      English Tagline
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.eyebrow || 'Two hearts, one journey'}
+                      onChange={(e) => handleFieldChange('eyebrow', e.target.value)}
+                      placeholder="Two hearts, one journey"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-[#49341F] mb-1">
+                      Closing Blessing
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.closingBlessing || 'வாழ்க வளமுடன்'}
+                      onChange={(e) => handleFieldChange('closingBlessing', e.target.value)}
+                      placeholder="வாழ்க வளமுடன்"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-[#FCFAF6] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                    />
+                  </div>
+
+                  {/* Celebrations Schedule */}
+                  <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold text-[#8F6E3B] uppercase tracking-wider">
+                        Celebrations Schedule (4 Events)
+                      </span>
+                    </div>
+
+                    <div className="space-y-3">
+                      {(fields.events || [
+                        { name: 'Nalangu', icon: 'haldi', date: '25 January 2027', time: '10:00 AM', venue: 'AVM Rajeswari Kalyana Mandapam', description: 'Turmeric, sandalwood paste and playful games — a joyful, traditional beginning for the bride and groom.' },
+                        { name: 'Mapillai Azhaippu', icon: 'mehendi', date: '25 January 2027', time: '6:00 PM', venue: 'AVM Rajeswari Kalyana Mandapam', description: 'The groom is welcomed with warmth and aarti, as both families come together to begin the celebrations.' },
+                        { name: 'Muhurtham', icon: 'wedding', date: '26 January 2027', time: '9:00 AM', venue: 'AVM Rajeswari Kalyana Mandapam', description: 'The sacred moment: the thaali, the saptapadi and the blessings of everyone we hold dear.' },
+                        { name: 'Reception', icon: 'reception', date: '26 January 2027', time: '7:00 PM', venue: 'AVM Rajeswari Kalyana Mandapam', description: 'An evening of warm wishes, happy conversations, photographs and celebration with everyone we love.' },
+                      ]).map((ev: any, idx: number) => (
+                        <div key={idx} className="p-3 bg-[#FAF7F0] border border-[#DFCEAF] rounded-xl space-y-2">
+                          <input
+                            type="text"
+                            value={ev.name || ''}
+                            onChange={(e) => handleEventChange(idx, 'name', e.target.value)}
+                            placeholder="Event Title"
+                            className="w-full px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                          />
+                          <div className="grid grid-cols-2 gap-2">
+                            <input
+                              type="text"
+                              value={ev.date || ''}
+                              onChange={(e) => handleEventChange(idx, 'date', e.target.value)}
+                              placeholder="Date"
+                              className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                            />
+                            <input
+                              type="text"
+                              value={ev.time || ''}
+                              onChange={(e) => handleEventChange(idx, 'time', e.target.value)}
+                              placeholder="Time"
+                              className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                            />
+                          </div>
+                          <input
+                            type="text"
+                            value={ev.venue || ''}
+                            onChange={(e) => handleEventChange(idx, 'venue', e.target.value)}
+                            placeholder="Venue"
+                            className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                          />
+                          <textarea
+                            rows={2}
+                            value={ev.description || ''}
+                            onChange={(e) => handleEventChange(idx, 'description', e.target.value)}
+                            placeholder="Event Description..."
+                            className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </>
               ) : templateKey === 'template-02' ? (

@@ -22,6 +22,7 @@ export interface WeddingEventItem {
   map?: string;
   note?: string;
   photo?: string | null;
+  description?: string;
 }
 
 export interface StoryMilestoneItem {
@@ -47,9 +48,19 @@ export interface EditableFields {
   time?: string;
   venue?: string;
   city?: string;
+  venueAddress?: string;
+  stayInfo?: string;
+  mapUrl?: string;
   message: string;
   rsvp?: string;
   host?: string;
+  tamilBlessing?: string;
+  tamilTagline?: string;
+  closingBlessing?: string;
+  weddingDate?: string;
+  ringsPhoto?: string;
+  venuePhoto?: string;
+  endPhoto?: string;
   photoUrl?: string;
   photoPositionY?: number;
   photoPositionX?: number;
@@ -65,6 +76,7 @@ export interface EditableFields {
   events?: WeddingEventItem[];
   story?: StoryMilestoneItem[];
   memories?: MemoryItem[];
+  [key: string]: any;
 }
 
 export interface DesignConfig {
@@ -74,7 +86,7 @@ export interface DesignConfig {
   secondaryColor?: string;
   fontFamily: 'serif' | 'script' | 'sans' | 'modern';
   orientation: 'portrait' | 'square' | 'landscape';
-  borderStyle: 'gold-floral' | 'minimal-gold' | 'ornate' | 'modern-double' | 'botanical';
+  borderStyle: 'gold-floral' | 'minimal-gold' | 'ornate' | 'modern-double' | 'botanical' | 'traditional';
   hasPhoto?: boolean;
   bgTexture?: 'ivory-silk' | 'navy-luxury' | 'champagne-linen' | 'emerald-velvet' | 'rose-quartz';
 }

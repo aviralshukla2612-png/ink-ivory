@@ -30,11 +30,22 @@ export const SONG_COUNTS = {
 
 export const ALL_SONGS: SongItem[] = [
   // ==========================================
-  // 1. Marriage & Wedding Songs (1 - 34)
+  // 1. Marriage & Wedding Songs (1 - 35)
   // ==========================================
   {
-    id: 'song-1',
+    id: 'song-kaafi-hai-na',
     number: 1,
+    title: 'Kaafi Hai Na (Tu Mera Ho Gaya)',
+    movie: 'Musafir Cafe',
+    artist: 'Jonita Gandhi, Priyansh Srivastav, Garvit-Priyansh • T-Series',
+    category: 'Wedding',
+    tag: 'Trending Acoustic Love Anthem',
+    source: '/audio/kaafi-hai-na.mp3',
+    duration: 175,
+  },
+  {
+    id: 'song-1',
+    number: 2,
     title: 'Alfaaz',
     movie: 'Hamza Malik & Zain Ali',
     artist: 'Hamza Malik & Zain Ali • Flex Musical',

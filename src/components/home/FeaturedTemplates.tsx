@@ -34,6 +34,7 @@ export const FeaturedTemplates: React.FC = () => {
     allTemplates.find((t) => t.id === 'tpl-anniversary-gold-02'),
     allTemplates.find((t) => t.id === 'tpl-engagement-garden-03'),
     allTemplates.find((t) => t.id === 'tpl-wedding-paper-palace-04'),
+    allTemplates.find((t) => t.id === 'tpl-wedding-south-indian-05'),
     allTemplates.find((t) => t.id === 'tpl-birthday-botanical-04'),
     allTemplates.find((t) => t.id === 'tpl-valentine-interactive-05'),
     allTemplates.find((t) => t.id === 'tpl-date-planner-07'),

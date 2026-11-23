@@ -508,6 +508,43 @@
       },
       "priceINR": 299,
       "originalPriceINR": 999
+    },
+    {
+      "id": "tpl-wedding-south-indian-05",
+      "slug": "traditional-south-indian-wedding",
+      "title": "Arun & Meenakshi — Traditional South Indian Wedding",
+      "occasion": "Wedding",
+      "description": "An authentic South Indian Tamil wedding celebration featuring an interactive wax-sealed envelope gate, toran garlands, Muhurtham countdown, live atchathai flower shower, and a 5-chapter love story.",
+      "previewImage": "/images/templates/traditional-south-indian/hero.jpg",
+      "liveDemoUrl": "/template-05",
+      "badge": "🌿 TRADITIONAL • ATCHATHAI",
+      "tier": "SIGNATURE",
+      "isActive": true,
+      "status": "ACTIVE",
+      "priceINR": 299,
+      "originalPriceINR": 999,
+      "rendererId": "wedding-traditional-tamil",
+      "tags": [
+        "Traditional",
+        "South Indian",
+        "Tamil",
+        "Atchathai",
+        "Wax Seal",
+        "Wedding",
+        "Temple"
+      ],
+      "createdAt": "2026-11-23T05:08:40.283Z",
+      "updatedAt": "2026-11-23T05:08:40.284Z",
+      "defaultFields": {},
+      "designConfig": {
+        "themeColor": "#fbf4e4",
+        "textColor": "#6a5a4a",
+        "accentColor": "#b08a3e",
+        "secondaryColor": "#6b1030",
+        "fontFamily": "serif",
+        "orientation": "portrait",
+        "borderStyle": "traditional"
+      }
     }
   ],
   "prices": [
@@ -660,6 +697,15 @@
       "isActive": true,
       "promotionalPrice": 29900,
       "originalPrice": 99900
+    },
+    {
+      "id": "prc_south_indian_tamil",
+      "templateId": "tpl-wedding-south-indian-05",
+      "currency": "INR",
+      "amount": 29900,
+      "promotionalPrice": 29900,
+      "originalPrice": 99900,
+      "isActive": true
     }
   ],
   "drafts": [
