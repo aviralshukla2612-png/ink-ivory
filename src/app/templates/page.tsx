@@ -23,14 +23,10 @@ function TemplatesContent() {
   const searchParams = useSearchParams();
   const initialOccasion = searchParams.get('occasion') || 'All';
   const initialSearch = searchParams.get('search') || '';
-  const initialFilter = searchParams.get('filter') || '';
 
   const [templatesList, setTemplatesList] = useState<Template[]>(templatesData);
   const [search, setSearch] = useState(initialSearch);
   const [selectedOccasion, setSelectedOccasion] = useState(initialOccasion);
-  const [priceFilter, setPriceFilter] = useState<'all' | 'free' | 'premium'>(
-    initialFilter === 'free' ? 'free' : 'all'
-  );
   const [sortBy, setSortBy] = useState<'featured' | 'popular' | 'price-asc' | 'price-desc'>('featured');
   const [selectedStyle, setSelectedStyle] = useState<string>('all');
   const [activeDemoTemplate, setActiveDemoTemplate] = useState<Template | null>(null);
@@ -70,10 +66,6 @@ function TemplatesContent() {
           if (!matchOccasion && !matchTag && !matchUseIt) return false;
         }
 
-        // Price filter
-        if (priceFilter === 'free' && !item.isFree) return false;
-        if (priceFilter === 'premium' && item.isFree) return false;
-
         // Style filter
         if (selectedStyle !== 'all') {
           if (!item.tags.includes(selectedStyle)) return false;
@@ -87,7 +79,7 @@ function TemplatesContent() {
         if (sortBy === 'price-desc') return b.price - a.price;
         return (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0);
       });
-  }, [search, selectedOccasion, priceFilter, sortBy, selectedStyle]);
+  }, [search, selectedOccasion, sortBy, selectedStyle]);
 
   const allStyles = ['Gold Foil', 'Botanical', 'Luxury', 'Romantic', 'Navy', 'Modern'];
 
@@ -126,17 +118,6 @@ function TemplatesContent() {
 
             {/* Quick Filter Controls */}
             <div className="flex flex-wrap items-center gap-2.5">
-
-              {/* Price Filter */}
-              <select
-                value={priceFilter}
-                onChange={(e) => setPriceFilter(e.target.value as any)}
-                className="px-3 py-2.5 text-xs rounded-xl border border-[#DFCEAF] bg-white text-[#49341F] focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-              >
-                <option value="all">All Prices</option>
-                <option value="free">Free Templates Only</option>
-                <option value="premium">Premium Only</option>
-              </select>
 
               {/* Style Tag */}
               <select
@@ -198,12 +179,11 @@ function TemplatesContent() {
           <span>
             Showing <strong className="text-[#2C2114]">{filteredTemplates.length}</strong> designs
           </span>
-          {(selectedOccasion !== 'All' || search || priceFilter !== 'all' || selectedStyle !== 'all') && (
+          {(selectedOccasion !== 'All' || search || selectedStyle !== 'all') && (
             <button
               onClick={() => {
                 setSearch('');
                 setSelectedOccasion('All');
-                setPriceFilter('all');
                 setSelectedStyle('all');
               }}
               className="text-[#8F6E3B] hover:underline"
@@ -227,7 +207,6 @@ function TemplatesContent() {
               onClick={() => {
                 setSearch('');
                 setSelectedOccasion('All');
-                setPriceFilter('all');
                 setSelectedStyle('all');
               }}
               className="px-5 py-2 text-xs font-semibold rounded-full bg-[#8F6E3B] text-white"

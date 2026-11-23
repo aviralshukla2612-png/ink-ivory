@@ -239,11 +239,11 @@ export const Navbar: React.FC = () => {
                     <span>Featured Designs</span>
                   </Link>
                   <Link
-                    href="/templates?filter=free"
+                    href="/templates"
                     className="flex items-center gap-2 px-3 py-2 text-xs text-[#49341F] hover:bg-[#F3EDE1] transition-colors"
                   >
                     <Gift className="w-3.5 h-3.5 text-[#A77B35]" />
-                    <span>Free Digital Pages</span>
+                    <span>All Invitation Suites</span>
                   </Link>
                   <Link
                     href="/templates"
@@ -554,7 +554,7 @@ export const Navbar: React.FC = () => {
                   }`}
               >
                 <Tag className="w-4.5 h-4.5 stroke-[1.8]" />
-                <span className="text-xs">Pricing &amp; Plans</span>
+                <span className="text-xs">Pricing</span>
               </Link>
 
               <Link
