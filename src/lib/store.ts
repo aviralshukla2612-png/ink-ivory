@@ -15,8 +15,14 @@ export interface UserRecord {
   email?: string;
   name?: string;
   phone?: string;
+  phoneVerified?: boolean;
   role: Role;
   isActive?: boolean;
+  profileImageUrl?: string;
+  profileImagePublicId?: string;
+  profileImageUpdatedAt?: string;
+  platform?: "WEBSITE" | "ANDROID APP" | "BOTH";
+  notes?: Array<{ id: string; text: string; author: string; createdAt: string }>;
   createdAt: string;
   updatedAt: string;
 }
@@ -1187,41 +1193,73 @@ class StoreService {
     page?: number;
     limit?: number;
     search?: string;
-    sortBy?: "totalSpent" | "draftsCount" | "lastActive";
+    type?: "ALL" | "REGISTERED" | "GUEST";
+    status?: "ALL" | "ACTIVE" | "INACTIVE";
+    platform?: "ALL" | "WEBSITE" | "ANDROID APP" | "BOTH";
+    verified?: "ALL" | "VERIFIED" | "UNVERIFIED";
+    sortBy?: "registeredAt" | "lastActive" | "totalSpent" | "paidOrders" | "draftsCount" | "phone";
     sortOrder?: "asc" | "desc";
-  }): Promise<{ items: any[]; total: number; page: number; limit: number; totalPages: number }> {
+  }): Promise<{
+    items: any[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    stats: {
+      totalCustomers: number;
+      registeredCount: number;
+      guestCount: number;
+      totalOrdersCount: number;
+      totalRevenueINR: number;
+    };
+  }> {
     this.init();
 
     const customerMap = new Map<string, {
       id: string;
       identifier: string;
-      type: "USER" | "GUEST";
+      type: "REGISTERED" | "GUEST";
       email?: string;
-      name?: string;
       phone?: string;
+      phoneVerified: boolean;
+      profileImageUrl?: string;
+      profileImageUpdatedAt?: string;
+      platform: "WEBSITE" | "ANDROID APP" | "BOTH";
+      isActive: boolean;
+      registeredAt?: string;
       draftsCount: number;
-      publishedCount: number;
+      paidOrdersCount: number;
       totalSpentPaise: number;
       firstSeenAt: string;
       lastActiveAt: string;
       draftIds: string[];
+      notes?: Array<{ id: string; text: string; author: string; createdAt: string }>;
     }>();
 
-    // 1. Process Users
+    // 1. Process Users (Registered Customers)
     (this.data!.users || []).forEach((u) => {
+      // Exclude internal staff from customer directory if desired, or include all registered accounts
+      // Customer directory identifies users by phone or email, NEVER by name.
+      const primaryPhone = u.phone || "";
       customerMap.set(u.id, {
         id: u.id,
-        identifier: u.email || u.id,
-        type: "USER",
+        identifier: primaryPhone || u.email || u.id,
+        type: "REGISTERED",
         email: u.email,
-        name: u.name,
-        phone: u.phone,
+        phone: primaryPhone,
+        phoneVerified: u.phoneVerified ?? (primaryPhone ? true : false),
+        profileImageUrl: u.profileImageUrl,
+        profileImageUpdatedAt: u.profileImageUpdatedAt,
+        platform: u.platform || "WEBSITE",
+        isActive: u.isActive !== false,
+        registeredAt: u.createdAt,
         draftsCount: 0,
-        publishedCount: 0,
+        paidOrdersCount: 0,
         totalSpentPaise: 0,
         firstSeenAt: u.createdAt,
-        lastActiveAt: u.updatedAt,
+        lastActiveAt: u.updatedAt || u.createdAt,
         draftIds: [],
+        notes: u.notes || [],
       });
     });
 
@@ -1233,19 +1271,26 @@ class StoreService {
         cust = {
           id: custKey,
           identifier: custKey.startsWith("gst_") ? `Guest (${custKey.slice(0, 10)}...)` : custKey,
-          type: d.userId ? "USER" : "GUEST",
+          type: d.userId ? "REGISTERED" : "GUEST",
+          phone: undefined,
+          phoneVerified: false,
+          profileImageUrl: undefined,
+          profileImageUpdatedAt: undefined,
+          platform: "WEBSITE",
+          isActive: true,
+          registeredAt: undefined,
           draftsCount: 0,
-          publishedCount: 0,
+          paidOrdersCount: 0,
           totalSpentPaise: 0,
           firstSeenAt: d.createdAt,
           lastActiveAt: d.updatedAt,
           draftIds: [],
+          notes: [],
         };
         customerMap.set(custKey, cust);
       }
 
       cust.draftsCount += 1;
-      if (d.status === "PUBLISHED") cust.publishedCount += 1;
       cust.draftIds.push(d.id);
 
       if (new Date(d.createdAt).getTime() < new Date(cust.firstSeenAt).getTime()) {
@@ -1260,93 +1305,358 @@ class StoreService {
     (this.data!.orders || []).forEach((o) => {
       const custKey = o.userId || o.guestToken;
       const cust = customerMap.get(custKey);
-      if (cust && o.status === "PAID") {
-        cust.totalSpentPaise += o.amount || 0;
+      if (cust) {
+        if (o.status === "PAID") {
+          cust.paidOrdersCount += 1;
+          cust.totalSpentPaise += o.amount || 0;
+        }
+        if (new Date(o.createdAt).getTime() > new Date(cust.lastActiveAt).getTime()) {
+          cust.lastActiveAt = o.createdAt;
+        }
       }
     });
 
-    let customers = Array.from(customerMap.values());
+    const allCustomers = Array.from(customerMap.values());
 
-    // Search filter
+    // Calculate Global Statistics before filtering
+    const totalCustomers = allCustomers.length;
+    const registeredCount = allCustomers.filter((c) => c.type === "REGISTERED").length;
+    const guestCount = allCustomers.filter((c) => c.type === "GUEST").length;
+    const totalOrdersCount = allCustomers.reduce((sum, c) => sum + c.paidOrdersCount, 0);
+    const totalRevenueINR = Math.round(allCustomers.reduce((sum, c) => sum + c.totalSpentPaise, 0) / 100);
+
+    let filtered = [...allCustomers];
+
+    // Search filter: Strictly ONLY searches Phone, Email, and ID (NO name search)
     if (params.search) {
-      const q = params.search.toLowerCase();
-      customers = customers.filter(
+      const q = params.search.toLowerCase().trim();
+      filtered = filtered.filter(
         (c) =>
-          c.id.toLowerCase().includes(q) ||
-          c.identifier.toLowerCase().includes(q) ||
+          (c.phone && c.phone.toLowerCase().includes(q)) ||
           (c.email && c.email.toLowerCase().includes(q)) ||
-          (c.name && c.name.toLowerCase().includes(q))
+          c.id.toLowerCase().includes(q)
       );
+    }
+
+    // Type filter
+    if (params.type && params.type !== "ALL") {
+      filtered = filtered.filter((c) => c.type === params.type);
+    }
+
+    // Status filter
+    if (params.status && params.status !== "ALL") {
+      const isWanted = params.status === "ACTIVE";
+      filtered = filtered.filter((c) => c.isActive === isWanted);
+    }
+
+    // Platform filter
+    if (params.platform && params.platform !== "ALL") {
+      filtered = filtered.filter(
+        (c) => c.platform === params.platform || c.platform === "BOTH"
+      );
+    }
+
+    // Verified filter
+    if (params.verified && params.verified !== "ALL") {
+      const wantVerified = params.verified === "VERIFIED";
+      filtered = filtered.filter((c) => !!c.phoneVerified === wantVerified);
     }
 
     // Sort
     const sortBy = params.sortBy || "lastActive";
     const sortOrder = params.sortOrder || "desc";
-    customers.sort((a, b) => {
+    filtered.sort((a, b) => {
       let valA: any = a.lastActiveAt;
       let valB: any = b.lastActiveAt;
-      if (sortBy === "totalSpent") {
+
+      if (sortBy === "registeredAt") {
+        valA = a.registeredAt || "1970-01-01";
+        valB = b.registeredAt || "1970-01-01";
+      } else if (sortBy === "totalSpent") {
         valA = a.totalSpentPaise;
         valB = b.totalSpentPaise;
+      } else if (sortBy === "paidOrders") {
+        valA = a.paidOrdersCount;
+        valB = b.paidOrdersCount;
       } else if (sortBy === "draftsCount") {
         valA = a.draftsCount;
         valB = b.draftsCount;
+      } else if (sortBy === "phone") {
+        valA = a.phone || "";
+        valB = b.phone || "";
       }
+
       if (valA < valB) return sortOrder === "asc" ? -1 : 1;
       if (valA > valB) return sortOrder === "asc" ? 1 : -1;
       return 0;
     });
 
     const page = Math.max(1, params.page || 1);
-    const limit = Math.max(1, Math.min(100, params.limit || 20));
-    const total = customers.length;
+    const limit = Math.max(1, Math.min(100, params.limit || 10));
+    const total = filtered.length;
     const totalPages = Math.ceil(total / limit) || 1;
-    const paginated = customers.slice((page - 1) * limit, page * limit);
+    const paginated = filtered.slice((page - 1) * limit, page * limit);
 
     const items = paginated.map((c) => ({
       ...c,
       totalSpentINR: Math.round(c.totalSpentPaise / 100),
     }));
 
-    return { items, total, page, limit, totalPages };
+    return {
+      items,
+      total,
+      page,
+      limit,
+      totalPages,
+      stats: {
+        totalCustomers,
+        registeredCount,
+        guestCount,
+        totalOrdersCount,
+        totalRevenueINR,
+      },
+    };
   }
 
   async getCustomerDetails(customerId: string): Promise<any | null> {
     this.init();
-    const drafts = this.data!.drafts.filter((d) => d.userId === customerId || d.guestToken === customerId);
-    const orders = this.data!.orders.filter((o) => o.userId === customerId || o.guestToken === customerId);
-    const publications = this.data!.publications.filter((p) => p.userId === customerId || p.guestToken === customerId);
+    const user = (this.data!.users || []).find(
+      (u) =>
+        u.id === customerId ||
+        u.phone === customerId ||
+        (u.email && u.email.toLowerCase() === customerId.toLowerCase())
+    );
 
-    if (drafts.length === 0 && orders.length === 0) {
-      const user = this.data!.users.find((u) => u.id === customerId);
-      if (!user) return null;
-      return {
-        id: user.id,
-        identifier: user.email || user.id,
-        type: "USER",
-        email: user.email,
-        name: user.name,
-        phone: user.phone,
-        drafts: [],
-        orders: [],
-        publications: [],
-        totalSpentINR: 0,
-      };
+    const isRegistered = !!user;
+
+    const drafts = (this.data!.drafts || []).filter(
+      (d) =>
+        d.userId === customerId ||
+        d.guestToken === customerId ||
+        (user && d.userId === user.id)
+    );
+    const orders = (this.data!.orders || []).filter(
+      (o) =>
+        o.userId === customerId ||
+        o.guestToken === customerId ||
+        (user && o.userId === user.id)
+    );
+    const publications = (this.data!.publications || []).filter(
+      (p) =>
+        p.userId === customerId ||
+        p.guestToken === customerId ||
+        (user && p.userId === user.id)
+    );
+
+    if (!user && drafts.length === 0 && orders.length === 0) {
+      return null;
     }
 
-    const totalSpentPaise = orders.filter((o) => o.status === "PAID").reduce((sum, o) => sum + (o.amount || 0), 0);
+    const paidOrders = orders.filter((o) => o.status === "PAID");
+    const totalSpentPaise = paidOrders.reduce((sum, o) => sum + (o.amount || 0), 0);
+
+    const firstSeenAt =
+      user?.createdAt || drafts[0]?.createdAt || orders[0]?.createdAt || new Date().toISOString();
+    const lastActiveAt =
+      user?.updatedAt ||
+      drafts[drafts.length - 1]?.updatedAt ||
+      orders[orders.length - 1]?.updatedAt ||
+      new Date().toISOString();
+
+    const activities: Array<{
+      id: string;
+      type: string;
+      title: string;
+      description: string;
+      timestamp: string;
+      platform?: string;
+    }> = [];
+
+    if (user?.createdAt) {
+      activities.push({
+        id: `act_${customerId}_reg`,
+        type: "REGISTRATION",
+        title: "Account Registered",
+        description: `Customer account created on ${user.platform || "WEBSITE"}.`,
+        timestamp: user.createdAt,
+        platform: user.platform || "WEBSITE",
+      });
+    }
+
+    if (user?.profileImageUpdatedAt) {
+      activities.push({
+        id: `act_${customerId}_avatar`,
+        type: "PROFILE_IMAGE_UPDATE",
+        title: "Profile Image Updated",
+        description: "Customer uploaded a new profile portrait photograph.",
+        timestamp: user.profileImageUpdatedAt,
+        platform: user.platform || "WEBSITE",
+      });
+    }
+
+    drafts.forEach((d) => {
+      activities.push({
+        id: `act_${d.id}_draft`,
+        type: "DRAFT_EDIT",
+        title: `Draft Saved: ${d.title || "Invitation"}`,
+        description: `Modified invitation template "${d.templateId}"`,
+        timestamp: d.updatedAt || d.createdAt,
+        platform: user?.platform || "WEBSITE",
+      });
+    });
+
+    orders.forEach((o) => {
+      activities.push({
+        id: `act_${o.id}_order`,
+        type: o.status === "PAID" ? "ORDER_PAID" : "ORDER_CREATED",
+        title: `Order ${o.id.toUpperCase()}: ₹${Math.round((o.amount || 0) / 100)}`,
+        description: `Status: ${o.status}. Currency: ${o.currency || "INR"}.`,
+        timestamp: o.createdAt,
+        platform: user?.platform || "WEBSITE",
+      });
+    });
+
+    activities.sort(
+      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
 
     return {
-      id: customerId,
-      identifier: customerId.startsWith("gst_") ? `Guest (${customerId.slice(0, 10)}...)` : customerId,
-      type: customerId.startsWith("gst_") ? "GUEST" : "USER",
+      id: user?.id || customerId,
+      identifier:
+        user?.phone ||
+        (customerId.startsWith("gst_") ? `Guest (${customerId.slice(0, 10)}...)` : customerId),
+      phone: user?.phone || (customerId.startsWith("+") ? customerId : undefined),
+      phoneVerified: user?.phoneVerified ?? (user?.phone ? true : false),
+      email: user?.email,
+      profileImageUrl: user?.profileImageUrl,
+      profileImageUpdatedAt: user?.profileImageUpdatedAt,
+      type: isRegistered ? "REGISTERED" : "GUEST",
+      platform: user?.platform || "WEBSITE",
+      isActive: user?.isActive !== false,
+      registeredAt: user?.createdAt,
+      firstSeenAt,
+      lastActiveAt,
+      totalSpentINR: Math.round(totalSpentPaise / 100),
+      paidOrdersCount: paidOrders.length,
+      draftsCount: drafts.length,
       drafts,
       orders,
       publications,
-      totalSpentINR: Math.round(totalSpentPaise / 100),
-      firstSeenAt: drafts[0]?.createdAt || orders[0]?.createdAt || new Date().toISOString(),
-      lastActiveAt: drafts[drafts.length - 1]?.updatedAt || orders[orders.length - 1]?.updatedAt || new Date().toISOString(),
+      activities,
+      notes: user?.notes || [],
     };
+  }
+
+  async updateCustomer(
+    customerId: string,
+    updates: {
+      phone?: string;
+      phoneVerified?: boolean;
+      email?: string;
+      isActive?: boolean;
+      platform?: "WEBSITE" | "ANDROID APP" | "BOTH";
+      profileImageUrl?: string;
+      profileImageUpdatedAt?: string;
+    }
+  ): Promise<UserRecord> {
+    this.init();
+    if (!this.data!.users) this.data!.users = [];
+    let user = this.data!.users.find((u) => u.id === customerId);
+    const now = new Date().toISOString();
+
+    if (!user) {
+      // If customer is a guest being promoted to registered
+      user = {
+        id: customerId.startsWith("usr_") ? customerId : `usr_${crypto.randomUUID().slice(0, 8)}`,
+        role: "USER",
+        phone: updates.phone,
+        phoneVerified: updates.phoneVerified ?? true,
+        email: updates.email,
+        isActive: updates.isActive ?? true,
+        platform: updates.platform || "WEBSITE",
+        profileImageUrl: updates.profileImageUrl,
+        profileImageUpdatedAt: updates.profileImageUpdatedAt,
+        notes: [],
+        createdAt: now,
+        updatedAt: now,
+      };
+      this.data!.users.push(user);
+    } else {
+      if (updates.phone !== undefined) user.phone = updates.phone;
+      if (updates.phoneVerified !== undefined) user.phoneVerified = updates.phoneVerified;
+      if (updates.email !== undefined) user.email = updates.email;
+      if (updates.isActive !== undefined) user.isActive = updates.isActive;
+      if (updates.platform !== undefined) user.platform = updates.platform;
+      if (updates.profileImageUrl !== undefined) user.profileImageUrl = updates.profileImageUrl;
+      if (updates.profileImageUpdatedAt !== undefined) user.profileImageUpdatedAt = updates.profileImageUpdatedAt;
+      user.updatedAt = now;
+    }
+
+    this.save();
+    return user;
+  }
+
+  async addCustomerNote(
+    customerId: string,
+    note: { text: string; author: string }
+  ): Promise<{ id: string; text: string; author: string; createdAt: string }> {
+    this.init();
+    if (!this.data!.users) this.data!.users = [];
+    let user = this.data!.users.find((u) => u.id === customerId);
+    const now = new Date().toISOString();
+
+    if (!user) {
+      user = {
+        id: customerId,
+        role: "USER",
+        isActive: true,
+        notes: [],
+        createdAt: now,
+        updatedAt: now,
+      };
+      this.data!.users.push(user);
+    }
+
+    if (!user.notes) user.notes = [];
+    const noteEntry = {
+      id: `nte_${crypto.randomUUID().slice(0, 8)}`,
+      text: note.text,
+      author: note.author,
+      createdAt: now,
+    };
+    user.notes.push(noteEntry);
+    user.updatedAt = now;
+    this.save();
+    return noteEntry;
+  }
+
+  async createCustomer(data: {
+    phone: string;
+    email?: string;
+    platform?: "WEBSITE" | "ANDROID APP" | "BOTH";
+    phoneVerified?: boolean;
+    profileImageUrl?: string;
+  }): Promise<UserRecord> {
+    this.init();
+    if (!this.data!.users) this.data!.users = [];
+    const now = new Date().toISOString();
+    const user: UserRecord = {
+      id: `usr_${crypto.randomUUID().slice(0, 8)}`,
+      phone: data.phone,
+      phoneVerified: data.phoneVerified ?? true,
+      email: data.email,
+      role: "USER",
+      platform: data.platform || "WEBSITE",
+      profileImageUrl: data.profileImageUrl,
+      profileImageUpdatedAt: data.profileImageUrl ? now : undefined,
+      isActive: true,
+      notes: [],
+      createdAt: now,
+      updatedAt: now,
+    };
+    this.data!.users.push(user);
+    this.save();
+    return user;
   }
 
   async deleteDraft(draftId: string): Promise<boolean> {

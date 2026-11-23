@@ -21,6 +21,11 @@ import {
   Eye,
   Edit3,
   Trash2,
+  Camera,
+  Upload,
+  ZoomIn,
+  CheckCircle2,
+  Image as ImageIcon,
 } from 'lucide-react';
 import { useWishlist } from '@/context/WishlistContext';
 import { CardPreview } from '@/components/cards/CardPreview';
@@ -39,6 +44,15 @@ export default function AccountPage() {
 
   const [orders, setOrders] = useState<any[]>([]);
   const { wishlist } = useWishlist();
+
+  // Customer Profile Identity & Synchronization State
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [profileZoom, setProfileZoom] = useState<number>(1);
+  const [phone, setPhone] = useState<string>('+91 98765 43210');
+  const [email, setEmail] = useState<string>('customer@youaremine.online');
+  const [phoneVerified, setPhoneVerified] = useState<boolean>(true);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
 
   const loadUserData = async () => {
     setLoadingData(true);
@@ -66,10 +80,78 @@ export default function AccountPage() {
   useEffect(() => {
     loadUserData();
 
+    // Load saved customer identity
+    const savedAvatar = localStorage.getItem('yam_customer_avatar');
+    if (savedAvatar) setProfileImage(savedAvatar);
+    const savedPhone = localStorage.getItem('yam_customer_phone');
+    if (savedPhone) setPhone(savedPhone);
+    const savedEmail = localStorage.getItem('yam_customer_email');
+    if (savedEmail) setEmail(savedEmail);
+
     // Load orders from localStorage
     const savedOrders = JSON.parse(localStorage.getItem('cardly_orders') || '[]');
     setOrders(savedOrders);
   }, []);
+
+  const handleAvatarFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('customerId', 'usr_super_admin');
+
+      const res = await fetch('/api/user/profile-image', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (data.success && data.profileImageUrl) {
+        setProfileImage(data.profileImageUrl);
+        localStorage.setItem('yam_customer_avatar', data.profileImageUrl);
+        setSaveMessage('Profile photo synchronized successfully.');
+        setTimeout(() => setSaveMessage(null), 3000);
+      } else {
+        alert(data.error || 'Failed to upload profile image.');
+      }
+    } catch (err) {
+      console.error('Failed to upload image:', err);
+      alert('Network error while uploading profile photo.');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleAvatarRemove = async () => {
+    if (!confirm('Are you sure you want to remove your profile photograph?')) return;
+    setUploadingImage(true);
+    try {
+      const res = await fetch('/api/user/profile-image?customerId=usr_super_admin', {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProfileImage(null);
+        localStorage.removeItem('yam_customer_avatar');
+        setSaveMessage('Profile photograph removed.');
+        setTimeout(() => setSaveMessage(null), 3000);
+      }
+    } catch (err) {
+      console.error('Failed to remove image:', err);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleSavePreferences = () => {
+    localStorage.setItem('yam_customer_phone', phone);
+    localStorage.setItem('yam_customer_email', email);
+    setSaveMessage('Preferences updated successfully.');
+    setTimeout(() => setSaveMessage(null), 3000);
+  };
 
   const handleCopyLink = (slug: string) => {
     const fullUrl = `${window.location.origin}/invite/${slug}`;
@@ -91,20 +173,37 @@ export default function AccountPage() {
         {/* Account Header */}
         <div className="bg-[#FCFAF6] rounded-3xl p-6 sm:p-8 border border-[#DFCEAF] shadow-luxury mb-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4 text-center sm:text-left">
-            <div className="w-16 h-16 rounded-full bg-[#EDE2CF] border border-[#DFCEAF] text-[#8F6E3B] font-serif font-bold text-2xl flex items-center justify-center">
-              AS
+            <div className="relative w-16 h-16 rounded-full overflow-hidden bg-[#EDE2CF] border-2 border-[#DFCEAF] flex items-center justify-center shrink-0">
+              {profileImage ? (
+                <img
+                  src={profileImage}
+                  alt="Customer Profile"
+                  className="w-full h-full object-cover"
+                  style={{ transform: `scale(${profileZoom})` }}
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center text-[#8F6E3B]">
+                  <User className="w-8 h-8 opacity-80" />
+                </div>
+              )}
             </div>
             <div>
               <div className="flex items-center gap-2 justify-center sm:justify-start">
-                <h1 className="font-serif text-xl sm:text-2xl font-medium text-[#2C2114]">
-                  Aviral Shukla
+                <h1 className="font-mono text-lg sm:text-xl font-bold tracking-tight text-[#2C2114]">
+                  {phone}
                 </h1>
+                {phoneVerified && (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    <CheckCircle2 className="w-3 h-3" />
+                    Verified
+                  </span>
+                )}
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#EDE2CF] text-[#8F6E3B]">
-                  VIP Patron
+                  Patron
                 </span>
               </div>
               <p className="text-xs text-[#7A634E] mt-0.5">
-                aviral@example.com • You Are Mine Bespoke Suite
+                {email} • You Are Mine Bespoke Suite
               </p>
             </div>
           </div>
@@ -490,36 +589,150 @@ export default function AccountPage() {
 
         {/* TAB 5: SETTINGS */}
         {activeTab === 'settings' && (
-          <div className="bg-[#FCFAF6] rounded-2xl border border-[#DFCEAF] p-6 max-w-xl space-y-4 shadow-sm">
-            <h2 className="font-serif text-xl font-medium text-[#2C2114] mb-3">
-              Account Preferences
-            </h2>
+          <div className="bg-[#FCFAF6] rounded-2xl border border-[#DFCEAF] p-6 max-w-xl space-y-6 shadow-sm">
+            <div>
+              <h2 className="font-serif text-xl font-medium text-[#2C2114]">
+                Account Preferences
+              </h2>
+              <p className="text-xs text-[#7A634E] mt-1">
+                Manage your phone number and customer profile photograph synchronized with the bespoke suite.
+              </p>
+            </div>
+
+            {saveMessage && (
+              <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>{saveMessage}</span>
+              </div>
+            )}
+
+            {/* Profile Image Management */}
+            <div className="p-4 rounded-xl bg-[#F8F4EC] border border-[#DFCEAF]/70 space-y-3">
+              <label className="block text-xs font-semibold text-[#49341F]">
+                Customer Profile Image
+              </label>
+
+              <div className="flex items-center gap-4">
+                <div className="relative w-20 h-20 rounded-full overflow-hidden bg-[#EDE2CF] border-2 border-[#DFCEAF] flex items-center justify-center shrink-0 shadow-sm">
+                  {profileImage ? (
+                    <img
+                      src={profileImage}
+                      alt="Customer Portrait"
+                      className="w-full h-full object-cover transition-transform duration-200"
+                      style={{ transform: `scale(${profileZoom})` }}
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-[#8F6E3B]">
+                      <Camera className="w-6 h-6 opacity-80" />
+                      <span className="text-[9px] mt-1 font-semibold uppercase">No Photo</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <label
+                      htmlFor="customer-avatar-upload"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#8F6E3B] hover:bg-[#785B2F] text-white text-xs font-semibold shadow-sm cursor-pointer transition-colors"
+                    >
+                      <Upload className="w-3.5 h-3.5" />
+                      {profileImage ? 'Replace Photo' : 'Upload Photo'}
+                    </label>
+                    <input
+                      id="customer-avatar-upload"
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp"
+                      onChange={handleAvatarFileSelect}
+                      className="hidden"
+                      disabled={uploadingImage}
+                    />
+
+                    {profileImage && (
+                      <button
+                        type="button"
+                        onClick={handleAvatarRemove}
+                        disabled={uploadingImage}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-semibold transition-colors cursor-pointer"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        Remove
+                      </button>
+                    )}
+                  </div>
+
+                  {uploadingImage && (
+                    <p className="text-[11px] text-[#8F6E3B] font-medium animate-pulse">
+                      Synchronizing photograph...
+                    </p>
+                  )}
+
+                  <p className="text-[11px] text-[#7A634E]">
+                    Supports JPG, PNG or WEBP up to 5MB. Synchronizes across website and mobile app.
+                  </p>
+                </div>
+              </div>
+
+              {/* Live Zoom / Fit Adjustment */}
+              {profileImage && (
+                <div className="pt-2 border-t border-[#DFCEAF]/50 flex items-center gap-3">
+                  <ZoomIn className="w-3.5 h-3.5 text-[#7A634E]" />
+                  <span className="text-[11px] font-semibold text-[#49341F]">Adjust Scale:</span>
+                  <input
+                    type="range"
+                    min="1"
+                    max="2"
+                    step="0.05"
+                    value={profileZoom}
+                    onChange={(e) => setProfileZoom(parseFloat(e.target.value))}
+                    className="flex-1 h-1.5 bg-[#DFCEAF] rounded-lg appearance-none cursor-pointer accent-[#8F6E3B]"
+                  />
+                  <span className="text-[11px] font-mono text-[#7A634E] w-8">
+                    {Math.round(profileZoom * 100)}%
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Primary Identifier: Phone Number */}
             <div>
               <label className="block text-xs font-semibold text-[#49341F] mb-1">
-                Display Name
+                Primary Phone Number (Identifier)
               </label>
-              <input
-                type="text"
-                defaultValue="Aviral Shukla"
-                className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-white text-[#2C2114]"
-              />
+              <div className="relative">
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+91 98765 43210"
+                  className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-white text-[#2C2114] font-mono focus:outline-none focus:ring-1 focus:ring-[#8F6E3B]"
+                />
+              </div>
+              <p className="text-[11px] text-[#7A634E] mt-1">
+                Always include country calling code (e.g. +91 for India).
+              </p>
             </div>
+
+            {/* Secondary: Email Address */}
             <div>
               <label className="block text-xs font-semibold text-[#49341F] mb-1">
                 Email Address
               </label>
               <input
                 type="email"
-                defaultValue="aviral@example.com"
-                className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-white text-[#2C2114]"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="customer@youaremine.online"
+                className="w-full px-3 py-2 text-xs rounded-lg border border-[#DFCEAF] bg-white text-[#2C2114] focus:outline-none focus:ring-1 focus:ring-[#8F6E3B]"
               />
             </div>
+
             <div className="pt-2">
               <button
-                onClick={() => alert('Preferences updated successfully!')}
-                className="px-5 py-2 rounded-xl bg-[#8F6E3B] text-white text-xs font-semibold shadow-sm cursor-pointer"
+                type="button"
+                onClick={handleSavePreferences}
+                className="px-5 py-2.5 rounded-xl bg-[#8F6E3B] hover:bg-[#785B2F] text-white text-xs font-semibold shadow-sm cursor-pointer transition-colors"
               >
-                Save Changes
+                Save Preferences
               </button>
             </div>
           </div>
