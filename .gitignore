@@ -30,4 +30,8 @@ test_routes.js
 *.tsbuildinfo
 next-env.d.ts
 
+# Local Tools
+yt-dlp.exe
+
+
 
