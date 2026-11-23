@@ -590,9 +590,13 @@ if (!urlParams.get("skipOpening")) {
   document.body.style.overflow = "hidden";
 }
 
+var opening = false;
 function openEnvelope(immediate) {
+  if (opening) return;
   if (!gate || gate.classList.contains("open")) return;
-  if (immediate === true || gate.classList.contains("opening")) {
+  
+  if (immediate === true) {
+    opening = true;
     gate.classList.add("open");
     gate.style.display = "none";
     document.body.style.overflow = "auto";
@@ -601,6 +605,8 @@ function openEnvelope(immediate) {
     try { petals(30); } catch(e){}
     return;
   }
+
+  opening = true;
   gate.classList.add("opening");
   var rm = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   setTimeout(function(){
@@ -621,16 +627,28 @@ function openEnvelope(immediate) {
 
 if (gate) {
   gate.style.cursor = "pointer";
-  gate.onclick = function() { openEnvelope(); };
-  gate.addEventListener("touchstart", function(){ openEnvelope(); }, { passive: true });
+  gate.addEventListener("click", function() { openEnvelope(); });
+  gate.addEventListener("touchend", function(e) {
+    e.preventDefault();
+    openEnvelope();
+  }, { passive: false });
 }
 
 var enterBtn = document.getElementById("enter");
-if (enterBtn) enterBtn.onclick = function(e){ e.stopPropagation(); openEnvelope(); };
+if (enterBtn) {
+  enterBtn.addEventListener("click", function(e){ e.stopPropagation(); openEnvelope(); });
+  enterBtn.addEventListener("touchend", function(e){ e.stopPropagation(); e.preventDefault(); openEnvelope(); }, { passive: false });
+}
 var tapBtn = document.getElementById("tapBtn");
-if (tapBtn) tapBtn.onclick = function(e){ e.stopPropagation(); openEnvelope(); };
+if (tapBtn) {
+  tapBtn.addEventListener("click", function(e){ e.stopPropagation(); openEnvelope(); });
+  tapBtn.addEventListener("touchend", function(e){ e.stopPropagation(); e.preventDefault(); openEnvelope(); }, { passive: false });
+}
 var skipGateBtn = document.getElementById("skipGate");
-if (skipGateBtn) skipGateBtn.onclick = function(e){ e.stopPropagation(); openEnvelope(true); };
+if (skipGateBtn) {
+  skipGateBtn.addEventListener("click", function(e){ e.stopPropagation(); openEnvelope(true); });
+  skipGateBtn.addEventListener("touchend", function(e){ e.stopPropagation(); e.preventDefault(); openEnvelope(true); }, { passive: false });
+}
 document.addEventListener("keydown", function(e){
   if (e.key === "Escape" || e.key === "Enter" || e.key === " ") openEnvelope();
 });

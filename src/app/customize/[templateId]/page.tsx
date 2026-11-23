@@ -1007,7 +1007,6 @@ export default function CustomizePage() {
       for (let i = 1; i <= 4; i++) {
         if (fields[`evPhoto${i}`]) params.set(`evPhoto${i}`, fields[`evPhoto${i}`]);
       }
-      params.set('skipOpening', 'true');
       return `/template-05.html?${params.toString()}`;
     }
 
