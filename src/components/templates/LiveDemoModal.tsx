@@ -60,6 +60,7 @@ export const LiveDemoModal: React.FC<LiveDemoModalProps> = ({
   if (!isOpen || !mounted) return null;
 
   let baseUrl = template.liveDemoUrl || '/template-01';
+  if (baseUrl === '/template-05') baseUrl = '/template-05.html';
   if (baseUrl === '/template-04') baseUrl = '/template-04.html';
   if (baseUrl === '/template-03') baseUrl = '/template-03.html';
   if (baseUrl === '/template-02') baseUrl = '/template-02.html';

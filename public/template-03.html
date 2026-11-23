@@ -660,12 +660,22 @@ populateData();
   $("lm").innerHTML = s;
 
   function hideLoader() {
-    $("loader").classList.add("hide");
+    const l = $("loader");
+    if (l) l.classList.add("hide");
   }
-  window.addEventListener("load", () => {
-    setTimeout(hideLoader, Math.max(0, 2400 - (performance.now() - t0)));
-  });
-  setTimeout(hideLoader, 5000);
+  const isDemo = urlParams.get('mode') === 'demo' || urlParams.get('view') === 'phone';
+  if (isDemo || urlParams.get('skipOpening') === 'true') {
+    setTimeout(hideLoader, 200);
+  } else {
+    window.addEventListener("load", () => {
+      setTimeout(hideLoader, Math.max(0, 1400 - (performance.now() - t0)));
+    });
+    setTimeout(hideLoader, 3000);
+  }
+  if ($("loader")) {
+    $("loader").onclick = hideLoader;
+    $("loader").style.cursor = "pointer";
+  }
 })();
 
 /* ===== JASMINE + MARIGOLD DRAPING GARLAND ===== */
@@ -884,14 +894,19 @@ function openGate(skip) {
     document.body.classList.remove("lock");
     document.body.classList.add("ready");
     if (isAutoPlaying) startAutoScroll();
-  }, skip === true ? 100 : 2000);
+  }, skip === true ? 100 : 1300);
 }
 
 $("btnEnter").onclick = e => { e.stopPropagation(); openGate(); };
 $("sealMedallion").onclick = e => { e.stopPropagation(); openGate(); };
 gate.onclick = () => openGate();
+gate.addEventListener("touchstart", () => openGate(), { passive: true });
 gate.onkeydown = e => (e.key === "Enter" || e.key === " ") && openGate();
 $("skip").onclick = e => { e.stopPropagation(); openGate(true); };
+
+if (urlParams.get('skipOpening') === 'true') {
+  openGate(true);
+}
 $("again").onclick = () => {
   gate.classList.remove("open", "gone");
   document.body.classList.add("lock");

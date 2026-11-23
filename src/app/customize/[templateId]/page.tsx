@@ -66,7 +66,8 @@ export default function CustomizePage() {
         (templateId === 'birthday' && t.liveDemoUrl === '/birthday') ||
         (templateId === 'template-02' && t.liveDemoUrl === '/template-02') ||
         (templateId === 'template-03' && t.liveDemoUrl === '/template-03') ||
-        (templateId === 'template-04' && t.liveDemoUrl === '/template-04')
+        (templateId === 'template-04' && t.liveDemoUrl === '/template-04') ||
+        (templateId === 'template-05' && t.liveDemoUrl === '/template-05')
     ) || templatesData[0];
 
   // Resolve template key
@@ -647,6 +648,11 @@ export default function CustomizePage() {
         }
       };
       audio.onended = () => setIsPlayingAudio(false);
+      audio.onerror = () => {
+        setIsPlayingAudio(false);
+        setAudioUploadError('Unable to stream this audio URL. Please ensure it is a direct audio link (.mp3, .wav, .m4a) with public access, or upload the file directly using Option 1.');
+        setTimeout(() => setAudioUploadError(null), 8000);
+      };
       audioPreviewRef.current = audio;
       return audio;
     }
@@ -657,6 +663,11 @@ export default function CustomizePage() {
       cur.pause();
       cur.src = src;
       cur.currentTime = startSec;
+      cur.onerror = () => {
+        setIsPlayingAudio(false);
+        setAudioUploadError('Unable to stream this audio URL. Please ensure it is a direct audio link (.mp3, .wav, .m4a) with public access, or upload the file directly using Option 1.');
+        setTimeout(() => setAudioUploadError(null), 8000);
+      };
       cur.load();
     }
     return cur;
@@ -760,21 +771,48 @@ export default function CustomizePage() {
   // Handle custom audio URL submit
   const handleCustomUrlSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const url = customUrlInput.trim();
-    if (!url) return;
+    const rawUrl = customUrlInput.trim();
+    if (!rawUrl) return;
+
+    let formattedUrl = rawUrl;
+    // Auto-prepend https:// if missing
+    if (!/^https?:\/\//i.test(formattedUrl)) {
+      formattedUrl = `https://${formattedUrl}`;
+    }
 
     try {
-      new URL(url);
+      new URL(formattedUrl);
     } catch {
-      setAudioUploadError('Please enter a valid URL starting with https:// or http://');
+      setAudioUploadError('Please enter a valid URL (e.g. https://your-server.com/song.mp3)');
       setTimeout(() => setAudioUploadError(null), 5000);
       return;
+    }
+
+    // Detect YouTube URLs and provide immediate clear guidance
+    if (/youtu\.?be/i.test(formattedUrl)) {
+      setAudioUploadError('YouTube web page URLs cannot be streamed directly due to YouTube platform policies. Please upload your MP3 audio file using Option 1 above, or pick from our 110+ curated soundtracks.');
+      setTimeout(() => setAudioUploadError(null), 8000);
+      return;
+    }
+
+    // Convert Google Drive view links to direct streaming download link
+    const gDriveMatch = formattedUrl.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (gDriveMatch && gDriveMatch[1]) {
+      formattedUrl = `https://drive.google.com/uc?export=download&id=${gDriveMatch[1]}`;
+    }
+
+    // Convert Dropbox links to direct stream (raw=1)
+    if (formattedUrl.includes('dropbox.com')) {
+      formattedUrl = formattedUrl.replace('?dl=0', '?raw=1').replace('&dl=0', '&raw=1');
+      if (!formattedUrl.includes('raw=1')) {
+        formattedUrl += (formattedUrl.includes('?') ? '&' : '?') + 'raw=1';
+      }
     }
 
     setAudioUploadError(null);
     let extractedName = 'Custom Web Audio';
     try {
-      const parts = new URL(url).pathname.split('/');
+      const parts = new URL(formattedUrl).pathname.split('/');
       const last = parts[parts.length - 1];
       if (last && last.includes('.')) {
         extractedName = decodeURIComponent(last.replace(/\.[^/.]+$/, ''));
@@ -786,7 +824,7 @@ export default function CustomizePage() {
 
     handleSelectSong({
       title: extractedName,
-      source: url,
+      source: formattedUrl,
       artist: 'Custom Web Stream',
     });
     setCustomUrlInput('');
