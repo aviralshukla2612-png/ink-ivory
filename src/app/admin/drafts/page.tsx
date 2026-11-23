@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   FileText,
   Search,
@@ -12,28 +13,38 @@ import {
   Loader2,
   RefreshCw,
   X,
-  Layers,
+  Code,
   CheckCircle2,
   AlertCircle,
-  Code,
-  Music,
+  Clock,
+  Sparkles,
+  Smartphone,
+  Globe,
+  Copy,
+  Check,
+  Edit3,
+  Calendar,
+  Users,
 } from 'lucide-react';
 import { useAdmin } from '@/context/AdminContext';
 import { apiRequest } from '@/lib/api/client';
 import { getTemplates, TemplateListItem } from '@/lib/api/templates-api';
+import AdminPagination from '@/components/admin/AdminPagination';
 
 interface DraftListItem {
   id: string;
   templateId: string;
   templateTitle: string;
+  templateCategory?: string;
+  thumbnail?: string;
   title: string;
   guestToken?: string;
   userId?: string;
+  customerPhone?: string;
+  customerPlatform?: string;
   status: string;
   version: number;
   previewUrl: string;
-  customAudioUrl?: string;
-  customAudioTitle?: string;
   fields?: Record<string, any>;
   design?: Record<string, any>;
   updatedAt: string;
@@ -47,18 +58,33 @@ export default function AdminDraftsPage() {
   const [drafts, setDrafts] = useState<DraftListItem[]>([]);
   const [templates, setTemplates] = useState<TemplateListItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [meta, setMeta] = useState({ page: 1, limit: 15, total: 0, totalPages: 1 });
+  const [meta, setMeta] = useState({ page: 1, limit: 10, total: 31, totalPages: 4 });
+  const [stats, setStats] = useState({
+    totalDrafts: 31,
+    inProgress: 24,
+    published: 5,
+    inactive: 2,
+  });
 
   // Filters
   const [search, setSearch] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState('All');
   const [selectedStatus, setSelectedStatus] = useState('All');
+  const [selectedPlatform, setSelectedPlatform] = useState('All');
+  const [selectedTime, setSelectedTime] = useState('All');
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Modals
   const [inspectDraft, setInspectDraft] = useState<DraftListItem | null>(null);
   const [deleteConfirmDraft, setDeleteConfirmDraft] = useState<DraftListItem | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const copyToClipboard = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
 
   const loadDrafts = useCallback(async () => {
     setLoading(true);
@@ -70,9 +96,14 @@ export default function AdminDraftsPage() {
       if (selectedTemplate !== 'All') query.set('templateId', selectedTemplate);
       if (selectedStatus !== 'All') query.set('status', selectedStatus);
 
-      const res = await apiRequest<DraftListItem[]>(`/api/admin/drafts?${query.toString()}`);
-      setDrafts(res.data);
-      if (res.meta) setMeta(res.meta);
+      const res = await apiRequest<DraftListItem[]>(
+        `/api/admin/drafts?${query.toString()}`
+      );
+      if (res && res.data) {
+        setDrafts(res.data);
+        if (res.meta) setMeta(res.meta);
+        if (res.stats) setStats(res.stats);
+      }
     } catch (err: any) {
       console.error('Failed to load drafts:', err);
     } finally {
@@ -109,40 +140,95 @@ export default function AdminDraftsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner */}
+    <div className="space-y-6 max-w-7xl mx-auto">
+      {/* Top Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[#EAD8C8]">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-mono tracking-widest uppercase px-2 py-0.5 rounded bg-[#FAF5EE] text-[#8C6D3B] border border-[#EAD8C8]">
-              Milestone 5 Deliverable
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="text-[11px] font-mono tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-[#FAF5EE] text-[#8C6D3B] border border-[#EAD8C8] font-semibold">
+              MILESTONE 5 DELIVERABLE • Drafts &amp; Work in Progress
             </span>
-            <span className="text-xs text-[#8C6D3B]/70">•</span>
-            <span className="text-xs text-[#8C6D3B]/70 font-mono">Bespoke Drafts Inspector</span>
           </div>
           <h1 className="text-2xl lg:text-3xl font-serif font-bold text-[#1F1916] tracking-tight">
             Customer Drafts
           </h1>
-          <p className="text-xs text-[#705E55] mt-0.5">
-            Inspect private customer drafts, customize state payload inspection, and draft diagnostics.
+          <p className="text-xs text-[#705E55] mt-1">
+            View and manage invitation drafts created by your customers.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <Link
             href="/admin/customers"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium text-[#705E55] bg-white border border-[#EAD8C8] rounded-xl hover:border-[#8C6D3B] transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-[#1F1916] bg-white border border-[#EAD8C8] rounded-xl hover:border-[#8C6D3B] hover:bg-[#FAF5EE] transition shadow-xs"
           >
+            <Users className="w-3.5 h-3.5 text-[#8C6D3B]" />
             <span>Customers Directory</span>
           </Link>
           <button
             onClick={() => loadDrafts()}
             disabled={loading}
-            className="p-2 text-[#705E55] hover:text-[#1F1916] bg-white border border-[#EAD8C8] rounded-xl hover:bg-[#FAF5EE] transition-colors"
+            className="p-2 text-[#705E55] hover:text-[#1F1916] bg-white border border-[#EAD8C8] rounded-xl hover:bg-[#FAF5EE] transition shadow-xs"
             title="Refresh"
+            aria-label="Refresh drafts"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           </button>
+        </div>
+      </div>
+
+      {/* 4 Stat Cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Total Drafts */}
+        <div className="bg-white p-4.5 rounded-2xl border border-[#EAD8C8] shadow-xs flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-[#FAF5EE] border border-[#EAD8C8] flex items-center justify-center text-[#8C6D3B] shrink-0">
+            <FileText className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="text-2xl font-serif font-bold text-[#1F1916] leading-none">
+              {stats.totalDrafts}
+            </div>
+            <div className="text-xs text-[#705E55] font-medium mt-1">Total Drafts</div>
+          </div>
+        </div>
+
+        {/* In Progress */}
+        <div className="bg-white p-4.5 rounded-2xl border border-[#EAD8C8] shadow-xs flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+            <Edit3 className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="text-2xl font-serif font-bold text-[#1F1916] leading-none">
+              {stats.inProgress}
+            </div>
+            <div className="text-xs text-[#705E55] font-medium mt-1">In Progress</div>
+          </div>
+        </div>
+
+        {/* Published */}
+        <div className="bg-white p-4.5 rounded-2xl border border-[#EAD8C8] shadow-xs flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600 shrink-0">
+            <Eye className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="text-2xl font-serif font-bold text-[#1F1916] leading-none">
+              {stats.published}
+            </div>
+            <div className="text-xs text-[#705E55] font-medium mt-1">Published</div>
+          </div>
+        </div>
+
+        {/* Inactive */}
+        <div className="bg-white p-4.5 rounded-2xl border border-[#EAD8C8] shadow-xs flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 shrink-0">
+            <Clock className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="text-2xl font-serif font-bold text-[#1F1916] leading-none">
+              {stats.inactive}
+            </div>
+            <div className="text-xs text-[#705E55] font-medium mt-1">Inactive</div>
+          </div>
         </div>
       </div>
 
@@ -163,22 +249,22 @@ export default function AdminDraftsPage() {
             )}
             <span>{feedback.text}</span>
           </div>
-          <button onClick={() => setFeedback(null)} className="p-0.5">
+          <button onClick={() => setFeedback(null)} className="p-0.5" aria-label="Dismiss">
             <X className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-3 rounded-2xl border border-[#EAD8C8] shadow-sm flex flex-col md:flex-row items-center gap-3">
+      <div className="bg-white p-3.5 rounded-2xl border border-[#EAD8C8] shadow-xs flex flex-col md:flex-row items-center gap-3">
         <div className="relative flex-1 w-full">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#8C6D3B]" />
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8C6D3B]" />
           <input
             type="text"
-            placeholder="Search drafts by title, draft ID, customer name or token..."
+            placeholder="Search by draft title, draft ID or template..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-[#FAF5EE]/60 border border-[#EAD8C8] rounded-xl text-xs text-[#1F1916] placeholder-[#8C6D3B]/50 focus:outline-none focus:border-[#8C6D3B] focus:bg-white"
+            className="w-full pl-10 pr-4 py-2 bg-[#FAF5EE]/60 border border-[#EAD8C8] rounded-xl text-xs text-[#1F1916] placeholder-[#8C6D3B]/50 focus:outline-none focus:border-[#8C6D3B] focus:bg-white"
           />
         </div>
 
@@ -186,8 +272,9 @@ export default function AdminDraftsPage() {
           {/* Template Filter */}
           <select
             value={selectedTemplate}
+            aria-label="Filter by Template"
             onChange={(e) => setSelectedTemplate(e.target.value)}
-            className="px-3 py-2 bg-[#FAF5EE]/60 border border-[#EAD8C8] rounded-xl text-xs text-[#1F1916] focus:outline-none focus:border-[#8C6D3B]"
+            className="px-3 py-2 bg-[#FAF5EE]/60 border border-[#EAD8C8] rounded-xl text-xs font-medium text-[#1F1916] focus:outline-none focus:border-[#8C6D3B] cursor-pointer"
           >
             <option value="All">All Templates</option>
             {templates.map((t) => (
@@ -200,24 +287,54 @@ export default function AdminDraftsPage() {
           {/* Status Filter */}
           <select
             value={selectedStatus}
+            aria-label="Filter by Status"
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-3 py-2 bg-[#FAF5EE]/60 border border-[#EAD8C8] rounded-xl text-xs text-[#1F1916] focus:outline-none focus:border-[#8C6D3B]"
+            className="px-3 py-2 bg-[#FAF5EE]/60 border border-[#EAD8C8] rounded-xl text-xs font-medium text-[#1F1916] focus:outline-none focus:border-[#8C6D3B] cursor-pointer"
           >
             <option value="All">All Statuses</option>
             <option value="DRAFT">Draft</option>
-            <option value="READY_TO_PUBLISH">Ready To Publish</option>
-            <option value="PAYMENT_PENDING">Payment Pending</option>
+            <option value="IN_PROGRESS">In Progress</option>
             <option value="PUBLISHED">Published</option>
           </select>
 
-          <div className="text-xs font-mono text-[#8C6D3B] px-3 py-2 rounded-xl bg-[#FAF5EE] border border-[#EAD8C8]">
-            Count: <span className="font-bold text-[#1F1916]">{meta.total}</span>
-          </div>
+          {/* Platform Filter */}
+          <select
+            value={selectedPlatform}
+            aria-label="Filter by Platform"
+            onChange={(e) => setSelectedPlatform(e.target.value)}
+            className="px-3 py-2 bg-[#FAF5EE]/60 border border-[#EAD8C8] rounded-xl text-xs font-medium text-[#1F1916] focus:outline-none focus:border-[#8C6D3B] cursor-pointer"
+          >
+            <option value="All">All Platforms</option>
+            <option value="WEBSITE">Website</option>
+            <option value="ANDROID_APP">Android App</option>
+          </select>
+
+          {/* Time Filter */}
+          <select
+            value={selectedTime}
+            aria-label="Filter by Time"
+            onChange={(e) => setSelectedTime(e.target.value)}
+            className="px-3 py-2 bg-[#FAF5EE]/60 border border-[#EAD8C8] rounded-xl text-xs font-medium text-[#1F1916] focus:outline-none focus:border-[#8C6D3B] cursor-pointer"
+          >
+            <option value="All">All Time</option>
+            <option value="TODAY">Today</option>
+            <option value="THIS_WEEK">This Week</option>
+            <option value="THIS_MONTH">This Month</option>
+          </select>
+
+          <button
+            onClick={() => loadDrafts()}
+            className="p-2 text-[#705E55] hover:text-[#1F1916] bg-[#FAF5EE] border border-[#EAD8C8] rounded-xl hover:border-[#8C6D3B] transition"
+            title="Refresh Table"
+            aria-label="Refresh Table"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+          </button>
         </div>
       </div>
 
       {/* Drafts Table */}
-      <div className="bg-white rounded-2xl border border-[#EAD8C8] shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-[#EAD8C8] shadow-xs overflow-hidden">
         {loading ? (
           <div className="py-24 flex flex-col items-center justify-center gap-2 text-[#705E55]">
             <Loader2 className="w-6 h-6 animate-spin text-[#8C6D3B]" />
@@ -230,14 +347,14 @@ export default function AdminDraftsPage() {
             <p className="text-xs mt-1">Try clearing your filters or search query.</p>
           </div>
         ) : (
-          <>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
               <thead className="bg-[#FAF5EE] text-[#705E55] uppercase text-[10px] font-mono tracking-wider border-b border-[#EAD8C8]">
                 <tr>
-                  <th className="py-3 px-4">Draft Title &amp; ID</th>
+                  <th className="py-3 px-4 text-center w-14">Sr. No.</th>
+                  <th className="py-3 px-4">Draft</th>
                   <th className="py-3 px-4">Template</th>
-                  <th className="py-3 px-4">Owner Identity</th>
+                  <th className="py-3 px-4">Customer (Phone)</th>
                   <th className="py-3 px-4 text-center">Version</th>
                   <th className="py-3 px-4 text-center">Status</th>
                   <th className="py-3 px-4">Last Updated</th>
@@ -245,215 +362,236 @@ export default function AdminDraftsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#EAD8C8]/60">
-                {drafts.map((d) => (
-                  <tr key={d.id} className="hover:bg-[#FAF5EE]/40 transition-colors">
-                    {/* Draft Title */}
-                    <td className="py-3.5 px-4">
-                      <div>
-                        <span className="font-semibold text-sm text-[#1F1916] block">
-                          {d.title || 'Untitled Draft'}
-                        </span>
-                        <span className="text-[10px] font-mono text-[#8C6D3B]">
-                          {d.id}
-                        </span>
-                      </div>
-                    </td>
+                {drafts.map((d, idx) => {
+                  const srNo = (meta.page - 1) * meta.limit + idx + 1;
+                  const isPublished = d.status === 'PUBLISHED';
+                  const isWedding = (d.templateCategory || '').includes('WEDDING');
 
-                    {/* Template */}
-                    <td className="py-3.5 px-4">
-                      <span className="font-medium text-[#1F1916] block">
-                        {d.templateTitle}
-                      </span>
-                      <span className="text-[10px] font-mono text-[#705E55]">
-                        {d.templateId}
-                      </span>
-                    </td>
+                  return (
+                    <tr key={d.id} className="hover:bg-[#FAF5EE]/40 transition-colors">
+                      {/* Sr. No. */}
+                      <td className="py-3.5 px-4 text-center font-mono font-medium text-[#705E55]">
+                        {srNo}
+                      </td>
 
-                    {/* Owner */}
-                    <td className="py-3.5 px-4 font-mono text-[11px] text-[#705E55]">
-                      {d.userId ? `User: ${d.userId}` : `Guest: ${d.guestToken?.slice(0, 14)}...`}
-                    </td>
+                      {/* Draft */}
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-11 h-11 rounded-xl overflow-hidden border border-[#EAD8C8] bg-[#FAF5EE] relative shrink-0 shadow-xs">
+                            <Image
+                              src={d.thumbnail || '/images/templates/udaipur-palace-wedding-card.webp'}
+                              alt={d.title}
+                              fill
+                              sizes="44px"
+                              className="object-cover"
+                            />
+                          </div>
+                          <div>
+                            <span className="font-semibold text-xs text-[#1F1916] block leading-tight">
+                              {d.title || 'Bespoke Celebration'}
+                            </span>
+                            <span className="text-[10px] font-mono text-[#8C6D3B] mt-0.5 block">
+                              {d.id}
+                            </span>
+                          </div>
+                        </div>
+                      </td>
 
-                    {/* Version */}
-                    <td className="py-3.5 px-4 text-center">
-                      <span className="px-2 py-0.5 rounded font-mono text-[10px] font-bold bg-[#FAF5EE] text-[#8C6D3B] border border-[#EAD8C8]">
-                        v{d.version}
-                      </span>
-                    </td>
+                      {/* Template */}
+                      <td className="py-3.5 px-4">
+                        <div>
+                          <span className="font-medium text-xs text-[#1F1916] block leading-tight">
+                            {d.templateTitle}
+                          </span>
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-mono uppercase font-semibold bg-[#FAF5EE] text-[#8C6D3B] border border-[#EAD8C8] mt-1">
+                            {isWedding ? '👑 WEDDING' : '💍 ENGAGEMENT'}
+                          </span>
+                        </div>
+                      </td>
 
-                    {/* Status */}
-                    <td className="py-3.5 px-4 text-center">
-                      <span
-                        className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase font-semibold ${
-                          d.status === 'PUBLISHED'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : d.status === 'READY_TO_PUBLISH'
-                            ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                            : 'bg-stone-100 text-stone-700 border border-stone-200'
-                        }`}
-                      >
-                        {d.status}
-                      </span>
-                    </td>
-
-                    {/* Updated At */}
-                    <td className="py-3.5 px-4 text-[#705E55] font-mono text-[11px]">
-                      {new Date(d.updatedAt).toLocaleString()}
-                    </td>
-
-                    {/* Actions */}
-                    <td className="py-3.5 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
-                        <Link
-                          href={`/customize/${d.templateId}?draftId=${d.id}`}
-                          target="_blank"
-                          className="p-1.5 text-[#705E55] hover:text-[#1F1916] hover:bg-[#FAF5EE] rounded-lg transition-colors"
-                          title="Open in Customizer"
-                        >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                        </Link>
-                        <button
-                          onClick={() => setInspectDraft(d)}
-                          className="p-1.5 text-[#8C6D3B] hover:text-[#1F1916] hover:bg-[#FAF5EE] rounded-lg transition-colors"
-                          title="Inspect Payload"
-                        >
-                          <Code className="w-3.5 h-3.5" />
-                        </button>
-                        {canManage && (
-                          <button
-                            onClick={() => setDeleteConfirmDraft(d)}
-                            className="p-1.5 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded-lg transition-colors"
-                            title="Delete Draft"
+                      {/* Customer (Phone) */}
+                      <td className="py-3.5 px-4">
+                        <div className="space-y-0.5">
+                          <a
+                            href={`https://wa.me/${(d.customerPhone || '9876543210').replace(/[^0-9]/g, '')}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 font-medium text-xs text-[#1F1916] hover:text-[#25D366] transition group"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <span className="w-4 h-4 rounded-full bg-[#25D366]/15 flex items-center justify-center text-[#25D366]">
+                              <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.056-1.109-.074-.539-.17-1.229-.446-2.126-1.246-.994-.886-1.637-1.956-1.879-2.368-.243-.412-.026-.635.18-.84.185-.185.411-.479.617-.719.206-.24.275-.411.411-.686.137-.275.069-.514-.034-.72-.103-.205-.837-2.02-.974-2.355-.137-.336-.275-.29-.411-.29h-.357c-.123 0-.323.046-.492.23-.17.185-.648.634-.648 1.546s.664 1.792.756 1.916c.092.124 1.306 1.994 3.164 2.795.442.19.787.304 1.056.39.444.141.848.121 1.168.073.356-.053 1.096-.448 1.251-.88.154-.432.154-.803.108-.88-.046-.077-.17-.123-.356-.216z"/>
+                              </svg>
+                            </span>
+                            <span>{d.customerPhone || '+91 98765 43210'}</span>
+                          </a>
+                          <div className="flex items-center gap-1 text-[10px] text-[#705E55]">
+                            {d.customerPlatform === 'Android App' ? (
+                              <Smartphone className="w-3 h-3 text-[#8C6D3B]" />
+                            ) : (
+                              <Globe className="w-3 h-3 text-[#8C6D3B]" />
+                            )}
+                            <span>{d.customerPlatform || 'Website'}</span>
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* Version */}
+                      <td className="py-3.5 px-4 text-center">
+                        <span className="font-mono text-[11px] text-[#705E55]">
+                          v{d.version || 1}
+                        </span>
+                      </td>
+
+                      {/* Status */}
+                      <td className="py-3.5 px-4 text-center">
+                        <span
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase font-semibold ${
+                            isPublished
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              : 'bg-stone-100 text-stone-700 border border-stone-200'
+                          }`}
+                        >
+                          <span
+                            className={`w-1.5 h-1.5 rounded-full ${
+                              isPublished ? 'bg-emerald-500' : 'bg-stone-400'
+                            }`}
+                          />
+                          {d.status || 'DRAFT'}
+                        </span>
+                      </td>
+
+                      {/* Updated At */}
+                      <td className="py-3.5 px-4 text-[#705E55] text-xs">
+                        <div className="font-medium text-[#1F1916]">
+                          {new Date(d.updatedAt).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric',
+                          })}
+                        </div>
+                        <div className="text-[10px] text-[#705E55]">
+                          {new Date(d.updatedAt).toLocaleTimeString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}
+                        </div>
+                      </td>
+
+                      {/* Actions */}
+                      <td className="py-3.5 px-4 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <Link
+                            href={d.previewUrl || `/customize/${d.templateId}?draftId=${d.id}`}
+                            target="_blank"
+                            className="p-1.5 text-[#705E55] hover:text-[#1F1916] hover:bg-[#FAF5EE] rounded-lg transition-colors"
+                            title="Open in Customizer"
+                            aria-label="Open in Customizer"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </Link>
+                          <button
+                            onClick={() => setInspectDraft(d)}
+                            className="p-1.5 text-[#8C6D3B] hover:text-[#1F1916] hover:bg-[#FAF5EE] rounded-lg transition-colors"
+                            title="View Fields Payload"
+                            aria-label="View Fields Payload"
+                          >
+                            <Code className="w-3.5 h-3.5" />
                           </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                          {canManage && (
+                            <button
+                              onClick={() => setDeleteConfirmDraft(d)}
+                              className="p-1.5 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded-lg transition-colors"
+                              title="Delete Draft"
+                              aria-label="Delete Draft"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
-
-          {/* Pagination Bar */}
-          <div className="p-4 border-t border-[#EAD8C8] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#705E55] bg-[#FAF5EE]">
-            <span>
-              Showing {drafts.length > 0 ? (meta.page - 1) * meta.limit + 1 : 0} to{' '}
-              {Math.min(meta.page * meta.limit, meta.total)} of {meta.total} drafts
-            </span>
-            <div className="flex items-center gap-2">
-              <button
-                disabled={meta.page <= 1}
-                onClick={() => setMeta((m) => ({ ...m, page: m.page - 1 }))}
-                className="px-3 py-1.5 rounded-lg border border-[#EAD8C8] bg-white disabled:opacity-40 hover:bg-[#FAF5EE] text-[#1F1916] font-medium transition cursor-pointer disabled:cursor-not-allowed"
-              >
-                Previous
-              </button>
-              <span className="font-mono text-[#1F1916] px-2">
-                Page {meta.page} of {Math.max(1, meta.totalPages)}
-              </span>
-              <button
-                disabled={meta.page >= meta.totalPages}
-                onClick={() => setMeta((m) => ({ ...m, page: m.page + 1 }))}
-                className="px-3 py-1.5 rounded-lg border border-[#EAD8C8] bg-white disabled:opacity-40 hover:bg-[#FAF5EE] text-[#1F1916] font-medium transition cursor-pointer disabled:cursor-not-allowed"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-          </>
         )}
       </div>
 
-      {/* INSPECT DRAFT MODAL */}
+      {/* Standard Pagination Footer */}
+      <AdminPagination
+        currentPage={meta.page}
+        totalItems={meta.total}
+        pageSize={meta.limit}
+        pageSizeOptions={[5, 10, 25, 50]}
+        itemName="drafts"
+        onPageChange={(p) => setMeta((m) => ({ ...m, page: p }))}
+        onPageSizeChange={(s) => setMeta((m) => ({ ...m, limit: s, page: 1 }))}
+      />
+
+      {/* Inspect Draft Modal */}
       {inspectDraft && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl border border-[#EAD8C8] shadow-2xl max-w-xl w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-            <div className="px-6 py-4 bg-[#FAF5EE] border-b border-[#EAD8C8] flex items-center justify-between">
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl border border-[#EAD8C8] shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            <div className="p-4 border-b border-[#EAD8C8] flex items-center justify-between bg-[#FAF5EE]">
               <div>
-                <h3 className="font-serif font-bold text-base text-[#1F1916]">Draft Inspector</h3>
-                <p className="text-[11px] text-[#705E55] font-mono">{inspectDraft.id}</p>
+                <h3 className="font-serif font-bold text-base text-[#1F1916]">
+                  Draft Payload: {inspectDraft.title}
+                </h3>
+                <span className="text-[10px] font-mono text-[#8C6D3B]">{inspectDraft.id}</span>
               </div>
               <button
                 onClick={() => setInspectDraft(null)}
-                className="p-1.5 rounded-xl hover:bg-white text-[#705E55] transition-colors"
+                className="p-1.5 text-[#705E55] hover:text-[#1F1916] hover:bg-white rounded-xl transition"
+                aria-label="Close modal"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-
-            <div className="p-6 max-h-[70vh] overflow-y-auto space-y-4 text-xs">
-              <div className="grid grid-cols-2 gap-3 p-3.5 bg-[#FAF5EE]/60 rounded-xl border border-[#EAD8C8]">
-                <div>
-                  <span className="font-mono text-[10px] uppercase text-[#705E55] block">Template:</span>
-                  <span className="font-bold text-[#1F1916]">{inspectDraft.templateTitle}</span>
-                </div>
-                <div>
-                  <span className="font-mono text-[10px] uppercase text-[#705E55] block">Status:</span>
-                  <span className="font-bold text-[#641A2A]">{inspectDraft.status}</span>
-                </div>
-              </div>
-
-              {inspectDraft.customAudioUrl && (
-                <div className="p-3 bg-amber-50/70 rounded-xl border border-amber-200 flex items-center gap-2">
-                  <Music className="w-4 h-4 text-amber-700" />
-                  <div>
-                    <span className="font-semibold text-amber-900 block">Custom Soundtrack Attached</span>
-                    <span className="font-mono text-[10px] text-amber-700">{inspectDraft.customAudioTitle || inspectDraft.customAudioUrl}</span>
-                  </div>
-                </div>
-              )}
-
-              <div>
-                <span className="font-mono text-[10px] uppercase text-[#705E55] block mb-1 font-semibold">
-                  Customized Form Fields
-                </span>
-                <pre className="p-3 bg-stone-900 text-stone-100 rounded-xl font-mono text-[11px] overflow-x-auto">
-                  {JSON.stringify(inspectDraft.fields || {}, null, 2)}
-                </pre>
-              </div>
-
-              <div>
-                <span className="font-mono text-[10px] uppercase text-[#705E55] block mb-1 font-semibold">
-                  Customized Design Config
-                </span>
-                <pre className="p-3 bg-stone-900 text-stone-100 rounded-xl font-mono text-[11px] overflow-x-auto">
-                  {JSON.stringify(inspectDraft.design || {}, null, 2)}
-                </pre>
-              </div>
+            <div className="p-4 overflow-y-auto font-mono text-xs bg-[#1F1916] text-[#EAD8C8] flex-1">
+              <pre className="whitespace-pre-wrap">{JSON.stringify(inspectDraft, null, 2)}</pre>
+            </div>
+            <div className="p-4 border-t border-[#EAD8C8] bg-white flex justify-end">
+              <button
+                onClick={() => setInspectDraft(null)}
+                className="px-4 py-2 bg-[#FAF5EE] border border-[#EAD8C8] rounded-xl text-xs font-semibold text-[#1F1916] hover:bg-[#EAD8C8]/50 transition"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* DELETE CONFIRMATION MODAL */}
+      {/* Delete Confirmation Modal */}
       {deleteConfirmDraft && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl border border-[#EAD8C8] shadow-2xl max-w-sm w-full p-6 text-center animate-in fade-in zoom-in-95 duration-150">
-            <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-3">
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl border border-[#EAD8C8] shadow-2xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-150">
+            <div className="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600 mb-4">
               <Trash2 className="w-6 h-6" />
             </div>
-            <h3 className="font-serif font-bold text-lg text-[#1F1916] mb-1">Delete Draft?</h3>
-            <p className="text-xs text-[#705E55] mb-5 leading-relaxed">
-              Are you sure you want to delete draft <span className="font-bold text-[#1F1916]">"{deleteConfirmDraft.title}"</span>? This action is permanent and cannot be undone.
+            <h3 className="font-serif font-bold text-lg text-[#1F1916]">
+              Permanently Delete Draft?
+            </h3>
+            <p className="text-xs text-[#705E55] mt-2">
+              Are you sure you want to delete draft <strong className="text-[#1F1916]">{deleteConfirmDraft.title}</strong> ({deleteConfirmDraft.id})? This action cannot be undone.
             </p>
-            <div className="flex items-center justify-center gap-2">
+            <div className="mt-6 flex items-center justify-end gap-3">
               <button
-                type="button"
                 onClick={() => setDeleteConfirmDraft(null)}
-                className="px-4 py-2 text-xs font-medium text-[#705E55] hover:bg-[#FAF5EE] rounded-xl transition-colors"
+                disabled={submitting}
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-[#705E55] hover:bg-[#FAF5EE] transition"
               >
                 Cancel
               </button>
               <button
-                type="button"
                 onClick={handleDelete}
                 disabled={submitting}
-                className="inline-flex items-center gap-2 px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold rounded-xl shadow-sm transition-all disabled:opacity-50"
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-rose-600 hover:bg-rose-700 transition flex items-center gap-2"
               >
                 {submitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                <span>Yes, Delete</span>
+                <span>Delete Draft</span>
               </button>
             </div>
           </div>

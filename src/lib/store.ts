@@ -1191,6 +1191,11 @@ class StoreService {
     return this.data!.drafts;
   }
 
+  async getAllUsers(): Promise<UserRecord[]> {
+    this.init();
+    return this.data!.users || [];
+  }
+
   // --- Customer Aggregation & Management ---
   async listCustomers(params: {
     page?: number;
