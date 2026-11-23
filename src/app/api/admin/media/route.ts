@@ -35,3 +35,44 @@ export async function GET(request: NextRequest) {
     },
   });
 }
+
+export async function POST(request: NextRequest) {
+  const rl = checkRateLimit(request, "adminApi");
+  if (!rl.success) return createRateLimitResponse(rl);
+
+  const auth = requirePermission(request, "MEDIA_MANAGE");
+  if (!auth.authorized) {
+    return NextResponse.json(
+      { success: false, error: { code: "UNAUTHORIZED", message: auth.error } },
+      { status: auth.status }
+    );
+  }
+
+  try {
+    const body = await request.json();
+    const { name, url, type = "IMAGE" } = body;
+
+    if (!url) {
+      return NextResponse.json(
+        { success: false, error: { code: "BAD_REQUEST", message: "URL is required" } },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        id: `med_${Date.now()}`,
+        name: name || "New Media Asset",
+        url,
+        type,
+        createdAt: new Date().toISOString(),
+      },
+    });
+  } catch (err: any) {
+    return NextResponse.json(
+      { success: false, error: { code: "ERROR", message: err.message || "Failed to add media" } },
+      { status: 500 }
+    );
+  }
+}

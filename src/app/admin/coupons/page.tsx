@@ -163,7 +163,7 @@ export default function AdminCouponsPage() {
 
         <div className="flex items-center gap-2.5">
           <button
-            onClick={() => {}}
+            onClick={() => { }}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-[#1F1916] bg-white border border-[#EAD8C8] rounded-xl hover:bg-[#FAF5EE] transition shadow-xs"
           >
             <Download className="w-3.5 h-3.5 text-[#8C6D3B]" />
@@ -252,11 +252,10 @@ export default function AdminCouponsPage() {
       {/* Toast Feedback */}
       {toast && (
         <div
-          className={`flex items-center justify-between p-3.5 rounded-xl border text-xs font-medium ${
-            toast.type === 'success'
+          className={`flex items-center justify-between p-3.5 rounded-xl border text-xs font-medium ${toast.type === 'success'
               ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
               : 'bg-rose-50 border-rose-200 text-rose-800'
-          }`}
+            }`}
         >
           <div className="flex items-center gap-2">
             {toast.type === 'success' ? (
@@ -434,16 +433,14 @@ export default function AdminCouponsPage() {
                       {/* Status */}
                       <td className="py-3.5 px-4 text-center">
                         <span
-                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase font-semibold ${
-                            c.isActive
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase font-semibold ${c.isActive
                               ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                               : 'bg-rose-50 text-rose-700 border border-rose-200'
-                          }`}
+                            }`}
                         >
                           <span
-                            className={`w-1.5 h-1.5 rounded-full ${
-                              c.isActive ? 'bg-emerald-500' : 'bg-rose-500'
-                            }`}
+                            className={`w-1.5 h-1.5 rounded-full ${c.isActive ? 'bg-emerald-500' : 'bg-rose-500'
+                              }`}
                           />
                           {c.isActive ? 'ACTIVE' : 'EXPIRED'}
                         </span>
@@ -469,7 +466,7 @@ export default function AdminCouponsPage() {
                       <td className="py-3.5 px-4 text-right">
                         <div className="flex items-center justify-end gap-1.5">
                           <button
-                            onClick={() => {}}
+                            onClick={() => { }}
                             className="p-1.5 text-[#8C6D3B] hover:text-[#1F1916] hover:bg-[#FAF5EE] rounded-lg transition-colors"
                             title="Edit Coupon"
                             aria-label="Edit Coupon"
@@ -478,7 +475,7 @@ export default function AdminCouponsPage() {
                           </button>
                           {canManage && (
                             <button
-                              onClick={() => {}}
+                              onClick={() => { }}
                               className="p-1.5 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded-lg transition-colors"
                               title="Delete Coupon"
                               aria-label="Delete Coupon"
