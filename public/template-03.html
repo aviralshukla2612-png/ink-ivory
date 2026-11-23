@@ -886,7 +886,14 @@ document.addEventListener('touchstart', unlockAudioOnce, { once: true });
 /* ===== GATE OPENING LOGIC ===== */
 const gate = $("gate");
 function openGate(skip) {
-  if (gate.classList.contains("open")) return;
+  if (gate.classList.contains("gone")) return;
+  if (skip === true || gate.classList.contains("open")) {
+    gate.classList.add("open", "gone");
+    document.body.classList.remove("lock");
+    document.body.classList.add("ready");
+    if (isAutoPlaying) startAutoScroll();
+    return;
+  }
   gate.classList.add("open");
   try { startMusic(); } catch(e) {}
   setTimeout(() => {
@@ -894,7 +901,7 @@ function openGate(skip) {
     document.body.classList.remove("lock");
     document.body.classList.add("ready");
     if (isAutoPlaying) startAutoScroll();
-  }, skip === true ? 100 : 1300);
+  }, 750);
 }
 
 $("btnEnter").onclick = e => { e.stopPropagation(); openGate(); };
