@@ -337,6 +337,7 @@ export default function CustomizePage() {
   const [photoUploadSuccess, setPhotoUploadSuccess] = useState<string | null>(null);
   const [customPhotoUrlInput, setCustomPhotoUrlInput] = useState('');
   const [saveBannerMessage, setSaveBannerMessage] = useState<string | null>(null);
+  const [genericUploadProgress, setGenericUploadProgress] = useState<Record<string, boolean>>({});
 
   const getEffectivePhoto = () => {
     if (fields.photoUrl) return fields.photoUrl;
@@ -395,6 +396,49 @@ export default function CustomizePage() {
     setPhotoUploadSuccess(`✓ Photo URL applied!`);
     setTimeout(() => setPhotoUploadSuccess(null), 4000);
     setCustomPhotoUrlInput('');
+  };
+
+  const handleGenericImageUpload = async (fieldKey: string, file: File, eventIndex?: number) => {
+    if (!file) return;
+    const progressKey = eventIndex !== undefined ? `event_${eventIndex}` : fieldKey;
+    setGenericUploadProgress((prev) => ({ ...prev, [progressKey]: true }));
+
+    // Instant local preview
+    const localUrl = URL.createObjectURL(file);
+    if (eventIndex !== undefined) {
+      handleEventChange(eventIndex, 'photo', localUrl);
+      handleFieldChange(`evPhoto${eventIndex + 1}` as any, localUrl);
+    } else {
+      handleFieldChange(fieldKey as any, localUrl);
+    }
+
+    try {
+      setPhotoUploadSuccess(`Uploading "${file.name}"...`);
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch('/api/upload/image', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to upload image');
+      }
+      if (eventIndex !== undefined) {
+        handleEventChange(eventIndex, 'photo', data.url);
+        handleFieldChange(`evPhoto${eventIndex + 1}` as any, data.url);
+      } else {
+        handleFieldChange(fieldKey as any, data.url);
+      }
+      setPhotoUploadSuccess(`✓ Photo updated successfully!`);
+      setTimeout(() => setPhotoUploadSuccess(null), 4000);
+    } catch (err: any) {
+      console.error('Image upload error:', err);
+      setPhotoUploadError(err.message || 'Upload failed');
+      setTimeout(() => setPhotoUploadError(null), 4000);
+    } finally {
+      setGenericUploadProgress((prev) => ({ ...prev, [progressKey]: false }));
+    }
   };
 
   const handleManualSave = async () => {
@@ -583,7 +627,13 @@ export default function CustomizePage() {
       audio.currentTime = startSec;
       audio.ontimeupdate = () => {
         if (audioPreviewRef.current) {
-          setAudioCurrentTime(audioPreviewRef.current.currentTime);
+          const curTime = audioPreviewRef.current.currentTime;
+          setAudioCurrentTime(curTime);
+          const clipDur = Number(fields.audioClipDuration) || 0;
+          const start = Number(fields.audioStartTime) || 0;
+          if (clipDur > 0 && curTime >= start + clipDur) {
+            audioPreviewRef.current.currentTime = start;
+          }
         }
       };
       audio.onloadedmetadata = () => {
@@ -878,9 +928,26 @@ export default function CustomizePage() {
       if (fields.tamilBlessing) params.set('tamilBlessing', fields.tamilBlessing);
       if (fields.tamilTagline) params.set('tamilTagline', fields.tamilTagline);
       if (fields.closingBlessing) params.set('closingBlessing', fields.closingBlessing);
-      if (fields.photoUrl) params.set('photoUrl', fields.photoUrl);
+      params.set('photoUrl', getEffectivePhoto());
+      if (fields.photoPositionX !== undefined) params.set('photoPositionX', String(fields.photoPositionX));
+      if (fields.photoPositionY !== undefined) params.set('photoPositionY', String(fields.photoPositionY));
+      if (fields.photoScale !== undefined) params.set('photoScale', String(fields.photoScale));
+      if (fields.photoFit) params.set('photoFit', fields.photoFit);
+      if (fields.ringsPhoto) params.set('ringsPhoto', fields.ringsPhoto);
+      if (fields.venuePhoto) params.set('venuePhoto', fields.venuePhoto);
+      if (fields.endPhoto) params.set('endPhoto', fields.endPhoto);
       if (fields.audioSource) params.set('audioSource', fields.audioSource);
-      if (fields.audioStartTime) params.set('audioStart', String(fields.audioStartTime));
+      if (fields.audioStartTime !== undefined) params.set('audioStart', String(fields.audioStartTime));
+      if (fields.audioClipDuration !== undefined) params.set('audioDuration', String(fields.audioClipDuration));
+      for (let i = 1; i <= 5; i++) {
+        if (fields[`storyImg${i}`]) params.set(`storyImg${i}`, fields[`storyImg${i}`]);
+        if (fields[`storyTitle${i}`]) params.set(`storyTitle${i}`, fields[`storyTitle${i}`]);
+        if (fields[`storySub${i}`]) params.set(`storySub${i}`, fields[`storySub${i}`]);
+        if (fields[`storyDesc${i}`]) params.set(`storyDesc${i}`, fields[`storyDesc${i}`]);
+      }
+      for (let i = 1; i <= 4; i++) {
+        if (fields[`evPhoto${i}`]) params.set(`evPhoto${i}`, fields[`evPhoto${i}`]);
+      }
       return `/template-05.html?${params.toString()}`;
     }
 
@@ -2033,6 +2100,124 @@ export default function CustomizePage() {
                     />
                   </div>
 
+                  {/* Ceremony & Key Feature Photos */}
+                  <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-[#8F6E3B] uppercase tracking-wider">
+                      <Camera className="w-3.5 h-3.5 text-[#A77B35]" />
+                      <span>Ceremony &amp; Feature Photos (Replaceable)</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      {/* Rings Photo */}
+                      <div className="p-2.5 bg-[#FAF7F0] border border-[#DFCEAF] rounded-xl space-y-2">
+                        <span className="text-[11px] font-bold text-[#49341F] block">Ring Ceremony</span>
+                        <div className="w-full h-24 rounded-lg overflow-hidden border border-[#DFCEAF] bg-[#EFE7D5]/40 relative">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={fields.ringsPhoto || '/images/templates/traditional-south-indian/rings.jpg'}
+                            alt="Ring Ceremony"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <label className="cursor-pointer text-xs font-semibold px-2 py-1.5 bg-[#A77B35] hover:bg-[#8F6E3B] text-white rounded-lg flex items-center justify-center gap-1 transition-all">
+                          {genericUploadProgress['ringsPhoto'] ? (
+                            <>
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              <span>Uploading...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Upload className="w-3.5 h-3.5" />
+                              <span>Replace Photo</span>
+                            </>
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            disabled={genericUploadProgress['ringsPhoto']}
+                            onChange={(e) => {
+                              const f = e.target.files?.[0];
+                              if (f) handleGenericImageUpload('ringsPhoto', f);
+                            }}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+
+                      {/* Mandapam / Venue Photo */}
+                      <div className="p-2.5 bg-[#FAF7F0] border border-[#DFCEAF] rounded-xl space-y-2">
+                        <span className="text-[11px] font-bold text-[#49341F] block">Kalyana Mandapam</span>
+                        <div className="w-full h-24 rounded-lg overflow-hidden border border-[#DFCEAF] bg-[#EFE7D5]/40 relative">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={fields.venuePhoto || '/images/templates/traditional-south-indian/venue.jpg'}
+                            alt="Mandapam Venue"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <label className="cursor-pointer text-xs font-semibold px-2 py-1.5 bg-[#A77B35] hover:bg-[#8F6E3B] text-white rounded-lg flex items-center justify-center gap-1 transition-all">
+                          {genericUploadProgress['venuePhoto'] ? (
+                            <>
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              <span>Uploading...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Upload className="w-3.5 h-3.5" />
+                              <span>Replace Photo</span>
+                            </>
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            disabled={genericUploadProgress['venuePhoto']}
+                            onChange={(e) => {
+                              const f = e.target.files?.[0];
+                              if (f) handleGenericImageUpload('venuePhoto', f);
+                            }}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+
+                      {/* Closing Photo */}
+                      <div className="p-2.5 bg-[#FAF7F0] border border-[#DFCEAF] rounded-xl space-y-2">
+                        <span className="text-[11px] font-bold text-[#49341F] block">Farewell &amp; Blessing</span>
+                        <div className="w-full h-24 rounded-lg overflow-hidden border border-[#DFCEAF] bg-[#EFE7D5]/40 relative">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={fields.endPhoto || '/images/templates/traditional-south-indian/end.jpg'}
+                            alt="Closing Ceremony"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <label className="cursor-pointer text-xs font-semibold px-2 py-1.5 bg-[#A77B35] hover:bg-[#8F6E3B] text-white rounded-lg flex items-center justify-center gap-1 transition-all">
+                          {genericUploadProgress['endPhoto'] ? (
+                            <>
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              <span>Uploading...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Upload className="w-3.5 h-3.5" />
+                              <span>Replace Photo</span>
+                            </>
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            disabled={genericUploadProgress['endPhoto']}
+                            onChange={(e) => {
+                              const f = e.target.files?.[0];
+                              if (f) handleGenericImageUpload('endPhoto', f);
+                            }}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Celebrations Schedule */}
                   <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
                     <div className="flex items-center justify-between">
@@ -2047,47 +2232,192 @@ export default function CustomizePage() {
                         { name: 'Mapillai Azhaippu', icon: 'mehendi', date: '25 January 2027', time: '6:00 PM', venue: 'AVM Rajeswari Kalyana Mandapam', description: 'The groom is welcomed with warmth and aarti, as both families come together to begin the celebrations.' },
                         { name: 'Muhurtham', icon: 'wedding', date: '26 January 2027', time: '9:00 AM', venue: 'AVM Rajeswari Kalyana Mandapam', description: 'The sacred moment: the thaali, the saptapadi and the blessings of everyone we hold dear.' },
                         { name: 'Reception', icon: 'reception', date: '26 January 2027', time: '7:00 PM', venue: 'AVM Rajeswari Kalyana Mandapam', description: 'An evening of warm wishes, happy conversations, photographs and celebration with everyone we love.' },
-                      ]).map((ev: any, idx: number) => (
-                        <div key={idx} className="p-3 bg-[#FAF7F0] border border-[#DFCEAF] rounded-xl space-y-2">
-                          <input
-                            type="text"
-                            value={ev.name || ''}
-                            onChange={(e) => handleEventChange(idx, 'name', e.target.value)}
-                            placeholder="Event Title"
-                            className="w-full px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                          />
-                          <div className="grid grid-cols-2 gap-2">
+                      ]).map((ev: any, idx: number) => {
+                        const defaultImg = `/images/templates/traditional-south-indian/ev${idx + 1}.jpg`;
+                        const currentImg = ev.photo || fields[`evPhoto${idx + 1}`] || defaultImg;
+                        const isUploadingThisEvent = !!genericUploadProgress[`event_${idx}`];
+
+                        return (
+                          <div key={idx} className="p-3 bg-[#FAF7F0] border border-[#DFCEAF] rounded-xl space-y-2.5">
+                            <div className="flex items-center gap-3">
+                              <div className="w-16 h-16 rounded-lg overflow-hidden border border-[#DFCEAF] bg-[#EFE7D5]/40 flex-shrink-0 relative">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={currentImg}
+                                  alt={ev.name || `Event ${idx + 1}`}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <label className="cursor-pointer inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 bg-[#A77B35] hover:bg-[#8F6E3B] text-white rounded-lg transition-all shadow-xs">
+                                  {isUploadingThisEvent ? (
+                                    <>
+                                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                      <span>Uploading...</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Camera className="w-3.5 h-3.5" />
+                                      <span>Replace {ev.name || `Event ${idx + 1}`} Photo</span>
+                                    </>
+                                  )}
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    disabled={isUploadingThisEvent}
+                                    onChange={(e) => {
+                                      const f = e.target.files?.[0];
+                                      if (f) handleGenericImageUpload(`evPhoto${idx + 1}`, f, idx);
+                                    }}
+                                    className="hidden"
+                                  />
+                                </label>
+                                <p className="text-[10px] text-[#7A634E] mt-1">Replace card illustration with your own celebration photo</p>
+                              </div>
+                            </div>
+
                             <input
                               type="text"
-                              value={ev.date || ''}
-                              onChange={(e) => handleEventChange(idx, 'date', e.target.value)}
-                              placeholder="Date"
+                              value={ev.name || ''}
+                              onChange={(e) => handleEventChange(idx, 'name', e.target.value)}
+                              placeholder="Event Title"
+                              className="w-full px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                            />
+                            <div className="grid grid-cols-2 gap-2">
+                              <input
+                                type="text"
+                                value={ev.date || ''}
+                                onChange={(e) => handleEventChange(idx, 'date', e.target.value)}
+                                placeholder="Date"
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                              />
+                              <input
+                                type="text"
+                                value={ev.time || ''}
+                                onChange={(e) => handleEventChange(idx, 'time', e.target.value)}
+                                placeholder="Time"
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                              />
+                            </div>
+                            <input
+                              type="text"
+                              value={ev.venue || ''}
+                              onChange={(e) => handleEventChange(idx, 'venue', e.target.value)}
+                              placeholder="Venue"
                               className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                             />
-                            <input
-                              type="text"
-                              value={ev.time || ''}
-                              onChange={(e) => handleEventChange(idx, 'time', e.target.value)}
-                              placeholder="Time"
+                            <textarea
+                              rows={2}
+                              value={ev.description || ''}
+                              onChange={(e) => handleEventChange(idx, 'description', e.target.value)}
+                              placeholder="Event Description..."
                               className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
                             />
                           </div>
-                          <input
-                            type="text"
-                            value={ev.venue || ''}
-                            onChange={(e) => handleEventChange(idx, 'venue', e.target.value)}
-                            placeholder="Venue"
-                            className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                          />
-                          <textarea
-                            rows={2}
-                            value={ev.description || ''}
-                            onChange={(e) => handleEventChange(idx, 'description', e.target.value)}
-                            placeholder="Event Description..."
-                            className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
-                          />
-                        </div>
-                      ))}
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Our Love Story (5 Milestones) */}
+                  <div className="pt-3 border-t border-[#EFE7D5] space-y-3">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-[#8F6E3B] uppercase tracking-wider">
+                      <Heart className="w-3.5 h-3.5 text-[#A77B35]" />
+                      <span>Our Love Story (5 Milestones)</span>
+                    </div>
+
+                    <div className="space-y-3">
+                      {[
+                        { num: 1, title: 'One match away', sub: 'from forever', desc: 'A little swipe, a matrimony match, and two cities suddenly felt a little closer. Chennai met Bengaluru, and a simple hello began a story neither had planned but both were ready to discover.' },
+                        { num: 2, title: 'A message that stayed', sub: 'hello, from a screen', desc: 'A first message turned into easy conversation, and a smile every time the phone lit up.' },
+                        { num: 3, title: 'Chennai to Bengaluru', sub: 'one call at a time', desc: 'Different cities, busy days, and conversations that never seemed long enough. With every call and every shared laugh, the miles mattered a little less.' },
+                        { num: 4, title: 'Oh Manapenne!', sub: 'a first hello', desc: 'A warm welcome, a little nervousness, filter coffee, and smiles that said more than words. The first meeting made the possibility of a shared future feel wonderfully real.' },
+                        { num: 5, title: 'Nichayathartham', sub: 'a promise made', desc: 'With blessings from both families, a promise was celebrated and the next chapter began to take shape with joy, tradition, and hearts full of hope.' },
+                      ].map((st) => {
+                        const i = st.num;
+                        const defaultImg = `/images/templates/traditional-south-indian/story${i}.jpg`;
+                        const currentImg = fields[`storyImg${i}`] || defaultImg;
+                        const isUploadingStory = !!genericUploadProgress[`storyImg${i}`];
+
+                        return (
+                          <div key={i} className="p-3 bg-[#FAF7F0] border border-[#DFCEAF] rounded-xl space-y-2.5">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[11px] font-bold text-[#8F6E3B]">Milestone {i}</span>
+                            </div>
+
+                            <div className="flex items-center gap-3">
+                              <div className="w-16 h-16 rounded-lg overflow-hidden border border-[#DFCEAF] bg-[#EFE7D5]/40 flex-shrink-0 relative">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={currentImg}
+                                  alt={`Milestone ${i}`}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <label className="cursor-pointer inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 bg-[#A77B35] hover:bg-[#8F6E3B] text-white rounded-lg transition-all shadow-xs">
+                                  {isUploadingStory ? (
+                                    <>
+                                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                      <span>Uploading...</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Camera className="w-3.5 h-3.5" />
+                                      <span>Replace Story Photo</span>
+                                    </>
+                                  )}
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    disabled={isUploadingStory}
+                                    onChange={(e) => {
+                                      const f = e.target.files?.[0];
+                                      if (f) handleGenericImageUpload(`storyImg${i}`, f);
+                                    }}
+                                    className="hidden"
+                                  />
+                                </label>
+                                <p className="text-[10px] text-[#7A634E] mt-1">Replace milestone memory image</p>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              <div>
+                                <label className="block text-[10px] font-medium text-[#7A634E] mb-0.5">Title</label>
+                                <input
+                                  type="text"
+                                  value={fields[`storyTitle${i}`] !== undefined ? fields[`storyTitle${i}`] : st.title}
+                                  onChange={(e) => handleFieldChange(`storyTitle${i}`, e.target.value)}
+                                  placeholder="Milestone Title"
+                                  className="w-full px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-[10px] font-medium text-[#7A634E] mb-0.5">Subtitle / Tagline</label>
+                                <input
+                                  type="text"
+                                  value={fields[`storySub${i}`] !== undefined ? fields[`storySub${i}`] : st.sub}
+                                  onChange={(e) => handleFieldChange(`storySub${i}`, e.target.value)}
+                                  placeholder="Subtitle"
+                                  className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                                />
+                              </div>
+                            </div>
+
+                            <div>
+                              <label className="block text-[10px] font-medium text-[#7A634E] mb-0.5">Story Details</label>
+                              <textarea
+                                rows={2}
+                                value={fields[`storyDesc${i}`] !== undefined ? fields[`storyDesc${i}`] : st.desc}
+                                onChange={(e) => handleFieldChange(`storyDesc${i}`, e.target.value)}
+                                placeholder="Write about this moment..."
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-[#DFCEAF] bg-white focus:outline-none focus:ring-1 focus:ring-[#A77B35]"
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </>
@@ -3323,7 +3653,10 @@ export default function CustomizePage() {
                     ].map((height, i) => {
                       const barTime = (i / 40) * audioDuration;
                       const selectedStart = Number(fields.audioStartTime) || 0;
-                      const isHighlighted = barTime >= selectedStart && barTime <= selectedStart + 35;
+                      const clipDur = Number(fields.audioClipDuration) || 0;
+                      const isHighlighted = clipDur === 0
+                        ? barTime >= selectedStart
+                        : barTime >= selectedStart && barTime <= selectedStart + clipDur;
                       const isPlayed = barTime <= audioCurrentTime;
                       return (
                         <div
@@ -3343,19 +3676,29 @@ export default function CustomizePage() {
                   <input
                     type="range"
                     min="0"
-                    max={Math.max(60, audioDuration - 15)}
+                    max={Math.max(60, audioDuration - 10)}
                     step="1"
                     value={Number(fields.audioStartTime) || 0}
                     onChange={(e) => handleSeekAudio(Number(e.target.value))}
                     className="w-full h-2 bg-[#253552] rounded-lg appearance-none cursor-pointer accent-[#E5A842] mt-2"
                   />
 
-                  <div className="flex items-center justify-between text-[10px] text-[#A7B5CC] font-mono mt-1">
+                  <div className="flex items-center justify-between text-[10px] text-[#A7B5CC] font-mono mt-1.5">
                     <span>
-                      Crop Start:{' '}
+                      From:{' '}
                       <strong className="text-[#E5A842]">
                         {formatSeconds(Number(fields.audioStartTime) || 0)}
                       </strong>
+                      {' → '}
+                      To:{' '}
+                      <strong className="text-[#E5A842]">
+                        {Number(fields.audioClipDuration) > 0
+                          ? formatSeconds((Number(fields.audioStartTime) || 0) + Number(fields.audioClipDuration))
+                          : formatSeconds(audioDuration || 180)}
+                      </strong>
+                      {Number(fields.audioClipDuration) > 0 && (
+                        <span className="text-[#E5A842] ml-1 font-semibold">({fields.audioClipDuration}s)</span>
+                      )}
                     </span>
                     <span>
                       Playing:{' '}
@@ -3364,6 +3707,48 @@ export default function CustomizePage() {
                       </strong>{' '}
                       / {formatSeconds(audioDuration)}
                     </span>
+                  </div>
+                </div>
+
+                {/* Instagram Story Clip Duration Selector */}
+                <div className="pt-2 border-t border-[#D6B477]/20">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="block text-[10px] font-semibold text-[#D6B477] uppercase tracking-wider">
+                      ⏱️ Clip Duration (Like Instagram Story):
+                    </span>
+                    <span className="text-[10px] font-mono text-[#E5A842]">
+                      {Number(fields.audioClipDuration) > 0 ? `${fields.audioClipDuration} Seconds Loop` : 'Full Song Playback'}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-5 gap-1.5">
+                    {[
+                      { label: '15s', sec: 15 },
+                      { label: '30s', sec: 30 },
+                      { label: '45s', sec: 45 },
+                      { label: '60s', sec: 60 },
+                      { label: 'Full', sec: 0 },
+                    ].map((dur) => {
+                      const currentDur = Number(fields.audioClipDuration) || 0;
+                      const isSelected = currentDur === dur.sec;
+                      return (
+                        <button
+                          key={dur.sec}
+                          type="button"
+                          onClick={() => {
+                            handleFieldChange('audioClipDuration', dur.sec);
+                            const start = Number(fields.audioStartTime) || 0;
+                            handleSeekAudio(start);
+                          }}
+                          className={`py-1.5 px-1 rounded-lg text-xs font-bold text-center transition-all cursor-pointer border ${
+                            isSelected
+                              ? 'bg-[#E5A842] text-[#0E1524] border-[#E5A842] shadow-sm scale-[1.02]'
+                              : 'bg-[#152136] text-[#E2D5BE] border-[#2B3A59] hover:border-[#D6B477]/60 hover:bg-[#1E2E4A]'
+                          }`}
+                        >
+                          <div>{dur.label}</div>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 

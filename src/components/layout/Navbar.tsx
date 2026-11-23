@@ -173,199 +173,199 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <header className="sticky top-0 z-50 w-full h-[88px] sm:h-[98px] lg:h-[108px] bg-[#F8F4EC] border-b border-[#EDE2CF] flex items-center shadow-2xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="flex items-center justify-between gap-4">
 
-          {/* LEFT: Logo (Prominent & Luxurious) */}
-          <div className="flex items-center py-1 flex-shrink-0">
-            <Link href="/" onClick={handleHomeClick} className="group flex items-center focus:outline-none">
-              <Image
-                src="/logo.webp?v=3"
-                alt="You Are Mine"
-                width={360}
-                height={120}
-                className="h-16 sm:h-[80px] lg:h-[94px] w-auto object-contain transition-transform group-hover:scale-[1.03]"
-                priority
-              />
-            </Link>
-          </div>
-
-          {/* CENTER: Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center justify-center gap-6 xl:gap-8 text-[13.5px]">
-            {/* 1. Home */}
-            <Link
-              href="/"
-              onClick={handleHomeClick}
-              className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'home'
-                  ? 'text-[#1C2C24] font-semibold'
-                  : 'text-[#49341F] font-medium hover:text-[#A77B35]'
-                }`}
-            >
-              <Home className="w-4 h-4 stroke-[1.8]" />
-              <span>Home</span>
-              {activeSection === 'home' && <GoldActiveUnderline />}
-            </Link>
-
-            {/* 2. Invitation Templates */}
-            <div
-              className="relative"
-              onMouseEnter={() => setTemplatesDropdown(true)}
-              onMouseLeave={() => setTemplatesDropdown(false)}
-            >
-              <Link
-                href="/templates"
-                onClick={handleTemplatesClick}
-                className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'templates'
-                    ? 'text-[#1C2C24] font-semibold'
-                    : 'text-[#49341F] font-medium hover:text-[#A77B35]'
-                  }`}
-              >
-                <LayoutGrid className="w-4 h-4 stroke-[1.8]" />
-                <span>Invitation Templates</span>
-                <ChevronDown className="w-3.5 h-3.5 opacity-80" />
-                {activeSection === 'templates' && <GoldActiveUnderline />}
+            {/* LEFT: Logo (Prominent & Luxurious) */}
+            <div className="flex items-center py-1 flex-shrink-0">
+              <Link href="/" onClick={handleHomeClick} className="group flex items-center focus:outline-none">
+                <Image
+                  src="/logo.webp?v=3"
+                  alt="You Are Mine"
+                  width={360}
+                  height={120}
+                  className="h-16 sm:h-[80px] lg:h-[94px] w-auto object-contain transition-transform group-hover:scale-[1.03]"
+                  priority
+                />
               </Link>
-
-              {templatesDropdown && (
-                <div className="absolute top-full left-0 w-60 bg-[#FCFAF6] border border-[#E7DCBA] rounded-xl shadow-luxury-lg py-2 z-50 animate-in fade-in duration-100">
-                  <div className="px-3 py-1 text-[10px] font-semibold text-[#A77B35] uppercase tracking-wider border-b border-[#EFE7D5]">
-                    Collections
-                  </div>
-                  <Link
-                    href="/templates?filter=featured"
-                    className="flex items-center gap-2 px-3 py-2 text-xs text-[#49341F] hover:bg-[#F3EDE1] transition-colors"
-                  >
-                    <Sparkles className="w-3.5 h-3.5 text-[#A77B35]" />
-                    <span>Featured Designs</span>
-                  </Link>
-                  <Link
-                    href="/templates"
-                    className="flex items-center gap-2 px-3 py-2 text-xs text-[#49341F] hover:bg-[#F3EDE1] transition-colors"
-                  >
-                    <Gift className="w-3.5 h-3.5 text-[#A77B35]" />
-                    <span>All Invitation Suites</span>
-                  </Link>
-                  <Link
-                    href="/templates"
-                    className="flex items-center gap-2 px-3 py-2 text-xs text-[#49341F] hover:bg-[#F3EDE1] transition-colors"
-                  >
-                    <LayoutGrid className="w-3.5 h-3.5 text-[#A77B35]" />
-                    <span>All Templates (60+)</span>
-                  </Link>
-                </div>
-              )}
             </div>
 
-            {/* 3. By Occasion */}
-            <div
-              className="relative"
-              onMouseEnter={() => setOccasionsDropdown(true)}
-              onMouseLeave={() => setOccasionsDropdown(false)}
-            >
+            {/* CENTER: Desktop Navigation Links */}
+            <nav className="hidden lg:flex items-center justify-center gap-6 xl:gap-8 text-[13.5px]">
+              {/* 1. Home */}
               <Link
-                href="/templates"
-                onClick={handleOccasionsClick}
-                className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'occasions'
-                    ? 'text-[#1C2C24] font-semibold'
-                    : 'text-[#49341F] font-medium hover:text-[#A77B35]'
+                href="/"
+                onClick={handleHomeClick}
+                className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'home'
+                  ? 'text-[#1C2C24] font-semibold'
+                  : 'text-[#49341F] font-medium hover:text-[#A77B35]'
                   }`}
               >
-                <Calendar className="w-4 h-4 stroke-[1.8]" />
-                <span>By Occasion</span>
-                <ChevronDown className="w-3.5 h-3.5 opacity-80" />
-                {activeSection === 'occasions' && <GoldActiveUnderline />}
+                <Home className="w-4 h-4 stroke-[1.8]" />
+                <span>Home</span>
+                {activeSection === 'home' && <GoldActiveUnderline />}
               </Link>
 
-              {occasionsDropdown && (
-                <div className="absolute top-full -left-8 w-64 bg-[#FCFAF6] border border-[#E7DCBA] rounded-xl shadow-luxury-lg py-2 z-50 animate-in fade-in duration-100 grid grid-cols-2 gap-1 p-2">
-                  {occasionsList.map((occ) => (
+              {/* 2. Invitation Templates */}
+              <div
+                className="relative"
+                onMouseEnter={() => setTemplatesDropdown(true)}
+                onMouseLeave={() => setTemplatesDropdown(false)}
+              >
+                <Link
+                  href="/templates"
+                  onClick={handleTemplatesClick}
+                  className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'templates'
+                    ? 'text-[#1C2C24] font-semibold'
+                    : 'text-[#49341F] font-medium hover:text-[#A77B35]'
+                    }`}
+                >
+                  <LayoutGrid className="w-4 h-4 stroke-[1.8]" />
+                  <span>Invitation Templates</span>
+                  <ChevronDown className="w-3.5 h-3.5 opacity-80" />
+                  {activeSection === 'templates' && <GoldActiveUnderline />}
+                </Link>
+
+                {templatesDropdown && (
+                  <div className="absolute top-full left-0 w-60 bg-[#FCFAF6] border border-[#E7DCBA] rounded-xl shadow-luxury-lg py-2 z-50 animate-in fade-in duration-100">
+                    <div className="px-3 py-1 text-[10px] font-semibold text-[#A77B35] uppercase tracking-wider border-b border-[#EFE7D5]">
+                      Collections
+                    </div>
                     <Link
-                      key={occ.name}
-                      href={`/templates?occasion=${encodeURIComponent(occ.name)}`}
-                      className="px-2 py-1.5 text-xs text-[#49341F] hover:bg-[#F3EDE1] rounded-lg transition-colors flex items-center justify-between"
+                      href="/templates?filter=featured"
+                      className="flex items-center gap-2 px-3 py-2 text-xs text-[#49341F] hover:bg-[#F3EDE1] transition-colors"
                     >
-                      <span>{occ.name}</span>
-                      <span className="text-[10px] text-[#A77B35]">✦</span>
+                      <Sparkles className="w-3.5 h-3.5 text-[#A77B35]" />
+                      <span>Featured Designs</span>
                     </Link>
-                  ))}
-                </div>
-              )}
+                    <Link
+                      href="/templates"
+                      className="flex items-center gap-2 px-3 py-2 text-xs text-[#49341F] hover:bg-[#F3EDE1] transition-colors"
+                    >
+                      <Gift className="w-3.5 h-3.5 text-[#A77B35]" />
+                      <span>All Invitation Suites</span>
+                    </Link>
+                    <Link
+                      href="/templates"
+                      className="flex items-center gap-2 px-3 py-2 text-xs text-[#49341F] hover:bg-[#F3EDE1] transition-colors"
+                    >
+                      <LayoutGrid className="w-3.5 h-3.5 text-[#A77B35]" />
+                      <span>All Templates (60+)</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* 3. By Occasion */}
+              <div
+                className="relative"
+                onMouseEnter={() => setOccasionsDropdown(true)}
+                onMouseLeave={() => setOccasionsDropdown(false)}
+              >
+                <Link
+                  href="/templates"
+                  onClick={handleOccasionsClick}
+                  className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'occasions'
+                    ? 'text-[#1C2C24] font-semibold'
+                    : 'text-[#49341F] font-medium hover:text-[#A77B35]'
+                    }`}
+                >
+                  <Calendar className="w-4 h-4 stroke-[1.8]" />
+                  <span>By Occasion</span>
+                  <ChevronDown className="w-3.5 h-3.5 opacity-80" />
+                  {activeSection === 'occasions' && <GoldActiveUnderline />}
+                </Link>
+
+                {occasionsDropdown && (
+                  <div className="absolute top-full -left-8 w-64 bg-[#FCFAF6] border border-[#E7DCBA] rounded-xl shadow-luxury-lg py-2 z-50 animate-in fade-in duration-100 grid grid-cols-2 gap-1 p-2">
+                    {occasionsList.map((occ) => (
+                      <Link
+                        key={occ.name}
+                        href={`/templates?occasion=${encodeURIComponent(occ.name)}`}
+                        className="px-2 py-1.5 text-xs text-[#49341F] hover:bg-[#F3EDE1] rounded-lg transition-colors flex items-center justify-between"
+                      >
+                        <span>{occ.name}</span>
+                        <span className="text-[10px] text-[#A77B35]">✦</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* 4. Create Your Page */}
+              <Link
+                href="/customize/tpl-wedding-navy-01"
+                onClick={handleCreateClick}
+                className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'create'
+                  ? 'text-[#1C2C24] font-semibold'
+                  : 'text-[#49341F] font-medium hover:text-[#A77B35]'
+                  }`}
+              >
+                <PenLine className="w-4 h-4 stroke-[1.8]" />
+                <span>Create Your Page</span>
+                {activeSection === 'create' && <GoldActiveUnderline />}
+              </Link>
+
+              {/* 5. Pricing */}
+              <Link
+                href="/pricing"
+                className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'pricing'
+                  ? 'text-[#1C2C24] font-semibold'
+                  : 'text-[#49341F] font-medium hover:text-[#A77B35]'
+                  }`}
+              >
+                <Tag className="w-4 h-4 stroke-[1.8]" />
+                <span>Pricing</span>
+                {activeSection === 'pricing' && <GoldActiveUnderline />}
+              </Link>
+            </nav>
+
+            {/* RIGHT: Action Items (Wishlist, Cart, Login) */}
+            <div className="hidden lg:flex items-center gap-3 xl:gap-4 flex-shrink-0">
+              {/* Wishlist Icon */}
+              <Link
+                href="/wishlist"
+                className="relative p-1 text-[#2E2014] hover:text-[#A77B35] transition-colors"
+                title="Saved Wishlist"
+              >
+                <Heart className="w-[18px] h-[18px] stroke-[1.8]" />
+                {totalWishlist > 0 && (
+                  <span className="absolute -top-1.5 -right-2 bg-[#1C2C24] text-white text-[9.5px] font-semibold w-4 h-4 rounded-full flex items-center justify-center ring-1 ring-[#F8F4EC] shadow-2xs">
+                    {totalWishlist}
+                  </span>
+                )}
+              </Link>
+
+              {/* Shopping Bag Icon */}
+              <Link
+                href="/cart"
+                className="relative p-1 text-[#2E2014] hover:text-[#A77B35] transition-colors"
+                title="Shopping Bag"
+              >
+                <ShoppingBag className="w-[18px] h-[18px] stroke-[1.8]" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1.5 -right-2 bg-[#1C2C24] text-white text-[9.5px] font-semibold w-4 h-4 rounded-full flex items-center justify-center ring-1 ring-[#F8F4EC] shadow-2xs">
+                    {totalItems}
+                  </span>
+                )}
+              </Link>
+
+              {/* Hairline Divider */}
+              <div className="h-4.5 w-[1px] bg-[#DFCDAE] mx-0.5" />
+
+              {/* Login Pill Button */}
+              <Link
+                href="/account"
+                className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#1C2C24] text-white text-xs font-medium hover:bg-[#121c17] transition-all duration-150 shadow-xs"
+              >
+                <User className="w-3.5 h-3.5 stroke-[1.8]" />
+                <span>Login</span>
+                <ArrowRight className="w-3.5 h-3.5 stroke-[1.8]" />
+              </Link>
             </div>
-
-            {/* 4. Create Your Page */}
-            <Link
-              href="/customize/tpl-wedding-navy-01"
-              onClick={handleCreateClick}
-              className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'create'
-                  ? 'text-[#1C2C24] font-semibold'
-                  : 'text-[#49341F] font-medium hover:text-[#A77B35]'
-                }`}
-            >
-              <PenLine className="w-4 h-4 stroke-[1.8]" />
-              <span>Create Your Page</span>
-              {activeSection === 'create' && <GoldActiveUnderline />}
-            </Link>
-
-            {/* 5. Pricing */}
-            <Link
-              href="/pricing"
-              className={`relative flex items-center gap-1.5 py-1.5 transition-colors ${activeSection === 'pricing'
-                  ? 'text-[#1C2C24] font-semibold'
-                  : 'text-[#49341F] font-medium hover:text-[#A77B35]'
-                }`}
-            >
-              <Tag className="w-4 h-4 stroke-[1.8]" />
-              <span>Pricing</span>
-              {activeSection === 'pricing' && <GoldActiveUnderline />}
-            </Link>
-          </nav>
-
-          {/* RIGHT: Action Items (Wishlist, Cart, Login) */}
-          <div className="hidden lg:flex items-center gap-3 xl:gap-4 flex-shrink-0">
-            {/* Wishlist Icon */}
-            <Link
-              href="/wishlist"
-              className="relative p-1 text-[#2E2014] hover:text-[#A77B35] transition-colors"
-              title="Saved Wishlist"
-            >
-              <Heart className="w-[18px] h-[18px] stroke-[1.8]" />
-              {totalWishlist > 0 && (
-                <span className="absolute -top-1.5 -right-2 bg-[#1C2C24] text-white text-[9.5px] font-semibold w-4 h-4 rounded-full flex items-center justify-center ring-1 ring-[#F8F4EC] shadow-2xs">
-                  {totalWishlist}
-                </span>
-              )}
-            </Link>
-
-            {/* Shopping Bag Icon */}
-            <Link
-              href="/cart"
-              className="relative p-1 text-[#2E2014] hover:text-[#A77B35] transition-colors"
-              title="Shopping Bag"
-            >
-              <ShoppingBag className="w-[18px] h-[18px] stroke-[1.8]" />
-              {totalItems > 0 && (
-                <span className="absolute -top-1.5 -right-2 bg-[#1C2C24] text-white text-[9.5px] font-semibold w-4 h-4 rounded-full flex items-center justify-center ring-1 ring-[#F8F4EC] shadow-2xs">
-                  {totalItems}
-                </span>
-              )}
-            </Link>
-
-            {/* Hairline Divider */}
-            <div className="h-4.5 w-[1px] bg-[#DFCDAE] mx-0.5" />
-
-            {/* Login Pill Button */}
-            <Link
-              href="/account"
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#1C2C24] text-white text-xs font-medium hover:bg-[#121c17] transition-all duration-150 shadow-xs"
-            >
-              <User className="w-3.5 h-3.5 stroke-[1.8]" />
-              <span>Login</span>
-              <ArrowRight className="w-3.5 h-3.5 stroke-[1.8]" />
-            </Link>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
 
       {/* MOBILE APPLICATION BOTTOM NAVIGATION BAR (Docked at bottom of phone view) */}
       <nav
@@ -492,8 +492,8 @@ export const Navbar: React.FC = () => {
                   handleHomeClick(e);
                 }}
                 className={`flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-xl transition-colors ${activeSection === 'home'
-                    ? 'bg-[#8F6E3B]/10 text-[#8F6E3B] font-bold border-l-3 border-[#8F6E3B]'
-                    : 'text-[#49341F] hover:bg-[#F3EDE1]'
+                  ? 'bg-[#8F6E3B]/10 text-[#8F6E3B] font-bold border-l-3 border-[#8F6E3B]'
+                  : 'text-[#49341F] hover:bg-[#F3EDE1]'
                   }`}
               >
                 <Home className="w-4.5 h-4.5 stroke-[1.8]" />
@@ -507,8 +507,8 @@ export const Navbar: React.FC = () => {
                   handleTemplatesClick(e);
                 }}
                 className={`flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-xl transition-colors ${activeSection === 'templates'
-                    ? 'bg-[#8F6E3B]/10 text-[#8F6E3B] font-bold border-l-3 border-[#8F6E3B]'
-                    : 'text-[#49341F] hover:bg-[#F3EDE1]'
+                  ? 'bg-[#8F6E3B]/10 text-[#8F6E3B] font-bold border-l-3 border-[#8F6E3B]'
+                  : 'text-[#49341F] hover:bg-[#F3EDE1]'
                   }`}
               >
                 <LayoutGrid className="w-4.5 h-4.5 stroke-[1.8]" />
@@ -522,8 +522,8 @@ export const Navbar: React.FC = () => {
                   handleOccasionsClick(e);
                 }}
                 className={`flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-xl transition-colors ${activeSection === 'occasions'
-                    ? 'bg-[#8F6E3B]/10 text-[#8F6E3B] font-bold border-l-3 border-[#8F6E3B]'
-                    : 'text-[#49341F] hover:bg-[#F3EDE1]'
+                  ? 'bg-[#8F6E3B]/10 text-[#8F6E3B] font-bold border-l-3 border-[#8F6E3B]'
+                  : 'text-[#49341F] hover:bg-[#F3EDE1]'
                   }`}
               >
                 <Calendar className="w-4.5 h-4.5 stroke-[1.8]" />
@@ -537,8 +537,8 @@ export const Navbar: React.FC = () => {
                   handleCreateClick(e);
                 }}
                 className={`flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-xl transition-colors ${activeSection === 'create'
-                    ? 'bg-[#8F6E3B]/10 text-[#8F6E3B] font-bold border-l-3 border-[#8F6E3B]'
-                    : 'text-[#49341F] hover:bg-[#F3EDE1]'
+                  ? 'bg-[#8F6E3B]/10 text-[#8F6E3B] font-bold border-l-3 border-[#8F6E3B]'
+                  : 'text-[#49341F] hover:bg-[#F3EDE1]'
                   }`}
               >
                 <PenLine className="w-4.5 h-4.5 stroke-[1.8]" />
@@ -549,8 +549,8 @@ export const Navbar: React.FC = () => {
                 href="/pricing"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-xl transition-colors ${activeSection === 'pricing'
-                    ? 'bg-[#8F6E3B]/10 text-[#8F6E3B] font-bold border-l-3 border-[#8F6E3B]'
-                    : 'text-[#49341F] hover:bg-[#F3EDE1]'
+                  ? 'bg-[#8F6E3B]/10 text-[#8F6E3B] font-bold border-l-3 border-[#8F6E3B]'
+                  : 'text-[#49341F] hover:bg-[#F3EDE1]'
                   }`}
               >
                 <Tag className="w-4.5 h-4.5 stroke-[1.8]" />

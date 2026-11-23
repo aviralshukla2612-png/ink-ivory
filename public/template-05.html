@@ -101,9 +101,6 @@ nav::after{content:"";position:absolute;left:0;right:0;top:100%;height:12px;back
 
 :root{color-scheme:light}
 
-.avatar{position:fixed;left:8px;bottom:calc(14px + env(safe-area-inset-bottom,0px));width:50px;z-index:55;pointer-events:none;filter:drop-shadow(0 3px 4px #0003);animation:bob 3s ease-in-out infinite}
-@keyframes bob{50%{transform:translateY(-4px)}}
-
 :root{--emb:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22120%22%20height%3D%22120%22%20viewBox%3D%220%200%20120%20120%22%3E%3Crect%20width%3D%22120%22%20height%3D%22120%22%20fill%3D%22%23fbf5e6%22/%3E%3Cpath%20d%3D%22M0%2060%20L60%200%20L120%2060%20L60%20120%20Z%22%20fill%3D%22none%22%20stroke%3D%22%23d8bf86%22%20stroke-width%3D%220.8%22%20opacity%3D%220.45%22/%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2260%22%20r%3D%228%22%20fill%3D%22none%22%20stroke%3D%22%23c4a258%22%20stroke-width%3D%220.8%22%20opacity%3D%220.5%22/%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2260%22%20r%3D%222.5%22%20fill%3D%22%23c4a258%22%20opacity%3D%220.6%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%225%22%20fill%3D%22%23c4a258%22%20opacity%3D%220.3%22/%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%220%22%20r%3D%225%22%20fill%3D%22%23c4a258%22%20opacity%3D%220.3%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%22120%22%20r%3D%225%22%20fill%3D%22%23c4a258%22%20opacity%3D%220.3%22/%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%22120%22%20r%3D%225%22%20fill%3D%22%23c4a258%22%20opacity%3D%220.3%22/%3E%3C/svg%3E");--flo:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22100%22%20height%3D%22100%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%234d091e%22/%3E%3Cpath%20d%3D%22M0%200L100%20100M100%200L0%20100%22%20stroke%3D%22%23d4af37%22%20stroke-width%3D%220.8%22%20opacity%3D%220.35%22/%3E%3Cpath%20d%3D%22M50%200L100%2050L50%20100L0%2050Z%22%20fill%3D%22none%22%20stroke%3D%22%23d4af37%22%20stroke-width%3D%221%22%20opacity%3D%220.45%22/%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2214%22%20fill%3D%22%236a0d2a%22%20stroke%3D%22%23d4af37%22%20stroke-width%3D%221.2%22/%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2210%22%20fill%3D%22none%22%20stroke%3D%22%23f3d77c%22%20stroke-width%3D%220.8%22%20stroke-dasharray%3D%222%2C2%22/%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%224%22%20fill%3D%22%23d4af37%22/%3E%3Cpath%20d%3D%22M50%2034%20C47%2040%2C%2053%2040%2C%2050%2034%20Z%20M50%2066%20C47%2060%2C%2053%2060%2C%2050%2066%20Z%20M34%2050%20C40%2047%2C%2040%2053%2C%2034%2050%20Z%20M66%2050%20C60%2047%2C%2060%2053%2C%2066%2050%20Z%22%20fill%3D%22%23d4af37%22%20opacity%3D%220.8%22/%3E%3Cpath%20d%3D%22M38%2038%20C42%2044%2C%2046%2040%2C%2038%2038%20Z%20M62%2062%20C58%2056%2C%2054%2060%2C%2062%2062%20Z%20M62%2038%20C56%2042%2C%2060%2046%2C%2062%2038%20Z%20M38%2062%20C44%2058%2C%2040%2054%2C%2038%2062%20Z%22%20fill%3D%22%23f3d77c%22%20opacity%3D%220.7%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%226%22%20fill%3D%22%23d4af37%22%20opacity%3D%220.6%22/%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%220%22%20r%3D%226%22%20fill%3D%22%23d4af37%22%20opacity%3D%220.6%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%22100%22%20r%3D%226%22%20fill%3D%22%23d4af37%22%20opacity%3D%220.6%22/%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%226%22%20fill%3D%22%23d4af37%22%20opacity%3D%220.6%22/%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%220%22%20r%3D%223%22%20fill%3D%22%23f3d77c%22%20opacity%3D%220.5%22/%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%22100%22%20r%3D%223%22%20fill%3D%22%23f3d77c%22%20opacity%3D%220.5%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%2250%22%20r%3D%223%22%20fill%3D%22%23f3d77c%22%20opacity%3D%220.5%22/%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%2250%22%20r%3D%223%22%20fill%3D%22%23f3d77c%22%20opacity%3D%220.5%22/%3E%3C/svg%3E")}
 #gate{position:fixed;inset:0;z-index:100;overflow:hidden;background:#efe5ce}
 #gate.open{display:none!important;visibility:hidden}
@@ -291,8 +288,6 @@ body.opened .hero .stage{animation:rise 1.2s .4s both}
   <div class="photo ph4 reveal" id="endPhoto" data-img="end"></div>
 </section>
 
-<svg class="avatar" viewBox="0 0 56 72" aria-hidden="true"><circle cx="17" cy="13" r="8" fill="#c98a5a"/><path d="M8 13Q8 3 17 3Q26 3 26 13Q22 8 17 8Q12 8 8 13Z" fill="#2a1a14"/><circle cx="14" cy="14" r="1" fill="#2a1a14"/><circle cx="20" cy="14" r="1" fill="#2a1a14"/><path d="M14.5 17.5Q17 19.5 19.5 17.5" stroke="#7a3a2a" fill="none" stroke-width="1"/><path d="M7 23H27L29 50H5Z" fill="#f6ecd0" stroke="#d9a63a"/><rect x="15" y="23" width="4" height="27" fill="#e9c36a"/><path d="M5 50H29L30 70H4Z" fill="#fffaf0" stroke="#d9a63a"/><rect x="4.5" y="65" width="25" height="4" fill="#d9a63a"/><circle cx="40" cy="14" r="8" fill="#d9955f"/><path d="M31 14Q31 4 40 4Q49 4 49 14Q45 9 40 9Q35 9 31 14Z" fill="#1d1210"/><path d="M48 12Q54 26 48 40" stroke="#1d1210" stroke-width="3" fill="none"/><circle cx="46" cy="9" r="1.6" fill="#fff"/><circle cx="49" cy="12" r="1.6" fill="#fff"/><circle cx="37" cy="15" r="1" fill="#2a1a14"/><circle cx="43" cy="15" r="1" fill="#2a1a14"/><circle cx="40" cy="10.5" r="1" fill="#c2185b"/><path d="M37.5 18.5Q40 20.5 42.5 18.5" stroke="#7a3a2a" fill="none" stroke-width="1"/><path d="M33 23H47L48 31H32Z" fill="#1f8a4c"/><path d="M31 31H49L53 70H27Z" fill="#b3213f" stroke="#d9a63a"/><path d="M33 23L47 40" stroke="#d9a63a" stroke-width="2"/><rect x="27.5" y="65" width="25" height="4" fill="#d9a63a"/></svg>
-
 <button id="music" aria-label="Toggle music" aria-pressed="false" title="Play / Pause Music">♫</button>
 
 <script>
@@ -400,12 +395,27 @@ function applyCustomization(data) {
   document.getElementById("parentsNames").innerHTML = gp + "<br><i>and</i><br>" + bp;
 
   // Audio
+  if (data.audioStartTime !== undefined && data.audioStartTime !== null && data.audioStartTime !== "") {
+    AUDIO_START = Number(data.audioStartTime) || 0;
+  } else if (data.audioStart !== undefined && data.audioStart !== null) {
+    AUDIO_START = Number(data.audioStart) || 0;
+  }
+  if (data.audioClipDuration !== undefined && data.audioClipDuration !== null) {
+    AUDIO_CLIP_DURATION = Number(data.audioClipDuration) || 0;
+  } else if (data.audioDuration !== undefined && data.audioDuration !== null) {
+    AUDIO_CLIP_DURATION = Number(data.audioDuration) || 0;
+  }
+
   if (data.audioSource || data.songUrl) {
-    MUSIC_URL = data.audioSource || data.songUrl;
-    if (audio) {
-      audio.src = MUSIC_URL;
-      if (mb.classList.contains("playing")) {
-        audio.play().catch(function(){});
+    var newMusic = data.audioSource || data.songUrl;
+    if (newMusic !== MUSIC_URL) {
+      MUSIC_URL = newMusic;
+      if (audio) {
+        audio.src = MUSIC_URL;
+        audio.loop = (AUDIO_CLIP_DURATION === 0);
+        if (mb && mb.classList.contains("playing")) {
+          playAudioWithCrop();
+        }
       }
     }
   }
@@ -437,8 +447,29 @@ function applyCustomization(data) {
       }
     });
   }
+  for (var n = 1; n <= 4; n++) {
+    if (data["evPhoto" + n]) IMAGES["ev" + n] = data["evPhoto" + n];
+    if (data["ev" + n + "Photo"]) IMAGES["ev" + n] = data["ev" + n + "Photo"];
+  }
 
   refreshImages();
+
+  // Hero framing & position controls (Vertical Position, Horizontal Position, Scale/Zoom, Fit)
+  var heroEl = document.querySelector('.hero .photo[data-img="hero"]');
+  if (heroEl) {
+    var posX = (data.photoPositionX !== undefined && data.photoPositionX !== null && data.photoPositionX !== "") ? Number(data.photoPositionX) : 50;
+    var posY = (data.photoPositionY !== undefined && data.photoPositionY !== null && data.photoPositionY !== "") ? Number(data.photoPositionY) : 50;
+    var fit = data.photoFit === "contain" ? "contain" : "cover";
+    var scale = (data.photoScale !== undefined && data.photoScale !== null && data.photoScale !== "") ? Number(data.photoScale) : 1;
+
+    heroEl.style.backgroundPosition = posX + "% " + posY + "%";
+    if (fit === "contain") {
+      heroEl.style.backgroundSize = (scale * 100) + "% auto";
+    } else {
+      heroEl.style.backgroundSize = (scale * 100) + "%";
+    }
+    heroEl.style.backgroundRepeat = "no-repeat";
+  }
 }
 
 // 1. Process URL Search Parameters
@@ -461,6 +492,37 @@ applyCustomization(initialData);
 // 2. Gate Opening & Music
 var gate = document.getElementById("gate");
 var audio = null;
+var AUDIO_START = Number(urlParams.get("audioStart") || urlParams.get("audioStartTime")) || 0;
+var AUDIO_CLIP_DURATION = Number(urlParams.get("audioDuration") || urlParams.get("audioClipDuration")) || 0;
+
+function initAudio() {
+  if (!audio && MUSIC_URL) {
+    audio = new Audio(MUSIC_URL);
+    audio.loop = (AUDIO_CLIP_DURATION === 0);
+    audio.addEventListener("timeupdate", function(){
+      if (AUDIO_CLIP_DURATION > 0) {
+        var end = AUDIO_START + AUDIO_CLIP_DURATION;
+        if (audio.currentTime >= end || audio.currentTime < (AUDIO_START - 1)) {
+          audio.currentTime = AUDIO_START;
+        }
+      }
+    });
+  }
+  return audio;
+}
+
+function playAudioWithCrop() {
+  var a = initAudio();
+  if (!a) return;
+  if (AUDIO_START > 0 && Math.abs(a.currentTime - AUDIO_START) > 1) {
+    try { a.currentTime = AUDIO_START; } catch(e){}
+  }
+  a.play().then(function(){
+    mb.classList.add("playing");
+    mb.setAttribute("aria-pressed", "true");
+  }).catch(function(e){ console.log("Audio autoplay prevented", e); });
+}
+
 if (!urlParams.get("skipOpening")) {
   document.body.style.overflow = "hidden";
 }
@@ -478,30 +540,18 @@ document.getElementById("enter").onclick = function(){
   }, rm ? 100 : 1500);
 
   if (MUSIC_URL) {
-    if (!audio) {
-      audio = new Audio(MUSIC_URL);
-      audio.loop = true;
-    }
-    audio.play().then(function(){
-      mb.classList.add("playing");
-      mb.setAttribute("aria-pressed", "true");
-    }).catch(function(e){ console.log("Audio autoplay prevented", e); });
+    playAudioWithCrop();
   }
 };
 
 var mb = document.getElementById("music");
 mb.onclick = function(){
-  if (!audio && MUSIC_URL) {
-    audio = new Audio(MUSIC_URL);
-    audio.loop = true;
-  }
-  if (!audio) return;
-  if (audio.paused) {
-    audio.play();
-    mb.classList.add("playing");
-    mb.setAttribute("aria-pressed", "true");
+  var a = initAudio();
+  if (!a) return;
+  if (a.paused) {
+    playAudioWithCrop();
   } else {
-    audio.pause();
+    a.pause();
     mb.classList.remove("playing");
     mb.setAttribute("aria-pressed", "false");
   }

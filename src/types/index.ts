@@ -71,6 +71,7 @@ export interface EditableFields {
   songTitle?: string;
   audioSource?: string;
   audioStartTime?: number;
+  audioClipDuration?: number;
   letterMessage?: string;
   reasonsText?: string;
   events?: WeddingEventItem[];

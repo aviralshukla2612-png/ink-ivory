@@ -46,7 +46,7 @@ export default function PricingPage() {
   return (
     <div className="w-full bg-[#F8F4EC] min-h-screen py-12 sm:py-20">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
           <span className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#8C6837] block mb-2.5">
@@ -63,7 +63,7 @@ export default function PricingPage() {
         {/* Single Luxury Pricing Card */}
         <div className="max-w-2xl mx-auto mb-16">
           <div className="bg-[#FCFAF6] rounded-3xl p-8 sm:p-12 border-2 border-[#8F6E3B] shadow-luxury-lg relative">
-            
+
             {/* Top Badge */}
             <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#8F6E3B] text-white text-[11px] font-bold uppercase tracking-wider py-1.5 px-5 rounded-full shadow-md flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5" />
@@ -125,7 +125,7 @@ export default function PricingPage() {
                 <span>Browse Templates &amp; Start Creating</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              
+
               <div className="flex items-center gap-4 text-[11px] text-[#7A634E] mt-2">
                 <span className="flex items-center gap-1">
                   <Lock className="w-3.5 h-3.5 text-[#8F6E3B]" />
