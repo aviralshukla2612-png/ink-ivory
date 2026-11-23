@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   Percent,
   Plus,
@@ -135,13 +135,20 @@ export default function AdminCouponsPage() {
     }
   };
 
-  const filteredCoupons = coupons.filter((c) => {
-    if (search && !c.code.toLowerCase().includes(search.toLowerCase())) return false;
-    if (statusFilter === 'ACTIVE' && !c.isActive) return false;
-    if (statusFilter === 'INACTIVE' && c.isActive) return false;
-    if (typeFilter !== 'All' && c.discountType !== typeFilter) return false;
-    return true;
-  });
+  const filteredCoupons = useMemo<CouponItem[]>(() => {
+    return coupons.filter((c) => {
+      if (search && !c.code.toLowerCase().includes(search.toLowerCase())) return false;
+      if (statusFilter === 'ACTIVE' && !c.isActive) return false;
+      if (statusFilter === 'INACTIVE' && c.isActive) return false;
+      if (typeFilter !== 'All' && c.discountType !== typeFilter) return false;
+      return true;
+    });
+  }, [coupons, search, statusFilter, typeFilter]);
+
+  const paginatedCoupons = useMemo<CouponItem[]>(() => {
+    const start = (page - 1) * pageSize;
+    return filteredCoupons.slice(start, start + pageSize);
+  }, [filteredCoupons, page, pageSize]);
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -364,7 +371,7 @@ export default function AdminCouponsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#EAD8C8]/60">
-                {filteredCoupons.map((c, idx) => {
+                {paginatedCoupons.map((c, idx) => {
                   const srNo = (page - 1) * pageSize + idx + 1;
                   const limitVal = c.usageLimit || 500;
                   const pct = Math.min(100, Math.round((c.usageCount / limitVal) * 100));
@@ -497,7 +504,7 @@ export default function AdminCouponsPage() {
       {/* Standard Pagination Footer */}
       <AdminPagination
         currentPage={page}
-        totalItems={total}
+        totalItems={filteredCoupons.length}
         pageSize={pageSize}
         pageSizeOptions={[5, 10, 20]}
         itemName="coupons"

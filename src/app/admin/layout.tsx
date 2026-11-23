@@ -288,13 +288,14 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F2EB] flex flex-col md:flex-row antialiased text-[#2C2114]">
+    <div className="h-screen w-screen bg-[#F5F2EB] flex flex-col md:flex-row antialiased text-[#2C2114] overflow-hidden">
       {/* ============================================================== */}
       {/* DESKTOP SIDEBAR                                                */}
       {/* ============================================================== */}
       <aside
-        className={`hidden md:flex flex-col bg-[#1A1612] border-r border-[#2B231B] text-[#FAF8F5] transition-all duration-300 select-none z-30 shrink-0 ${sidebarCollapsed ? 'w-20' : 'w-72'
-          }`}
+        className={`hidden md:flex flex-col h-screen sticky top-0 bg-[#1A1612] border-r border-[#2B231B] text-[#FAF8F5] transition-all duration-300 select-none z-30 shrink-0 ${
+          sidebarCollapsed ? 'w-20' : 'w-72'
+        }`}
       >
         {/* Top Brand Monogram */}
         <div className="h-20 flex items-center justify-between px-5 border-b border-[#2B231B]">
@@ -500,9 +501,9 @@ function AdminShell({ children }: { children: React.ReactNode }) {
       {/* ============================================================== */}
       {/* MAIN APPLICATION SHELL                                         */}
       {/* ============================================================== */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      <div className="flex-1 flex flex-col h-screen min-w-0 overflow-y-auto overflow-x-hidden">
         {/* Header Bar */}
-        <header className="h-16 sm:h-20 bg-[#FCFAF6] border-b border-[#E8DFC8] px-4 sm:px-8 flex items-center justify-between sticky top-0 z-20 shadow-xs">
+        <header className="h-16 sm:h-20 bg-[#FCFAF6] border-b border-[#E8DFC8] px-4 sm:px-8 flex items-center justify-between sticky top-0 z-20 shadow-xs shrink-0">
           {/* Left: Mobile Toggle & Breadcrumbs */}
           <div className="flex items-center gap-3 sm:gap-4">
             <button

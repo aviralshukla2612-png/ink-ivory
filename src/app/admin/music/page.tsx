@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   Music,
   Play,
@@ -126,12 +126,27 @@ export default function MusicLibraryAdminPage() {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  const filteredTracks = tracks.filter((t) => {
-    if (selectedCategory !== 'All' && !t.category?.toLowerCase().includes(selectedCategory.toLowerCase())) return false;
-    if (statusFilter === 'ACTIVE' && t.isActive === false) return false;
-    if (statusFilter === 'INACTIVE' && t.isActive !== false) return false;
-    return true;
-  });
+  const filteredTracks = useMemo<MusicTrackRecord[]>(() => {
+    return tracks.filter((t) => {
+      const matchesCat =
+        selectedCategory === 'All' ||
+        (t.category && t.category.toLowerCase().includes(selectedCategory.toLowerCase()));
+      const matchesStatus =
+        statusFilter === 'All' ||
+        (statusFilter === 'ACTIVE' ? t.isActive !== false : t.isActive === false);
+      const matchesSearch =
+        !searchQuery.trim() ||
+        t.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        t.movie?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        t.artist?.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCat && matchesStatus && matchesSearch;
+    });
+  }, [tracks, selectedCategory, statusFilter, searchQuery]);
+
+  const paginatedTracks = useMemo<MusicTrackRecord[]>(() => {
+    const start = (page - 1) * pageSize;
+    return filteredTracks.slice(start, start + pageSize);
+  }, [filteredTracks, page, pageSize]);
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -237,7 +252,10 @@ export default function MusicLibraryAdminPage() {
           return (
             <button
               key={cat}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setPage(1);
+              }}
               className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
                 isSelected
                   ? 'bg-[#641A2A] text-white shadow-xs'
@@ -258,7 +276,10 @@ export default function MusicLibraryAdminPage() {
             type="text"
             placeholder="Search by song title, movie, singer or mood..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setPage(1);
+            }}
             className="w-full pl-10 pr-4 py-2 bg-[#FAF5EE]/60 border border-[#EAD8C8] rounded-xl text-xs text-[#1F1916] placeholder-[#8C6D3B]/50 focus:outline-none focus:border-[#8C6D3B] focus:bg-white"
           />
         </div>
@@ -268,7 +289,10 @@ export default function MusicLibraryAdminPage() {
           <select
             value={statusFilter}
             aria-label="Filter by Status"
-            onChange={(e) => setStatusFilter(e.target.value)}
+            onChange={(e) => {
+              setStatusFilter(e.target.value);
+              setPage(1);
+            }}
             className="px-3 py-2 bg-[#FAF5EE]/60 border border-[#EAD8C8] rounded-xl text-xs font-medium text-[#1F1916] focus:outline-none focus:border-[#8C6D3B] cursor-pointer"
           >
             <option value="All">All Statuses</option>
@@ -318,7 +342,7 @@ export default function MusicLibraryAdminPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#EAD8C8]/60">
-                {filteredTracks.map((t, idx) => {
+                {paginatedTracks.map((t, idx) => {
                   const srNo = (page - 1) * pageSize + idx + 1;
                   const isPlaying = playingId === t.id;
                   const isActive = t.isActive !== false;
@@ -460,7 +484,7 @@ export default function MusicLibraryAdminPage() {
       {/* Standard Pagination Footer */}
       <AdminPagination
         currentPage={page}
-        totalItems={total}
+        totalItems={filteredTracks.length}
         pageSize={pageSize}
         pageSizeOptions={[10, 25, 50]}
         itemName="tracks"
