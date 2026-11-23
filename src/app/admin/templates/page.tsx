@@ -38,6 +38,7 @@ import {
   CategoryItem,
 } from '@/lib/api/templates-api';
 import { APPROVED_RENDERER_REGISTRY, getApprovedRenderersList } from '@/lib/templates/renderer-registry';
+import AdminPagination from '@/components/admin/AdminPagination';
 
 export default function AdminTemplatesPage() {
   const { hasPermission } = useAdmin();
@@ -392,6 +393,7 @@ export default function AdminTemplatesPage() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-[#E8DFC8] text-[10.5px] uppercase tracking-wider font-semibold text-[#7A634E]">
+                <th className="py-3 px-4 text-center w-14">Sr. No.</th>
                 <th className="py-3 px-4">Collection</th>
                 <th className="py-3 px-4">Category &amp; Tier</th>
                 <th className="py-3 px-4 text-center">Price</th>
@@ -403,20 +405,27 @@ export default function AdminTemplatesPage() {
             <tbody className="divide-y divide-[#EFE7D7] text-xs">
               {loading ? (
                 <tr>
-                  <td colSpan={6} className="py-16 text-center">
+                  <td colSpan={7} className="py-16 text-center">
                     <Loader2 className="w-8 h-8 animate-spin text-[#8F6E3B] mx-auto mb-2" />
                     <span className="text-xs text-[#7A634E]">Loading collection catalog from backend...</span>
                   </td>
                 </tr>
               ) : templates.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-16 text-center text-[#7A634E]">
+                  <td colSpan={7} className="py-16 text-center text-[#7A634E]">
                     No templates found matching your filters.
                   </td>
                 </tr>
               ) : (
-                templates.map((tpl) => (
+                templates.map((tpl, idx) => (
                   <tr key={tpl.id} className="hover:bg-[#FAF7F0] transition-colors">
+                    {/* Sr. No. */}
+                    <td className="py-4 px-4 text-center">
+                      <span className="font-mono text-xs font-bold text-[#8F6E3B] px-2 py-1 rounded-lg bg-[#EDE2CF]/40">
+                        {(meta.page - 1) * meta.limit + idx + 1}
+                      </span>
+                    </td>
+
                     {/* Collection Thumbnail & Name */}
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-3">
@@ -557,37 +566,18 @@ export default function AdminTemplatesPage() {
           </table>
         </div>
 
-        {/* Prominent Pagination Controls */}
-        <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-[#FAF7F2] border-t border-[#DFCEAF] text-xs text-[#55402F] gap-3">
-          <div>
-            Showing <span className="font-bold text-[#2C2114]">{templates.length}</span> of{' '}
-            <span className="font-bold text-[#2C2114]">{meta.total}</span> templates
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              disabled={meta.page <= 1}
-              onClick={() => setMeta((prev) => ({ ...prev, page: prev.page - 1 }))}
-              className="px-3.5 py-1.5 rounded-xl border border-[#DFCEAF] bg-white hover:bg-[#F3EDE1] disabled:opacity-40 font-medium flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-              <span>Previous</span>
-            </button>
-            <span className="font-semibold px-2 text-[#2C2114]">
-              Page {meta.page} of {meta.totalPages}
-            </span>
-            <button
-              type="button"
-              disabled={meta.page >= meta.totalPages}
-              onClick={() => setMeta((prev) => ({ ...prev, page: prev.page + 1 }))}
-              className="px-3.5 py-1.5 rounded-xl border border-[#DFCEAF] bg-white hover:bg-[#F3EDE1] disabled:opacity-40 font-medium flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
-            >
-              <span>Next</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
+        {/* Pagination Controls */}
+        {meta.total > 0 && (
+          <AdminPagination
+            currentPage={meta.page}
+            totalItems={meta.total}
+            pageSize={meta.limit}
+            pageSizeOptions={[5, 10, 15, 25]}
+            itemName="templates"
+            onPageChange={(page) => setMeta((prev) => ({ ...prev, page }))}
+            onPageSizeChange={(limit) => setMeta((prev) => ({ ...prev, limit, page: 1 }))}
+          />
+        )}
       </div>
 
       {/* ------------------------------------------------------------- */}
