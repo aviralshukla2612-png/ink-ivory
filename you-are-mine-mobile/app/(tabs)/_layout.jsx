@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import { Home, Compass, MailOpen, Music2, User } from 'lucide-react-native';
 import { Colors } from '../../constants/colors';
 
@@ -13,7 +13,6 @@ export default function TabLayout() {
         tabBarInactiveTintColor: Colors.tabInactive,
         tabBarStyle: styles.tabBar,
         tabBarLabelStyle: styles.tabBarLabel,
-        tabBarItemStyle: styles.tabBarItem,
       }}
     >
       <Tabs.Screen
@@ -80,9 +79,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.tabBarBg,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: Colors.tabBarBorder,
-    height: 68,
-    paddingBottom: 8,
-    paddingTop: 6,
+    height: Platform.OS === 'web' ? 72 : 64,
+    paddingTop: 8,
+    paddingBottom: Platform.OS === 'web' ? 14 : 8,
     elevation: 8,
     shadowColor: Colors.textPrimary,
     shadowOffset: { width: 0, height: -2 },
@@ -93,13 +92,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '600',
     letterSpacing: 0.2,
-    lineHeight: 14,
-    marginTop: 2,
-  },
-  tabBarItem: {
-    paddingVertical: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingBottom: 2,
   },
   activeIconContainer: {
     transform: [{ scale: 1.05 }],

@@ -59,16 +59,18 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
   webShell: {
     flex: 1,
+    width: '100%',
+    height: Platform.OS === 'web' ? '100vh' : '100%',
     backgroundColor: Platform.OS === 'web' ? '#1D0810' : Colors.background,
     alignItems: 'center',
     justifyContent: 'center',
-    height: '100%',
   },
   mobileContainer: {
     flex: 1,
     width: '100%',
     maxWidth: Platform.OS === 'web' ? 440 : '100%',
     height: '100%',
+    maxHeight: Platform.OS === 'web' ? '100vh' : undefined,
     backgroundColor: Colors.background,
     overflow: 'hidden',
     shadowColor: '#000',
