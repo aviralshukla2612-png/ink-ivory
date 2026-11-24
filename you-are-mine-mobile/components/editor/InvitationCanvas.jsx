@@ -3,6 +3,7 @@ import { View, StyleSheet, Dimensions, TouchableWithoutFeedback } from 'react-na
 import Svg, { Path, Circle } from 'react-native-svg';
 import { Colors } from '../../constants/colors';
 import { DraggableElement } from './DraggableElement';
+import { DraggableImageElement } from './DraggableImageElement';
 import {
   useEditorStore,
   CANVAS_LOGICAL_WIDTH,
@@ -80,13 +81,24 @@ export function InvitationCanvas() {
           </View>
 
           {/* Render All Interactive Logical Elements */}
-          {Object.values(elements).map((el) => (
-            <DraggableElement
-              key={el.id}
-              element={el}
-              canvasScale={CANVAS_SCALE}
-            />
-          ))}
+          {Object.values(elements).map((el) => {
+            if (el.type === 'image') {
+              return (
+                <DraggableImageElement
+                  key={el.id}
+                  element={el}
+                  canvasScale={CANVAS_SCALE}
+                />
+              );
+            }
+            return (
+              <DraggableElement
+                key={el.id}
+                element={el}
+                canvasScale={CANVAS_SCALE}
+              />
+            );
+          })}
         </View>
       </View>
     </TouchableWithoutFeedback>

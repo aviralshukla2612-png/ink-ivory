@@ -28,7 +28,13 @@
       "expo-router",
       "expo-secure-store",
       "expo-image",
-      "expo-font"
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to add custom photographs to your wedding invitation."
+        }
+      ]
     ]
   }
 }

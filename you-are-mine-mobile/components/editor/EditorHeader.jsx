@@ -62,11 +62,12 @@ export function EditorHeader({ title = 'Edit Invitation' }) {
         </TouchableOpacity>
 
         {/* Save Status / Button */}
-        <TouchableOpacity
+          <TouchableOpacity
           style={[
             styles.saveButton,
             saveStatus === 'saved' && styles.savedBtn,
             saveStatus === 'saving' && styles.savingBtn,
+            saveStatus === 'offline' && styles.offlineBtn,
           ]}
           onPress={handleSave}
           disabled={saveStatus === 'saving'}
@@ -76,7 +77,13 @@ export function EditorHeader({ title = 'Edit Invitation' }) {
             <ActivityIndicator size="small" color={Colors.textLight} />
           ) : (
             <Text style={styles.saveBtnText}>
-              {saveStatus === 'saved' ? 'Saved' : 'Save'}
+              {saveStatus === 'saved'
+                ? 'Saved'
+                : saveStatus === 'offline'
+                ? 'Offline (Cached)'
+                : saveStatus === 'unsaved'
+                ? 'Save'
+                : 'Save'}
             </Text>
           )}
         </TouchableOpacity>
@@ -151,6 +158,10 @@ const styles = StyleSheet.create({
   },
   savingBtn: {
     backgroundColor: Colors.primary,
+  },
+  offlineBtn: {
+    backgroundColor: '#F57C00',
+    borderColor: '#E65100',
   },
   saveBtnText: {
     fontSize: 13,

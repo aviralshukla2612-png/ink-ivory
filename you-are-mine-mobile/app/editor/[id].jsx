@@ -8,6 +8,9 @@ import { EditorHeader } from '../../components/editor/EditorHeader';
 import { InvitationCanvas } from '../../components/editor/InvitationCanvas';
 import { EditorToolbar } from '../../components/editor/EditorToolbar';
 import { TextEditingSheet } from '../../components/editor/TextEditingSheet';
+import { ImageEditingSheet } from '../../components/editor/ImageEditingSheet';
+import { MusicSelectionSheet } from '../../components/editor/MusicSelectionSheet';
+import { SectionManagementSheet } from '../../components/editor/SectionManagementSheet';
 import { Button } from '../../components/common/Button';
 import { TemplatesService } from '../../services/templates.service';
 import { useEditorStore } from '../../store/editor.store';
@@ -75,9 +78,15 @@ export default function NativeEditorScreen() {
         <InvitationCanvas />
       </View>
 
-      {/* 3. Text Editing Bottom Sheet (Active when element is selected) */}
+      {/* 3. Dynamic Bottom Sheets for Active Tool */}
       {activeTool === 'text' || activeTool === 'style' ? (
         <TextEditingSheet />
+      ) : activeTool === 'images' ? (
+        <ImageEditingSheet />
+      ) : activeTool === 'music' ? (
+        <MusicSelectionSheet />
+      ) : activeTool === 'sections' ? (
+        <SectionManagementSheet />
       ) : null}
 
       {/* 4. Bottom 5-Tool Toolbar */}
