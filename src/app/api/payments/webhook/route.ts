@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { store } from "@/lib/store";
-import { verifyWebhookSignature, RAZORPAY_KEY_SECRET } from "@/lib/razorpay";
+import { getPaymentProvider, PaymentDeduplicationService } from "@/lib/payments/provider-adapter";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 import { createRateLimitResponse } from "@/lib/security/rate-limit-response";
 import { logSecurityEvent } from "@/lib/security/logger";
@@ -22,10 +22,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Missing webhook signature" }, { status: 400 });
     }
 
-    const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || RAZORPAY_KEY_SECRET;
-    const isValid = verifyWebhookSignature(rawBody, signature, webhookSecret);
+    const provider = getPaymentProvider("razorpay");
 
-    if (!isValid) {
+    // 2. Parse & Cryptographically Validate Event
+    let event;
+    try {
+      event = await provider.parseWebhookEvent(rawBody, signature);
+    } catch (sigErr: any) {
       logSecurityEvent({
         event: "WEBHOOK_INVALID_SIGNATURE",
         level: "CRITICAL",
@@ -34,49 +37,70 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Invalid webhook signature" }, { status: 400 });
     }
 
-    const event = JSON.parse(rawBody);
-    const eventId = event.event_id || `evt_${Date.now()}`;
-    const eventType = event.event;
+    // 3. Deduplication Check: Ignore already handled webhook events
+    if (PaymentDeduplicationService.isEventProcessed(event.eventId)) {
+      logSecurityEvent({
+        event: "WEBHOOK_DUPLICATE_EVENT_DROPPED",
+        level: "INFO",
+        details: { eventId: event.eventId, eventType: event.eventType },
+      });
+      return NextResponse.json({ status: "ok", duplicate: true, message: "Duplicate webhook event acknowledged." });
+    }
 
-    // Idempotent webhook processing
-    if (eventType === "payment.captured" || eventType === "order.paid") {
-      const paymentEntity = event.payload?.payment?.entity;
-      const orderId = paymentEntity?.order_id;
-      const paymentId = paymentEntity?.id;
+    // 4. Concurrency Guard on Order
+    if (event.orderId && event.isHandled) {
+      await PaymentDeduplicationService.withOrderLock(event.orderId, async () => {
+        const order = await store.getPaymentOrder(event.orderId!);
 
-      if (orderId && paymentId) {
-        const order = await store.getPaymentOrder(orderId);
-        if (order && order.status !== "PAID") {
-          await store.recordPayment({
-            paymentId,
-            orderId,
-            amount: paymentEntity.amount,
-            currency: paymentEntity.currency,
-            status: "CAPTURED",
-            method: paymentEntity.method,
-            rawResponse: event,
-          });
+        if (event.status === "CAPTURED") {
+          if (order && order.status !== "PAID") {
+            await store.recordPayment({
+              paymentId: event.paymentId || `pay_${Date.now()}`,
+              orderId: event.orderId!,
+              amount: event.amountPaise || order.amount,
+              currency: event.currency || order.currency,
+              status: "CAPTURED",
+              method: event.rawEntity?.payload?.payment?.entity?.method,
+              rawResponse: event.rawEntity,
+            });
 
-          // Check if draft needs publishing
-          const draft = await store.getDraft(order.draftId);
-          if (draft && draft.status !== "PUBLISHED") {
-            await store.publishDraft({
-              draftId: draft.id,
-              paymentId,
+            // Check if draft needs publishing
+            const draft = await store.getDraft(order.draftId);
+            if (draft && draft.status !== "PUBLISHED") {
+              await store.publishDraft({
+                draftId: draft.id,
+                paymentId: event.paymentId,
+              });
+            }
+          }
+        } else if (event.status === "FAILED") {
+          if (order && order.status !== "PAID") {
+            await store.recordPayment({
+              paymentId: event.paymentId || `pay_fail_${Date.now()}`,
+              orderId: event.orderId!,
+              amount: event.amountPaise || order.amount,
+              currency: event.currency || order.currency,
+              status: "FAILED",
+              rawResponse: event.rawEntity,
             });
           }
         }
-      }
+
+      });
     }
 
+    // 5. Mark Event ID As Processed
+    PaymentDeduplicationService.markEventProcessed(event.eventId, event.status);
+
+    // 6. Security Audit Log
     await store.logAudit({
-      action: `WEBHOOK_${eventType.toUpperCase()}`,
+      action: `WEBHOOK_${event.eventType.toUpperCase()}`,
       entityType: "WebhookEvent",
-      entityId: eventId,
-      metadata: { eventType },
+      entityId: event.eventId,
+      metadata: { eventType: event.eventType, orderId: event.orderId, status: event.status },
     });
 
-    return NextResponse.json({ status: "ok" });
+    return NextResponse.json({ status: "ok", eventId: event.eventId });
   } catch (error: any) {
     console.error("Webhook processing error:", error);
     return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
