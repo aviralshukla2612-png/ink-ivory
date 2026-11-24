@@ -1778,6 +1778,66 @@
       "version": 1,
       "createdAt": "2026-11-24T12:32:54.579Z",
       "updatedAt": "2026-11-24T12:32:54.580Z"
+    },
+    {
+      "id": "drf_journey_a_mwuom9h9",
+      "guestToken": "gst_journey_a_mwuom9h9",
+      "templateId": "tpl-wedding-navy-01",
+      "title": "Aarav & Meera Royal Celebration",
+      "fields": {
+        "names": "Aarav & Meera",
+        "headline": "The Grand Royal Wedding of",
+        "eventTitle": "Vivaha Samskara Ceremony",
+        "date": "December 21, 2026",
+        "time": "10:00 AM",
+        "venueName": "Taj Lake Palace, Udaipur",
+        "couple_photo": "https://cdn.youaremine.online/portraits/aarav-meera.jpg",
+        "music_url": "https://cdn.youaremine.online/audio/kesariya-flute.mp3",
+        "music_title": "Kesariya Classical Flute",
+        "rsvp": {
+          "enabled": true,
+          "deadline": "2026-12-01"
+        }
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "fontHeading": "Playfair Display",
+        "elements": [
+          {
+            "id": "el_names",
+            "type": "text",
+            "content": "Aarav & Meera",
+            "x": 50,
+            "y": 120
+          },
+          {
+            "id": "el_monogram",
+            "type": "monogram",
+            "initials": "AM",
+            "x": 50,
+            "y": 60
+          }
+        ],
+        "sections": [
+          {
+            "id": "sec_haldi",
+            "title": "Haldi Ceremony",
+            "date": "Dec 20, 2026",
+            "time": "11:00 AM"
+          },
+          {
+            "id": "sec_sangeet",
+            "title": "Royal Sangeet",
+            "date": "Dec 20, 2026",
+            "time": "7:00 PM"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:39:39.647Z",
+      "updatedAt": "2026-11-24T12:39:39.649Z"
     }
   ],
   "orders": [
@@ -2617,6 +2677,24 @@
         "publishedAt": "2026-11-24T12:32:54.580Z",
         "activatedBy": "RECOVERY_WORKER"
       }
+    },
+    {
+      "id": "ord_e2e_b_mwuom9h9",
+      "orderId": "order_e2e_b_mwuom9h9",
+      "draftId": "drf_journey_a_mwuom9h9",
+      "guestToken": "gst_journey_a_mwuom9h9",
+      "amount": 24900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_e2e_mwuom9h9",
+      "createdAt": "2026-11-24T12:39:39.649Z",
+      "updatedAt": "2026-11-24T12:39:39.649Z",
+      "notes": {
+        "publicationId": "pub_3c5f5786",
+        "slug": "aarav-meera-royal-wedding",
+        "publishedAt": "2026-11-24T12:39:39.649Z",
+        "activatedBy": "CLIENT_VERIFY"
+      }
     }
   ],
   "payments": [
@@ -3020,6 +3098,16 @@
       "isPublic": true,
       "createdAt": "2026-11-24T12:32:54.580Z",
       "updatedAt": "2026-11-24T12:32:54.580Z"
+    },
+    {
+      "id": "inv_7dded905",
+      "slug": "aarav-meera-royal-wedding",
+      "draftId": "drf_journey_a_mwuom9h9",
+      "templateId": "tpl-wedding-navy-01",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:39:39.649Z",
+      "updatedAt": "2026-11-24T12:39:39.649Z"
     }
   ],
   "publications": [
@@ -4378,6 +4466,110 @@
       "status": "ACTIVE",
       "publishedAt": "2026-11-24T12:32:54.580Z",
       "expiresAt": "2027-11-24T12:32:54.580Z"
+    },
+    {
+      "id": "pub_3c5f5786",
+      "draftId": "drf_journey_a_mwuom9h9",
+      "invitationId": "inv_7dded905",
+      "orderId": "order_e2e_b_mwuom9h9",
+      "templateId": "tpl-wedding-navy-01",
+      "guestToken": "gst_journey_a_mwuom9h9",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Aarav & Meera",
+          "headline": "The Grand Royal Wedding of",
+          "eventTitle": "Vivaha Samskara Ceremony",
+          "date": "December 21, 2026",
+          "time": "10:00 AM",
+          "venueName": "Taj Lake Palace, Udaipur",
+          "couple_photo": "https://cdn.youaremine.online/portraits/aarav-meera.jpg",
+          "music_url": "https://cdn.youaremine.online/audio/kesariya-flute.mp3",
+          "music_title": "Kesariya Classical Flute",
+          "rsvp": {
+            "enabled": true,
+            "deadline": "2026-12-01"
+          }
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "fontHeading": "Playfair Display",
+          "elements": [
+            {
+              "id": "el_names",
+              "type": "text",
+              "content": "Aarav & Meera",
+              "x": 50,
+              "y": 120
+            },
+            {
+              "id": "el_monogram",
+              "type": "monogram",
+              "initials": "AM",
+              "x": 50,
+              "y": 60
+            }
+          ],
+          "sections": [
+            {
+              "id": "sec_haldi",
+              "title": "Haldi Ceremony",
+              "date": "Dec 20, 2026",
+              "time": "11:00 AM"
+            },
+            {
+              "id": "sec_sangeet",
+              "title": "Royal Sangeet",
+              "date": "Dec 20, 2026",
+              "time": "7:00 PM"
+            }
+          ]
+        },
+        "elements": [
+          {
+            "id": "el_names",
+            "type": "text",
+            "content": "Aarav & Meera",
+            "x": 50,
+            "y": 120
+          },
+          {
+            "id": "el_monogram",
+            "type": "monogram",
+            "initials": "AM",
+            "x": 50,
+            "y": 60
+          }
+        ],
+        "sections": [
+          {
+            "id": "sec_haldi",
+            "title": "Haldi Ceremony",
+            "date": "Dec 20, 2026",
+            "time": "11:00 AM"
+          },
+          {
+            "id": "sec_sangeet",
+            "title": "Royal Sangeet",
+            "date": "Dec 20, 2026",
+            "time": "7:00 PM"
+          }
+        ],
+        "customAudioUrl": "https://cdn.youaremine.online/audio/kesariya-flute.mp3",
+        "customAudioTitle": "Kesariya Classical Flute",
+        "templateTitle": "Aarav & Riya — The Royal Navy Wedding",
+        "templateSlug": "the-royal-navy-wedding",
+        "previewImage": "/images/templates/royal-navy-wedding-card.jpg",
+        "rsvpConfig": {
+          "enabled": true,
+          "deadline": "2026-12-01"
+        },
+        "publishedSnapshotAt": "2026-11-24T12:39:39.649Z"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:39:39.649Z",
+      "expiresAt": "2027-11-24T12:39:39.649Z"
     }
   ],
   "auditLogs": [
@@ -4896,6 +5088,20 @@
         "actor": "RECOVERY_WORKER"
       },
       "createdAt": "2026-11-24T12:32:54.582Z"
+    },
+    {
+      "id": "log_94ed8559",
+      "guestToken": "gst_journey_a_mwuom9h9",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_3c5f5786",
+      "metadata": {
+        "orderId": "order_e2e_b_mwuom9h9",
+        "draftId": "drf_journey_a_mwuom9h9",
+        "slug": "aarav-meera-royal-wedding",
+        "actor": "CLIENT_VERIFY"
+      },
+      "createdAt": "2026-11-24T12:39:39.651Z"
     }
   ],
   "categories": [

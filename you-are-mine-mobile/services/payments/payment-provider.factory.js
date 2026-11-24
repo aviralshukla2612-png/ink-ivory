@@ -2,30 +2,32 @@
 // Selects and configures the appropriate payment provider according to platform distribution channel.
 
 import { Platform } from 'react-native';
+import { Config } from '../../constants/config';
 import RazorpayPaymentProvider from './razorpay-payment.provider';
 import GooglePlayPaymentProvider from './google-play-payment.provider';
 import AppleIapPaymentProvider from './apple-iap-payment.provider';
 
 export class PaymentProviderFactory {
   /**
-   * Determine primary payment provider for current platform
+   * Determine primary payment provider based on build-time distribution channel
    */
   static getPrimaryProvider() {
-    if (Platform.OS === 'web') {
-      return RazorpayPaymentProvider;
-    }
-    if (Platform.OS === 'ios') {
-      return AppleIapPaymentProvider;
-    }
-    if (Platform.OS === 'android') {
-      // If running with Google Play Billing native binary linked
-      if (GooglePlayPaymentProvider.isAvailable()) {
+    const channel = Config.DISTRIBUTION_CHANNEL;
+
+    switch (channel) {
+      case 'PLAY_STORE':
         return GooglePlayPaymentProvider;
-      }
-      // Direct APK / developer sandbox fallback
-      return RazorpayPaymentProvider;
+      case 'DIRECT_APK':
+        return RazorpayPaymentProvider;
+      case 'APP_STORE':
+        return AppleIapPaymentProvider;
+      case 'WEB':
+        return RazorpayPaymentProvider;
+      default:
+        if (Platform.OS === 'ios') return AppleIapPaymentProvider;
+        if (Platform.OS === 'web') return RazorpayPaymentProvider;
+        return GooglePlayPaymentProvider.isAvailable() ? GooglePlayPaymentProvider : RazorpayPaymentProvider;
     }
-    return RazorpayPaymentProvider;
   }
 
   /**
