@@ -420,12 +420,2846 @@
       "isActive": true
     }
   ],
-  "drafts": [],
-  "orders": [],
-  "payments": [],
-  "invitations": [],
-  "publications": [],
-  "auditLogs": [],
+  "drafts": [
+    {
+      "id": "drf_test_7c_01",
+      "guestToken": "gst_test_token_7c_01",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 01",
+      "fields": {
+        "names": "MUTATED_AFTER_PUBLISH",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:09:44.617Z",
+      "updatedAt": "2026-11-24T12:09:44.620Z"
+    },
+    {
+      "id": "drf_test_7c_02",
+      "guestToken": "gst_test_token_7c_02",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 02",
+      "fields": {
+        "names": "Karthik & Meenakshi 02",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PAYMENT_PENDING",
+      "version": 1,
+      "createdAt": "2026-11-24T12:09:44.627Z",
+      "updatedAt": "2026-11-24T12:09:44.627Z"
+    },
+    {
+      "id": "drf_test_7c_03",
+      "guestToken": "gst_different_attacker_token_999",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 03",
+      "fields": {
+        "names": "Karthik & Meenakshi 03",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PAYMENT_PENDING",
+      "version": 1,
+      "createdAt": "2026-11-24T12:09:44.627Z",
+      "updatedAt": "2026-11-24T12:09:44.627Z"
+    },
+    {
+      "id": "drf_test_7c_04",
+      "guestToken": "gst_test_token_7c_04",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 04",
+      "fields": {
+        "names": "Karthik & Meenakshi 04",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:09:44.627Z",
+      "updatedAt": "2026-11-24T12:09:44.627Z"
+    },
+    {
+      "id": "drf_test_7c_05",
+      "guestToken": "gst_test_token_7c_05",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 05",
+      "fields": {
+        "names": "Karthik & Meenakshi 05",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:09:44.629Z",
+      "updatedAt": "2026-11-24T12:09:44.630Z"
+    },
+    {
+      "id": "drf_test_7c_06",
+      "guestToken": "gst_test_token_7c_06",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 06",
+      "fields": {
+        "names": "Karthik & Meenakshi 06",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:09:44.632Z",
+      "updatedAt": "2026-11-24T12:09:44.632Z"
+    },
+    {
+      "id": "drf_test_7c_09",
+      "guestToken": "gst_test_token_7c_09",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 09",
+      "fields": {
+        "names": "Karthik & Meenakshi 09",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:09:44.635Z",
+      "updatedAt": "2026-11-24T12:09:44.635Z"
+    },
+    {
+      "id": "drf_test_7c_11",
+      "guestToken": "gst_test_token_7c_11",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 11",
+      "fields": {
+        "names": "Karthik & Meenakshi 11",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:09:44.637Z",
+      "updatedAt": "2026-11-24T12:09:44.637Z"
+    },
+    {
+      "id": "drf_test_7c_12",
+      "guestToken": "gst_test_token_7c_12",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 12",
+      "fields": {
+        "names": "Karthik & Meenakshi 12",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:09:44.639Z",
+      "updatedAt": "2026-11-24T12:09:44.639Z"
+    },
+    {
+      "id": "drf_test_7c_14",
+      "guestToken": "gst_test_token_7c_14",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 14",
+      "fields": {
+        "names": "Karthik & Meenakshi 14",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:09:44.641Z",
+      "updatedAt": "2026-11-24T12:09:44.641Z"
+    },
+    {
+      "id": "drf_test_7c_16",
+      "guestToken": "gst_test_token_7c_16",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 16",
+      "fields": {
+        "names": "Karthik & Meenakshi 16",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:09:44.644Z",
+      "updatedAt": "2026-11-24T12:09:44.645Z"
+    },
+    {
+      "id": "drf_test_7c_01_mwunlfys",
+      "guestToken": "gst_test_token_7c_01_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 01",
+      "fields": {
+        "names": "Karthik & Meenakshi 01",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:11:01.780Z",
+      "updatedAt": "2026-11-24T12:11:01.783Z"
+    },
+    {
+      "id": "drf_test_7c_02_mwunlfys",
+      "guestToken": "gst_test_token_7c_02_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 02",
+      "fields": {
+        "names": "Karthik & Meenakshi 02",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PAYMENT_PENDING",
+      "version": 1,
+      "createdAt": "2026-11-24T12:11:01.785Z",
+      "updatedAt": "2026-11-24T12:11:01.785Z"
+    },
+    {
+      "id": "drf_test_7c_03_mwunlfys",
+      "guestToken": "gst_different_attacker_token_999",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 03",
+      "fields": {
+        "names": "Karthik & Meenakshi 03",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PAYMENT_PENDING",
+      "version": 1,
+      "createdAt": "2026-11-24T12:11:01.786Z",
+      "updatedAt": "2026-11-24T12:11:01.786Z"
+    },
+    {
+      "id": "drf_test_7c_04_mwunlfys",
+      "guestToken": "gst_test_token_7c_04_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 04",
+      "fields": {
+        "names": "Karthik & Meenakshi 04",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:11:01.786Z",
+      "updatedAt": "2026-11-24T12:11:01.786Z"
+    },
+    {
+      "id": "drf_test_7c_05_mwunlfys",
+      "guestToken": "gst_test_token_7c_05_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 05",
+      "fields": {
+        "names": "Karthik & Meenakshi 05",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:11:01.787Z",
+      "updatedAt": "2026-11-24T12:11:01.787Z"
+    },
+    {
+      "id": "drf_test_7c_06_mwunlfys",
+      "guestToken": "gst_test_token_7c_06_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 06",
+      "fields": {
+        "names": "Karthik & Meenakshi 06",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:11:01.790Z",
+      "updatedAt": "2026-11-24T12:11:01.790Z"
+    },
+    {
+      "id": "drf_test_7c_09_mwunlfys",
+      "guestToken": "gst_test_token_7c_09_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 09",
+      "fields": {
+        "names": "Karthik & Meenakshi 09",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:11:01.793Z",
+      "updatedAt": "2026-11-24T12:11:01.793Z"
+    },
+    {
+      "id": "drf_test_7c_11_mwunlfys",
+      "guestToken": "gst_test_token_7c_11_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 11",
+      "fields": {
+        "names": "Karthik & Meenakshi 11",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:11:01.796Z",
+      "updatedAt": "2026-11-24T12:11:01.796Z"
+    },
+    {
+      "id": "drf_test_7c_01_mwunn9tc",
+      "guestToken": "gst_test_token_7c_01_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 01",
+      "fields": {
+        "names": "MUTATED_AFTER_PUBLISH",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:12:27.120Z",
+      "updatedAt": "2026-11-24T12:12:27.122Z"
+    },
+    {
+      "id": "drf_test_7c_02_mwunn9tc",
+      "guestToken": "gst_test_token_7c_02_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 02",
+      "fields": {
+        "names": "Karthik & Meenakshi 02",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PAYMENT_PENDING",
+      "version": 1,
+      "createdAt": "2026-11-24T12:12:27.125Z",
+      "updatedAt": "2026-11-24T12:12:27.125Z"
+    },
+    {
+      "id": "drf_test_7c_03_mwunn9tc",
+      "guestToken": "gst_different_attacker_token_999",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 03",
+      "fields": {
+        "names": "Karthik & Meenakshi 03",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PAYMENT_PENDING",
+      "version": 1,
+      "createdAt": "2026-11-24T12:12:27.125Z",
+      "updatedAt": "2026-11-24T12:12:27.125Z"
+    },
+    {
+      "id": "drf_test_7c_04_mwunn9tc",
+      "guestToken": "gst_test_token_7c_04_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 04",
+      "fields": {
+        "names": "Karthik & Meenakshi 04",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:12:27.125Z",
+      "updatedAt": "2026-11-24T12:12:27.125Z"
+    },
+    {
+      "id": "drf_test_7c_05_mwunn9tc",
+      "guestToken": "gst_test_token_7c_05_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 05",
+      "fields": {
+        "names": "Karthik & Meenakshi 05",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:12:27.128Z",
+      "updatedAt": "2026-11-24T12:12:27.128Z"
+    },
+    {
+      "id": "drf_test_7c_06_mwunn9tc",
+      "guestToken": "gst_test_token_7c_06_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 06",
+      "fields": {
+        "names": "Karthik & Meenakshi 06",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:12:27.130Z",
+      "updatedAt": "2026-11-24T12:12:27.130Z"
+    },
+    {
+      "id": "drf_test_7c_09_mwunn9tc",
+      "guestToken": "gst_test_token_7c_09_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 09",
+      "fields": {
+        "names": "Karthik & Meenakshi 09",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:12:27.134Z",
+      "updatedAt": "2026-11-24T12:12:27.134Z"
+    },
+    {
+      "id": "drf_test_7c_11_mwunn9tc",
+      "guestToken": "gst_test_token_7c_11_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 11",
+      "fields": {
+        "names": "Karthik & Meenakshi 11",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:12:27.138Z",
+      "updatedAt": "2026-11-24T12:12:27.138Z"
+    },
+    {
+      "id": "drf_test_7c_12_mwunn9tc",
+      "guestToken": "gst_test_token_7c_12_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 12",
+      "fields": {
+        "names": "Karthik & Meenakshi 12",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:12:27.141Z",
+      "updatedAt": "2026-11-24T12:12:27.141Z"
+    },
+    {
+      "id": "drf_test_7c_14_mwunn9tc",
+      "guestToken": "gst_test_token_7c_14_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 14",
+      "fields": {
+        "names": "Karthik & Meenakshi 14",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:12:27.143Z",
+      "updatedAt": "2026-11-24T12:12:27.143Z"
+    },
+    {
+      "id": "drf_test_7c_16_mwunn9tc",
+      "guestToken": "gst_test_token_7c_16_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "title": "Karthik & Meenakshi Ceremony 16",
+      "fields": {
+        "names": "Karthik & Meenakshi 16",
+        "weddingDate": "December 21, 2026",
+        "venue": "Tirumanam Temple, Chennai",
+        "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+        "music_url": "/audio/kesariya.mp3",
+        "music_title": "Kesariya Flute"
+      },
+      "design": {
+        "themeColor": "#741E32",
+        "accentColor": "#D8B77B",
+        "sections": [
+          {
+            "id": "sec_1",
+            "title": "Haldi Ceremony"
+          }
+        ]
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:12:27.145Z",
+      "updatedAt": "2026-11-24T12:12:27.145Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord_rec_01",
+      "orderId": "order_test_7c_01",
+      "draftId": "drf_test_7c_01",
+      "guestToken": "gst_test_token_7c_01",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "REFUNDED",
+      "razorpayReceipt": "rcpt_01",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_e5627e24",
+        "slug": "karthik-meenakshi-ceremony-01",
+        "publishedAt": "2026-11-24T12:09:44.620Z",
+        "activatedBy": "TEST_RUNNER"
+      },
+      "createdAt": "2026-11-24T12:09:44.619Z",
+      "updatedAt": "2026-11-24T12:09:44.647Z"
+    },
+    {
+      "id": "ord_rec_02",
+      "orderId": "order_test_7c_02",
+      "draftId": "drf_test_7c_02",
+      "guestToken": "gst_test_token_7c_02",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "ATTEMPTED",
+      "razorpayReceipt": "rcpt_02",
+      "notes": {
+        "templateTitle": "Thirumanam Temple"
+      },
+      "createdAt": "2026-11-24T12:09:44.627Z",
+      "updatedAt": "2026-11-24T12:09:44.627Z"
+    },
+    {
+      "id": "ord_rec_03",
+      "orderId": "order_test_7c_03",
+      "draftId": "drf_test_7c_03",
+      "guestToken": "gst_test_token_7c_03",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_03",
+      "notes": {
+        "templateTitle": "Thirumanam Temple"
+      },
+      "createdAt": "2026-11-24T12:09:44.627Z",
+      "updatedAt": "2026-11-24T12:09:44.627Z"
+    },
+    {
+      "id": "ord_rec_04",
+      "orderId": "order_test_7c_04",
+      "draftId": "drf_test_7c_04",
+      "guestToken": "gst_test_token_7c_04",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_04",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_c6d89dc3",
+        "slug": "karthik-meenakshi-ceremony-04",
+        "publishedAt": "2026-11-24T12:09:44.627Z",
+        "activatedBy": "WEBHOOK"
+      },
+      "createdAt": "2026-11-24T12:09:44.627Z",
+      "updatedAt": "2026-11-24T12:09:44.627Z"
+    },
+    {
+      "id": "ord_rec_05",
+      "orderId": "order_test_7c_05",
+      "draftId": "drf_test_7c_05",
+      "guestToken": "gst_test_token_7c_05",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_05",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_75742dd6",
+        "slug": "karthik-meenakshi-ceremony-05",
+        "publishedAt": "2026-11-24T12:09:44.630Z",
+        "activatedBy": "CLIENT_VERIFY"
+      },
+      "createdAt": "2026-11-24T12:09:44.629Z",
+      "updatedAt": "2026-11-24T12:09:44.630Z"
+    },
+    {
+      "id": "ord_rec_06",
+      "orderId": "order_test_7c_06",
+      "draftId": "drf_test_7c_06",
+      "guestToken": "gst_test_token_7c_06",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_06",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_15b1738a",
+        "slug": "karthik-meenakshi-ceremony-06",
+        "publishedAt": "2026-11-24T12:09:44.632Z",
+        "activatedBy": "WEBHOOK"
+      },
+      "createdAt": "2026-11-24T12:09:44.632Z",
+      "updatedAt": "2026-11-24T12:09:44.632Z"
+    },
+    {
+      "id": "ord_rec_09",
+      "orderId": "order_test_7c_09",
+      "draftId": "drf_test_7c_09",
+      "guestToken": "gst_test_token_7c_09",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_09",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_bdb3c963",
+        "slug": "karthik-meenakshi-ceremony-09",
+        "publishedAt": "2026-11-24T12:09:44.635Z",
+        "activatedBy": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:09:44.635Z",
+      "updatedAt": "2026-11-24T12:09:44.635Z"
+    },
+    {
+      "id": "ord_rec_11",
+      "orderId": "order_test_7c_11",
+      "draftId": "drf_test_7c_11",
+      "guestToken": "gst_test_token_7c_11",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_11",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_ba8545b7",
+        "slug": "ananya-kabir-royal-wedding",
+        "publishedAt": "2026-11-24T12:09:44.637Z",
+        "activatedBy": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:09:44.637Z",
+      "updatedAt": "2026-11-24T12:09:44.637Z"
+    },
+    {
+      "id": "ord_rec_12",
+      "orderId": "order_test_7c_12",
+      "draftId": "drf_test_7c_12",
+      "guestToken": "gst_test_token_7c_12",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_12",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_91dd112a",
+        "slug": "ananya-kabir-royal-wedding-bfde",
+        "publishedAt": "2026-11-24T12:09:44.639Z",
+        "activatedBy": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:09:44.639Z",
+      "updatedAt": "2026-11-24T12:09:44.639Z"
+    },
+    {
+      "id": "ord_rec_14",
+      "orderId": "order_test_7c_14",
+      "draftId": "drf_test_7c_14",
+      "guestToken": "gst_test_token_7c_14",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_14",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_8590c231",
+        "slug": "karthik-meenakshi-ceremony-14",
+        "publishedAt": "2026-11-24T12:09:44.641Z",
+        "activatedBy": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:09:44.641Z",
+      "updatedAt": "2026-11-24T12:09:44.641Z"
+    },
+    {
+      "id": "ord_rec_16",
+      "orderId": "order_test_7c_16",
+      "draftId": "drf_test_7c_16",
+      "guestToken": "gst_test_token_7c_16",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_16",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_706e9105",
+        "slug": "karthik-meenakshi-ceremony-16",
+        "publishedAt": "2026-11-24T12:09:44.645Z",
+        "activatedBy": "RECOVERY_WORKER"
+      },
+      "createdAt": "2026-11-24T12:09:44.644Z",
+      "updatedAt": "2026-11-24T12:09:44.645Z"
+    },
+    {
+      "id": "ord_rec_01",
+      "orderId": "order_test_7c_01_mwunlfys",
+      "draftId": "drf_test_7c_01_mwunlfys",
+      "guestToken": "gst_test_token_7c_01_mwunlfys",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_01",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_9abe63ae",
+        "slug": "karthik-meenakshi-ceremony-01-73f2",
+        "publishedAt": "2026-11-24T12:11:01.783Z",
+        "activatedBy": "TEST_RUNNER"
+      },
+      "createdAt": "2026-11-24T12:11:01.782Z",
+      "updatedAt": "2026-11-24T12:11:01.783Z"
+    },
+    {
+      "id": "ord_rec_02",
+      "orderId": "order_test_7c_02_mwunlfys",
+      "draftId": "drf_test_7c_02_mwunlfys",
+      "guestToken": "gst_test_token_7c_02_mwunlfys",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "ATTEMPTED",
+      "razorpayReceipt": "rcpt_02",
+      "notes": {
+        "templateTitle": "Thirumanam Temple"
+      },
+      "createdAt": "2026-11-24T12:11:01.785Z",
+      "updatedAt": "2026-11-24T12:11:01.785Z"
+    },
+    {
+      "id": "ord_rec_03",
+      "orderId": "order_test_7c_03_mwunlfys",
+      "draftId": "drf_test_7c_03_mwunlfys",
+      "guestToken": "gst_test_token_7c_03_mwunlfys",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_03",
+      "notes": {
+        "templateTitle": "Thirumanam Temple"
+      },
+      "createdAt": "2026-11-24T12:11:01.786Z",
+      "updatedAt": "2026-11-24T12:11:01.786Z"
+    },
+    {
+      "id": "ord_rec_04",
+      "orderId": "order_test_7c_04_mwunlfys",
+      "draftId": "drf_test_7c_04_mwunlfys",
+      "guestToken": "gst_test_token_7c_04_mwunlfys",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_04",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_490eebe4",
+        "slug": "karthik-meenakshi-ceremony-04-e5ea",
+        "publishedAt": "2026-11-24T12:11:01.786Z",
+        "activatedBy": "WEBHOOK"
+      },
+      "createdAt": "2026-11-24T12:11:01.786Z",
+      "updatedAt": "2026-11-24T12:11:01.786Z"
+    },
+    {
+      "id": "ord_rec_05",
+      "orderId": "order_test_7c_05_mwunlfys",
+      "draftId": "drf_test_7c_05_mwunlfys",
+      "guestToken": "gst_test_token_7c_05_mwunlfys",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_05",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_a1aafe4e",
+        "slug": "karthik-meenakshi-ceremony-05-cde0",
+        "publishedAt": "2026-11-24T12:11:01.787Z",
+        "activatedBy": "CLIENT_VERIFY"
+      },
+      "createdAt": "2026-11-24T12:11:01.787Z",
+      "updatedAt": "2026-11-24T12:11:01.787Z"
+    },
+    {
+      "id": "ord_rec_06",
+      "orderId": "order_test_7c_06_mwunlfys",
+      "draftId": "drf_test_7c_06_mwunlfys",
+      "guestToken": "gst_test_token_7c_06_mwunlfys",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_06",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_1d8c9e31",
+        "slug": "karthik-meenakshi-ceremony-06-9fb9",
+        "publishedAt": "2026-11-24T12:11:01.790Z",
+        "activatedBy": "WEBHOOK"
+      },
+      "createdAt": "2026-11-24T12:11:01.790Z",
+      "updatedAt": "2026-11-24T12:11:01.790Z"
+    },
+    {
+      "id": "ord_rec_09",
+      "orderId": "order_test_7c_09_mwunlfys",
+      "draftId": "drf_test_7c_09_mwunlfys",
+      "guestToken": "gst_test_token_7c_09_mwunlfys",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_09",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_265a264b",
+        "slug": "karthik-meenakshi-ceremony-09-037d",
+        "publishedAt": "2026-11-24T12:11:01.793Z",
+        "activatedBy": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:11:01.793Z",
+      "updatedAt": "2026-11-24T12:11:01.793Z"
+    },
+    {
+      "id": "ord_rec_11",
+      "orderId": "order_test_7c_11_mwunlfys",
+      "draftId": "drf_test_7c_11_mwunlfys",
+      "guestToken": "gst_test_token_7c_11_mwunlfys",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_11",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_89058a02",
+        "slug": "ananya-kabir-royal-wedding-1a03",
+        "publishedAt": "2026-11-24T12:11:01.796Z",
+        "activatedBy": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:11:01.796Z",
+      "updatedAt": "2026-11-24T12:11:01.796Z"
+    },
+    {
+      "id": "ord_rec_01",
+      "orderId": "order_test_7c_01_mwunn9tc",
+      "draftId": "drf_test_7c_01_mwunn9tc",
+      "guestToken": "gst_test_token_7c_01_mwunn9tc",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "REFUNDED",
+      "razorpayReceipt": "rcpt_01",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_a873f851",
+        "slug": "karthik-meenakshi-ceremony-01-9eb1",
+        "publishedAt": "2026-11-24T12:12:27.122Z",
+        "activatedBy": "TEST_RUNNER"
+      },
+      "createdAt": "2026-11-24T12:12:27.122Z",
+      "updatedAt": "2026-11-24T12:12:27.148Z"
+    },
+    {
+      "id": "ord_rec_02",
+      "orderId": "order_test_7c_02_mwunn9tc",
+      "draftId": "drf_test_7c_02_mwunn9tc",
+      "guestToken": "gst_test_token_7c_02_mwunn9tc",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "ATTEMPTED",
+      "razorpayReceipt": "rcpt_02",
+      "notes": {
+        "templateTitle": "Thirumanam Temple"
+      },
+      "createdAt": "2026-11-24T12:12:27.125Z",
+      "updatedAt": "2026-11-24T12:12:27.125Z"
+    },
+    {
+      "id": "ord_rec_03",
+      "orderId": "order_test_7c_03_mwunn9tc",
+      "draftId": "drf_test_7c_03_mwunn9tc",
+      "guestToken": "gst_test_token_7c_03_mwunn9tc",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_03",
+      "notes": {
+        "templateTitle": "Thirumanam Temple"
+      },
+      "createdAt": "2026-11-24T12:12:27.125Z",
+      "updatedAt": "2026-11-24T12:12:27.125Z"
+    },
+    {
+      "id": "ord_rec_04",
+      "orderId": "order_test_7c_04_mwunn9tc",
+      "draftId": "drf_test_7c_04_mwunn9tc",
+      "guestToken": "gst_test_token_7c_04_mwunn9tc",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_04",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_0710a026",
+        "slug": "karthik-meenakshi-ceremony-04-99c8",
+        "publishedAt": "2026-11-24T12:12:27.125Z",
+        "activatedBy": "WEBHOOK"
+      },
+      "createdAt": "2026-11-24T12:12:27.125Z",
+      "updatedAt": "2026-11-24T12:12:27.125Z"
+    },
+    {
+      "id": "ord_rec_05",
+      "orderId": "order_test_7c_05_mwunn9tc",
+      "draftId": "drf_test_7c_05_mwunn9tc",
+      "guestToken": "gst_test_token_7c_05_mwunn9tc",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_05",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_19d08f44",
+        "slug": "karthik-meenakshi-ceremony-05-cad1",
+        "publishedAt": "2026-11-24T12:12:27.128Z",
+        "activatedBy": "CLIENT_VERIFY"
+      },
+      "createdAt": "2026-11-24T12:12:27.128Z",
+      "updatedAt": "2026-11-24T12:12:27.128Z"
+    },
+    {
+      "id": "ord_rec_06",
+      "orderId": "order_test_7c_06_mwunn9tc",
+      "draftId": "drf_test_7c_06_mwunn9tc",
+      "guestToken": "gst_test_token_7c_06_mwunn9tc",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_06",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_2afa7ae0",
+        "slug": "karthik-meenakshi-ceremony-06-45d4",
+        "publishedAt": "2026-11-24T12:12:27.130Z",
+        "activatedBy": "WEBHOOK"
+      },
+      "createdAt": "2026-11-24T12:12:27.130Z",
+      "updatedAt": "2026-11-24T12:12:27.130Z"
+    },
+    {
+      "id": "ord_rec_09",
+      "orderId": "order_test_7c_09_mwunn9tc",
+      "draftId": "drf_test_7c_09_mwunn9tc",
+      "guestToken": "gst_test_token_7c_09_mwunn9tc",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_09",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_cbf62b56",
+        "slug": "karthik-meenakshi-ceremony-09-b516",
+        "publishedAt": "2026-11-24T12:12:27.134Z",
+        "activatedBy": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:12:27.134Z",
+      "updatedAt": "2026-11-24T12:12:27.134Z"
+    },
+    {
+      "id": "ord_rec_11",
+      "orderId": "order_test_7c_11_mwunn9tc",
+      "draftId": "drf_test_7c_11_mwunn9tc",
+      "guestToken": "gst_test_token_7c_11_mwunn9tc",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_11",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_168f39b0",
+        "slug": "ananya-kabir-royal-wedding-mwunn9tc",
+        "publishedAt": "2026-11-24T12:12:27.138Z",
+        "activatedBy": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:12:27.138Z",
+      "updatedAt": "2026-11-24T12:12:27.138Z"
+    },
+    {
+      "id": "ord_rec_12",
+      "orderId": "order_test_7c_12_mwunn9tc",
+      "draftId": "drf_test_7c_12_mwunn9tc",
+      "guestToken": "gst_test_token_7c_12_mwunn9tc",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_12",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_401fd132",
+        "slug": "ananya-kabir-royal-wedding-mwunn9tc-069b",
+        "publishedAt": "2026-11-24T12:12:27.141Z",
+        "activatedBy": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:12:27.141Z",
+      "updatedAt": "2026-11-24T12:12:27.141Z"
+    },
+    {
+      "id": "ord_rec_14",
+      "orderId": "order_test_7c_14_mwunn9tc",
+      "draftId": "drf_test_7c_14_mwunn9tc",
+      "guestToken": "gst_test_token_7c_14_mwunn9tc",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_14",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_c0ae0495",
+        "slug": "karthik-meenakshi-ceremony-14-e9f2",
+        "publishedAt": "2026-11-24T12:12:27.143Z",
+        "activatedBy": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:12:27.143Z",
+      "updatedAt": "2026-11-24T12:12:27.143Z"
+    },
+    {
+      "id": "ord_rec_16",
+      "orderId": "order_test_7c_16_mwunn9tc",
+      "draftId": "drf_test_7c_16_mwunn9tc",
+      "guestToken": "gst_test_token_7c_16_mwunn9tc",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_16",
+      "notes": {
+        "templateTitle": "Thirumanam Temple",
+        "publicationId": "pub_8c808934",
+        "slug": "karthik-meenakshi-ceremony-16-e86c",
+        "publishedAt": "2026-11-24T12:12:27.145Z",
+        "activatedBy": "RECOVERY_WORKER"
+      },
+      "createdAt": "2026-11-24T12:12:27.145Z",
+      "updatedAt": "2026-11-24T12:12:27.145Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay_ref_test",
+      "paymentId": "pay_ref_123",
+      "orderId": "order_test_7c_01",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "REFUNDED",
+      "verifiedAt": "2026-11-24T12:09:44.647Z",
+      "createdAt": "2026-11-24T12:09:44.647Z",
+      "refundReason": "Customer duplicate test",
+      "refundedBy": "usr_admin",
+      "refundedAt": "2026-11-24T12:09:44.647Z"
+    },
+    {
+      "id": "pay_ref_test_mwunn9tc",
+      "paymentId": "pay_ref_mwunn9tc",
+      "orderId": "order_test_7c_01_mwunn9tc",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "REFUNDED",
+      "verifiedAt": "2026-11-24T12:12:27.148Z",
+      "createdAt": "2026-11-24T12:12:27.148Z",
+      "refundReason": "Customer duplicate test",
+      "refundedBy": "usr_admin",
+      "refundedAt": "2026-11-24T12:12:27.148Z"
+    }
+  ],
+  "invitations": [
+    {
+      "id": "inv_d12ddf15",
+      "slug": "karthik-meenakshi-ceremony-01",
+      "draftId": "drf_test_7c_01",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 1,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:09:44.620Z",
+      "updatedAt": "2026-11-24T12:09:44.620Z"
+    },
+    {
+      "id": "inv_60455178",
+      "slug": "karthik-meenakshi-ceremony-04",
+      "draftId": "drf_test_7c_04",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:09:44.627Z",
+      "updatedAt": "2026-11-24T12:09:44.627Z"
+    },
+    {
+      "id": "inv_0263d561",
+      "slug": "karthik-meenakshi-ceremony-05",
+      "draftId": "drf_test_7c_05",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:09:44.630Z",
+      "updatedAt": "2026-11-24T12:09:44.630Z"
+    },
+    {
+      "id": "inv_96a00302",
+      "slug": "karthik-meenakshi-ceremony-06",
+      "draftId": "drf_test_7c_06",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:09:44.632Z",
+      "updatedAt": "2026-11-24T12:09:44.632Z"
+    },
+    {
+      "id": "inv_eedef515",
+      "slug": "karthik-meenakshi-ceremony-09",
+      "draftId": "drf_test_7c_09",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:09:44.635Z",
+      "updatedAt": "2026-11-24T12:09:44.635Z"
+    },
+    {
+      "id": "inv_cd1b5cf1",
+      "slug": "ananya-kabir-royal-wedding",
+      "draftId": "drf_test_7c_11",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:09:44.637Z",
+      "updatedAt": "2026-11-24T12:09:44.637Z"
+    },
+    {
+      "id": "inv_f948f806",
+      "slug": "ananya-kabir-royal-wedding-bfde",
+      "draftId": "drf_test_7c_12",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:09:44.639Z",
+      "updatedAt": "2026-11-24T12:09:44.639Z"
+    },
+    {
+      "id": "inv_1601d5bb",
+      "slug": "karthik-meenakshi-ceremony-14",
+      "draftId": "drf_test_7c_14",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:09:44.641Z",
+      "updatedAt": "2026-11-24T12:09:44.641Z"
+    },
+    {
+      "id": "inv_754338d9",
+      "slug": "karthik-meenakshi-ceremony-16",
+      "draftId": "drf_test_7c_16",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:09:44.645Z",
+      "updatedAt": "2026-11-24T12:09:44.645Z"
+    },
+    {
+      "id": "inv_6c26b2a8",
+      "slug": "karthik-meenakshi-ceremony-01-73f2",
+      "draftId": "drf_test_7c_01_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:11:01.783Z",
+      "updatedAt": "2026-11-24T12:11:01.783Z"
+    },
+    {
+      "id": "inv_30430f7c",
+      "slug": "karthik-meenakshi-ceremony-04-e5ea",
+      "draftId": "drf_test_7c_04_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:11:01.786Z",
+      "updatedAt": "2026-11-24T12:11:01.786Z"
+    },
+    {
+      "id": "inv_9ae58635",
+      "slug": "karthik-meenakshi-ceremony-05-cde0",
+      "draftId": "drf_test_7c_05_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:11:01.787Z",
+      "updatedAt": "2026-11-24T12:11:01.787Z"
+    },
+    {
+      "id": "inv_a0a657ee",
+      "slug": "karthik-meenakshi-ceremony-06-9fb9",
+      "draftId": "drf_test_7c_06_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:11:01.790Z",
+      "updatedAt": "2026-11-24T12:11:01.790Z"
+    },
+    {
+      "id": "inv_2fc36357",
+      "slug": "karthik-meenakshi-ceremony-09-037d",
+      "draftId": "drf_test_7c_09_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:11:01.793Z",
+      "updatedAt": "2026-11-24T12:11:01.793Z"
+    },
+    {
+      "id": "inv_51b1f691",
+      "slug": "ananya-kabir-royal-wedding-1a03",
+      "draftId": "drf_test_7c_11_mwunlfys",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:11:01.796Z",
+      "updatedAt": "2026-11-24T12:11:01.796Z"
+    },
+    {
+      "id": "inv_ff020da1",
+      "slug": "karthik-meenakshi-ceremony-01-9eb1",
+      "draftId": "drf_test_7c_01_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 1,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:12:27.122Z",
+      "updatedAt": "2026-11-24T12:12:27.122Z"
+    },
+    {
+      "id": "inv_e47a14e6",
+      "slug": "karthik-meenakshi-ceremony-04-99c8",
+      "draftId": "drf_test_7c_04_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:12:27.125Z",
+      "updatedAt": "2026-11-24T12:12:27.125Z"
+    },
+    {
+      "id": "inv_2c5af5a2",
+      "slug": "karthik-meenakshi-ceremony-05-cad1",
+      "draftId": "drf_test_7c_05_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:12:27.128Z",
+      "updatedAt": "2026-11-24T12:12:27.128Z"
+    },
+    {
+      "id": "inv_3f8beb01",
+      "slug": "karthik-meenakshi-ceremony-06-45d4",
+      "draftId": "drf_test_7c_06_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:12:27.130Z",
+      "updatedAt": "2026-11-24T12:12:27.130Z"
+    },
+    {
+      "id": "inv_9be68af5",
+      "slug": "karthik-meenakshi-ceremony-09-b516",
+      "draftId": "drf_test_7c_09_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:12:27.134Z",
+      "updatedAt": "2026-11-24T12:12:27.134Z"
+    },
+    {
+      "id": "inv_c0ef3ced",
+      "slug": "ananya-kabir-royal-wedding-mwunn9tc",
+      "draftId": "drf_test_7c_11_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:12:27.138Z",
+      "updatedAt": "2026-11-24T12:12:27.138Z"
+    },
+    {
+      "id": "inv_86d5cac7",
+      "slug": "ananya-kabir-royal-wedding-mwunn9tc-069b",
+      "draftId": "drf_test_7c_12_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:12:27.141Z",
+      "updatedAt": "2026-11-24T12:12:27.141Z"
+    },
+    {
+      "id": "inv_c9bf75ba",
+      "slug": "karthik-meenakshi-ceremony-14-e9f2",
+      "draftId": "drf_test_7c_14_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:12:27.143Z",
+      "updatedAt": "2026-11-24T12:12:27.143Z"
+    },
+    {
+      "id": "inv_c7f41f2b",
+      "slug": "karthik-meenakshi-ceremony-16-e86c",
+      "draftId": "drf_test_7c_16_mwunn9tc",
+      "templateId": "tpl-south-indian-temple-03",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:12:27.145Z",
+      "updatedAt": "2026-11-24T12:12:27.145Z"
+    }
+  ],
+  "publications": [
+    {
+      "id": "pub_e5627e24",
+      "draftId": "drf_test_7c_01",
+      "invitationId": "inv_d12ddf15",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_01",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 01",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-01"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:09:44.620Z",
+      "expiresAt": "2027-11-24T12:09:44.620Z"
+    },
+    {
+      "id": "pub_c6d89dc3",
+      "draftId": "drf_test_7c_04",
+      "invitationId": "inv_60455178",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_04",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 04",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-04"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:09:44.627Z",
+      "expiresAt": "2027-11-24T12:09:44.627Z"
+    },
+    {
+      "id": "pub_75742dd6",
+      "draftId": "drf_test_7c_05",
+      "invitationId": "inv_0263d561",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_05",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 05",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-05"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:09:44.630Z",
+      "expiresAt": "2027-11-24T12:09:44.630Z"
+    },
+    {
+      "id": "pub_15b1738a",
+      "draftId": "drf_test_7c_06",
+      "invitationId": "inv_96a00302",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_06",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 06",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-06"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:09:44.632Z",
+      "expiresAt": "2027-11-24T12:09:44.632Z"
+    },
+    {
+      "id": "pub_bdb3c963",
+      "draftId": "drf_test_7c_09",
+      "invitationId": "inv_eedef515",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_09",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 09",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-09"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:09:44.635Z",
+      "expiresAt": "2027-11-24T12:09:44.635Z"
+    },
+    {
+      "id": "pub_ba8545b7",
+      "draftId": "drf_test_7c_11",
+      "invitationId": "inv_cd1b5cf1",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_11",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 11",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "ananya-kabir-royal-wedding"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:09:44.637Z",
+      "expiresAt": "2027-11-24T12:09:44.637Z"
+    },
+    {
+      "id": "pub_91dd112a",
+      "draftId": "drf_test_7c_12",
+      "invitationId": "inv_f948f806",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_12",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 12",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "ananya-kabir-royal-wedding-bfde"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:09:44.639Z",
+      "expiresAt": "2027-11-24T12:09:44.639Z"
+    },
+    {
+      "id": "pub_8590c231",
+      "draftId": "drf_test_7c_14",
+      "invitationId": "inv_1601d5bb",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_14",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 14",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-14"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:09:44.641Z",
+      "expiresAt": "2027-11-24T12:09:44.641Z"
+    },
+    {
+      "id": "pub_706e9105",
+      "draftId": "drf_test_7c_16",
+      "invitationId": "inv_754338d9",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_16",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 16",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-16"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:09:44.645Z",
+      "expiresAt": "2027-11-24T12:09:44.645Z"
+    },
+    {
+      "id": "pub_9abe63ae",
+      "draftId": "drf_test_7c_01_mwunlfys",
+      "invitationId": "inv_6c26b2a8",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_01_mwunlfys",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 01",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-01-73f2"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:11:01.783Z",
+      "expiresAt": "2027-11-24T12:11:01.783Z"
+    },
+    {
+      "id": "pub_490eebe4",
+      "draftId": "drf_test_7c_04_mwunlfys",
+      "invitationId": "inv_30430f7c",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_04_mwunlfys",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 04",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-04-e5ea"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:11:01.786Z",
+      "expiresAt": "2027-11-24T12:11:01.786Z"
+    },
+    {
+      "id": "pub_a1aafe4e",
+      "draftId": "drf_test_7c_05_mwunlfys",
+      "invitationId": "inv_9ae58635",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_05_mwunlfys",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 05",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-05-cde0"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:11:01.787Z",
+      "expiresAt": "2027-11-24T12:11:01.787Z"
+    },
+    {
+      "id": "pub_1d8c9e31",
+      "draftId": "drf_test_7c_06_mwunlfys",
+      "invitationId": "inv_a0a657ee",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_06_mwunlfys",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 06",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-06-9fb9"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:11:01.790Z",
+      "expiresAt": "2027-11-24T12:11:01.790Z"
+    },
+    {
+      "id": "pub_265a264b",
+      "draftId": "drf_test_7c_09_mwunlfys",
+      "invitationId": "inv_2fc36357",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_09_mwunlfys",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 09",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-09-037d"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:11:01.793Z",
+      "expiresAt": "2027-11-24T12:11:01.793Z"
+    },
+    {
+      "id": "pub_89058a02",
+      "draftId": "drf_test_7c_11_mwunlfys",
+      "invitationId": "inv_51b1f691",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_11_mwunlfys",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 11",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "ananya-kabir-royal-wedding-1a03"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:11:01.796Z",
+      "expiresAt": "2027-11-24T12:11:01.796Z"
+    },
+    {
+      "id": "pub_a873f851",
+      "draftId": "drf_test_7c_01_mwunn9tc",
+      "invitationId": "inv_ff020da1",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_01_mwunn9tc",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 01",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-01-9eb1"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:12:27.122Z",
+      "expiresAt": "2027-11-24T12:12:27.122Z"
+    },
+    {
+      "id": "pub_0710a026",
+      "draftId": "drf_test_7c_04_mwunn9tc",
+      "invitationId": "inv_e47a14e6",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_04_mwunn9tc",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 04",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-04-99c8"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:12:27.125Z",
+      "expiresAt": "2027-11-24T12:12:27.125Z"
+    },
+    {
+      "id": "pub_19d08f44",
+      "draftId": "drf_test_7c_05_mwunn9tc",
+      "invitationId": "inv_2c5af5a2",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_05_mwunn9tc",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 05",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-05-cad1"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:12:27.128Z",
+      "expiresAt": "2027-11-24T12:12:27.128Z"
+    },
+    {
+      "id": "pub_2afa7ae0",
+      "draftId": "drf_test_7c_06_mwunn9tc",
+      "invitationId": "inv_3f8beb01",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_06_mwunn9tc",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 06",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-06-45d4"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:12:27.130Z",
+      "expiresAt": "2027-11-24T12:12:27.130Z"
+    },
+    {
+      "id": "pub_cbf62b56",
+      "draftId": "drf_test_7c_09_mwunn9tc",
+      "invitationId": "inv_9be68af5",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_09_mwunn9tc",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 09",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-09-b516"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:12:27.134Z",
+      "expiresAt": "2027-11-24T12:12:27.134Z"
+    },
+    {
+      "id": "pub_168f39b0",
+      "draftId": "drf_test_7c_11_mwunn9tc",
+      "invitationId": "inv_c0ef3ced",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_11_mwunn9tc",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 11",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "ananya-kabir-royal-wedding-mwunn9tc"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:12:27.138Z",
+      "expiresAt": "2027-11-24T12:12:27.138Z"
+    },
+    {
+      "id": "pub_401fd132",
+      "draftId": "drf_test_7c_12_mwunn9tc",
+      "invitationId": "inv_86d5cac7",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_12_mwunn9tc",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 12",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "ananya-kabir-royal-wedding-mwunn9tc-069b"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:12:27.141Z",
+      "expiresAt": "2027-11-24T12:12:27.141Z"
+    },
+    {
+      "id": "pub_c0ae0495",
+      "draftId": "drf_test_7c_14_mwunn9tc",
+      "invitationId": "inv_c9bf75ba",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_14_mwunn9tc",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 14",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-14-e9f2"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:12:27.143Z",
+      "expiresAt": "2027-11-24T12:12:27.143Z"
+    },
+    {
+      "id": "pub_8c808934",
+      "draftId": "drf_test_7c_16_mwunn9tc",
+      "invitationId": "inv_c7f41f2b",
+      "templateId": "tpl-south-indian-temple-03",
+      "guestToken": "gst_test_token_7c_16_mwunn9tc",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Karthik & Meenakshi 16",
+          "weddingDate": "December 21, 2026",
+          "venue": "Tirumanam Temple, Chennai",
+          "couple_photo": "https://images.unsplash.com/photo-1519741497674",
+          "music_url": "/audio/kesariya.mp3",
+          "music_title": "Kesariya Flute"
+        },
+        "design": {
+          "themeColor": "#741E32",
+          "accentColor": "#D8B77B",
+          "sections": [
+            {
+              "id": "sec_1",
+              "title": "Haldi Ceremony"
+            }
+          ]
+        },
+        "customAudioUrl": "/audio/kesariya.mp3",
+        "customAudioTitle": "Kesariya Flute",
+        "templateTitle": "Thirumanam Temple",
+        "templateSlug": "karthik-meenakshi-ceremony-16-e86c"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:12:27.145Z",
+      "expiresAt": "2027-11-24T12:12:27.145Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log_24787f35",
+      "guestToken": "gst_test_token_7c_01",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_e5627e24",
+      "metadata": {
+        "orderId": "order_test_7c_01",
+        "draftId": "drf_test_7c_01",
+        "slug": "karthik-meenakshi-ceremony-01",
+        "actor": "TEST_RUNNER"
+      },
+      "createdAt": "2026-11-24T12:09:44.622Z"
+    },
+    {
+      "id": "log_de13b9ab",
+      "guestToken": "gst_test_token_7c_04",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_c6d89dc3",
+      "metadata": {
+        "orderId": "order_test_7c_04",
+        "draftId": "drf_test_7c_04",
+        "slug": "karthik-meenakshi-ceremony-04",
+        "actor": "WEBHOOK"
+      },
+      "createdAt": "2026-11-24T12:09:44.628Z"
+    },
+    {
+      "id": "log_e5fb652d",
+      "guestToken": "gst_test_token_7c_05",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_75742dd6",
+      "metadata": {
+        "orderId": "order_test_7c_05",
+        "draftId": "drf_test_7c_05",
+        "slug": "karthik-meenakshi-ceremony-05",
+        "actor": "CLIENT_VERIFY"
+      },
+      "createdAt": "2026-11-24T12:09:44.631Z"
+    },
+    {
+      "id": "log_6aede7ba",
+      "guestToken": "gst_test_token_7c_06",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_15b1738a",
+      "metadata": {
+        "orderId": "order_test_7c_06",
+        "draftId": "drf_test_7c_06",
+        "slug": "karthik-meenakshi-ceremony-06",
+        "actor": "WEBHOOK"
+      },
+      "createdAt": "2026-11-24T12:09:44.633Z"
+    },
+    {
+      "id": "log_01e2ad39",
+      "guestToken": "gst_test_token_7c_09",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_bdb3c963",
+      "metadata": {
+        "orderId": "order_test_7c_09",
+        "draftId": "drf_test_7c_09",
+        "slug": "karthik-meenakshi-ceremony-09",
+        "actor": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:09:44.636Z"
+    },
+    {
+      "id": "log_d2cb65e6",
+      "guestToken": "gst_test_token_7c_11",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_ba8545b7",
+      "metadata": {
+        "orderId": "order_test_7c_11",
+        "draftId": "drf_test_7c_11",
+        "slug": "ananya-kabir-royal-wedding",
+        "actor": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:09:44.638Z"
+    },
+    {
+      "id": "log_1e8a73b4",
+      "guestToken": "gst_test_token_7c_12",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_91dd112a",
+      "metadata": {
+        "orderId": "order_test_7c_12",
+        "draftId": "drf_test_7c_12",
+        "slug": "ananya-kabir-royal-wedding-bfde",
+        "actor": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:09:44.640Z"
+    },
+    {
+      "id": "log_9c6e1009",
+      "guestToken": "gst_test_token_7c_14",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_8590c231",
+      "metadata": {
+        "orderId": "order_test_7c_14",
+        "draftId": "drf_test_7c_14",
+        "slug": "karthik-meenakshi-ceremony-14",
+        "actor": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:09:44.643Z"
+    },
+    {
+      "id": "log_f2d096a5",
+      "guestToken": "gst_test_token_7c_16",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_706e9105",
+      "metadata": {
+        "orderId": "order_test_7c_16",
+        "draftId": "drf_test_7c_16",
+        "slug": "karthik-meenakshi-ceremony-16",
+        "actor": "RECOVERY_WORKER"
+      },
+      "createdAt": "2026-11-24T12:09:44.646Z"
+    },
+    {
+      "id": "log_4fb16e01",
+      "guestToken": "gst_test_token_7c_01_mwunlfys",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_9abe63ae",
+      "metadata": {
+        "orderId": "order_test_7c_01_mwunlfys",
+        "draftId": "drf_test_7c_01_mwunlfys",
+        "slug": "karthik-meenakshi-ceremony-01-73f2",
+        "actor": "TEST_RUNNER"
+      },
+      "createdAt": "2026-11-24T12:11:01.784Z"
+    },
+    {
+      "id": "log_7bc5bc05",
+      "guestToken": "gst_test_token_7c_04_mwunlfys",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_490eebe4",
+      "metadata": {
+        "orderId": "order_test_7c_04_mwunlfys",
+        "draftId": "drf_test_7c_04_mwunlfys",
+        "slug": "karthik-meenakshi-ceremony-04-e5ea",
+        "actor": "WEBHOOK"
+      },
+      "createdAt": "2026-11-24T12:11:01.787Z"
+    },
+    {
+      "id": "log_75baaca7",
+      "guestToken": "gst_test_token_7c_05_mwunlfys",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_a1aafe4e",
+      "metadata": {
+        "orderId": "order_test_7c_05_mwunlfys",
+        "draftId": "drf_test_7c_05_mwunlfys",
+        "slug": "karthik-meenakshi-ceremony-05-cde0",
+        "actor": "CLIENT_VERIFY"
+      },
+      "createdAt": "2026-11-24T12:11:01.789Z"
+    },
+    {
+      "id": "log_10935ca2",
+      "guestToken": "gst_test_token_7c_06_mwunlfys",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_1d8c9e31",
+      "metadata": {
+        "orderId": "order_test_7c_06_mwunlfys",
+        "draftId": "drf_test_7c_06_mwunlfys",
+        "slug": "karthik-meenakshi-ceremony-06-9fb9",
+        "actor": "WEBHOOK"
+      },
+      "createdAt": "2026-11-24T12:11:01.791Z"
+    },
+    {
+      "id": "log_d0227770",
+      "guestToken": "gst_test_token_7c_09_mwunlfys",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_265a264b",
+      "metadata": {
+        "orderId": "order_test_7c_09_mwunlfys",
+        "draftId": "drf_test_7c_09_mwunlfys",
+        "slug": "karthik-meenakshi-ceremony-09-037d",
+        "actor": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:11:01.794Z"
+    },
+    {
+      "id": "log_24e839cc",
+      "guestToken": "gst_test_token_7c_11_mwunlfys",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_89058a02",
+      "metadata": {
+        "orderId": "order_test_7c_11_mwunlfys",
+        "draftId": "drf_test_7c_11_mwunlfys",
+        "slug": "ananya-kabir-royal-wedding-1a03",
+        "actor": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:11:01.797Z"
+    },
+    {
+      "id": "log_2f20b0a2",
+      "guestToken": "gst_test_token_7c_01_mwunn9tc",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_a873f851",
+      "metadata": {
+        "orderId": "order_test_7c_01_mwunn9tc",
+        "draftId": "drf_test_7c_01_mwunn9tc",
+        "slug": "karthik-meenakshi-ceremony-01-9eb1",
+        "actor": "TEST_RUNNER"
+      },
+      "createdAt": "2026-11-24T12:12:27.124Z"
+    },
+    {
+      "id": "log_8b3a50f2",
+      "guestToken": "gst_test_token_7c_04_mwunn9tc",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_0710a026",
+      "metadata": {
+        "orderId": "order_test_7c_04_mwunn9tc",
+        "draftId": "drf_test_7c_04_mwunn9tc",
+        "slug": "karthik-meenakshi-ceremony-04-99c8",
+        "actor": "WEBHOOK"
+      },
+      "createdAt": "2026-11-24T12:12:27.126Z"
+    },
+    {
+      "id": "log_627af7db",
+      "guestToken": "gst_test_token_7c_05_mwunn9tc",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_19d08f44",
+      "metadata": {
+        "orderId": "order_test_7c_05_mwunn9tc",
+        "draftId": "drf_test_7c_05_mwunn9tc",
+        "slug": "karthik-meenakshi-ceremony-05-cad1",
+        "actor": "CLIENT_VERIFY"
+      },
+      "createdAt": "2026-11-24T12:12:27.129Z"
+    },
+    {
+      "id": "log_ee68ef88",
+      "guestToken": "gst_test_token_7c_06_mwunn9tc",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_2afa7ae0",
+      "metadata": {
+        "orderId": "order_test_7c_06_mwunn9tc",
+        "draftId": "drf_test_7c_06_mwunn9tc",
+        "slug": "karthik-meenakshi-ceremony-06-45d4",
+        "actor": "WEBHOOK"
+      },
+      "createdAt": "2026-11-24T12:12:27.131Z"
+    },
+    {
+      "id": "log_41e05af0",
+      "guestToken": "gst_test_token_7c_09_mwunn9tc",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_cbf62b56",
+      "metadata": {
+        "orderId": "order_test_7c_09_mwunn9tc",
+        "draftId": "drf_test_7c_09_mwunn9tc",
+        "slug": "karthik-meenakshi-ceremony-09-b516",
+        "actor": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:12:27.135Z"
+    },
+    {
+      "id": "log_956a392d",
+      "guestToken": "gst_test_token_7c_11_mwunn9tc",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_168f39b0",
+      "metadata": {
+        "orderId": "order_test_7c_11_mwunn9tc",
+        "draftId": "drf_test_7c_11_mwunn9tc",
+        "slug": "ananya-kabir-royal-wedding-mwunn9tc",
+        "actor": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:12:27.140Z"
+    },
+    {
+      "id": "log_b3467632",
+      "guestToken": "gst_test_token_7c_12_mwunn9tc",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_401fd132",
+      "metadata": {
+        "orderId": "order_test_7c_12_mwunn9tc",
+        "draftId": "drf_test_7c_12_mwunn9tc",
+        "slug": "ananya-kabir-royal-wedding-mwunn9tc-069b",
+        "actor": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:12:27.142Z"
+    },
+    {
+      "id": "log_815f4ad2",
+      "guestToken": "gst_test_token_7c_14_mwunn9tc",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_c0ae0495",
+      "metadata": {
+        "orderId": "order_test_7c_14_mwunn9tc",
+        "draftId": "drf_test_7c_14_mwunn9tc",
+        "slug": "karthik-meenakshi-ceremony-14-e9f2",
+        "actor": "SYSTEM"
+      },
+      "createdAt": "2026-11-24T12:12:27.144Z"
+    },
+    {
+      "id": "log_48169cc6",
+      "guestToken": "gst_test_token_7c_16_mwunn9tc",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_8c808934",
+      "metadata": {
+        "orderId": "order_test_7c_16_mwunn9tc",
+        "draftId": "drf_test_7c_16_mwunn9tc",
+        "slug": "karthik-meenakshi-ceremony-16-e86c",
+        "actor": "RECOVERY_WORKER"
+      },
+      "createdAt": "2026-11-24T12:12:27.147Z"
+    }
+  ],
   "categories": [
     {
       "id": "cat_wedding",
@@ -1901,5 +4735,53 @@
     "maxAudioUploadBytes": 26214400,
     "maxImageUploadBytes": 10485760,
     "updatedAt": "2026-11-21T07:49:04.203Z"
-  }
+  },
+  "webhookEvents": [
+    {
+      "id": "evt_rec_1f00f8b5",
+      "eventId": "evt_durable_test_1795522184633",
+      "provider": "razorpay",
+      "eventType": "generic",
+      "status": "CAPTURED",
+      "receivedAt": "2026-11-24T12:09:44.634Z",
+      "processedAt": "2026-11-24T12:09:44.634Z"
+    },
+    {
+      "id": "evt_rec_a5acc991",
+      "eventId": "evt_test_dedup_001",
+      "provider": "razorpay",
+      "eventType": "generic",
+      "status": "CAPTURED",
+      "receivedAt": "2026-11-24T12:10:14.117Z",
+      "processedAt": "2026-11-24T12:10:14.117Z"
+    },
+    {
+      "id": "evt_rec_32e8fdb2",
+      "eventId": "evt_durable_test_1795522261792",
+      "provider": "razorpay",
+      "eventType": "generic",
+      "status": "CAPTURED",
+      "receivedAt": "2026-11-24T12:11:01.792Z",
+      "processedAt": "2026-11-24T12:11:01.792Z"
+    },
+    {
+      "id": "evt_rec_9c3b2ba4",
+      "eventId": "evt_test_dedup_mwunn962",
+      "provider": "razorpay",
+      "eventType": "generic",
+      "status": "CAPTURED",
+      "receivedAt": "2026-11-24T12:12:26.283Z",
+      "processedAt": "2026-11-24T12:12:26.283Z"
+    },
+    {
+      "id": "evt_rec_20415931",
+      "eventId": "evt_durable_test_1795522347132",
+      "provider": "razorpay",
+      "eventType": "generic",
+      "status": "CAPTURED",
+      "receivedAt": "2026-11-24T12:12:27.132Z",
+      "processedAt": "2026-11-24T12:12:27.133Z"
+    }
+  ],
+  "publicationJobs": []
 }

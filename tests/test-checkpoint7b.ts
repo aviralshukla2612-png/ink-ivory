@@ -172,7 +172,7 @@ async function runAllTests() {
   // -------------------------------------------------------------
   console.log('Test 10: Duplicate Webhook Event Deduplication...');
   PaymentDeduplicationService._resetForTesting();
-  const testEventId = 'evt_test_dedup_001';
+  const testEventId = 'evt_test_dedup_' + Date.now().toString(36);
   
   assert.strictEqual(PaymentDeduplicationService.isEventProcessed(testEventId), false);
   PaymentDeduplicationService.markEventProcessed(testEventId, 'CAPTURED');

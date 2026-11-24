@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { APPROVED_RENDERER_REGISTRY } from "./templates/renderer-registry";
-import { templatesData } from "@/data/templates";
+import { templatesData } from "../data/templates";
 
 export type Role = "USER" | "ADMIN" | "SUPER_ADMIN" | "FINANCE" | "CONTENT_MANAGER" | "SUPPORT";
 export type DraftStatus = "DRAFT" | "READY_TO_PUBLISH" | "PAYMENT_PENDING" | "PUBLISHED" | "ARCHIVED";
@@ -208,6 +208,38 @@ export interface InvitationRecord {
   updatedAt: string;
 }
 
+export interface WebhookEventRecord {
+  id: string;
+  eventId: string; // provider event id e.g. evt_xxx
+  provider: string;
+  eventType: string;
+  orderId?: string;
+  paymentId?: string;
+  status: string;
+  receivedAt: string;
+  processedAt?: string;
+}
+
+export type PublicationJobStatus =
+  | 'PENDING'
+  | 'PROCESSING'
+  | 'COMPLETED'
+  | 'FAILED_RETRYABLE'
+  | 'PERMANENTLY_FAILED';
+
+export interface PublicationJobRecord {
+  id: string;
+  orderId: string;
+  draftId: string;
+  status: PublicationJobStatus;
+  retryCount: number;
+  maxRetries: number;
+  lastError?: string;
+  requestedSlug?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface PublicationRecord {
   id: string;
   draftId: string;
@@ -229,6 +261,7 @@ export interface PublicationRecord {
   expiresAt?: string;
   suspensionReason?: string;
 }
+
 
 export interface AuditLogRecord {
   id: string;
@@ -257,7 +290,10 @@ interface DBStore {
   templateVersions: TemplateVersionRecord[];
   templateSections: TemplateSectionRecord[];
   settings: PlatformSettingsRecord;
+  webhookEvents?: WebhookEventRecord[];
+  publicationJobs?: PublicationJobRecord[];
 }
+
 
 const STORE_PATH = path.join(process.cwd(), "data", "ink-ivory-store.json");
 
@@ -534,7 +570,10 @@ class StoreService {
         if (!this.data!.templateVersions) this.data!.templateVersions = [];
         if (!this.data!.templateSections) this.data!.templateSections = [];
         if (!this.data!.settings) this.data!.settings = getDefaultSettings();
+        if (!this.data!.webhookEvents) this.data!.webhookEvents = [];
+        if (!this.data!.publicationJobs) this.data!.publicationJobs = [];
       } else {
+
         this.data = getDefaultData();
         this.save();
       }
@@ -554,6 +593,82 @@ class StoreService {
       console.error("Failed to write store to disk:", e);
     }
   }
+
+  // --- Persistent Webhook Events ---
+  hasWebhookEvent(eventId: string): boolean {
+    this.init();
+    if (!this.data?.webhookEvents) return false;
+    return this.data.webhookEvents.some((e) => e.eventId === eventId);
+  }
+
+  async recordWebhookEvent(event: {
+    eventId: string;
+    provider: string;
+    eventType: string;
+    orderId?: string;
+    paymentId?: string;
+    status: string;
+  }): Promise<boolean> {
+    this.init();
+    if (!this.data!.webhookEvents) this.data!.webhookEvents = [];
+    if (this.hasWebhookEvent(event.eventId)) {
+      return false; // Duplicate
+    }
+    const record: WebhookEventRecord = {
+      id: "evt_rec_" + crypto.randomUUID().slice(0, 8),
+      ...event,
+      receivedAt: new Date().toISOString(),
+      processedAt: new Date().toISOString(),
+    };
+    this.data!.webhookEvents.push(record);
+    this.save();
+    return true;
+  }
+
+  // --- Publication & Recovery Lookups ---
+  async getPublicationByOrderId(orderId: string): Promise<PublicationRecord | null> {
+    this.init();
+    const order = this.data!.orders.find((o) => o.orderId === orderId);
+    if (!order) return null;
+    return this.data!.publications.find((p) => p.draftId === order.draftId) || null;
+  }
+
+  async getPublicationByDraftId(draftId: string): Promise<PublicationRecord | null> {
+    this.init();
+    return this.data!.publications.find((p) => p.draftId === draftId) || null;
+  }
+
+  async savePublicationJob(job: PublicationJobRecord): Promise<void> {
+    this.init();
+    if (!this.data!.publicationJobs) this.data!.publicationJobs = [];
+    const idx = this.data!.publicationJobs.findIndex((j) => j.id === job.id || j.orderId === job.orderId);
+    if (idx >= 0) {
+      this.data!.publicationJobs[idx] = { ...this.data!.publicationJobs[idx], ...job, updatedAt: new Date().toISOString() };
+    } else {
+      this.data!.publicationJobs.push({ ...job, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
+    }
+    this.save();
+  }
+
+  async listPendingPublicationJobs(): Promise<PublicationJobRecord[]> {
+    this.init();
+    if (!this.data!.publicationJobs) return [];
+    return this.data!.publicationJobs.filter((j) => j.status === 'PENDING' || j.status === 'FAILED_RETRYABLE');
+  }
+
+  async updatePublicationJobStatus(jobId: string, status: PublicationJobStatus, error?: string): Promise<void> {
+    this.init();
+    if (!this.data!.publicationJobs) return;
+    const job = this.data!.publicationJobs.find((j) => j.id === jobId || j.orderId === jobId);
+    if (job) {
+      job.status = status;
+      if (error) job.lastError = error;
+      if (status === 'FAILED_RETRYABLE') job.retryCount += 1;
+      job.updatedAt = new Date().toISOString();
+      this.save();
+    }
+  }
+
 
   // --- Audit Logs ---
   async logAudit(entry: {

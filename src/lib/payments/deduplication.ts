@@ -1,11 +1,12 @@
 /**
  * Payment Deduplication & Concurrency Lock Engine
- * Guarantees idempotent webhook processing and prevents race conditions
- * between concurrent client verification and webhook delivery.
+ * Guarantees persistent webhook deduplication surviving server restarts
+ * and mutex locks to prevent race conditions.
  */
+import { store } from '../store';
 
-// In-memory processed event set (persists during node runtime)
-const processedEvents = new Map<string, { timestamp: number; status: string }>();
+// In-memory processed event set for sub-millisecond memory checks
+const memoryEvents = new Map<string, { timestamp: number; status: string }>();
 
 // In-flight mutex locks per orderId
 const inFlightLocks = new Map<string, number>();
@@ -15,35 +16,61 @@ const LOCK_TIMEOUT_MS = 1000 * 30; // 30 seconds
 
 export const PaymentDeduplicationService = {
   /**
-   * Checks if a provider event ID was already processed.
+   * Checks if a provider event ID was already processed (checking both memory and persistent store).
    */
   isEventProcessed(eventId: string): boolean {
     if (!eventId) return false;
-    const existing = processedEvents.get(eventId);
-    if (!existing) return false;
 
-    // Check if expired
-    if (Date.now() - existing.timestamp > EVENT_TTL_MS) {
-      processedEvents.delete(eventId);
-      return false;
+    // 1. Fast in-memory check
+    const existing = memoryEvents.get(eventId);
+    if (existing && Date.now() - existing.timestamp < EVENT_TTL_MS) {
+      return true;
     }
-    return true;
+
+    // 2. Persistent store check (survives process crashes/restarts)
+    return store.hasWebhookEvent(eventId);
   },
 
   /**
-   * Records a provider event ID as processed.
+   * Records a provider event ID as processed in both memory and persistent storage.
    */
-  markEventProcessed(eventId: string, status: string = 'SUCCESS'): void {
-    if (!eventId) return;
-    processedEvents.set(eventId, {
+  async markEventProcessed(
+    event: {
+      eventId: string;
+      provider?: string;
+      eventType?: string;
+      orderId?: string;
+      paymentId?: string;
+      status?: string;
+    } | string,
+    fallbackStatus: string = 'SUCCESS'
+  ): Promise<boolean> {
+    const eventId = typeof event === 'string' ? event : event.eventId;
+    const status = typeof event === 'string' ? fallbackStatus : event.status || fallbackStatus;
+    const provider = typeof event === 'string' ? 'razorpay' : event.provider || 'razorpay';
+    const eventType = typeof event === 'string' ? 'generic' : event.eventType || 'generic';
+
+    if (!eventId) return false;
+
+    // Record in memory
+    memoryEvents.set(eventId, {
       timestamp: Date.now(),
+      status,
+    });
+
+    // Record in persistent store
+    return await store.recordWebhookEvent({
+      eventId,
+      provider,
+      eventType,
+      orderId: typeof event === 'string' ? undefined : event.orderId,
+      paymentId: typeof event === 'string' ? undefined : event.paymentId,
       status,
     });
   },
 
   /**
    * Acquires a concurrency lock for an orderId.
-   * Returns true if lock acquired, false if another process is currently operating on it.
    */
   acquireOrderLock(orderId: string): boolean {
     if (!orderId) return true;
@@ -51,8 +78,7 @@ export const PaymentDeduplicationService = {
     const now = Date.now();
 
     if (lockTime && now - lockTime < LOCK_TIMEOUT_MS) {
-      // Locked by concurrent request
-      return false;
+      return false; // Locked by another concurrent request
     }
 
     inFlightLocks.set(orderId, now);
@@ -84,10 +110,10 @@ export const PaymentDeduplicationService = {
   },
 
   /**
-   * Clears internal state (useful for test resets).
+   * Clears in-memory test state.
    */
   _resetForTesting(): void {
-    processedEvents.clear();
+    memoryEvents.clear();
     inFlightLocks.clear();
   },
 };

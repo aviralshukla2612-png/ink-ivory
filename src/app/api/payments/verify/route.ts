@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { store } from "@/lib/store";
 import { getOrCreateGuestToken, verifyOwnership } from "@/lib/auth";
 import { getPaymentProvider, PaymentProviderId, PaymentDeduplicationService } from "@/lib/payments/provider-adapter";
+import { PublicationActivationService } from "@/lib/payments/publication-service";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 import { createRateLimitResponse } from "@/lib/security/rate-limit-response";
 import { VerifyPaymentSchema } from "@/lib/security/validators";
@@ -100,37 +101,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      // 7. Idempotency Guard: If order was already paid or draft published, return existing invitation
-      if (order.status === "PAID" || draft.status === "PUBLISHED") {
-        const allInvitations = (store as any).data?.invitations || [];
-        const existingInvitation = allInvitations.find(
-          (inv: any) => inv.draftId === draft.id && inv.isPublic
-        );
-        if (existingInvitation) {
-          const host = request.headers.get("host") || "localhost:3000";
-          const protocol = host.includes("localhost") ? "http" : "https";
-          const invitationUrl = `${protocol}://${host}/invite/${existingInvitation.slug}`;
-
-          logSecurityEvent({
-            event: "PAYMENT_VERIFY_IDEMPOTENT_HIT",
-            level: "INFO",
-            guestToken,
-            details: { orderId, draftId: draft.id, slug: existingInvitation.slug },
-          });
-
-          return NextResponse.json({
-            success: true,
-            message: "Payment already verified. Returning existing publication.",
-            slug: existingInvitation.slug,
-            invitationUrl,
-            invitationId: existingInvitation.id,
-            draftId: draft.id,
-            isIdempotent: true,
-          });
-        }
-      }
-
-      // 8. Record Payment & Publish Draft Atomically
+      // 7. Record Payment as CAPTURED
       await store.recordPayment({
         paymentId,
         orderId,
@@ -140,30 +111,29 @@ export async function POST(request: NextRequest) {
         signature,
       });
 
-      const { invitation, slug } = await store.publishDraft({
-        draftId: draft.id,
-        paymentId,
-        requestedSlug,
-      });
-
+      // 8. Shared Publication Activation Service
       const host = request.headers.get("host") || "localhost:3000";
       const protocol = host.includes("localhost") ? "http" : "https";
-      const invitationUrl = `${protocol}://${host}/invite/${slug}`;
+      const baseUrl = `${protocol}://${host}`;
 
-      logSecurityEvent({
-        event: "WEBSITE_PUBLISHED_SUCCESSFULLY",
-        level: "INFO",
-        guestToken,
-        details: { slug, orderId, paymentId, draftId: draft.id, provider: provider.id },
+      const activation = await PublicationActivationService.activate({
+        orderId,
+        paymentId,
+        requestedSlug,
+        actor: "CLIENT_VERIFY",
+        baseUrl,
       });
 
       return NextResponse.json({
         success: true,
-        message: "Payment verified and invitation published!",
-        slug,
-        invitationUrl,
-        publicationId: invitation.id,
+        message: activation.isIdempotent
+          ? "Payment already verified. Returning existing publication."
+          : "Payment verified and invitation published!",
+        slug: activation.slug,
+        invitationUrl: activation.invitationUrl,
+        publicationId: activation.publication.id,
         draftId: draft.id,
+        isIdempotent: activation.isIdempotent,
       });
     });
   } catch (error: any) {

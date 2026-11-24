@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { store } from "@/lib/store";
 import { getPaymentProvider, PaymentDeduplicationService } from "@/lib/payments/provider-adapter";
+import { PublicationActivationService } from "@/lib/payments/publication-service";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 import { createRateLimitResponse } from "@/lib/security/rate-limit-response";
 import { logSecurityEvent } from "@/lib/security/logger";
@@ -37,7 +38,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Invalid webhook signature" }, { status: 400 });
     }
 
-    // 3. Deduplication Check: Ignore already handled webhook events
+    // 3. Persistent Deduplication Check: Ignore already handled webhook events (survives restarts)
     if (PaymentDeduplicationService.isEventProcessed(event.eventId)) {
       logSecurityEvent({
         event: "WEBHOOK_DUPLICATE_EVENT_DROPPED",
@@ -54,6 +55,7 @@ export async function POST(request: NextRequest) {
 
         if (event.status === "CAPTURED") {
           if (order && order.status !== "PAID") {
+            // 4.1 Record Captured Payment
             await store.recordPayment({
               paymentId: event.paymentId || `pay_${Date.now()}`,
               orderId: event.orderId!,
@@ -64,13 +66,16 @@ export async function POST(request: NextRequest) {
               rawResponse: event.rawEntity,
             });
 
-            // Check if draft needs publishing
-            const draft = await store.getDraft(order.draftId);
-            if (draft && draft.status !== "PUBLISHED") {
-              await store.publishDraft({
-                draftId: draft.id,
+            // 4.2 Shared Publication Activation Service
+            try {
+              await PublicationActivationService.activate({
+                orderId: event.orderId!,
                 paymentId: event.paymentId,
+                actor: "WEBHOOK",
               });
+            } catch (pubErr: any) {
+              console.warn(`[Webhook] Publication activation notice for order ${event.orderId}:`, pubErr.message);
+              // Safe recovery worker will pick this up automatically
             }
           }
         } else if (event.status === "FAILED") {
@@ -85,12 +90,11 @@ export async function POST(request: NextRequest) {
             });
           }
         }
-
       });
     }
 
-    // 5. Mark Event ID As Processed
-    PaymentDeduplicationService.markEventProcessed(event.eventId, event.status);
+    // 5. Mark Event ID As Processed (Persisted in store)
+    await PaymentDeduplicationService.markEventProcessed(event);
 
     // 6. Security Audit Log
     await store.logAudit({
