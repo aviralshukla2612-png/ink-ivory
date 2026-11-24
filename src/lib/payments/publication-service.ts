@@ -163,11 +163,12 @@ export class PublicationActivationService {
       invitation.updatedAt = now;
     }
 
-    // 7.2 Create Immutable PublicationRecord Snapshot
+    // 7.2 Create Immutable PublicationRecord Snapshot with Complete Visual & Media Contracts
     const publication: PublicationRecord = {
       id: 'pub_' + crypto.randomUUID().slice(0, 8),
       draftId: draft.id,
       invitationId: invitation.id,
+      orderId: order.orderId,
       templateId: draft.templateId,
       userId: draft.userId || order.userId,
       guestToken: draft.guestToken,
@@ -175,10 +176,15 @@ export class PublicationActivationService {
       snapshotData: {
         fields: JSON.parse(JSON.stringify(draft.fields || {})),
         design: JSON.parse(JSON.stringify(draft.design || {})),
-        customAudioUrl: draft.customAudioUrl || draft.fields?.music_url,
-        customAudioTitle: draft.customAudioTitle || draft.fields?.music_title,
+        elements: JSON.parse(JSON.stringify(draft.design?.elements || draft.fields?.elements || [])),
+        sections: JSON.parse(JSON.stringify(draft.design?.sections || draft.fields?.sections || [])),
+        customAudioUrl: draft.customAudioUrl || draft.fields?.music_url || '',
+        customAudioTitle: draft.customAudioTitle || draft.fields?.music_title || '',
         templateTitle: template?.title || order.notes?.templateTitle || 'You Are Mine Bespoke Invitation',
         templateSlug: template?.slug || finalSlug,
+        previewImage: template?.previewImage || draft.fields?.cover_image || draft.fields?.image_url || '',
+        rsvpConfig: JSON.parse(JSON.stringify(draft.fields?.rsvp || draft.design?.rsvp || {})),
+        publishedSnapshotAt: now,
       },
       status: 'ACTIVE',
       publishedAt: now,

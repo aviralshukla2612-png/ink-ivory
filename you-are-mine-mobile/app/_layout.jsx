@@ -40,6 +40,11 @@ export default function RootLayout() {
           <Stack.Screen name="template/[id]" options={{ headerShown: false }} />
           <Stack.Screen name="editor/[id]" options={{ headerShown: false }} />
           <Stack.Screen name="preview/[id]" options={{ headerShown: false }} />
+          <Stack.Screen name="checkout/[id]" options={{ headerShown: false }} />
+          <Stack.Screen name="checkout/success" options={{ headerShown: false }} />
+          <Stack.Screen name="checkout/failure" options={{ headerShown: false }} />
+          <Stack.Screen name="checkout/pending" options={{ headerShown: false }} />
+          <Stack.Screen name="checkout/processing" options={{ headerShown: false }} />
         </Stack>
 
       </QueryClientProvider>

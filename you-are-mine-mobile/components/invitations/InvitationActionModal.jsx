@@ -20,6 +20,7 @@ export function InvitationActionModal({
   onClose,
   onEdit,
   onPreview,
+  onPublish,
   onDuplicate,
   onDeletePrompt,
 }) {
@@ -184,6 +185,25 @@ export function InvitationActionModal({
             {/* Draft-Specific Actions */}
             {!isPublished && (
               <>
+                <TouchableOpacity
+                  style={[styles.actionItem, { backgroundColor: '#FAF5ED', borderRadius: 10, marginVertical: 4 }]}
+                  onPress={() => {
+                    onClose();
+                    if (onPublish) onPublish(invitation);
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <View style={[styles.actionIconBox, { backgroundColor: Colors.primary }]}>
+                    <Sparkles size={18} color={Colors.champagneGold} />
+                  </View>
+                  <View style={styles.actionTextBox}>
+                    <Text style={[styles.actionTitle, { color: Colors.primary, fontWeight: '700' }]}>
+                      Publish & Get Live Link
+                    </Text>
+                    <Text style={styles.actionDesc}>Order publication and receive official guest URL</Text>
+                  </View>
+                </TouchableOpacity>
+
                 <TouchableOpacity
                   style={styles.actionItem}
                   onPress={() => {

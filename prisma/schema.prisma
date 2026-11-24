@@ -258,7 +258,8 @@ model Invitation {
 
 model Publication {
   id           String            @id @default(uuid())
-  draftId      String
+  orderId      String?           @unique // Database-level concurrency & idempotency boundary
+  draftId      String            @unique // Exactly one active publication per draft
   draft        Draft             @relation(fields: [draftId], references: [id], onDelete: Restrict)
   invitationId String
   invitation   Invitation        @relation(fields: [invitationId], references: [id], onDelete: Restrict)
@@ -273,6 +274,7 @@ model Publication {
   publishedAt  DateTime          @default(now())
   expiresAt    DateTime?
 
+  @@index([orderId])
   @@index([draftId])
   @@index([invitationId])
   @@index([status])

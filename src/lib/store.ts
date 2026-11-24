@@ -242,6 +242,7 @@ export interface PublicationJobRecord {
 
 export interface PublicationRecord {
   id: string;
+  orderId?: string;
   draftId: string;
   invitationId: string;
   templateId: string;
@@ -251,10 +252,15 @@ export interface PublicationRecord {
   snapshotData: {
     fields: Record<string, any>;
     design: Record<string, any>;
+    elements?: any[];
+    sections?: any[];
     customAudioUrl?: string;
     customAudioTitle?: string;
     templateTitle?: string;
     templateSlug?: string;
+    previewImage?: string;
+    rsvpConfig?: Record<string, any>;
+    publishedSnapshotAt?: string;
   };
   status: PublicationStatus;
   publishedAt: string;

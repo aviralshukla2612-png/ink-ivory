@@ -153,10 +153,8 @@ export default function InvitationPreviewScreen() {
   };
 
   const handlePublish = () => {
-    Alert.alert(
-      'Publish Celebration Invitation',
-      'Publishing and digital card checkout will be activated in Milestone 7. Your draft is safely saved and ready for launch!'
-    );
+    const targetDraftId = draftData?.id || id;
+    router.push(`/checkout/${targetDraftId}`);
   };
 
   if (loading) {

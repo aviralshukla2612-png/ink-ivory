@@ -279,6 +279,7 @@ export default function InvitationsScreen() {
         onClose={() => setActionModalVisible(false)}
         onEdit={handleEdit}
         onPreview={handlePreview}
+        onPublish={(item) => router.push(`/checkout/${item.id}`)}
         onDuplicate={handleDuplicate}
         onDeletePrompt={handleDeletePrompt}
       />
