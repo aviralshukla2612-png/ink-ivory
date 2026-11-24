@@ -15,12 +15,13 @@ export const MusicService = {
       if (category && category !== 'All') params.category = category;
       if (search && search.trim()) params.search = search.trim();
 
-      const response = await apiClient.get('/api/music', { params });
-      const tracks = response.data || [];
+      const raw = await apiClient.get('/api/music', { params });
+      const tracks = Array.isArray(raw) ? raw : (raw?.data || []);
+      const categories = raw?.categories || ['All', 'Wedding', 'Birthday', 'Proposal', 'Valentine'];
 
       return {
-        categories: response.categories || ['All', 'Wedding', 'Birthday', 'Proposal', 'Valentine'],
-        total: response.total || tracks.length,
+        categories,
+        total: raw?.total || tracks.length,
         tracks: tracks.map((t) => ({
           ...t,
           fullAudioUrl: t.source?.startsWith('http')

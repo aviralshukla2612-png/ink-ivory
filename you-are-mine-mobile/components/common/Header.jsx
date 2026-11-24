@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ChevronLeft, Bell } from 'lucide-react-native';
 import { Colors } from '../../constants/colors';
-import { LotusLogo } from './LotusLogo';
 
 export function Header({
   title,
@@ -32,11 +31,21 @@ export function Header({
       {/* Center Slot: Brand Logo & Title */}
       <View style={styles.centerSlot}>
         {title ? (
-          <Text style={styles.titleText}>{title}</Text>
+          <View style={styles.titleRow}>
+            <Image
+              source={require('../../assets/logo-icon.png')}
+              style={styles.headerIconLogo}
+              resizeMode="contain"
+            />
+            <Text style={styles.titleText} numberOfLines={1}>{title}</Text>
+          </View>
         ) : (
           <View style={styles.brandRow}>
-            <LotusLogo size={24} color={Colors.champagneGold} />
-            <Text style={styles.brandTitle}>YOU ARE MINE</Text>
+            <Image
+              source={require('../../assets/logo.png')}
+              style={styles.brandLogoImage}
+              resizeMode="contain"
+            />
           </View>
         )}
       </View>
@@ -62,7 +71,7 @@ export function Header({
 
 const styles = StyleSheet.create({
   container: {
-    height: 52,
+    height: 56,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -87,17 +96,23 @@ const styles = StyleSheet.create({
   brandRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  brandLogoImage: {
+    width: 150,
+    height: 38,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 8,
   },
-  brandTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-    letterSpacing: 2.2,
-    color: Colors.textPrimary,
-    fontFamily: 'serif',
+  headerIconLogo: {
+    width: 22,
+    height: 22,
   },
   titleText: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: '700',
     color: Colors.textPrimary,
     fontFamily: 'serif',

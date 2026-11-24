@@ -9,7 +9,7 @@ export const TemplatesService = {
     try {
       const response = await apiClient.get('/api/templates');
       const templates = response?.data || (Array.isArray(response) ? response : []);
-      
+
       // Normalize image URLs and default fields
       return templates.map((tpl) => ({
         ...tpl,

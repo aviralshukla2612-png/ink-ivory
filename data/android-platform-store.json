@@ -1,0 +1,110 @@
+{
+  "config": {
+    "id": "cfg_android_global",
+    "minSupportedVersion": "1.0.0",
+    "latestVersion": "1.0.0",
+    "forceUpdateRequired": false,
+    "forceUpdateMessage": "A new version of YOU ARE MINE is available on Google Play with enhanced performance and interactive animations. Please update to continue.",
+    "playStoreUrl": "https://play.google.com/store/apps/details?id=com.youaremine.app",
+    "announcementTitle": "Welcome to YOU ARE MINE on Android!",
+    "announcementBody": "Create, personalize, and share regal invitation websites directly from your phone.",
+    "announcementActive": true,
+    "featuredTemplateIds": [
+      "tpl-wedding-navy-01",
+      "tpl-valentine-interactive-02",
+      "tpl-temple-wedding-05"
+    ],
+    "featuredCollectionSlugs": [
+      "the-royal-navy-wedding",
+      "will-you-be-my-valentine",
+      "thirumanam-south-indian-temple-wedding"
+    ],
+    "hiddenCategorySlugs": [],
+    "banners": [
+      {
+        "id": "bnr_1",
+        "title": "Regal Royal Navy Wedding",
+        "subtitle": "Interactive Palace Entrance Doors & Sitar Soundtrack",
+        "imageUrl": "/images/templates/royal-navy-wedding-card.jpg",
+        "targetUrl": "/customize/the-royal-navy-wedding",
+        "isActive": true,
+        "order": 1
+      },
+      {
+        "id": "bnr_2",
+        "title": "Will You Be My Valentine?",
+        "subtitle": "Interactive Animated Envelope & Romantic Love Letter",
+        "imageUrl": "/images/templates/valentine-romantic-card.jpg",
+        "targetUrl": "/customize/will-you-be-my-valentine",
+        "isActive": true,
+        "order": 2
+      },
+      {
+        "id": "bnr_3",
+        "title": "South Indian Temple Thirumanam",
+        "subtitle": "Traditional Brass Vilakku Lamps & Auspicious Hymns",
+        "imageUrl": "/images/templates/temple-wedding-card.jpg",
+        "targetUrl": "/customize/thirumanam-south-indian-temple-wedding",
+        "isActive": true,
+        "order": 3
+      }
+    ],
+    "releaseNotes": [
+      {
+        "version": "1.0.0",
+        "releaseDate": "November 2026",
+        "highlights": [
+          "Official Google Play Store release of YOU ARE MINE",
+          "7 bespoke celebration templates across Weddings, Birthdays, Proposals, and Valentine's Day",
+          "Full 100+ audio soundtrack library with interactive waveform story preview",
+          "Native Android share sheet & WhatsApp guest invitation forwarding",
+          "One centralized administration with real-time analytics"
+        ]
+      }
+    ],
+    "updatedAt": "2026-11-24T13:08:49.981Z"
+  },
+  "campaigns": [
+    {
+      "id": "cmp_welcome_2026",
+      "title": "Craft Your Dream Invitation",
+      "body": "Personalize regal digital wedding & birthday invitation websites in minutes.",
+      "platform": "ALL",
+      "targetAudience": "ALL_CUSTOMERS",
+      "deepLink": "youaremine://templates",
+      "status": "SENT",
+      "sentCount": 1420,
+      "openCount": 618,
+      "sentAt": "2026-11-22T13:08:49.981Z",
+      "createdAt": "2026-11-21T13:08:49.981Z"
+    },
+    {
+      "id": "cmp_wedding_season",
+      "title": "Royal Navy Wedding Template is Trending!",
+      "body": "Experience golden palace doors and sitar melodies for your big celebration.",
+      "platform": "ANDROID",
+      "targetAudience": "ALL_CUSTOMERS",
+      "deepLink": "youaremine://template/the-royal-navy-wedding",
+      "status": "SENT",
+      "sentCount": 890,
+      "openCount": 412,
+      "sentAt": "2026-11-23T13:08:49.981Z",
+      "createdAt": "2026-11-22T13:08:49.981Z"
+    }
+  ],
+  "customTracks": [],
+  "analytics": {
+    "webVisits": 8420,
+    "androidInstalls": 3150,
+    "webDrafts": 1240,
+    "androidDrafts": 820,
+    "webOrders": 420,
+    "androidOrders": 310,
+    "webRevenuePaise": 16758000,
+    "androidRevenuePaise": 12369000,
+    "activeAppDevices": 2480,
+    "androidVersionDistribution": {
+      "1.0.0": 2480
+    }
+  }
+}
