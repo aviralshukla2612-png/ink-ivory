@@ -33,20 +33,23 @@ export function EditorToolbar() {
     }
 
     if (toolId === 'images') {
-      Alert.alert('Images Tool', 'Photo uploads & gallery arrangement will be activated in Milestone 5.');
+      setActiveTool('images');
       return;
     }
 
     if (toolId === 'music') {
-      Alert.alert('Music Library', 'Soundtrack selector & background audio preview will be activated in Milestone 5.');
+      setActiveTool('music');
       return;
     }
 
     if (toolId === 'sections') {
-      Alert.alert('Sections Builder', 'Ceremony timeline & venue sections management will be activated in Milestone 5.');
+      setActiveTool('sections');
       return;
     }
+
+    setActiveTool(toolId);
   };
+
 
   return (
     <View style={styles.container}>

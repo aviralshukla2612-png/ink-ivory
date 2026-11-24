@@ -63,6 +63,33 @@ export const DraftsService = {
       throw error;
     }
   },
+
+  /**
+   * Duplicates an existing draft on the backend.
+   */
+  async duplicateDraft(draftId) {
+    try {
+      const response = await apiClient.post(`/api/drafts/${draftId}/duplicate`);
+      return response.draft;
+    } catch (error) {
+      console.warn(`Failed to duplicate draft ${draftId}:`, error.message);
+      throw error;
+    }
+  },
+
+  /**
+   * Deletes an existing draft on the backend.
+   */
+  async deleteDraft(draftId) {
+    try {
+      const response = await apiClient.delete(`/api/drafts/${draftId}`);
+      return response.success;
+    } catch (error) {
+      console.warn(`Failed to delete draft ${draftId}:`, error.message);
+      throw error;
+    }
+  },
 };
 
 export default DraftsService;
+

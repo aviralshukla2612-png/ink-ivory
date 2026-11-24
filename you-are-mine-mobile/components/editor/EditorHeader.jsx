@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
-import { ChevronLeft, Undo2, Redo2, Check, AlertCircle } from 'lucide-react-native';
+import { ChevronLeft, Undo2, Redo2, Check, AlertCircle, Eye } from 'lucide-react-native';
 import { Colors } from '../../constants/colors';
 import { useEditorStore } from '../../store/editor.store';
 
 export function EditorHeader({ title = 'Edit Invitation' }) {
   const router = useRouter();
   const {
+    draftId,
     saveStatus,
     undo,
     redo,
@@ -18,6 +19,15 @@ export function EditorHeader({ title = 'Edit Invitation' }) {
 
   const handleSave = async () => {
     await saveCurrentDraft();
+  };
+
+  const handlePreview = async () => {
+    if (saveStatus === 'unsaved') {
+      await saveCurrentDraft();
+    }
+    if (draftId) {
+      router.push(`/preview/${draftId}`);
+    }
   };
 
   const undoAvailable = canUndo();
@@ -39,7 +49,7 @@ export function EditorHeader({ title = 'Edit Invitation' }) {
         {title}
       </Text>
 
-      {/* Action Controls: Undo, Redo, Save Status & Button */}
+      {/* Action Controls: Undo, Redo, Preview & Save */}
       <View style={styles.rightCluster}>
         {/* Undo */}
         <TouchableOpacity
@@ -61,8 +71,18 @@ export function EditorHeader({ title = 'Edit Invitation' }) {
           <Redo2 size={17} color={redoAvailable ? Colors.textPrimary : '#C0B3A8'} />
         </TouchableOpacity>
 
+        {/* Preview Button */}
+        <TouchableOpacity
+          style={styles.previewBtn}
+          onPress={handlePreview}
+          activeOpacity={0.7}
+          accessibilityLabel="Preview Invitation"
+        >
+          <Eye size={17} color={Colors.primary} />
+        </TouchableOpacity>
+
         {/* Save Status / Button */}
-          <TouchableOpacity
+        <TouchableOpacity
           style={[
             styles.saveButton,
             saveStatus === 'saved' && styles.savedBtn,
@@ -80,9 +100,7 @@ export function EditorHeader({ title = 'Edit Invitation' }) {
               {saveStatus === 'saved'
                 ? 'Saved'
                 : saveStatus === 'offline'
-                ? 'Offline (Cached)'
-                : saveStatus === 'unsaved'
-                ? 'Save'
+                ? 'Offline'
                 : 'Save'}
             </Text>
           )}
@@ -91,6 +109,7 @@ export function EditorHeader({ title = 'Edit Invitation' }) {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -135,6 +154,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: Colors.border,
+  },
+  previewBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(216, 183, 123, 0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: Colors.gold,
   },
   disabledBtn: {
     opacity: 0.45,

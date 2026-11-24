@@ -89,3 +89,40 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const rl = checkRateLimit(request, "draftOperations");
+  if (!rl.success) return createRateLimitResponse(rl);
+
+  try {
+    const { id } = await params;
+    if (!id || id.length > 100) {
+      return NextResponse.json({ success: false, error: "Invalid draft ID" }, { status: 400 });
+    }
+
+    const { guestToken } = getOrCreateGuestToken(request);
+    const draft = await store.getDraft(id);
+
+    if (!draft) {
+      return NextResponse.json({ success: false, error: "Draft not found" }, { status: 404 });
+    }
+
+    // IDOR Protection: Verify ownership
+    if (!verifyOwnership(draft, guestToken)) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized access: You do not own this draft" },
+        { status: 403 }
+      );
+    }
+
+    const deleted = await store.deleteDraft(id);
+    if (!deleted) {
+      return NextResponse.json({ success: false, error: "Could not delete draft" }, { status: 400 });
+    }
+
+    return NextResponse.json({ success: true, message: "Draft deleted successfully" });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
+  }
+}
+
