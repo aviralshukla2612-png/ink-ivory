@@ -1,5 +1,5 @@
-import { apiClient } from './api';
-import { Config } from '../constants/config';
+import { apiClient } from './api.js';
+import { Config } from '../constants/config.js';
 
 export const TemplatesService = {
   /**
