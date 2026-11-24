@@ -6,9 +6,6 @@ import { Heart } from 'lucide-react-native';
 import { Colors } from '../../constants/colors';
 import { useFavoritesStore } from '../../store/favorites.store';
 
-const { width } = Dimensions.get('window');
-const CARD_WIDTH = (width - 44) / 2;
-
 export function TemplateCard({ template, isHorizontal = false }) {
   const router = useRouter();
   const { isFavorite, toggleFavorite } = useFavoritesStore();
@@ -18,7 +15,7 @@ export function TemplateCard({ template, isHorizontal = false }) {
     router.push(`/template/${template.id}`);
   };
 
-  const cardWidth = isHorizontal ? 170 : CARD_WIDTH;
+  const cardWidth = isHorizontal ? 165 : '48%';
 
   return (
     <TouchableOpacity
@@ -63,11 +60,11 @@ export function TemplateCard({ template, isHorizontal = false }) {
 
 const styles = StyleSheet.create({
   card: {
-    marginBottom: 14,
+    marginBottom: 16,
   },
   imageWrapper: {
     width: '100%',
-    height: 180,
+    aspectRatio: 0.75, // 3:4 portrait wedding card proportion
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
     borderBottomLeftRadius: 12,

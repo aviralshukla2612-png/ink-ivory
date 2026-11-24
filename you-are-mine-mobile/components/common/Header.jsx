@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   headerIconLogo: {
-    width: 22,
-    height: 22,
+    width: 26,
+    height: 26,
   },
   titleText: {
     fontSize: 16,
