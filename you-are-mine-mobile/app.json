@@ -12,10 +12,12 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.youaremine.app"
+      "bundleIdentifier": "com.youaremine.app",
+      "buildNumber": "1"
     },
     "android": {
       "package": "com.youaremine.app",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#4A1725",
         "foregroundImage": "./assets/android-icon-foreground.png"

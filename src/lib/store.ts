@@ -240,6 +240,17 @@ export interface PublicationJobRecord {
   updatedAt: string;
 }
 
+export interface RecoveryJobLockRecord {
+  id: string;
+  jobName: string; // e.g. "payment_publication_recovery"
+  ownerId: string; // Cryptographically random worker ID
+  acquiredAt: string;
+  expiresAt: string;
+  heartbeatAt: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface PublicationRecord {
   id: string;
   orderId?: string;
@@ -298,6 +309,7 @@ interface DBStore {
   settings: PlatformSettingsRecord;
   webhookEvents?: WebhookEventRecord[];
   publicationJobs?: PublicationJobRecord[];
+  recoveryLocks?: RecoveryJobLockRecord[];
 }
 
 
@@ -675,6 +687,37 @@ class StoreService {
     }
   }
 
+
+  // --- Distributed Recovery Job Locks ---
+  getRecoveryLock(jobName: string): RecoveryJobLockRecord | undefined {
+    this.init();
+    if (!this.data!.recoveryLocks) this.data!.recoveryLocks = [];
+    return this.data!.recoveryLocks.find((l) => l.jobName === jobName);
+  }
+
+  saveRecoveryLock(lock: RecoveryJobLockRecord): void {
+    this.init();
+    if (!this.data!.recoveryLocks) this.data!.recoveryLocks = [];
+    const idx = this.data!.recoveryLocks.findIndex((l) => l.jobName === lock.jobName);
+    if (idx >= 0) {
+      this.data!.recoveryLocks[idx] = { ...lock, updatedAt: new Date().toISOString() };
+    } else {
+      this.data!.recoveryLocks.push({ ...lock, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
+    }
+    this.save();
+  }
+
+  deleteRecoveryLock(jobName: string): boolean {
+    this.init();
+    if (!this.data!.recoveryLocks) return false;
+    const initialLen = this.data!.recoveryLocks.length;
+    this.data!.recoveryLocks = this.data!.recoveryLocks.filter((l) => l.jobName !== jobName);
+    if (this.data!.recoveryLocks.length !== initialLen) {
+      this.save();
+      return true;
+    }
+    return false;
+  }
 
   // --- Audit Logs ---
   async logAudit(entry: {

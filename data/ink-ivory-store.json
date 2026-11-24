@@ -1838,6 +1838,122 @@
       "version": 1,
       "createdAt": "2026-11-24T12:39:39.647Z",
       "updatedAt": "2026-11-24T12:39:39.649Z"
+    },
+    {
+      "id": "drf_lease_test_10_mwup05n9",
+      "guestToken": "gst_lease_test_10_mwup05n9",
+      "templateId": "tmpl-01",
+      "title": "Duplicate Recovery Test Draft",
+      "fields": {
+        "names": "Kabir & Tara"
+      },
+      "design": {},
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:50:27.886Z",
+      "updatedAt": "2026-11-24T12:50:27.887Z"
+    },
+    {
+      "id": "drf_lease_competing_mwup05n9",
+      "guestToken": "gst_lease_competing_mwup05n9",
+      "templateId": "tmpl-01",
+      "title": "Competing Worker Draft",
+      "fields": {
+        "names": "Dev & Maya"
+      },
+      "design": {},
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:50:27.891Z",
+      "updatedAt": "2026-11-24T12:50:27.891Z"
+    },
+    {
+      "id": "draft_dr_mwupa7ip",
+      "guestToken": "gt_dr_mwupa7ip",
+      "templateId": "template-01",
+      "title": "Ananya & Kabir Royal Wedding",
+      "fields": {
+        "groomName": "Kabir",
+        "brideName": "Ananya",
+        "weddingDate": "2026-12-15",
+        "venue": "Udaipur Lake Palace"
+      },
+      "design": {
+        "primaryColor": "#741E32",
+        "fontFamily": "serif"
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:58:16.849Z",
+      "updatedAt": "2026-11-24T12:58:16.851Z"
+    },
+    {
+      "id": "draft_dr_mwupazjr",
+      "guestToken": "gt_dr_mwupazjr",
+      "templateId": "template-01",
+      "title": "Ananya & Kabir Royal Wedding",
+      "fields": {
+        "groomName": "Kabir",
+        "brideName": "Ananya",
+        "weddingDate": "2026-12-15",
+        "venue": "Udaipur Lake Palace"
+      },
+      "design": {
+        "primaryColor": "#741E32",
+        "fontFamily": "serif"
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:58:53.175Z",
+      "updatedAt": "2026-11-24T12:58:53.179Z"
+    },
+    {
+      "id": "draft_dr_mwupcahl",
+      "guestToken": "gt_dr_mwupcahl",
+      "templateId": "template-01",
+      "title": "Ananya & Kabir Royal Wedding",
+      "fields": {
+        "groomName": "Kabir",
+        "brideName": "Ananya",
+        "weddingDate": "2026-12-15",
+        "venue": "Udaipur Lake Palace"
+      },
+      "design": {
+        "primaryColor": "#741E32",
+        "fontFamily": "serif"
+      },
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T12:59:54.009Z",
+      "updatedAt": "2026-11-24T12:59:54.012Z"
+    },
+    {
+      "id": "drf_lease_test_10_mwupckhe",
+      "guestToken": "gst_lease_test_10_mwupckhe",
+      "templateId": "tmpl-01",
+      "title": "Duplicate Recovery Test Draft",
+      "fields": {
+        "names": "Kabir & Tara"
+      },
+      "design": {},
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T13:00:06.987Z",
+      "updatedAt": "2026-11-24T13:00:06.988Z"
+    },
+    {
+      "id": "drf_lease_competing_mwupckhe",
+      "guestToken": "gst_lease_competing_mwupckhe",
+      "templateId": "tmpl-01",
+      "title": "Competing Worker Draft",
+      "fields": {
+        "names": "Dev & Maya"
+      },
+      "design": {},
+      "status": "PUBLISHED",
+      "version": 1,
+      "createdAt": "2026-11-24T13:00:06.992Z",
+      "updatedAt": "2026-11-24T13:00:06.992Z"
     }
   ],
   "orders": [
@@ -2695,6 +2811,132 @@
         "publishedAt": "2026-11-24T12:39:39.649Z",
         "activatedBy": "CLIENT_VERIFY"
       }
+    },
+    {
+      "id": "ord_mwup05n9_10",
+      "orderId": "order_lease_test_10_mwup05n9",
+      "draftId": "drf_lease_test_10_mwup05n9",
+      "guestToken": "gst_lease_test_10_mwup05n9",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_mwup05n9",
+      "createdAt": "2026-11-24T12:50:27.886Z",
+      "updatedAt": "2026-11-24T12:50:27.887Z",
+      "notes": {
+        "publicationId": "pub_e39322dc",
+        "slug": "duplicate-recovery-test-draft",
+        "publishedAt": "2026-11-24T12:50:27.887Z",
+        "activatedBy": "RECOVERY_WORKER"
+      }
+    },
+    {
+      "id": "ord_mwup05n9_11",
+      "orderId": "order_lease_competing_mwup05n9",
+      "draftId": "drf_lease_competing_mwup05n9",
+      "guestToken": "gst_lease_competing_mwup05n9",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_mwup05n9",
+      "createdAt": "2026-11-24T12:50:27.891Z",
+      "updatedAt": "2026-11-24T12:50:27.891Z",
+      "notes": {
+        "publicationId": "pub_b49c04d3",
+        "slug": "competing-worker-draft",
+        "publishedAt": "2026-11-24T12:50:27.891Z",
+        "activatedBy": "RECOVERY_WORKER"
+      }
+    },
+    {
+      "id": "ord_mwupa7ip",
+      "orderId": "order_dr_mwupa7ip",
+      "draftId": "draft_dr_mwupa7ip",
+      "guestToken": "gt_dr_mwupa7ip",
+      "amount": 149900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_dr_mwupa7ip",
+      "createdAt": "2026-11-24T12:58:16.851Z",
+      "updatedAt": "2026-11-24T12:58:16.851Z",
+      "notes": {
+        "publicationId": "pub_7d1f5bba",
+        "slug": "ananya-kabir-royal-wedding-7e67",
+        "publishedAt": "2026-11-24T12:58:16.851Z",
+        "activatedBy": "DR_TEST_WORKER"
+      }
+    },
+    {
+      "id": "ord_mwupazjr",
+      "orderId": "order_dr_mwupazjr",
+      "draftId": "draft_dr_mwupazjr",
+      "guestToken": "gt_dr_mwupazjr",
+      "amount": 149900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_dr_mwupazjr",
+      "createdAt": "2026-11-24T12:58:53.178Z",
+      "updatedAt": "2026-11-24T12:58:53.179Z",
+      "notes": {
+        "publicationId": "pub_7387feec",
+        "slug": "ananya-kabir-royal-wedding-7543",
+        "publishedAt": "2026-11-24T12:58:53.179Z",
+        "activatedBy": "DR_TEST_WORKER"
+      }
+    },
+    {
+      "id": "ord_mwupcahl",
+      "orderId": "order_dr_mwupcahl",
+      "draftId": "draft_dr_mwupcahl",
+      "guestToken": "gt_dr_mwupcahl",
+      "amount": 149900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_dr_mwupcahl",
+      "createdAt": "2026-11-24T12:59:54.011Z",
+      "updatedAt": "2026-11-24T12:59:54.012Z",
+      "notes": {
+        "publicationId": "pub_0c039412",
+        "slug": "ananya-kabir-royal-wedding-d6fa",
+        "publishedAt": "2026-11-24T12:59:54.012Z",
+        "activatedBy": "DR_TEST_WORKER"
+      }
+    },
+    {
+      "id": "ord_mwupckhe_10",
+      "orderId": "order_lease_test_10_mwupckhe",
+      "draftId": "drf_lease_test_10_mwupckhe",
+      "guestToken": "gst_lease_test_10_mwupckhe",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_mwupckhe",
+      "createdAt": "2026-11-24T13:00:06.987Z",
+      "updatedAt": "2026-11-24T13:00:06.988Z",
+      "notes": {
+        "publicationId": "pub_360677bb",
+        "slug": "duplicate-recovery-test-draft-f673",
+        "publishedAt": "2026-11-24T13:00:06.988Z",
+        "activatedBy": "RECOVERY_WORKER"
+      }
+    },
+    {
+      "id": "ord_mwupckhe_11",
+      "orderId": "order_lease_competing_mwupckhe",
+      "draftId": "drf_lease_competing_mwupckhe",
+      "guestToken": "gst_lease_competing_mwupckhe",
+      "amount": 29900,
+      "currency": "INR",
+      "status": "PAID",
+      "razorpayReceipt": "rcpt_mwupckhe",
+      "createdAt": "2026-11-24T13:00:06.992Z",
+      "updatedAt": "2026-11-24T13:00:06.992Z",
+      "notes": {
+        "publicationId": "pub_46088414",
+        "slug": "competing-worker-draft-ae69",
+        "publishedAt": "2026-11-24T13:00:06.992Z",
+        "activatedBy": "RECOVERY_WORKER"
+      }
     }
   ],
   "payments": [
@@ -3108,6 +3350,76 @@
       "isPublic": true,
       "createdAt": "2026-11-24T12:39:39.649Z",
       "updatedAt": "2026-11-24T12:39:39.649Z"
+    },
+    {
+      "id": "inv_2286675a",
+      "slug": "duplicate-recovery-test-draft",
+      "draftId": "drf_lease_test_10_mwup05n9",
+      "templateId": "tmpl-01",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:50:27.887Z",
+      "updatedAt": "2026-11-24T12:50:27.887Z"
+    },
+    {
+      "id": "inv_1d25b3ca",
+      "slug": "competing-worker-draft",
+      "draftId": "drf_lease_competing_mwup05n9",
+      "templateId": "tmpl-01",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:50:27.891Z",
+      "updatedAt": "2026-11-24T12:50:27.891Z"
+    },
+    {
+      "id": "inv_665f2866",
+      "slug": "ananya-kabir-royal-wedding-7e67",
+      "draftId": "draft_dr_mwupa7ip",
+      "templateId": "template-01",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:58:16.851Z",
+      "updatedAt": "2026-11-24T12:58:16.851Z"
+    },
+    {
+      "id": "inv_5f7f1eb5",
+      "slug": "ananya-kabir-royal-wedding-7543",
+      "draftId": "draft_dr_mwupazjr",
+      "templateId": "template-01",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:58:53.179Z",
+      "updatedAt": "2026-11-24T12:58:53.179Z"
+    },
+    {
+      "id": "inv_d59a4c69",
+      "slug": "ananya-kabir-royal-wedding-d6fa",
+      "draftId": "draft_dr_mwupcahl",
+      "templateId": "template-01",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T12:59:54.012Z",
+      "updatedAt": "2026-11-24T12:59:54.012Z"
+    },
+    {
+      "id": "inv_db51d3fb",
+      "slug": "duplicate-recovery-test-draft-f673",
+      "draftId": "drf_lease_test_10_mwupckhe",
+      "templateId": "tmpl-01",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T13:00:06.988Z",
+      "updatedAt": "2026-11-24T13:00:06.988Z"
+    },
+    {
+      "id": "inv_e76bbd6b",
+      "slug": "competing-worker-draft-ae69",
+      "draftId": "drf_lease_competing_mwupckhe",
+      "templateId": "tmpl-01",
+      "viewCount": 0,
+      "isPublic": true,
+      "createdAt": "2026-11-24T13:00:06.992Z",
+      "updatedAt": "2026-11-24T13:00:06.992Z"
     }
   ],
   "publications": [
@@ -4570,6 +4882,213 @@
       "status": "ACTIVE",
       "publishedAt": "2026-11-24T12:39:39.649Z",
       "expiresAt": "2027-11-24T12:39:39.649Z"
+    },
+    {
+      "id": "pub_e39322dc",
+      "draftId": "drf_lease_test_10_mwup05n9",
+      "invitationId": "inv_2286675a",
+      "orderId": "order_lease_test_10_mwup05n9",
+      "templateId": "tmpl-01",
+      "guestToken": "gst_lease_test_10_mwup05n9",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Kabir & Tara"
+        },
+        "design": {},
+        "elements": [],
+        "sections": [],
+        "customAudioUrl": "",
+        "customAudioTitle": "",
+        "templateTitle": "You Are Mine Bespoke Invitation",
+        "templateSlug": "duplicate-recovery-test-draft",
+        "previewImage": "",
+        "rsvpConfig": {},
+        "publishedSnapshotAt": "2026-11-24T12:50:27.887Z"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:50:27.887Z",
+      "expiresAt": "2027-11-24T12:50:27.887Z"
+    },
+    {
+      "id": "pub_b49c04d3",
+      "draftId": "drf_lease_competing_mwup05n9",
+      "invitationId": "inv_1d25b3ca",
+      "orderId": "order_lease_competing_mwup05n9",
+      "templateId": "tmpl-01",
+      "guestToken": "gst_lease_competing_mwup05n9",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Dev & Maya"
+        },
+        "design": {},
+        "elements": [],
+        "sections": [],
+        "customAudioUrl": "",
+        "customAudioTitle": "",
+        "templateTitle": "You Are Mine Bespoke Invitation",
+        "templateSlug": "competing-worker-draft",
+        "previewImage": "",
+        "rsvpConfig": {},
+        "publishedSnapshotAt": "2026-11-24T12:50:27.891Z"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:50:27.891Z",
+      "expiresAt": "2027-11-24T12:50:27.891Z"
+    },
+    {
+      "id": "pub_7d1f5bba",
+      "draftId": "draft_dr_mwupa7ip",
+      "invitationId": "inv_665f2866",
+      "orderId": "order_dr_mwupa7ip",
+      "templateId": "template-01",
+      "guestToken": "gt_dr_mwupa7ip",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "groomName": "Kabir",
+          "brideName": "Ananya",
+          "weddingDate": "2026-12-15",
+          "venue": "Udaipur Lake Palace"
+        },
+        "design": {
+          "primaryColor": "#741E32",
+          "fontFamily": "serif"
+        },
+        "elements": [],
+        "sections": [],
+        "customAudioUrl": "",
+        "customAudioTitle": "",
+        "templateTitle": "You Are Mine Bespoke Invitation",
+        "templateSlug": "ananya-kabir-royal-wedding-7e67",
+        "previewImage": "",
+        "rsvpConfig": {},
+        "publishedSnapshotAt": "2026-11-24T12:58:16.851Z"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:58:16.851Z",
+      "expiresAt": "2027-11-24T12:58:16.851Z"
+    },
+    {
+      "id": "pub_7387feec",
+      "draftId": "draft_dr_mwupazjr",
+      "invitationId": "inv_5f7f1eb5",
+      "orderId": "order_dr_mwupazjr",
+      "templateId": "template-01",
+      "guestToken": "gt_dr_mwupazjr",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "groomName": "Kabir",
+          "brideName": "Ananya",
+          "weddingDate": "2026-12-15",
+          "venue": "Udaipur Lake Palace"
+        },
+        "design": {
+          "primaryColor": "#741E32",
+          "fontFamily": "serif"
+        },
+        "elements": [],
+        "sections": [],
+        "customAudioUrl": "",
+        "customAudioTitle": "",
+        "templateTitle": "You Are Mine Bespoke Invitation",
+        "templateSlug": "ananya-kabir-royal-wedding-7543",
+        "previewImage": "",
+        "rsvpConfig": {},
+        "publishedSnapshotAt": "2026-11-24T12:58:53.179Z"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:58:53.179Z",
+      "expiresAt": "2027-11-24T12:58:53.179Z"
+    },
+    {
+      "id": "pub_0c039412",
+      "draftId": "draft_dr_mwupcahl",
+      "invitationId": "inv_d59a4c69",
+      "orderId": "order_dr_mwupcahl",
+      "templateId": "template-01",
+      "guestToken": "gt_dr_mwupcahl",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "groomName": "Kabir",
+          "brideName": "Ananya",
+          "weddingDate": "2026-12-15",
+          "venue": "Udaipur Lake Palace"
+        },
+        "design": {
+          "primaryColor": "#741E32",
+          "fontFamily": "serif"
+        },
+        "elements": [],
+        "sections": [],
+        "customAudioUrl": "",
+        "customAudioTitle": "",
+        "templateTitle": "You Are Mine Bespoke Invitation",
+        "templateSlug": "ananya-kabir-royal-wedding-d6fa",
+        "previewImage": "",
+        "rsvpConfig": {},
+        "publishedSnapshotAt": "2026-11-24T12:59:54.012Z"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T12:59:54.012Z",
+      "expiresAt": "2027-11-24T12:59:54.012Z"
+    },
+    {
+      "id": "pub_360677bb",
+      "draftId": "drf_lease_test_10_mwupckhe",
+      "invitationId": "inv_db51d3fb",
+      "orderId": "order_lease_test_10_mwupckhe",
+      "templateId": "tmpl-01",
+      "guestToken": "gst_lease_test_10_mwupckhe",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Kabir & Tara"
+        },
+        "design": {},
+        "elements": [],
+        "sections": [],
+        "customAudioUrl": "",
+        "customAudioTitle": "",
+        "templateTitle": "You Are Mine Bespoke Invitation",
+        "templateSlug": "duplicate-recovery-test-draft-f673",
+        "previewImage": "",
+        "rsvpConfig": {},
+        "publishedSnapshotAt": "2026-11-24T13:00:06.988Z"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T13:00:06.988Z",
+      "expiresAt": "2027-11-24T13:00:06.988Z"
+    },
+    {
+      "id": "pub_46088414",
+      "draftId": "drf_lease_competing_mwupckhe",
+      "invitationId": "inv_e76bbd6b",
+      "orderId": "order_lease_competing_mwupckhe",
+      "templateId": "tmpl-01",
+      "guestToken": "gst_lease_competing_mwupckhe",
+      "version": 1,
+      "snapshotData": {
+        "fields": {
+          "names": "Dev & Maya"
+        },
+        "design": {},
+        "elements": [],
+        "sections": [],
+        "customAudioUrl": "",
+        "customAudioTitle": "",
+        "templateTitle": "You Are Mine Bespoke Invitation",
+        "templateSlug": "competing-worker-draft-ae69",
+        "previewImage": "",
+        "rsvpConfig": {},
+        "publishedSnapshotAt": "2026-11-24T13:00:06.992Z"
+      },
+      "status": "ACTIVE",
+      "publishedAt": "2026-11-24T13:00:06.992Z",
+      "expiresAt": "2027-11-24T13:00:06.992Z"
     }
   ],
   "auditLogs": [
@@ -5102,6 +5621,104 @@
         "actor": "CLIENT_VERIFY"
       },
       "createdAt": "2026-11-24T12:39:39.651Z"
+    },
+    {
+      "id": "log_c8e8a0ab",
+      "guestToken": "gst_lease_test_10_mwup05n9",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_e39322dc",
+      "metadata": {
+        "orderId": "order_lease_test_10_mwup05n9",
+        "draftId": "drf_lease_test_10_mwup05n9",
+        "slug": "duplicate-recovery-test-draft",
+        "actor": "RECOVERY_WORKER"
+      },
+      "createdAt": "2026-11-24T12:50:27.889Z"
+    },
+    {
+      "id": "log_1b950bfd",
+      "guestToken": "gst_lease_competing_mwup05n9",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_b49c04d3",
+      "metadata": {
+        "orderId": "order_lease_competing_mwup05n9",
+        "draftId": "drf_lease_competing_mwup05n9",
+        "slug": "competing-worker-draft",
+        "actor": "RECOVERY_WORKER"
+      },
+      "createdAt": "2026-11-24T12:50:27.892Z"
+    },
+    {
+      "id": "log_2f7e485b",
+      "guestToken": "gt_dr_mwupa7ip",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_7d1f5bba",
+      "metadata": {
+        "orderId": "order_dr_mwupa7ip",
+        "draftId": "draft_dr_mwupa7ip",
+        "slug": "ananya-kabir-royal-wedding-7e67",
+        "actor": "DR_TEST_WORKER"
+      },
+      "createdAt": "2026-11-24T12:58:16.854Z"
+    },
+    {
+      "id": "log_a0723114",
+      "guestToken": "gt_dr_mwupazjr",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_7387feec",
+      "metadata": {
+        "orderId": "order_dr_mwupazjr",
+        "draftId": "draft_dr_mwupazjr",
+        "slug": "ananya-kabir-royal-wedding-7543",
+        "actor": "DR_TEST_WORKER"
+      },
+      "createdAt": "2026-11-24T12:58:53.182Z"
+    },
+    {
+      "id": "log_13b796a7",
+      "guestToken": "gt_dr_mwupcahl",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_0c039412",
+      "metadata": {
+        "orderId": "order_dr_mwupcahl",
+        "draftId": "draft_dr_mwupcahl",
+        "slug": "ananya-kabir-royal-wedding-d6fa",
+        "actor": "DR_TEST_WORKER"
+      },
+      "createdAt": "2026-11-24T12:59:54.014Z"
+    },
+    {
+      "id": "log_1bb1ff90",
+      "guestToken": "gst_lease_test_10_mwupckhe",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_360677bb",
+      "metadata": {
+        "orderId": "order_lease_test_10_mwupckhe",
+        "draftId": "drf_lease_test_10_mwupckhe",
+        "slug": "duplicate-recovery-test-draft-f673",
+        "actor": "RECOVERY_WORKER"
+      },
+      "createdAt": "2026-11-24T13:00:06.990Z"
+    },
+    {
+      "id": "log_a6582611",
+      "guestToken": "gst_lease_competing_mwupckhe",
+      "action": "PUBLICATION_ACTIVATED_SUCCESSFULLY",
+      "entityType": "Publication",
+      "entityId": "pub_46088414",
+      "metadata": {
+        "orderId": "order_lease_competing_mwupckhe",
+        "draftId": "drf_lease_competing_mwupckhe",
+        "slug": "competing-worker-draft-ae69",
+        "actor": "RECOVERY_WORKER"
+      },
+      "createdAt": "2026-11-24T13:00:06.993Z"
     }
   ],
   "categories": [
@@ -6645,5 +7262,47 @@
       "processedAt": "2026-11-24T12:32:53.759Z"
     }
   ],
-  "publicationJobs": []
+  "publicationJobs": [],
+  "recoveryLocks": [
+    {
+      "id": "lck_9e872d6f",
+      "jobName": "recovery_job_test_mwup05n9",
+      "ownerId": "worker_5_mwup05n9",
+      "acquiredAt": "2026-11-24T12:50:27.884Z",
+      "expiresAt": "2026-11-24T12:50:32.884Z",
+      "heartbeatAt": "2026-11-24T12:50:27.884Z",
+      "createdAt": "2026-11-24T12:50:27.866Z",
+      "updatedAt": "2026-11-24T12:50:27.884Z"
+    },
+    {
+      "id": "lck_780914df",
+      "jobName": "exp_job_mwup05n9",
+      "ownerId": "worker_exp_mwup05n9",
+      "acquiredAt": "2026-11-24T12:50:27.899Z",
+      "expiresAt": "2026-11-24T12:50:27.801Z",
+      "heartbeatAt": "2026-11-24T12:50:27.899Z",
+      "createdAt": "2026-11-24T12:50:27.899Z",
+      "updatedAt": "2026-11-24T12:50:27.901Z"
+    },
+    {
+      "id": "lck_4b27f05c",
+      "jobName": "recovery_job_test_mwupckhe",
+      "ownerId": "worker_5_mwupckhe",
+      "acquiredAt": "2026-11-24T13:00:06.986Z",
+      "expiresAt": "2026-11-24T13:00:11.986Z",
+      "heartbeatAt": "2026-11-24T13:00:06.986Z",
+      "createdAt": "2026-11-24T13:00:06.970Z",
+      "updatedAt": "2026-11-24T13:00:06.986Z"
+    },
+    {
+      "id": "lck_cde89e78",
+      "jobName": "exp_job_mwupckhe",
+      "ownerId": "worker_exp_mwupckhe",
+      "acquiredAt": "2026-11-24T13:00:07.001Z",
+      "expiresAt": "2026-11-24T13:00:06.902Z",
+      "heartbeatAt": "2026-11-24T13:00:07.001Z",
+      "createdAt": "2026-11-24T13:00:07.001Z",
+      "updatedAt": "2026-11-24T13:00:07.002Z"
+    }
+  ]
 }

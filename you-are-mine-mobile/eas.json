@@ -1,0 +1,77 @@
+{
+  "cli": {
+    "version": ">= 12.0.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://localhost:3000",
+        "EXPO_PUBLIC_DISTRIBUTION_CHANNEL": "DIRECT_APK"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://youaremine.online",
+        "EXPO_PUBLIC_DISTRIBUTION_CHANNEL": "DIRECT_APK"
+      }
+    },
+    "production-direct-apk": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://youaremine.online",
+        "EXPO_PUBLIC_DISTRIBUTION_CHANNEL": "DIRECT_APK"
+      }
+    },
+    "production-playstore": {
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://youaremine.online",
+        "EXPO_PUBLIC_DISTRIBUTION_CHANNEL": "PLAY_STORE"
+      }
+    },
+    "production-appstore": {
+      "ios": {
+        "simulator": false
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://youaremine.online",
+        "EXPO_PUBLIC_DISTRIBUTION_CHANNEL": "APP_STORE"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "ios": {
+        "simulator": false
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://youaremine.online",
+        "EXPO_PUBLIC_DISTRIBUTION_CHANNEL": "PLAY_STORE"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "./google-services-key.json",
+        "track": "closed-testing"
+      },
+      "ios": {
+        "appleId": "apple-dev@youaremine.online",
+        "ascAppId": "REPLACE_WITH_APPLE_APP_STORE_CONNECT_ID"
+      }
+    }
+  }
+}

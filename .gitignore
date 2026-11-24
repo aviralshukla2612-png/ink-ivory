@@ -29,6 +29,7 @@ test_routes.js
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+dist-test/
 
 # Local Tools
 yt-dlp.exe

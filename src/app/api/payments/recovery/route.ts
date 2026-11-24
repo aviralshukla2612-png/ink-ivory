@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'node:crypto';
 import { PublicationRecoveryService } from '@/lib/payments/recovery-service';
+import { DistributedRecoveryLeaseService } from '@/lib/payments/recovery-lease-service';
 import { logSecurityEvent } from '@/lib/security/logger';
 
-// Concurrency mutex lock to prevent overlapping recovery worker runs across intervals
-let isRecoveryRunning = false;
-let lastRecoveryRunTime = 0;
-const MIN_RECOVERY_INTERVAL_MS = 10_000; // Minimum 10 seconds between invocations
+const JOB_NAME = 'payment_publication_recovery';
+const LEASE_TTL_MS = 30_000; // 30-second atomic distributed lease
 
 /**
  * Constant-time string comparison preventing timing attack vulnerabilities
@@ -26,6 +25,7 @@ function safeCompareSecret(provided: string, expected: string): boolean {
  * Operational Cron Payment & Publication Recovery Worker
  * Scans for paid orders lacking corresponding publication records and reconciles them.
  * Dedicated authorization: Requires CRON_SECRET header with constant-time verification.
+ * Distributed lease: Database-backed atomic RecoveryJobLock prevents multi-instance concurrency collisions.
  */
 export async function POST(req: NextRequest) {
   try {
@@ -46,39 +46,37 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized recovery trigger: Invalid CRON_SECRET' }, { status: 401 });
     }
 
-    // Overlapping execution guard
-    const now = Date.now();
-    if (isRecoveryRunning) {
+    // 1. Generate unique worker identifier for this execution instance
+    const workerId = 'rec_worker_' + crypto.randomUUID().slice(0, 8);
+
+    // 2. Attempt atomic distributed database lease acquisition
+    const leaseRes = await DistributedRecoveryLeaseService.acquireLease(JOB_NAME, workerId, LEASE_TTL_MS);
+
+    if (!leaseRes.acquired) {
       logSecurityEvent({
-        event: 'RECOVERY_CRON_OVERLAP_BLOCKED',
+        event: 'RECOVERY_DISTRIBUTED_LOCK_BUSY',
         level: 'WARN',
-        details: { message: 'Previous recovery job is still executing' },
+        details: {
+          jobName: JOB_NAME,
+          workerId,
+          activeOwner: leaseRes.currentOwner,
+          expiresAt: leaseRes.expiresAt,
+        },
       });
+
       return NextResponse.json(
         {
           success: false,
-          status: 'RECOVERY_ALREADY_IN_PROGRESS',
-          message: 'Previous recovery execution has not yet completed.',
+          status: 'RECOVERY_LEASE_BUSY',
+          message: 'An active recovery lease is held by another worker instance.',
+          currentOwner: leaseRes.currentOwner,
+          expiresAt: leaseRes.expiresAt,
         },
         { status: 429 }
       );
     }
 
-    // Rate limiting between runs
-    if (now - lastRecoveryRunTime < MIN_RECOVERY_INTERVAL_MS && !isLocalDev) {
-      return NextResponse.json(
-        {
-          success: false,
-          status: 'RECOVERY_RATE_LIMITED',
-          message: 'Minimum interval between recovery runs is 10 seconds.',
-        },
-        { status: 429 }
-      );
-    }
-
-    isRecoveryRunning = true;
-    lastRecoveryRunTime = now;
-
+    // 3. Execute recovery with guaranteed lease release in finally block
     try {
       // Execute bounded batch scan (max 50 orders)
       const recoveryReport = await PublicationRecoveryService.recoverOrphanedPaidOrders();
@@ -86,15 +84,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         success: true,
         timestamp: new Date().toISOString(),
+        workerId,
         recoveredOrdersCount: recoveryReport.recoveredCount,
         orphanedFound: recoveryReport.orphanedFound,
         status: 'RECOVERY_SCAN_COMPLETED',
       });
     } finally {
-      isRecoveryRunning = false;
+      // 4. Release worker's lease
+      await DistributedRecoveryLeaseService.releaseLease(JOB_NAME, workerId);
     }
   } catch (error: any) {
-    isRecoveryRunning = false;
     console.error('[API /api/payments/recovery] Recovery failed:', error);
     return NextResponse.json(
       {
