@@ -49,19 +49,24 @@ export function CategoryChip({
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 6,
+    marginVertical: 8,
+    flexGrow: 0,
+    height: 46,
   },
   scrollContent: {
     paddingHorizontal: 16,
     gap: 8,
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   chip: {
-    paddingVertical: 7,
+    height: 34,
     paddingHorizontal: 16,
-    borderRadius: 20,
+    borderRadius: 17,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center',
   },
   activeChip: {
     backgroundColor: Colors.primary,
