@@ -37,6 +37,7 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  Sliders,
 } from 'lucide-react';
 import PublishModal from '@/components/editor/PublishModal';
 import { templatesData } from '@/data/templates';
@@ -196,6 +197,7 @@ export default function CustomizePage() {
   });
 
   const [activeTab, setActiveTab] = useState<'text' | 'music'>('text');
+  const [mobileView, setMobileView] = useState<'preview' | 'edit'>('edit');
   const [isSavedToCart, setIsSavedToCart] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [audioCurrentTime, setAudioCurrentTime] = useState<number>(() => Number(fields.audioStartTime) || 0);
@@ -1183,10 +1185,42 @@ export default function CustomizePage() {
         </div>
       </div>
 
+      {/* Mobile View Toggle Bar: Live Preview vs Customize Form */}
+      <div className="md:hidden flex items-center justify-between px-3 py-2 bg-[#FAF7F2] border-b border-[#DFCEAF] gap-2 shrink-0">
+        <div className="flex items-center gap-1.5 bg-[#EFE7D5]/80 p-1 rounded-xl flex-1 shadow-inner">
+          <button
+            type="button"
+            onClick={() => setMobileView('preview')}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+              mobileView === 'preview'
+                ? 'bg-[#8F6E3B] text-white shadow-xs'
+                : 'text-[#6B533E] hover:text-[#2C2114]'
+            }`}
+          >
+            <Smartphone className="w-3.5 h-3.5" />
+            <span>📱 Live Preview</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobileView('edit')}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+              mobileView === 'edit'
+                ? 'bg-[#8F6E3B] text-white shadow-xs'
+                : 'text-[#6B533E] hover:text-[#2C2114]'
+            }`}
+          >
+            <Sliders className="w-3.5 h-3.5" />
+            <span>✍️ Edit Form</span>
+          </button>
+        </div>
+      </div>
+
       {/* Main Studio Work Area */}
       <div className="flex-1 grid grid-cols-1 md:grid-cols-12 min-h-0 h-full overflow-hidden">
         {/* LEFT / CENTER: Interactive Live Mockup Viewport (Col 7) */}
-        <div className="md:col-span-6 lg:col-span-7 bg-[#0B1220] p-3 sm:p-6 flex flex-col items-center justify-between h-full min-h-0 overflow-hidden relative md:sticky md:top-0">
+        <div className={`md:col-span-6 lg:col-span-7 bg-[#0B1220] p-3 sm:p-6 flex-col items-center justify-between h-full min-h-0 overflow-y-auto relative md:sticky md:top-0 ${
+          mobileView === 'preview' ? 'flex' : 'hidden md:flex'
+        }`}>
           {/* Header Status Badge */}
           <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#152136] border border-[#2B3A59] shadow-lg mb-3 z-10 text-xs font-semibold text-[#E7CEA0]">
             <Smartphone className="w-3.5 h-3.5 text-[#E5A842]" />
@@ -1233,12 +1267,41 @@ export default function CustomizePage() {
               <span>Real-time instant synchronization • All edits update your live page immediately</span>
             </p>
           </div>
+
+          {/* Mobile shortcut to switch to edit */}
+          <div className="md:hidden w-full mt-4 pb-2">
+            <button
+              type="button"
+              onClick={() => setMobileView('edit')}
+              className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#8F6E3B] via-[#A77B35] to-[#7A5722] text-white font-serif font-bold text-xs tracking-wide shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Sliders className="w-4 h-4 text-[#FFF2D4]" />
+              <span>Customize Details &amp; Music &rarr;</span>
+            </button>
+          </div>
         </div>
 
         {/* RIGHT PANEL: Customization Controls (Col 5) */}
-        <div className="md:col-span-6 lg:col-span-5 bg-white border-t md:border-t-0 md:border-l border-[#DFCEAF] flex flex-col h-full min-h-0 overflow-y-auto">
+        <div className={`md:col-span-6 lg:col-span-5 bg-white border-t md:border-t-0 md:border-l border-[#DFCEAF] flex-col h-full min-h-0 overflow-y-auto ${
+          mobileView === 'edit' ? 'flex' : 'hidden md:flex'
+        }`}>
+          {/* Mobile view quick switcher to preview */}
+          <div className="md:hidden flex items-center justify-between px-4 py-2 bg-[#FAF7F0] border-b border-[#EFE7D5] text-xs shrink-0">
+            <span className="text-[11px] text-[#7A634E] font-medium">
+              Editing: {activeTab === 'text' ? 'Invitation Details' : 'Music Freedom'}
+            </span>
+            <button
+              type="button"
+              onClick={() => setMobileView('preview')}
+              className="text-[#8F6E3B] font-semibold text-xs flex items-center gap-1.5 hover:underline cursor-pointer bg-white px-2.5 py-1 rounded-lg border border-[#DFCEAF] shadow-2xs"
+            >
+              <Smartphone className="w-3.5 h-3.5 text-[#8F6E3B]" />
+              <span>View in Phone Preview ↗</span>
+            </button>
+          </div>
+
           {/* Tabs Navigation */}
-          <div className="flex border-b border-[#EFE7D5] bg-[#FAF7F2] sticky top-0 z-10">
+          <div className="flex border-b border-[#EFE7D5] bg-[#FAF7F2] sticky top-0 z-10 shrink-0">
             <button
               onClick={() => setActiveTab('text')}
               className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border-b-2 cursor-pointer ${activeTab === 'text'
@@ -1264,7 +1327,7 @@ export default function CustomizePage() {
 
           {/* TAB 1: DETAILS (DYNAMIC FOR TEMPLATE 1, 2, 3 & VALENTINE) */}
           {activeTab === 'text' && (
-            <div className="p-6 space-y-4">
+            <div className="p-4 sm:p-6 space-y-4 pb-36">
               <div className="text-xs text-[#7A634E] pb-2 border-b border-[#F2ECE0]">
                 Customize the names, dates, venue, and heartfelt messages. All changes reflect instantly on the live preview!
               </div>
@@ -3242,7 +3305,7 @@ export default function CustomizePage() {
               {/* ======================================================== */}
               {/* SAVE & APPLY CHANGES BUTTON (At the end of Details)     */}
               {/* ======================================================== */}
-              <div className="pt-4 border-t border-[#DFCDB0] sticky bottom-0 bg-[#FFFDF9]/95 backdrop-blur-md p-4 -mx-6 -mb-6 shadow-[0_-8px_25px_rgba(73,52,31,0.08)] z-20 space-y-2">
+              <div className="pt-4 border-t border-[#DFCDB0] sticky bottom-0 bg-[#FFFDF9]/95 backdrop-blur-md p-4 -mx-4 sm:-mx-6 -mb-4 sm:-mb-6 shadow-[0_-8px_25px_rgba(73,52,31,0.08)] z-20 space-y-2">
                 <button
                   type="button"
                   onClick={handleManualSave}
@@ -3266,16 +3329,23 @@ export default function CustomizePage() {
                     </>
                   )}
                 </button>
-                <p className="text-center text-[10.5px] text-[#8F6E3B]">
-                  ✦ Saves all custom dates, names, venues &amp; photos to your invitation preview.
-                </p>
+                <div className="flex items-center justify-between text-[10.5px] text-[#8F6E3B]">
+                  <span>✦ Saves all custom dates, names, venues &amp; photos</span>
+                  <button
+                    type="button"
+                    onClick={() => setMobileView('preview')}
+                    className="md:hidden font-semibold underline text-[#8F6E3B] hover:text-[#5C4523] cursor-pointer"
+                  >
+                    View in Live Preview 📱
+                  </button>
+                </div>
               </div>
             </div>
           )}
 
           {/* TAB 2: MUSIC FREEDOM ("USE WHATEVER SONG WE WANT") */}
           {activeTab === 'music' && (
-            <div className="p-6 space-y-6">
+            <div className="p-4 sm:p-6 space-y-6 pb-36">
               {/* Introduction Note */}
               <div className="p-4 rounded-xl bg-[#FAF7F0] border border-[#E8DFC8] space-y-2">
                 <div className="flex items-center gap-2 text-xs font-bold text-[#8F6E3B] uppercase tracking-wider">
@@ -3841,6 +3911,43 @@ export default function CustomizePage() {
                         </button>
                       );
                     })}
+                  </div>
+                </div>
+
+                {/* SAVE & APPLY CHANGES BUTTON (At the end of Music) */}
+                <div className="pt-4 border-t border-[#DFCDB0] sticky bottom-0 bg-[#FFFDF9]/95 backdrop-blur-md p-4 -mx-4 sm:-mx-6 -mb-4 sm:-mb-6 shadow-[0_-8px_25px_rgba(73,52,31,0.08)] z-20 space-y-2">
+                  <button
+                    type="button"
+                    onClick={handleManualSave}
+                    disabled={isDraftSaving}
+                    className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#8F6E3B] via-[#A77B35] to-[#7A5722] hover:from-[#7A5722] hover:to-[#8F6E3B] text-white font-serif font-bold text-sm tracking-wide shadow-lg shadow-[#A77B35]/25 flex items-center justify-center gap-2 transition-all transform active:scale-[0.99] cursor-pointer"
+                  >
+                    {saveBannerMessage ? (
+                      <>
+                        <Check className="w-4.5 h-4.5 text-emerald-300" />
+                        <span>{saveBannerMessage}</span>
+                      </>
+                    ) : isDraftSaving ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-white" />
+                        <span>Saving &amp; Updating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-4 h-4 text-[#FFF2D4]" />
+                        <span>Save &amp; Apply Changes</span>
+                      </>
+                    )}
+                  </button>
+                  <div className="flex items-center justify-between text-[10.5px] text-[#8F6E3B]">
+                    <span>✦ Saves audio loop and start timestamp to preview</span>
+                    <button
+                      type="button"
+                      onClick={() => setMobileView('preview')}
+                      className="md:hidden font-semibold underline text-[#8F6E3B] hover:text-[#5C4523] cursor-pointer"
+                    >
+                      View in Live Preview 📱
+                    </button>
                   </div>
                 </div>
               </div>

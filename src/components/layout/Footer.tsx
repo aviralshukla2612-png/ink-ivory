@@ -35,9 +35,9 @@ export const Footer: React.FC = () => {
         {/* ========================================================================= */}
         {/* TOP ROW: LOGO ON TOP LEFT + SOCIAL LINKS IN BIG FONT ON TOP RIGHT         */}
         {/* ========================================================================= */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3 sm:pb-4">
-          {/* Top Left: Official You Are Mine Brand Logo (Expanded Size) */}
-          <div className="flex items-center">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-3 sm:pb-4">
+          {/* Top Left: Official You Are Mine Brand Logo (Centered on mobile) */}
+          <div className="flex items-center justify-center sm:justify-start w-full sm:w-auto">
             <Link href="/" className="inline-flex items-center group focus:outline-none">
               <Image
                 src="/logo.webp?v=3"

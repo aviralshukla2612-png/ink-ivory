@@ -174,11 +174,11 @@ export const Navbar: React.FC = () => {
     <>
       <header className="sticky top-0 z-50 w-full h-[88px] sm:h-[98px] lg:h-[108px] bg-[#F8F4EC] border-b border-[#EDE2CF] flex items-center shadow-2xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-center lg:justify-between gap-4 w-full">
 
-            {/* LEFT: Logo (Prominent & Luxurious) */}
-            <div className="flex items-center py-1 flex-shrink-0">
-              <Link href="/" onClick={handleHomeClick} className="group flex items-center focus:outline-none">
+            {/* Logo: Centered on mobile / phone view, left-aligned on desktop */}
+            <div className="flex items-center justify-center lg:justify-start py-1 w-full lg:w-auto flex-shrink-0">
+              <Link href="/" onClick={handleHomeClick} className="group flex items-center justify-center focus:outline-none">
                 <Image
                   src="/logo.webp?v=3"
                   alt="You Are Mine"
