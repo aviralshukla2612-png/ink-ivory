@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "YOU ARE MINE",
+    "slug": "you-are-mine",
+    "scheme": "youaremine",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#4A1725"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.youaremine.app"
+    },
+    "android": {
+      "package": "com.youaremine.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#4A1725",
+        "foregroundImage": "./assets/android-icon-foreground.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-image",
+      "expo-font"
+    ]
+  }
+}
