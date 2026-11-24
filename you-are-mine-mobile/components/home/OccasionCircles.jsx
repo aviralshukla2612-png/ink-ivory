@@ -37,38 +37,40 @@ export function OccasionCircles({ onSelectOccasion }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
-    marginVertical: 14,
+    paddingHorizontal: 16,
+    marginVertical: 10,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   item: {
     alignItems: 'center',
-    gap: 8,
+    width: '23%',
   },
   circle: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
-    backgroundColor: Colors.surface,
+    width: 54,
+    height: 54,
+    borderRadius: 27,
+    backgroundColor: '#FFF9F2',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: Colors.border,
+    borderWidth: 1.5,
+    borderColor: Colors.goldLight,
     elevation: 2,
     shadowColor: Colors.deepBurgundy,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
+    shadowOpacity: 0.08,
     shadowRadius: 4,
+    marginBottom: 6,
   },
   label: {
-    fontSize: 12,
+    fontSize: 11.5,
     fontWeight: '600',
     color: Colors.textPrimary,
-    letterSpacing: 0.2,
+    textAlign: 'center',
+    letterSpacing: 0.1,
   },
 });
 

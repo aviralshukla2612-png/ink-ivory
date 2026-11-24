@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   scrollContent: {
-    paddingBottom: 28,
+    paddingBottom: 90,
   },
   centerContainer: {
     paddingVertical: 36,
