@@ -2021,6 +2021,277 @@
       "version": 1,
       "createdAt": "2026-11-24T13:19:21.312Z",
       "updatedAt": "2026-11-24T13:19:21.312Z"
+    },
+    {
+      "id": "drf_6a98e2446bd4",
+      "guestToken": "gst_4f3fde6cba574363a3b486b8541bc4ef",
+      "templateId": "tpl-wedding-south-indian-05",
+      "title": "Arun & Meenakshi — Traditional South Indian Wedding — Invitation",
+      "fields": {
+        "eyebrow": "Two hearts, one journey",
+        "headline": "The Wedding Of",
+        "names": "Arun Kumar & Meenakshi Priya",
+        "date": "25 – 26 January 2027",
+        "time": "9:00 AM Onwards",
+        "venue": "AVM Rajeswari Kalyana Mandapam",
+        "city": "Chennai, Tamil Nadu",
+        "venueAddress": "AVM Rajeswari Kalyana Mandapam, 10th Avenue, Chennai",
+        "stayInfo": "Accommodation, railway station, airport and metro guidance available upon request.",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=AVM+Rajeswari+Kalyana+Mandapam+Chennai",
+        "message": "With the blessings of our elders, we cordially invite you to celebrate this eternal union and shower your gracious blessings.",
+        "host": "The Ramesh & Subramanian Families",
+        "brideParents": "Sri. K. Subramanian & Smt. Deepa Subramanian",
+        "groomParents": "Sri. R. Ramesh & Smt. Latha Ramesh",
+        "tamilBlessing": "ஸ்ரீ கணேசாய நமஹ",
+        "tamilTagline": "இரு இதயங்கள், ஒரு பயணம்",
+        "closingBlessing": "வாழ்க வளமுடன்",
+        "songTitle": "Kaafi Hai Na (Musafir Cafe) — Jonita Gandhi, Priyansh Srivastav",
+        "audioSource": "/audio/kaafi-hai-na.mp3",
+        "audioStartTime": 0,
+        "photoUrl": "/images/templates/traditional-south-indian/hero.jpg",
+        "ringsPhoto": "/images/templates/traditional-south-indian/rings.jpg",
+        "venuePhoto": "/images/templates/traditional-south-indian/venue.jpg",
+        "endPhoto": "/images/templates/traditional-south-indian/end.jpg",
+        "weddingDate": "2027-01-26T09:00:00+05:30",
+        "storyTitle1": "One match away",
+        "storySub1": "from forever",
+        "storyDesc1": "A little swipe, a matrimony match, and two cities suddenly felt a little closer. Chennai met Bengaluru, and a simple hello began a story neither had planned but both were ready to discover.",
+        "storyImg1": "/images/templates/traditional-south-indian/story1.jpg",
+        "storyTitle2": "A message that stayed",
+        "storySub2": "hello, from a screen",
+        "storyDesc2": "A first message turned into easy conversation, and a smile every time the phone lit up.",
+        "storyImg2": "/images/templates/traditional-south-indian/story2.jpg",
+        "storyTitle3": "Chennai to Bengaluru",
+        "storySub3": "one call at a time",
+        "storyDesc3": "Different cities, busy days, and conversations that never seemed long enough. With every call and every shared laugh, the miles mattered a little less.",
+        "storyImg3": "/images/templates/traditional-south-indian/story3.jpg",
+        "storyTitle4": "Oh Manapenne!",
+        "storySub4": "a first hello",
+        "storyDesc4": "A warm welcome, a little nervousness, filter coffee, and smiles that said more than words. The first meeting made the possibility of a shared future feel wonderfully real.",
+        "storyImg4": "/images/templates/traditional-south-indian/story4.jpg",
+        "storyTitle5": "Nichayathartham",
+        "storySub5": "a promise made",
+        "storyDesc5": "With blessings from both families, a promise was celebrated and the next chapter began to take shape with joy, tradition, and hearts full of hope.",
+        "storyImg5": "/images/templates/traditional-south-indian/story5.jpg",
+        "events": [
+          {
+            "name": "Nalangu",
+            "icon": "haldi",
+            "date": "25 January 2027",
+            "time": "10:00 AM",
+            "venue": "AVM Rajeswari Kalyana Mandapam",
+            "description": "Turmeric, sandalwood paste and playful games — a joyful, traditional beginning for the bride and groom."
+          },
+          {
+            "name": "Mapillai Azhaippu",
+            "icon": "mehendi",
+            "date": "25 January 2027",
+            "time": "6:00 PM",
+            "venue": "AVM Rajeswari Kalyana Mandapam",
+            "description": "The groom is welcomed with warmth and aarti, as both families come together to begin the celebrations."
+          },
+          {
+            "name": "Muhurtham",
+            "icon": "wedding",
+            "date": "26 January 2027",
+            "time": "9:00 AM",
+            "venue": "AVM Rajeswari Kalyana Mandapam",
+            "description": "The sacred moment: the thaali, the saptapadi and the blessings of everyone we hold dear."
+          },
+          {
+            "name": "Reception",
+            "icon": "reception",
+            "date": "26 January 2027",
+            "time": "7:00 PM",
+            "venue": "AVM Rajeswari Kalyana Mandapam",
+            "description": "An evening of warm wishes, happy conversations, photographs and celebration with everyone we love."
+          }
+        ],
+        "story": [],
+        "memories": []
+      },
+      "design": {
+        "themeColor": "#fbf4e4",
+        "textColor": "#6a5a4a",
+        "accentColor": "#b08a3e",
+        "secondaryColor": "#6b1030",
+        "fontFamily": "serif",
+        "orientation": "portrait",
+        "borderStyle": "traditional"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-24T13:28:36.355Z",
+      "updatedAt": "2026-11-24T13:28:36.355Z"
+    },
+    {
+      "id": "drf_612ac826ae45",
+      "guestToken": "gst_dbfdaa89fcec4c999e55b21cf53b5c23",
+      "templateId": "tpl-wedding-south-indian-05",
+      "title": "Arun & Meenakshi — Traditional South Indian Wedding — Invitation",
+      "fields": {
+        "eyebrow": "Two hearts, one journey",
+        "headline": "The Wedding Of",
+        "names": "Arun Kumar & Meenakshi Priya",
+        "date": "25 – 26 January 2027",
+        "time": "9:00 AM Onwards",
+        "venue": "AVM Rajeswari Kalyana Mandapam",
+        "city": "Chennai, Tamil Nadu",
+        "venueAddress": "AVM Rajeswari Kalyana Mandapam, 10th Avenue, Chennai",
+        "stayInfo": "Accommodation, railway station, airport and metro guidance available upon request.",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=AVM+Rajeswari+Kalyana+Mandapam+Chennai",
+        "message": "With the blessings of our elders, we cordially invite you to celebrate this eternal union and shower your gracious blessings.",
+        "host": "The Ramesh & Subramanian Families",
+        "brideParents": "Sri. K. Subramanian & Smt. Deepa Subramanian",
+        "groomParents": "Sri. R. Ramesh & Smt. Latha Ramesh",
+        "tamilBlessing": "ஸ்ரீ கணேசாய நமஹ",
+        "tamilTagline": "இரு இதயங்கள், ஒரு பயணம்",
+        "closingBlessing": "வாழ்க வளமுடன்",
+        "songTitle": "Kaafi Hai Na (Musafir Cafe) — Jonita Gandhi, Priyansh Srivastav",
+        "audioSource": "/audio/kaafi-hai-na.mp3",
+        "audioStartTime": 0,
+        "photoUrl": "/images/templates/traditional-south-indian/hero.jpg",
+        "ringsPhoto": "/images/templates/traditional-south-indian/rings.jpg",
+        "venuePhoto": "/images/templates/traditional-south-indian/venue.jpg",
+        "endPhoto": "/images/templates/traditional-south-indian/end.jpg",
+        "weddingDate": "2027-01-26T09:00:00+05:30",
+        "storyTitle1": "One match away",
+        "storySub1": "from forever",
+        "storyDesc1": "A little swipe, a matrimony match, and two cities suddenly felt a little closer. Chennai met Bengaluru, and a simple hello began a story neither had planned but both were ready to discover.",
+        "storyImg1": "/images/templates/traditional-south-indian/story1.jpg",
+        "storyTitle2": "A message that stayed",
+        "storySub2": "hello, from a screen",
+        "storyDesc2": "A first message turned into easy conversation, and a smile every time the phone lit up.",
+        "storyImg2": "/images/templates/traditional-south-indian/story2.jpg",
+        "storyTitle3": "Chennai to Bengaluru",
+        "storySub3": "one call at a time",
+        "storyDesc3": "Different cities, busy days, and conversations that never seemed long enough. With every call and every shared laugh, the miles mattered a little less.",
+        "storyImg3": "/images/templates/traditional-south-indian/story3.jpg",
+        "storyTitle4": "Oh Manapenne!",
+        "storySub4": "a first hello",
+        "storyDesc4": "A warm welcome, a little nervousness, filter coffee, and smiles that said more than words. The first meeting made the possibility of a shared future feel wonderfully real.",
+        "storyImg4": "/images/templates/traditional-south-indian/story4.jpg",
+        "storyTitle5": "Nichayathartham",
+        "storySub5": "a promise made",
+        "storyDesc5": "With blessings from both families, a promise was celebrated and the next chapter began to take shape with joy, tradition, and hearts full of hope.",
+        "storyImg5": "/images/templates/traditional-south-indian/story5.jpg",
+        "events": [
+          {
+            "name": "Nalangu",
+            "icon": "haldi",
+            "date": "25 January 2027",
+            "time": "10:00 AM",
+            "venue": "AVM Rajeswari Kalyana Mandapam",
+            "description": "Turmeric, sandalwood paste and playful games — a joyful, traditional beginning for the bride and groom."
+          },
+          {
+            "name": "Mapillai Azhaippu",
+            "icon": "mehendi",
+            "date": "25 January 2027",
+            "time": "6:00 PM",
+            "venue": "AVM Rajeswari Kalyana Mandapam",
+            "description": "The groom is welcomed with warmth and aarti, as both families come together to begin the celebrations."
+          },
+          {
+            "name": "Muhurtham",
+            "icon": "wedding",
+            "date": "26 January 2027",
+            "time": "9:00 AM",
+            "venue": "AVM Rajeswari Kalyana Mandapam",
+            "description": "The sacred moment: the thaali, the saptapadi and the blessings of everyone we hold dear."
+          },
+          {
+            "name": "Reception",
+            "icon": "reception",
+            "date": "26 January 2027",
+            "time": "7:00 PM",
+            "venue": "AVM Rajeswari Kalyana Mandapam",
+            "description": "An evening of warm wishes, happy conversations, photographs and celebration with everyone we love."
+          }
+        ],
+        "story": [],
+        "memories": []
+      },
+      "design": {
+        "themeColor": "#fbf4e4",
+        "textColor": "#6a5a4a",
+        "accentColor": "#b08a3e",
+        "secondaryColor": "#6b1030",
+        "fontFamily": "serif",
+        "orientation": "portrait",
+        "borderStyle": "traditional"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-24T13:31:13.444Z",
+      "updatedAt": "2026-11-24T13:31:13.444Z"
+    },
+    {
+      "id": "drf_2d04661bcf0b",
+      "guestToken": "gst_51ac4b3c4e9b463f8c344b1262809127",
+      "templateId": "tpl-engagement-garden-03",
+      "title": "Karthik & Meenakshi — Thirumanam South Indian Temple Wedding — Invitation",
+      "fields": {
+        "eyebrow": "SRI GANESHAYA NAMAHA • WITH THE BLESSINGS OF ELDERS",
+        "headline": "Thirumanam Invitation",
+        "names": "Karthik & Meenakshi",
+        "date": "Sunday, 14 February 2027",
+        "time": "6:15 AM – 7:45 AM (Muhurtham)",
+        "venue": "Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai",
+        "city": "Madurai, Tamil Nadu",
+        "message": "Together with their families, cordially invite you to celebrate the sacred wedding muhurtham and bless the couple with good health and joy.",
+        "rsvp": "RSVP to Sundaram & Kalyani (+91 94440 12345)",
+        "host": "Sundaram & Kalyani / Ramanathan & Saraswathi Families",
+        "brideParents": "Smt. Saraswathi & Shri Ramanathan",
+        "groomParents": "Smt. Kalyani & Shri Sundaram",
+        "songTitle": "Mast Magan — Arijit Singh & Chinmayi Sripada (2 States)",
+        "audioSource": "/audio/mast-magan.mp3",
+        "audioStartTime": 0,
+        "events": [
+          {
+            "name": "Nalangu",
+            "icon": "nalangu",
+            "date": "Friday, 12 February 2027",
+            "time": "10:00 AM",
+            "venue": "Family ancestral home, Madurai"
+          },
+          {
+            "name": "Jaanavasam",
+            "icon": "jaanavasam",
+            "date": "Saturday, 13 February 2027",
+            "time": "5:30 PM",
+            "venue": "Sri Meenakshi Kalyana Mandapam, Madurai"
+          },
+          {
+            "name": "Muhurtham",
+            "icon": "muhurtham",
+            "date": "Sunday, 14 February 2027",
+            "time": "6:00 AM – 7:30 AM",
+            "venue": "Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai"
+          },
+          {
+            "name": "Reception",
+            "icon": "reception",
+            "date": "Sunday, 14 February 2027",
+            "time": "7:00 PM Onwards",
+            "venue": "Heritage Royal Hall, Madurai"
+          }
+        ]
+      },
+      "design": {
+        "themeColor": "#06201A",
+        "textColor": "#F8EFD6",
+        "accentColor": "#D9A521",
+        "secondaryColor": "#8A1020",
+        "fontFamily": "serif",
+        "orientation": "portrait",
+        "borderStyle": "ornate",
+        "bgTexture": "ivory-silk"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-24T13:33:04.185Z",
+      "updatedAt": "2026-11-24T13:33:04.185Z"
     }
   ],
   "orders": [
@@ -5798,6 +6069,42 @@
         "status": "DRAFT"
       },
       "createdAt": "2026-11-24T13:19:21.314Z"
+    },
+    {
+      "id": "log_6d1f885c",
+      "guestToken": "gst_4f3fde6cba574363a3b486b8541bc4ef",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_6a98e2446bd4",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-24T13:28:36.361Z"
+    },
+    {
+      "id": "log_74f24c4a",
+      "guestToken": "gst_dbfdaa89fcec4c999e55b21cf53b5c23",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_612ac826ae45",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-24T13:31:13.448Z"
+    },
+    {
+      "id": "log_8cbfa342",
+      "guestToken": "gst_51ac4b3c4e9b463f8c344b1262809127",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_2d04661bcf0b",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-24T13:33:04.189Z"
     }
   ],
   "categories": [

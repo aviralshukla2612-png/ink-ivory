@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   View,
   Text,
@@ -21,12 +21,17 @@ import {
   Disc3,
   Clock,
   Sparkles,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react-native';
 import { Header } from '../../components/common/Header';
 import { Colors } from '../../constants/colors';
 import { MusicService } from '../../services/music.service';
 
+const PAGE_SIZE = 8; // Royal melody tracks per page for clean browsing
+
 export default function MusicScreen() {
+  const flatListRef = useRef(null);
   const [category, setCategory] = useState('All');
   const [search, setSearch] = useState('');
   const [tracks, setTracks] = useState([]);
@@ -35,6 +40,7 @@ export default function MusicScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [playingSource, setPlayingSource] = useState(null);
   const [currentTrack, setCurrentTrack] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const loadTracks = async (cat = category, q = search) => {
     try {
@@ -53,6 +59,7 @@ export default function MusicScreen() {
   };
 
   useEffect(() => {
+    setCurrentPage(1);
     loadTracks(category, search);
   }, [category, search]);
 
@@ -62,9 +69,23 @@ export default function MusicScreen() {
     };
   }, []);
 
+  const totalPages = Math.max(1, Math.ceil(tracks.length / PAGE_SIZE));
+  const paginatedTracks = useMemo(() => {
+    const start = (currentPage - 1) * PAGE_SIZE;
+    return tracks.slice(start, start + PAGE_SIZE);
+  }, [tracks, currentPage]);
+
   const handleRefresh = () => {
     setRefreshing(true);
+    setCurrentPage(1);
     loadTracks(category, search);
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+      flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
+    }
   };
 
   const handlePlayToggle = async (track) => {
@@ -87,6 +108,52 @@ export default function MusicScreen() {
       setPlayingSource(null);
       setCurrentTrack(null);
     }
+  };
+
+  const renderPaginationFooter = () => {
+    if (tracks.length <= PAGE_SIZE) return null;
+
+    const startItem = (currentPage - 1) * PAGE_SIZE + 1;
+    const endItem = Math.min(currentPage * PAGE_SIZE, tracks.length);
+
+    return (
+      <View style={styles.paginationContainer}>
+        <Text style={styles.paginationSummary}>
+          Showing {startItem}–{endItem} of {tracks.length} Royal Melodies
+        </Text>
+        <View style={styles.paginationRow}>
+          <TouchableOpacity
+            style={[styles.pageBtn, currentPage === 1 && styles.pageBtnDisabled]}
+            onPress={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            activeOpacity={0.7}
+          >
+            <ChevronLeft size={16} color={currentPage === 1 ? Colors.textMuted : Colors.primary} />
+            <Text style={[styles.pageBtnText, currentPage === 1 && styles.pageBtnTextDisabled]}>
+              Previous
+            </Text>
+          </TouchableOpacity>
+
+          <View style={styles.pageBadge}>
+            <Text style={styles.pageBadgeText}>
+              Page {currentPage} of {totalPages}
+            </Text>
+          </View>
+
+          <TouchableOpacity
+            style={[styles.pageBtn, currentPage === totalPages && styles.pageBtnDisabled]}
+            onPress={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.pageBtnText, currentPage === totalPages && styles.pageBtnTextDisabled]}>
+              Next
+            </Text>
+            <ChevronRight size={16} color={currentPage === totalPages ? Colors.textMuted : Colors.primary} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
   };
 
   const renderTrackItem = ({ item, index }) => {
@@ -224,11 +291,13 @@ export default function MusicScreen() {
         </View>
       ) : (
         <FlatList
-          data={tracks}
+          ref={flatListRef}
+          data={paginatedTracks}
           keyExtractor={(item) => String(item.id || item.number || item.title)}
           renderItem={renderTrackItem}
           contentContainerStyle={[styles.listContent, playingSource && { paddingBottom: 110 }]}
           showsVerticalScrollIndicator={false}
+          ListFooterComponent={renderPaginationFooter}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -506,6 +575,63 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: Colors.textSecondary,
     marginTop: 4,
+  },
+  paginationContainer: {
+    paddingVertical: 18,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: Colors.cardBorder,
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  paginationSummary: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: Colors.textSecondary,
+    marginBottom: 12,
+    letterSpacing: 0.3,
+  },
+  paginationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+  },
+  pageBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 20,
+    backgroundColor: Colors.cardBg,
+    borderWidth: 1,
+    borderColor: Colors.champagneGold,
+    gap: 4,
+  },
+  pageBtnDisabled: {
+    borderColor: Colors.border,
+    backgroundColor: '#F7F2EC',
+    opacity: 0.6,
+  },
+  pageBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: Colors.primary,
+  },
+  pageBtnTextDisabled: {
+    color: Colors.textMuted,
+  },
+  pageBadge: {
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    borderRadius: 16,
+    backgroundColor: Colors.deepBurgundy,
+  },
+  pageBadgeText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: Colors.champagneGold,
   },
   nowPlayingBar: {
     position: 'absolute',
