@@ -326,6 +326,8 @@ export default function InvitationPreviewScreen() {
         <FloatingAudioPlayer
           trackUrl={musicUrl}
           trackTitle={musicTitle}
+          startTime={fields.audioStartTime || 0}
+          clipDuration={fields.audioClipDuration || 0}
         />
       ) : null}
 

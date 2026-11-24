@@ -45,7 +45,7 @@ export const MusicService = {
   /**
    * Starts playback preview for a track. Stops any currently playing audio.
    */
-  async playPreview(audioUrl, onStatusUpdate = null) {
+  async playPreview(audioUrl, onStatusUpdate = null, startSeconds = 0) {
     try {
       // If already playing this track, pause/toggle
       if (activeSound && currentPlayingSource === audioUrl) {
@@ -55,6 +55,9 @@ export const MusicService = {
             await activeSound.pauseAsync();
             return { isPlaying: false, isLoaded: true };
           } else {
+            if (startSeconds > 0 && Math.abs((status.positionMillis || 0) / 1000 - startSeconds) > 2) {
+              await activeSound.setPositionAsync(Math.max(0, Math.floor(startSeconds * 1000)));
+            }
             await activeSound.playAsync();
             return { isPlaying: true, isLoaded: true };
           }
@@ -71,9 +74,11 @@ export const MusicService = {
         shouldDuckAndroid: true,
       });
 
+      const initialPositionMillis = Math.max(0, Math.floor((Number(startSeconds) || 0) * 1000));
+
       const { sound } = await Audio.Sound.createAsync(
         { uri: audioUrl },
-        { shouldPlay: true, isLooping: true },
+        { shouldPlay: true, isLooping: true, positionMillis: initialPositionMillis },
         onStatusUpdate
       );
 
@@ -86,6 +91,52 @@ export const MusicService = {
       await this.stopPreview();
       throw error;
     }
+  },
+
+  /**
+   * Seeks currently playing audio to target position in seconds.
+   */
+  async seekTo(seconds) {
+    try {
+      if (activeSound) {
+        const targetMillis = Math.max(0, Math.floor(seconds * 1000));
+        await activeSound.setPositionAsync(targetMillis);
+      }
+    } catch (err) {
+      console.warn('Seek error:', err.message);
+    }
+  },
+
+  /**
+   * Pauses active audio.
+   */
+  async pauseSound() {
+    try {
+      if (activeSound) {
+        await activeSound.pauseAsync();
+      }
+    } catch (e) {}
+  },
+
+  /**
+   * Alias for playPreview to support floating audio player.
+   */
+  async playSound(audioUrl, onStatusUpdate, startSeconds = 0) {
+    return this.playPreview(audioUrl, onStatusUpdate, startSeconds);
+  },
+
+  /**
+   * Alias for stopPreview.
+   */
+  async stopSound() {
+    return this.stopPreview();
+  },
+
+  /**
+   * Direct handle to active Expo Audio.Sound instance.
+   */
+  get soundInstance() {
+    return activeSound;
   },
 
   /**

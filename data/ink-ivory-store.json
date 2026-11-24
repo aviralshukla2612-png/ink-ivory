@@ -2292,6 +2292,73 @@
       "version": 1,
       "createdAt": "2026-11-24T13:33:04.185Z",
       "updatedAt": "2026-11-24T13:33:04.185Z"
+    },
+    {
+      "id": "drf_fd6a40c21c9a",
+      "guestToken": "gst_501e362166b947c1a2f6eb85165be448",
+      "templateId": "tpl-wedding-navy-01",
+      "title": "Aarav & Riya — The Royal Navy Wedding — Invitation",
+      "fields": {
+        "eyebrow": "TOGETHER WITH THEIR FAMILIES",
+        "headline": "The Wedding Of",
+        "names": "Aarav & Riya",
+        "date": "Friday, 18 December 2026",
+        "time": "5:00 PM Onwards",
+        "venue": "The Heritage Palace & Gardens",
+        "city": "Jaipur, Rajasthan",
+        "message": "Request the honour of your graceful presence and pious blessings to celebrate this eternal union.",
+        "rsvp": "",
+        "host": "Kapoor & Singhania Families",
+        "brideParents": "Mrs. Gayatri & Dr. Harshvardhan Kapoor",
+        "groomParents": "Mrs. Sunita & Mr. Vikramaditya Singhania",
+        "songTitle": "Aaj Sajeya — Goldie Sohel (Saregama Music)",
+        "audioSource": "/audio/aaj-sajeya.mp3",
+        "audioStartTime": 4,
+        "events": [
+          {
+            "name": "Haldi Ceremony",
+            "icon": "haldi",
+            "date": "Thursday, 17 December 2026",
+            "time": "10:00 AM",
+            "venue": "The Courtyard, Jaipur"
+          },
+          {
+            "name": "Mehendi & Sangeet",
+            "icon": "mehendi",
+            "date": "Thursday, 17 December 2026",
+            "time": "6:30 PM",
+            "venue": "The Royal Lawns, Jaipur"
+          },
+          {
+            "name": "Wedding Ceremony",
+            "icon": "wedding",
+            "date": "Friday, 18 December 2026",
+            "time": "5:00 PM",
+            "venue": "The Heritage Palace, Jaipur"
+          },
+          {
+            "name": "Grand Reception",
+            "icon": "reception",
+            "date": "Saturday, 19 December 2026",
+            "time": "8:00 PM",
+            "venue": "Palace Ballroom, Jaipur"
+          }
+        ]
+      },
+      "design": {
+        "themeColor": "#121E35",
+        "textColor": "#EDE2CF",
+        "accentColor": "#D7B875",
+        "secondaryColor": "#B88E4B",
+        "fontFamily": "serif",
+        "orientation": "square",
+        "borderStyle": "gold-floral",
+        "bgTexture": "navy-luxury"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-24T13:40:50.094Z",
+      "updatedAt": "2026-11-24T13:40:50.094Z"
     }
   ],
   "orders": [
@@ -6105,6 +6172,18 @@
         "status": "DRAFT"
       },
       "createdAt": "2026-11-24T13:33:04.189Z"
+    },
+    {
+      "id": "log_6240b27d",
+      "guestToken": "gst_501e362166b947c1a2f6eb85165be448",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_fd6a40c21c9a",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-24T13:40:50.098Z"
     }
   ],
   "categories": [

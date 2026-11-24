@@ -124,6 +124,7 @@ export const useEditorStore = create((set, get) => ({
     songTitle: 'Kesariya (Soulful Flute Cover)',
     audioSource: '/audio/kesariya-flute.mp3',
     audioStartTime: 0,
+    audioClipDuration: 0,
   },
   events: [
     { name: 'Haldi Ceremony', date: 'Thursday, Dec 17 2026', time: '10:00 AM', venue: 'The Courtyard' },
@@ -166,7 +167,8 @@ export const useEditorStore = create((set, get) => ({
       const music = {
         songTitle: activeFields.songTitle || 'Kesariya (Soulful Flute Cover)',
         audioSource: activeFields.audioSource || '/audio/kesariya-flute.mp3',
-        audioStartTime: activeFields.audioStartTime || 0,
+        audioStartTime: Number(activeFields.audioStartTime) || 0,
+        audioClipDuration: Number(activeFields.audioClipDuration) || 0,
       };
 
       const events = activeFields.events && activeFields.events.length > 0
@@ -246,6 +248,8 @@ export const useEditorStore = create((set, get) => ({
 
     fields.songTitle = music.songTitle;
     fields.audioSource = music.audioSource;
+    fields.audioStartTime = Number(music.audioStartTime) || 0;
+    fields.audioClipDuration = Number(music.audioClipDuration) || 0;
     fields.events = events;
 
     const design = {
@@ -364,14 +368,32 @@ export const useEditorStore = create((set, get) => ({
    */
   selectMusicTrack: (track) => {
     get().pushHistorySnapshot();
-    set({
+    set((state) => ({
       music: {
+        ...state.music,
         songTitle: track.title,
         audioSource: track.source,
         audioStartTime: 0,
+        audioClipDuration: state.music.audioClipDuration || 0,
       },
       saveStatus: 'unsaved',
-    });
+    }));
+    get().triggerDebouncedAutosave();
+  },
+
+  /**
+   * Instagram-Style Audio Start Time & Clip Duration Timing Mutation
+   */
+  setMusicTiming: (audioStartTime, audioClipDuration = 0) => {
+    get().pushHistorySnapshot();
+    set((state) => ({
+      music: {
+        ...state.music,
+        audioStartTime: Number(audioStartTime) || 0,
+        audioClipDuration: Number(audioClipDuration) || 0,
+      },
+      saveStatus: 'unsaved',
+    }));
     get().triggerDebouncedAutosave();
   },
 
@@ -473,6 +495,8 @@ export const useEditorStore = create((set, get) => ({
 
       fields.songTitle = music.songTitle;
       fields.audioSource = music.audioSource;
+      fields.audioStartTime = Number(music.audioStartTime) || 0;
+      fields.audioClipDuration = Number(music.audioClipDuration) || 0;
       fields.events = events;
 
       const design = {

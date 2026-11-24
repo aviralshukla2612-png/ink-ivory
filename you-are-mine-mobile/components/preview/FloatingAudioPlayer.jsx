@@ -12,12 +12,17 @@ export function FloatingAudioPlayer({
   trackUrl,
   trackTitle = 'Bespoke Celebration Melody',
   autoPlay = false,
+  startTime = 0,
+  clipDuration = 0,
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(180000); // 3 mins default
   const [isMuted, setIsMuted] = useState(false);
+
+  const startSec = Number(startTime) || 0;
+  const clipDur = Number(clipDuration) || 0;
 
   useEffect(() => {
     let isMounted = true;
@@ -41,18 +46,34 @@ export function FloatingAudioPlayer({
     } else {
       setIsLoading(true);
       try {
-        await MusicService.playSound(trackUrl, (status) => {
-          if (status.isLoaded) {
-            setPosition(status.positionMillis || 0);
-            if (status.durationMillis) {
-              setDuration(status.durationMillis);
+        await MusicService.playSound(
+          trackUrl,
+          (status) => {
+            if (status.isLoaded) {
+              const currentPos = status.positionMillis || 0;
+              setPosition(currentPos);
+              if (status.durationMillis) {
+                setDuration(status.durationMillis);
+              }
+
+              // Instagram Story loop logic: loop back to startTime if clipDuration elapsed
+              if (clipDur > 0 && currentPos >= (startSec + clipDur) * 1000) {
+                MusicService.seekTo(startSec);
+              }
+
+              if (status.didJustFinish) {
+                if (clipDur > 0) {
+                  MusicService.seekTo(startSec);
+                  MusicService.playPreview(trackUrl, null, startSec);
+                } else {
+                  setIsPlaying(false);
+                  setPosition(0);
+                }
+              }
             }
-            if (status.didJustFinish) {
-              setIsPlaying(false);
-              setPosition(0);
-            }
-          }
-        });
+          },
+          startSec
+        );
         setIsPlaying(true);
       } catch (err) {
         console.warn('FloatingAudioPlayer error:', err.message);
