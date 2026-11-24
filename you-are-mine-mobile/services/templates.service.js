@@ -8,7 +8,7 @@ export const TemplatesService = {
   async getTemplates() {
     try {
       const response = await apiClient.get('/api/templates');
-      const templates = response.data || [];
+      const templates = response?.data || (Array.isArray(response) ? response : []);
       
       // Normalize image URLs and default fields
       return templates.map((tpl) => ({
@@ -32,7 +32,7 @@ export const TemplatesService = {
   async getTemplateById(id) {
     try {
       const response = await apiClient.get(`/api/templates/${id}`);
-      const tpl = response.data;
+      const tpl = response?.data || response;
       if (!tpl) throw new Error('Template not found');
 
       return {
