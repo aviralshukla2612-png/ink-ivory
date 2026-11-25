@@ -24,11 +24,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 2. Size Validation (max 15 MB)
-    const MAX_SIZE = 15 * 1024 * 1024;
+    // 2. Size Validation (max 10 MB)
+    const MAX_SIZE = 10 * 1024 * 1024;
     if (file.size > MAX_SIZE) {
       return NextResponse.json(
-        { success: false, error: "Image file too large. Maximum size allowed is 15 MB." },
+        { success: false, error: "Image file too large. Maximum size allowed is 10 MB." },
         { status: 400 }
       );
     }
