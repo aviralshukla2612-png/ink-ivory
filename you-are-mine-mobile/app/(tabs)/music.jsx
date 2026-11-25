@@ -232,7 +232,7 @@ export default function MusicScreen() {
           </Text>
         </View>
         <Image
-          source={require('../../assets/logo-icon.png')}
+          source={require('../../assets/logo-dark-bg.png')}
           style={styles.heroLogoIcon}
           resizeMode="contain"
         />
@@ -396,8 +396,8 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
   heroLogoIcon: {
-    width: 44,
-    height: 44,
+    width: 76,
+    height: 34,
   },
   searchContainer: {
     paddingHorizontal: 16,

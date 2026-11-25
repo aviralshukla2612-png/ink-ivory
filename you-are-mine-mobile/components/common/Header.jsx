@@ -32,11 +32,6 @@ export function Header({
       <View style={styles.centerSlot}>
         {title ? (
           <View style={styles.titleRow}>
-            <Image
-              source={require('../../assets/logo-icon.png')}
-              style={styles.headerIconLogo}
-              resizeMode="contain"
-            />
             <Text style={styles.titleText} numberOfLines={1}>{title}</Text>
           </View>
         ) : (
@@ -99,17 +94,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   brandLogoImage: {
-    width: 150,
-    height: 38,
+    width: 145,
+    height: 42,
   },
   titleRow: {
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-  },
-  headerIconLogo: {
-    width: 26,
-    height: 26,
+    justifyContent: 'center',
   },
   titleText: {
     fontSize: 16,

@@ -39,7 +39,7 @@ export function HeroBanner({ onCtaPress }) {
         {/* Right Column: Decorative Gold Brand Emblem */}
         <View style={styles.emblemWrapper}>
           <Image
-            source={require('../../assets/logo-icon.png')}
+            source={require('../../assets/logo-dark-bg.png')}
             style={styles.emblemImage}
             resizeMode="contain"
           />
@@ -77,15 +77,15 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   emblemWrapper: {
-    width: 68,
-    height: 68,
+    width: 86,
+    height: 64,
     alignItems: 'center',
     justifyContent: 'center',
-    opacity: 0.9,
+    opacity: 0.95,
   },
   emblemImage: {
-    width: 64,
-    height: 64,
+    width: 82,
+    height: 36,
   },
   sparkleBadge: {
     flexDirection: 'row',
