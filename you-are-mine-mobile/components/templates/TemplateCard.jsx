@@ -28,7 +28,8 @@ export function TemplateCard({ template, isHorizontal = false }) {
         <Image
           source={{ uri: template.previewImageUrl }}
           style={styles.image}
-          contentFit="cover"
+          contentFit={template.contentFit || "cover"}
+          contentPosition={template.focalPoint || "top center"}
           transition={200}
         />
         <View style={styles.imageOverlay} />

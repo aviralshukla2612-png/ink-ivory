@@ -25,6 +25,7 @@ import {
   ChevronRight,
 } from 'lucide-react-native';
 import { Header } from '../../components/common/Header';
+import { BrandEmblem } from '../../components/common/BrandEmblem';
 import { Colors } from '../../constants/colors';
 import { MusicService } from '../../services/music.service';
 
@@ -231,11 +232,9 @@ export default function MusicScreen() {
             116+ Timeless Indian Wedding, Romantic & Celebration Anthems
           </Text>
         </View>
-        <Image
-          source={require('../../assets/logo-dark-bg.png')}
-          style={styles.heroLogoIcon}
-          resizeMode="contain"
-        />
+        <View style={styles.heroLogoIcon}>
+          <BrandEmblem size={44} color={Colors.champagneGold} secondaryColor="#F3E5AB" />
+        </View>
       </View>
 
       {/* Search Input */}

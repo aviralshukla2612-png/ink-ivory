@@ -101,9 +101,28 @@ export default async function PublicInvitationPage({ params }: Props) {
     });
   }
 
-  if (snapshotData.customAudioUrl) {
-    searchParams.set("audioSource", snapshotData.customAudioUrl);
-    searchParams.set("songUrl", snapshotData.customAudioUrl);
+  // Canonical Instagram-Style Audio Start Time & End Time Snapshot Propagation
+  const designConfig = (snapshotData as any).designConfig || {};
+  const audioStartTime = snapshotData.fields?.audioStartTime ?? designConfig.audioStartTime ?? 0;
+  const audioEndTime =
+    snapshotData.fields?.audioEndTime ??
+    designConfig.audioEndTime ??
+    (designConfig.audioClipDuration ? Number(audioStartTime) + Number(designConfig.audioClipDuration) : 0);
+  const audioSource =
+    snapshotData.customAudioUrl ||
+    snapshotData.fields?.audioSource ||
+    designConfig.audioSource;
+
+  if (audioSource) {
+    searchParams.set("audioSource", String(audioSource));
+    searchParams.set("songUrl", String(audioSource));
+  }
+  if (audioStartTime !== undefined && audioStartTime !== null) {
+    searchParams.set("audioStartTime", String(audioStartTime));
+    searchParams.set("audioStart", String(audioStartTime));
+  }
+  if (audioEndTime) {
+    searchParams.set("audioEndTime", String(audioEndTime));
   }
 
   // Resolve target route

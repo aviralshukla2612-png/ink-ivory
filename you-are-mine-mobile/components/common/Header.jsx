@@ -3,11 +3,13 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ChevronLeft, Bell } from 'lucide-react-native';
 import { Colors } from '../../constants/colors';
+import { BrandEmblem } from './BrandEmblem';
 
 export function Header({
   title,
   showBack = false,
   showNotification = true,
+  showLogoWithTitle = false,
   rightAction = null,
   onBackPress = null,
 }) {
@@ -32,6 +34,11 @@ export function Header({
       <View style={styles.centerSlot}>
         {title ? (
           <View style={styles.titleRow}>
+            {showLogoWithTitle && (
+              <View style={styles.headerEmblemWrap}>
+                <BrandEmblem size={22} color={Colors.primary} secondaryColor={Colors.champagneGold} />
+              </View>
+            )}
             <Text style={styles.titleText} numberOfLines={1}>{title}</Text>
           </View>
         ) : (
@@ -98,6 +105,13 @@ const styles = StyleSheet.create({
     height: 42,
   },
   titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  headerEmblemWrap: {
+    marginRight: 2,
     alignItems: 'center',
     justifyContent: 'center',
   },

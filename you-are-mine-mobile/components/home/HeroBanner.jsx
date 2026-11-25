@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ArrowRight, Sparkles } from 'lucide-react-native';
 import { Colors } from '../../constants/colors';
+import { BrandEmblem } from '../common/BrandEmblem';
 
 export function HeroBanner({ onCtaPress }) {
   const router = useRouter();
@@ -36,13 +37,9 @@ export function HeroBanner({ onCtaPress }) {
           </TouchableOpacity>
         </View>
 
-        {/* Right Column: Decorative Gold Brand Emblem */}
+        {/* Right Column: Decorative Pure Vector Gold Brand Emblem */}
         <View style={styles.emblemWrapper}>
-          <Image
-            source={require('../../assets/logo-dark-bg.png')}
-            style={styles.emblemImage}
-            resizeMode="contain"
-          />
+          <BrandEmblem size={54} color={Colors.champagneGold} secondaryColor="#F3E5AB" />
         </View>
       </View>
     </View>

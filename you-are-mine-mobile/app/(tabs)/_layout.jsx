@@ -1,17 +1,30 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { StyleSheet, View, Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Home, Compass, MailOpen, Music2, User } from 'lucide-react-native';
 import { Colors } from '../../constants/colors';
 
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
+
+  // Dynamic safe padding ensuring text descenders are never clipped by system navigation bars or viewport edges
+  const bottomPadding = Math.max(insets.bottom || 0, Platform.OS === 'web' ? 14 : 10);
+  const tabHeight = (Platform.OS === 'ios' ? 52 : 58) + bottomPadding;
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.tabInactive,
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: [
+          styles.tabBar,
+          {
+            height: tabHeight,
+            paddingBottom: bottomPadding,
+          },
+        ],
         tabBarLabelStyle: styles.tabBarLabel,
         tabBarItemStyle: styles.tabBarItem,
       }}
@@ -80,9 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.tabBarBg,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: Colors.tabBarBorder,
-    height: Platform.OS === 'web' ? 72 : 64,
-    paddingTop: 6,
-    paddingBottom: Platform.OS === 'web' ? 12 : 8,
+    paddingTop: 8,
     elevation: 8,
     shadowColor: Colors.textPrimary,
     shadowOffset: { width: 0, height: -2 },
@@ -90,15 +101,16 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
   },
   tabBarItem: {
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: 2,
   },
   tabBarLabel: {
-    fontSize: 11,
+    fontSize: 10.5,
     fontWeight: '600',
     letterSpacing: 0.1,
-    lineHeight: 18,
-    minHeight: 18,
-    paddingBottom: 2,
+    marginTop: 2,
+    marginBottom: 2,
   },
   activeIconContainer: {
     transform: [{ scale: 1.05 }],

@@ -115,7 +115,8 @@ export default function TemplateDetailsScreen() {
             <Image
               source={{ uri: template.previewImageUrl }}
               style={styles.artworkImage}
-              contentFit="cover"
+              contentFit={template.contentFit || "cover"}
+              contentPosition={template.focalPoint || "top center"}
               transition={300}
             />
             <View style={styles.artworkOverlay} />
@@ -216,11 +217,11 @@ const styles = StyleSheet.create({
   archOuter: {
     width: '100%',
     maxWidth: 360,
-    aspectRatio: 0.88,
-    borderTopLeftRadius: 180,
-    borderTopRightRadius: 180,
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
+    aspectRatio: 0.78, // Regal 3:4 portrait stationery proportion
+    borderTopLeftRadius: 36,
+    borderTopRightRadius: 36,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
     overflow: 'hidden',
     backgroundColor: Colors.cream,
     borderWidth: 1.5,

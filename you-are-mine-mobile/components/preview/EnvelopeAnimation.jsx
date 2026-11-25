@@ -133,8 +133,8 @@ export function EnvelopeAnimation({
                 ]}
               >
                 <View style={styles.waxSealInner}>
-                  <Heart size={20} color="#D8B77B" fill="#D8B77B" />
-                  <Text style={styles.sealMonogram}>YAM</Text>
+                  <Heart size={20} color="#F8E7C0" fill="#F8E7C0" />
+                  <Text style={styles.sealMonogram}>YOU ARE MINE</Text>
                 </View>
               </Animated.View>
             </TouchableOpacity>
@@ -265,36 +265,37 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   waxSeal: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: '#6A1828',
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+    backgroundColor: '#5A1220',
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 3,
-    borderColor: '#D8B77B',
-    elevation: 8,
-    shadowColor: '#000',
+    borderColor: '#F3E5AB',
+    elevation: 10,
+    shadowColor: '#D8B77B',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 6,
+    shadowOpacity: 0.45,
+    shadowRadius: 8,
   },
   waxSealInner: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
+    width: 62,
+    height: 62,
+    borderRadius: 31,
     borderWidth: 1.5,
     borderStyle: 'dashed',
-    borderColor: 'rgba(216, 183, 123, 0.7)',
+    borderColor: '#F8E7C0',
+    backgroundColor: '#6A1828',
     alignItems: 'center',
     justifyContent: 'center',
   },
   sealMonogram: {
-    fontSize: 9,
+    fontSize: 7.5,
     fontWeight: '800',
-    color: '#D8B77B',
-    letterSpacing: 1,
-    marginTop: 2,
+    color: '#FFF2D1',
+    letterSpacing: 0.8,
+    marginTop: 3,
   },
   instructionText: {
     fontSize: 11,

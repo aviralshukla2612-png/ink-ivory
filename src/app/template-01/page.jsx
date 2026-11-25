@@ -41,7 +41,9 @@ function Template01Content() {
   const customCity = searchParams.get('city');
   const customBrideParents = searchParams.get('brideParents');
   const customGroomParents = searchParams.get('groomParents');
-  const customAudioStart = searchParams.get('audioStart');
+  const customAudioStart = searchParams.get('audioStart') || searchParams.get('audioStartTime');
+  const customAudioEnd = searchParams.get('audioEnd') || searchParams.get('audioEndTime');
+  const customAudioClip = searchParams.get('audioClipDuration');
   const customAudioSource = searchParams.get('audioSource');
 
   // Synchronously read sessionStorage on client if available
@@ -62,6 +64,7 @@ function Template01Content() {
   const effectiveBrideParents = customBrideParents || sessionCustom.brideParents || weddingData.families?.brideSide?.parents;
   const effectiveGroomParents = customGroomParents || sessionCustom.groomParents || weddingData.families?.groomSide?.parents;
   const effectiveAudioStart = Number(customAudioStart) || Number(sessionCustom.audioStartTime) || 4;
+  const effectiveAudioEnd = Number(customAudioEnd) || Number(sessionCustom.audioEndTime) || (customAudioClip ? (effectiveAudioStart + Number(customAudioClip)) : 0);
 
   // Immediately synchronize static singleton so all child modules render updated values on frame 1
   weddingData.couple.names = effectiveNames;
@@ -187,6 +190,16 @@ function Template01Content() {
 
     audio.addEventListener('play', () => setIsPlaying(true));
     audio.addEventListener('pause', () => setIsPlaying(false));
+    audio.addEventListener('timeupdate', () => {
+      if (effectiveAudioEnd > effectiveAudioStart && audio.currentTime >= effectiveAudioEnd) {
+        audio.currentTime = effectiveAudioStart;
+      }
+    });
+    audio.addEventListener('timeupdate', () => {
+      if (effectiveAudioEnd > effectiveAudioStart && audio.currentTime >= effectiveAudioEnd) {
+        audio.currentTime = effectiveAudioStart;
+      }
+    });
 
     return () => {
       if (audioRef.current) {

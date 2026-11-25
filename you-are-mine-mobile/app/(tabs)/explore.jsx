@@ -69,8 +69,8 @@ export default function ExploreScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* Header: Explore Templates */}
-      <Header title="Explore Templates" showNotification={false} />
+      {/* Header: Explore Templates with Clean Transparent Vector Brand Mark */}
+      <Header title="Explore Templates" showLogoWithTitle={true} showNotification={false} />
 
       {/* Screen 4: Search Input */}
       <SearchBar

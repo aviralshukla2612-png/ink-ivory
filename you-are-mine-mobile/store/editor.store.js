@@ -164,11 +164,16 @@ export const useEditorStore = create((set, get) => ({
 
       const elements = createDefaultElements(template, activeFields, activeDesign);
 
+      const startSec = Number(activeFields.audioStartTime ?? activeDesign.audioStartTime) || 0;
+      const endSec = Number(activeFields.audioEndTime ?? activeDesign.audioEndTime) || 0;
+      const clipDur = Number(activeFields.audioClipDuration ?? activeDesign.audioClipDuration) ||
+        (endSec > startSec ? endSec - startSec : 0);
+
       const music = {
-        songTitle: activeFields.songTitle || 'Kesariya (Soulful Flute Cover)',
-        audioSource: activeFields.audioSource || '/audio/kesariya-flute.mp3',
-        audioStartTime: Number(activeFields.audioStartTime) || 0,
-        audioClipDuration: Number(activeFields.audioClipDuration) || 0,
+        songTitle: activeFields.songTitle || activeDesign.songTitle || 'Kesariya (Soulful Flute Cover)',
+        audioSource: activeFields.audioSource || activeDesign.audioSource || '/audio/kesariya-flute.mp3',
+        audioStartTime: startSec,
+        audioClipDuration: clipDur,
       };
 
       const events = activeFields.events && activeFields.events.length > 0
@@ -253,11 +258,19 @@ export const useEditorStore = create((set, get) => ({
     fields.audioSource = music.audioSource;
     fields.audioStartTime = Number(music.audioStartTime) || 0;
     fields.audioClipDuration = Number(music.audioClipDuration) || 0;
+    const clipDur = Number(music.audioClipDuration) || 0;
+    const startSec = Number(music.audioStartTime) || 0;
+    fields.audioEndTime = clipDur > 0 ? startSec + clipDur : 0;
     fields.events = events;
 
     const design = {
       ...(template?.designConfig || {}),
       elementPositions,
+      audioStartTime: startSec,
+      audioClipDuration: clipDur,
+      audioEndTime: clipDur > 0 ? startSec + clipDur : 0,
+      audioSource: music.audioSource,
+      songTitle: music.songTitle,
     };
 
     AutosaveService.triggerAutosave(
@@ -571,11 +584,19 @@ export const useEditorStore = create((set, get) => ({
       fields.audioSource = music.audioSource;
       fields.audioStartTime = Number(music.audioStartTime) || 0;
       fields.audioClipDuration = Number(music.audioClipDuration) || 0;
+      const clipDur = Number(music.audioClipDuration) || 0;
+      const startSec = Number(music.audioStartTime) || 0;
+      fields.audioEndTime = clipDur > 0 ? startSec + clipDur : 0;
       fields.events = events;
 
       const design = {
         ...(template?.designConfig || {}),
         elementPositions,
+        audioStartTime: startSec,
+        audioClipDuration: clipDur,
+        audioEndTime: clipDur > 0 ? startSec + clipDur : 0,
+        audioSource: music.audioSource,
+        songTitle: music.songTitle,
       };
 
       await DraftsService.updateDraft(draftId, {
