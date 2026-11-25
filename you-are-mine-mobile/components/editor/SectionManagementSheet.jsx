@@ -8,16 +8,28 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native';
-import { LayoutGrid, Plus, Trash2, X, Calendar, Clock, MapPin } from 'lucide-react-native';
+import { LayoutGrid, Plus, Trash2, X, Calendar, Clock, MapPin, ArrowUp, ArrowDown, Sparkles } from 'lucide-react-native';
 import { Colors } from '../../constants/colors';
 import { useEditorStore } from '../../store/editor.store';
 
+const CEREMONY_PRESETS = [
+  'Haldi Ceremony',
+  'Mehendi Night',
+  'Sangeet & Dance',
+  'Wedding Muhurtham',
+  'Grand Reception',
+  'Ring Ceremony',
+];
+
 export function SectionManagementSheet() {
-  const { events, updateEvent, addEvent, removeEvent, setActiveTool } = useEditorStore();
+  const { events, updateEvent, addEvent, removeEvent, reorderEvent, setActiveTool } = useEditorStore();
 
   const [newEventName, setNewEventName] = useState('');
+  const [newEventDate, setNewEventDate] = useState('');
   const [newEventTime, setNewEventTime] = useState('');
+  const [newEventEndTime, setNewEventEndTime] = useState('');
   const [newEventVenue, setNewEventVenue] = useState('');
+  const [newEventAddress, setNewEventAddress] = useState('');
 
   const handleAddEvent = () => {
     if (!newEventName.trim()) {
@@ -27,14 +39,19 @@ export function SectionManagementSheet() {
 
     addEvent({
       name: newEventName.trim(),
-      date: 'Saturday, Dec 19 2026',
+      date: newEventDate.trim() || 'Saturday, Dec 19 2026',
       time: newEventTime.trim() || '7:00 PM Onwards',
+      endTime: newEventEndTime.trim() || '',
       venue: newEventVenue.trim() || 'Temple Mandapam',
+      venueAddress: newEventAddress.trim() || '',
     });
 
     setNewEventName('');
+    setNewEventDate('');
     setNewEventTime('');
+    setNewEventEndTime('');
     setNewEventVenue('');
+    setNewEventAddress('');
   };
 
   return (
@@ -61,24 +78,59 @@ export function SectionManagementSheet() {
         {events.map((item, index) => (
           <View key={index} style={styles.eventCard}>
             <View style={styles.eventHeaderRow}>
-              <TextInput
-                style={styles.eventNameInput}
-                value={item.name}
-                onChangeText={(text) => updateEvent(index, { name: text })}
-                placeholder="Ceremony Name"
-              />
-              {events.length > 1 ? (
-                <TouchableOpacity
-                  style={styles.deleteBtn}
-                  onPress={() => removeEvent(index)}
-                  activeOpacity={0.7}
-                >
-                  <Trash2 size={15} color={Colors.error} />
-                </TouchableOpacity>
-              ) : null}
+              <View style={styles.titleInputCol}>
+                <TextInput
+                  style={styles.eventNameInput}
+                  value={item.name}
+                  onChangeText={(text) => updateEvent(index, { name: text })}
+                  placeholder="Ceremony Name"
+                />
+              </View>
+
+              <View style={styles.cardActionsRow}>
+                {index > 0 ? (
+                  <TouchableOpacity
+                    style={styles.iconBtn}
+                    onPress={() => reorderEvent(index, 'up')}
+                    activeOpacity={0.7}
+                  >
+                    <ArrowUp size={14} color={Colors.textPrimary} />
+                  </TouchableOpacity>
+                ) : null}
+
+                {index < events.length - 1 ? (
+                  <TouchableOpacity
+                    style={styles.iconBtn}
+                    onPress={() => reorderEvent(index, 'down')}
+                    activeOpacity={0.7}
+                  >
+                    <ArrowDown size={14} color={Colors.textPrimary} />
+                  </TouchableOpacity>
+                ) : null}
+
+                {events.length > 1 ? (
+                  <TouchableOpacity
+                    style={styles.deleteBtn}
+                    onPress={() => removeEvent(index)}
+                    activeOpacity={0.7}
+                  >
+                    <Trash2 size={14} color={Colors.error} />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
             </View>
 
             <View style={styles.eventDetailsRow}>
+              <View style={styles.fieldItem}>
+                <Calendar size={12} color={Colors.textSecondary} />
+                <TextInput
+                  style={styles.miniInput}
+                  value={item.date || ''}
+                  onChangeText={(text) => updateEvent(index, { date: text })}
+                  placeholder="Date"
+                />
+              </View>
+
               <View style={styles.fieldItem}>
                 <Clock size={12} color={Colors.textSecondary} />
                 <TextInput
@@ -88,14 +140,16 @@ export function SectionManagementSheet() {
                   placeholder="Time"
                 />
               </View>
+            </View>
 
+            <View style={styles.eventDetailsRow}>
               <View style={styles.fieldItem}>
                 <MapPin size={12} color={Colors.textSecondary} />
                 <TextInput
                   style={styles.miniInput}
                   value={item.venue}
                   onChangeText={(text) => updateEvent(index, { venue: text })}
-                  placeholder="Venue"
+                  placeholder="Venue & Address"
                 />
               </View>
             </View>
@@ -105,6 +159,21 @@ export function SectionManagementSheet() {
         {/* Add New Ceremony Event Form */}
         <View style={styles.addSectionBox}>
           <Text style={styles.addSectionTitle}>+ Add Ceremony Event</Text>
+
+          {/* Preset Chips */}
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.presetChips}>
+            {CEREMONY_PRESETS.map((preset) => (
+              <TouchableOpacity
+                key={preset}
+                style={styles.presetChip}
+                onPress={() => setNewEventName(preset)}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.presetChipText}>{preset}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+
           <TextInput
             style={styles.inputField}
             placeholder="Event Name (e.g. Sangeet & Dinner)"
@@ -112,7 +181,15 @@ export function SectionManagementSheet() {
             value={newEventName}
             onChangeText={setNewEventName}
           />
+
           <View style={styles.rowTwo}>
+            <TextInput
+              style={[styles.inputField, { flex: 1 }]}
+              placeholder="Date (e.g. Dec 18, 2026)"
+              placeholderTextColor="#A89B92"
+              value={newEventDate}
+              onChangeText={setNewEventDate}
+            />
             <TextInput
               style={[styles.inputField, { flex: 1 }]}
               placeholder="Time (e.g. 7:30 PM)"
@@ -120,14 +197,16 @@ export function SectionManagementSheet() {
               value={newEventTime}
               onChangeText={setNewEventTime}
             />
-            <TextInput
-              style={[styles.inputField, { flex: 1.5 }]}
-              placeholder="Venue"
-              placeholderTextColor="#A89B92"
-              value={newEventVenue}
-              onChangeText={setNewEventVenue}
-            />
           </View>
+
+          <TextInput
+            style={styles.inputField}
+            placeholder="Venue Name (e.g. Palace Mandapam)"
+            placeholderTextColor="#A89B92"
+            value={newEventVenue}
+            onChangeText={setNewEventVenue}
+          />
+
           <TouchableOpacity
             style={styles.addBtn}
             onPress={handleAddEvent}
@@ -150,7 +229,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     borderTopWidth: 1,
     borderColor: Colors.border,
-    height: 330,
+    height: 380,
     elevation: 12,
     shadowColor: Colors.textPrimary,
     shadowOffset: { width: 0, height: -4 },
@@ -206,11 +285,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  titleInputCol: {
+    flex: 1,
+    marginRight: 8,
+  },
   eventNameInput: {
     fontSize: 13,
     fontWeight: '700',
     color: Colors.textPrimary,
-    flex: 1,
+  },
+  cardActionsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  iconBtn: {
+    padding: 4,
+    borderRadius: 8,
+    backgroundColor: Colors.cream,
   },
   deleteBtn: {
     padding: 4,
@@ -244,6 +336,23 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
     color: Colors.primary,
+  },
+  presetChips: {
+    gap: 6,
+    paddingVertical: 2,
+  },
+  presetChip: {
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 10,
+    backgroundColor: Colors.surface,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  presetChipText: {
+    fontSize: 10.5,
+    fontWeight: '600',
+    color: Colors.textPrimary,
   },
   inputField: {
     backgroundColor: Colors.surface,

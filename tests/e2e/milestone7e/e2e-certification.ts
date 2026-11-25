@@ -193,8 +193,8 @@ async function runE2ECertification() {
   assert.strictEqual(snapshot.fields.venueName, 'Taj Lake Palace, Udaipur');
   assert.strictEqual(snapshot.customAudioUrl, 'https://cdn.youaremine.online/audio/kesariya-flute.mp3');
   assert.strictEqual(snapshot.design.themeColor, '#741E32');
-  assert(snapshot.sections.length === 2, 'Snapshot must preserve ceremony sections');
-  assert(snapshot.rsvpConfig.enabled === true, 'Snapshot must preserve RSVP configuration');
+  assert(snapshot.sections && snapshot.sections.length === 2, 'Snapshot must preserve ceremony sections');
+  assert(snapshot.rsvpConfig && snapshot.rsvpConfig.enabled === true, 'Snapshot must preserve RSVP configuration');
   console.log('  ✓ Complete visual, audio, section, and RSVP snapshot fidelity confirmed.');
   passedCount++;
 

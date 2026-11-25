@@ -20,6 +20,9 @@ export const templatesData: Template[] = [
     photoOption: 'No photo needed',
     useItFor: 'Wedding, Engagement, Mehendi +2',
     liveDemoUrl: '/template-01',
+    layoutVariant: 'classic-royal',
+    aspectRatio: 'portrait',
+    supportedSections: ['hero', 'events', 'rsvp', 'music'],
     tags: ['Luxury', 'Gold Foil', 'Navy', 'Floral', 'Wedding', 'Engagement'],
     defaultFields: {
       eyebrow: 'TOGETHER WITH THEIR FAMILIES',
@@ -74,6 +77,9 @@ export const templatesData: Template[] = [
     photoOption: 'Couple photo or two separate',
     useItFor: 'Wedding, Engagement, Save the date +5',
     liveDemoUrl: '/template-02',
+    layoutVariant: 'story-deck',
+    aspectRatio: 'portrait',
+    supportedSections: ['hero', 'story', 'events', 'memories', 'rsvp', 'music'],
     tags: ['Gold Foil', 'Marigold', 'Lotus', 'Kudmayi', 'Romantic', 'Anniversary', 'Wedding'],
     defaultFields: {
       eyebrow: 'WITH JOY, WE INVITE YOU TO CELEBRATE',
@@ -129,6 +135,9 @@ export const templatesData: Template[] = [
     photoOption: 'Couple photo or two separate',
     useItFor: 'Wedding, Engagement, Save the date +5',
     liveDemoUrl: '/template-03',
+    layoutVariant: 'temple-heritage',
+    aspectRatio: 'portrait',
+    supportedSections: ['hero', 'events', 'blessings', 'rsvp', 'music'],
     tags: ['South Indian', 'Thirumanam', 'Temple Silk', 'Mast Magan', 'Kuthuvilakku', 'Engagement', 'Wedding'],
     defaultFields: {
       eyebrow: 'SRI GANESHAYA NAMAHA • WITH THE BLESSINGS OF ELDERS',
@@ -183,6 +192,9 @@ export const templatesData: Template[] = [
     photoOption: 'Couple photo or two separate',
     useItFor: 'Wedding, Reception, Sangeet, Haldi +4',
     liveDemoUrl: '/template-04',
+    layoutVariant: 'arch-monogram',
+    aspectRatio: 'portrait',
+    supportedSections: ['hero', 'story', 'events', 'venue', 'rsvp', 'music'],
     tags: ['Luxury', 'Paper Craft', 'Pop-Up', 'Udaipur Palace', 'Royal Wedding'],
     defaultFields: {
       eyebrow: 'TOGETHER WITH THEIR FAMILIES',
@@ -237,6 +249,9 @@ export const templatesData: Template[] = [
     photoOption: 'Couple photo or two separate',
     useItFor: 'Wedding, Muhurtham, Nalangu, Reception +4',
     liveDemoUrl: '/template-05',
+    layoutVariant: 'temple-heritage',
+    aspectRatio: 'portrait',
+    supportedSections: ['hero', 'blessings', 'story', 'events', 'gallery', 'rsvp', 'music'],
     tags: ['Traditional', 'South Indian', 'Tamil', 'Atchathai', 'Wax Seal', 'Wedding', 'Temple'],
     defaultFields: {
       eyebrow: 'Two hearts, one journey',
@@ -322,6 +337,9 @@ export const templatesData: Template[] = [
     photoOption: 'Personalized photos & memories',
     useItFor: 'Milestone Birthday, Romantic Birthday, Sweet 16, Surprise Party',
     liveDemoUrl: '/birthday',
+    layoutVariant: 'minimal-modern',
+    aspectRatio: 'portrait',
+    supportedSections: ['hero', 'events', 'memories', 'rsvp', 'music'],
     tags: ['Birthday', 'Interactive', 'Luxury', 'Memories', 'Cake & Teddy'],
     defaultFields: {
       eyebrow: 'SPECIAL BIRTHDAY SURPRISE',
@@ -375,6 +393,9 @@ export const templatesData: Template[] = [
     photoOption: 'Couple photo or love memories',
     useItFor: 'Valentine\'s Day, Proposal, Anniversary, Love Letter',
     liveDemoUrl: '/valentine',
+    layoutVariant: 'story-deck',
+    aspectRatio: 'portrait',
+    supportedSections: ['hero', 'love-letter', 'timeline', 'memories', 'music'],
     tags: ['Valentine', 'Love', 'Proposal', 'Romantic', 'Interactive'],
     defaultFields: {
       eyebrow: 'A SPECIAL QUESTION FOR YOU',
@@ -428,6 +449,9 @@ export const templatesData: Template[] = [
     photoOption: 'Romantic photo & customizable itinerary',
     useItFor: 'Date Night, Anniversary, Valentine\'s Day, Proposal',
     liveDemoUrl: '/date-planner',
+    layoutVariant: 'story-deck',
+    aspectRatio: 'portrait',
+    supportedSections: ['hero', 'schedule', 'memories', 'music'],
     tags: ['Date Planner', 'Romantic', 'Interactive', 'Dinner Date', 'Custom Itinerary'],
     defaultFields: {
       eyebrow: "LET'S PLAN",

@@ -243,6 +243,9 @@ export const useEditorStore = create((set, get) => ({
         color: el.color,
         align: el.align,
         scale: el.scale,
+        fontWeight: el.fontWeight,
+        letterSpacing: el.letterSpacing,
+        zIndex: el.zIndex || 1,
       };
     });
 
@@ -311,6 +314,63 @@ export const useEditorStore = create((set, get) => ({
       },
       saveStatus: 'unsaved',
     }));
+  },
+
+  /**
+   * Layer Ordering (Z-Index)
+   */
+  reorderElementLayer: (id, direction) => {
+    get().pushHistorySnapshot();
+    set((state) => {
+      const el = state.elements[id];
+      if (!el) return state;
+      const currentZ = el.zIndex || 1;
+      const newZ = direction === 'forward' ? currentZ + 1 : Math.max(1, currentZ - 1);
+      return {
+        elements: {
+          ...state.elements,
+          [id]: { ...el, zIndex: newZ },
+        },
+        saveStatus: 'unsaved',
+      };
+    });
+    get().triggerDebouncedAutosave();
+  },
+
+  /**
+   * Reset Single Element to Template Default
+   */
+  resetElementToDefault: (id) => {
+    const { template } = get();
+    if (!template) return;
+    const defaults = createDefaultElements(template, template.defaultFields || {}, template.designConfig || {});
+    if (!defaults[id]) return;
+
+    get().pushHistorySnapshot();
+    set((state) => ({
+      elements: {
+        ...state.elements,
+        [id]: { ...defaults[id] },
+      },
+      saveStatus: 'unsaved',
+    }));
+    get().triggerDebouncedAutosave();
+  },
+
+  /**
+   * Reset Entire Canvas to Template Defaults
+   */
+  resetCanvasToDefault: () => {
+    const { template } = get();
+    if (!template) return;
+    const defaults = createDefaultElements(template, template.defaultFields || {}, template.designConfig || {});
+
+    get().pushHistorySnapshot();
+    set({
+      elements: defaults,
+      saveStatus: 'unsaved',
+    });
+    get().triggerDebouncedAutosave();
   },
 
   /**
@@ -425,6 +485,20 @@ export const useEditorStore = create((set, get) => ({
       events: state.events.filter((_, i) => i !== index),
       saveStatus: 'unsaved',
     }));
+    get().triggerDebouncedAutosave();
+  },
+
+  reorderEvent: (index, direction) => {
+    const { events } = get();
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= events.length) return;
+
+    get().pushHistorySnapshot();
+    const updated = [...events];
+    const [moved] = updated.splice(index, 1);
+    updated.splice(targetIndex, 0, moved);
+
+    set({ events: updated, saveStatus: 'unsaved' });
     get().triggerDebouncedAutosave();
   },
 

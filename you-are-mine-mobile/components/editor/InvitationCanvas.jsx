@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions, TouchableWithoutFeedback } from 'react-native';
-import Svg, { Path, Circle } from 'react-native-svg';
+import Svg, { Path, Circle, Line } from 'react-native-svg';
 import { Colors } from '../../constants/colors';
 import { DraggableElement } from './DraggableElement';
 import { DraggableImageElement } from './DraggableImageElement';
@@ -18,7 +18,7 @@ const CANVAS_DISPLAY_HEIGHT = (CANVAS_DISPLAY_WIDTH * CANVAS_LOGICAL_HEIGHT) / C
 const CANVAS_SCALE = CANVAS_DISPLAY_WIDTH / CANVAS_LOGICAL_WIDTH;
 
 export function InvitationCanvas() {
-  const { elements, deselectElement } = useEditorStore();
+  const { elements, selectedElementId, deselectElement } = useEditorStore();
 
   return (
     <TouchableWithoutFeedback onPress={deselectElement}>
@@ -51,6 +51,20 @@ export function InvitationCanvas() {
                 strokeDasharray="4,3"
                 fill="none"
               />
+
+              {/* Center Alignment Guide (Visible when element is selected) */}
+              {selectedElementId ? (
+                <Line
+                  x1={CANVAS_LOGICAL_WIDTH / 2}
+                  y1="24"
+                  x2={CANVAS_LOGICAL_WIDTH / 2}
+                  y2={CANVAS_LOGICAL_HEIGHT - 24}
+                  stroke="rgba(216, 183, 123, 0.35)"
+                  strokeWidth="1"
+                  strokeDasharray="3,3"
+                />
+              ) : null}
+
               {/* Decorative Hanging Temple Bells / Lanterns */}
               <Circle cx="60" cy="55" r="4" fill={Colors.champagneGold} />
               <Path d="M 60 30 L 60 55" stroke={Colors.champagneGold} strokeWidth="1" />

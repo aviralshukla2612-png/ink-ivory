@@ -17,12 +17,16 @@ export interface WeddingEventItem {
   date?: string;
   when?: string;
   time: string;
+  endTime?: string;
   venue?: string;
   where?: string;
+  venueAddress?: string;
   map?: string;
+  mapUrl?: string;
   note?: string;
   photo?: string | null;
   description?: string;
+  order?: number;
 }
 
 export interface StoryMilestoneItem {
@@ -89,7 +93,27 @@ export interface DesignConfig {
   orientation: 'portrait' | 'square' | 'landscape';
   borderStyle: 'gold-floral' | 'minimal-gold' | 'ornate' | 'modern-double' | 'botanical' | 'traditional';
   hasPhoto?: boolean;
-  bgTexture?: 'ivory-silk' | 'navy-luxury' | 'champagne-linen' | 'emerald-velvet' | 'rose-quartz';
+  bgTexture?: 'ivory-silk' | 'navy-luxury' | 'champagne-linen' | 'emerald-velvet' | 'rose-quartz' | 'royal-damask';
+  layoutVariant?: 'classic-royal' | 'arch-monogram' | 'story-deck' | 'minimal-modern' | 'temple-heritage';
+  aspectRatio?: 'portrait' | 'story' | 'square';
+  decorations?: {
+    cornerEmblems?: boolean;
+    floralBorder?: boolean;
+    goldDivider?: boolean;
+    waxSeal?: boolean;
+  };
+  elementPositions?: Record<string, {
+    x: number;
+    y: number;
+    fontSize?: number;
+    fontFamily?: string;
+    color?: string;
+    align?: string;
+    scale?: number;
+    zIndex?: number;
+    letterSpacing?: number;
+    lineHeight?: number;
+  }>;
 }
 
 export interface Template {
@@ -116,6 +140,9 @@ export interface Template {
   photoOption?: string;
   useItFor?: string;
   liveDemoUrl?: string;
+  layoutVariant?: string;
+  aspectRatio?: 'portrait' | 'story' | 'square';
+  supportedSections?: string[];
 }
 
 export interface CartItem {

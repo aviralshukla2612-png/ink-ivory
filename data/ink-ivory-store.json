@@ -41,7 +41,15 @@
         "accentColor": "#D7B875"
       },
       "priceINR": 299,
-      "originalPriceINR": 999
+      "originalPriceINR": 999,
+      "layoutVariant": "classic-royal",
+      "aspectRatio": "portrait",
+      "supportedSections": [
+        "hero",
+        "events",
+        "rsvp",
+        "music"
+      ]
     },
     {
       "id": "tpl-anniversary-gold-02",
@@ -69,7 +77,17 @@
         "accentColor": "#A77B35"
       },
       "priceINR": 299,
-      "originalPriceINR": 999
+      "originalPriceINR": 999,
+      "layoutVariant": "story-deck",
+      "aspectRatio": "portrait",
+      "supportedSections": [
+        "hero",
+        "story",
+        "events",
+        "memories",
+        "rsvp",
+        "music"
+      ]
     },
     {
       "id": "tpl-engagement-garden-03",
@@ -97,7 +115,16 @@
       },
       "updatedAt": "2026-11-21T07:47:52.755Z",
       "priceINR": 299,
-      "originalPriceINR": 999
+      "originalPriceINR": 999,
+      "layoutVariant": "temple-heritage",
+      "aspectRatio": "portrait",
+      "supportedSections": [
+        "hero",
+        "events",
+        "blessings",
+        "rsvp",
+        "music"
+      ]
     },
     {
       "id": "tpl-birthday-botanical-04",
@@ -125,7 +152,16 @@
         "accentColor": "#B62A42"
       },
       "priceINR": 299,
-      "originalPriceINR": 999
+      "originalPriceINR": 999,
+      "layoutVariant": "minimal-modern",
+      "aspectRatio": "portrait",
+      "supportedSections": [
+        "hero",
+        "events",
+        "memories",
+        "rsvp",
+        "music"
+      ]
     },
     {
       "id": "tpl-valentine-interactive-05",
@@ -153,7 +189,16 @@
         "accentColor": "#B51F3B"
       },
       "priceINR": 299,
-      "originalPriceINR": 999
+      "originalPriceINR": 999,
+      "layoutVariant": "story-deck",
+      "aspectRatio": "portrait",
+      "supportedSections": [
+        "hero",
+        "love-letter",
+        "timeline",
+        "memories",
+        "music"
+      ]
     },
     {
       "id": "tpl-date-planner-07",
@@ -182,7 +227,15 @@
         "accentColor": "#B51F3B"
       },
       "priceINR": 299,
-      "originalPriceINR": 999
+      "originalPriceINR": 999,
+      "layoutVariant": "story-deck",
+      "aspectRatio": "portrait",
+      "supportedSections": [
+        "hero",
+        "schedule",
+        "memories",
+        "music"
+      ]
     },
     {
       "id": "tpl-wedding-paper-palace-04",
@@ -219,7 +272,17 @@
         "accentColor": "#a24a6a"
       },
       "priceINR": 299,
-      "originalPriceINR": 999
+      "originalPriceINR": 999,
+      "layoutVariant": "arch-monogram",
+      "aspectRatio": "portrait",
+      "supportedSections": [
+        "hero",
+        "story",
+        "events",
+        "venue",
+        "rsvp",
+        "music"
+      ]
     },
     {
       "id": "tpl-wedding-south-indian-05",
@@ -256,7 +319,18 @@
         "fontFamily": "serif",
         "orientation": "portrait",
         "borderStyle": "traditional"
-      }
+      },
+      "layoutVariant": "temple-heritage",
+      "aspectRatio": "portrait",
+      "supportedSections": [
+        "hero",
+        "blessings",
+        "story",
+        "events",
+        "gallery",
+        "rsvp",
+        "music"
+      ]
     }
   ],
   "prices": [

@@ -55,7 +55,7 @@ export function DraggableElement({ element, canvasScale = 1 }) {
     color: element.color || Colors.textPrimary,
     textAlign: element.align || 'center',
     letterSpacing: element.letterSpacing || 0,
-    fontWeight: element.id === 'names' ? '700' : '600',
+    fontWeight: element.fontWeight || (element.id === 'names' ? '700' : '600'),
   };
 
   return (
@@ -66,6 +66,7 @@ export function DraggableElement({ element, canvasScale = 1 }) {
         {
           top: element.y,
           transform: [{ translateX: element.x }],
+          zIndex: element.zIndex || 1,
         },
         isSelected && styles.selectedWrapper,
       ]}

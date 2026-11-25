@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import { AlignLeft, AlignCenter, AlignRight, X, Check } from 'lucide-react-native';
+import { AlignLeft, AlignCenter, AlignRight, X, Check, ArrowUp, ArrowDown, RotateCcw } from 'lucide-react-native';
 import { Colors } from '../../constants/colors';
 import { useEditorStore } from '../../store/editor.store';
 
@@ -26,12 +26,27 @@ const FONTS = [
   { id: 'script', label: 'Romantic Script' },
 ];
 
+const LETTER_SPACING_OPTIONS = [
+  { label: 'Tight', value: -0.5 },
+  { label: 'Normal', value: 0 },
+  { label: 'Relaxed', value: 1.5 },
+  { label: 'Wide', value: 3 },
+];
+
+const FONT_WEIGHTS = [
+  { label: 'Regular', value: '400' },
+  { label: 'Medium', value: '600' },
+  { label: 'Bold', value: '700' },
+];
+
 export function TextEditingSheet() {
   const {
     selectedElementId,
     elements,
     updateElementText,
     updateElementStyle,
+    reorderElementLayer,
+    resetElementToDefault,
     deselectElement,
     setActiveTool,
   } = useEditorStore();
@@ -93,6 +108,56 @@ export function TextEditingSheet() {
                   ]}
                 >
                   {font.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        {/* Font Weight & Letter Spacing */}
+        <View style={styles.sectionRow}>
+          <Text style={styles.sectionLabel}>Font Weight & Spacing</Text>
+          <View style={styles.chipRow}>
+            {FONT_WEIGHTS.map((fw) => (
+              <TouchableOpacity
+                key={fw.value}
+                style={[
+                  styles.smallChip,
+                  (currentElement.fontWeight || '600') === fw.value && styles.activeSmallChip,
+                ]}
+                onPress={() => updateElementStyle(selectedElementId, { fontWeight: fw.value })}
+                activeOpacity={0.7}
+              >
+                <Text
+                  style={[
+                    styles.smallChipText,
+                    (currentElement.fontWeight || '600') === fw.value && styles.activeSmallChipText,
+                  ]}
+                >
+                  {fw.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <View style={[styles.chipRow, { marginTop: 4 }]}>
+            {LETTER_SPACING_OPTIONS.map((ls) => (
+              <TouchableOpacity
+                key={ls.label}
+                style={[
+                  styles.smallChip,
+                  (currentElement.letterSpacing || 0) === ls.value && styles.activeSmallChip,
+                ]}
+                onPress={() => updateElementStyle(selectedElementId, { letterSpacing: ls.value })}
+                activeOpacity={0.7}
+              >
+                <Text
+                  style={[
+                    styles.smallChipText,
+                    (currentElement.letterSpacing || 0) === ls.value && styles.activeSmallChipText,
+                  ]}
+                >
+                  {ls.label}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -180,6 +245,38 @@ export function TextEditingSheet() {
             })}
           </View>
         </View>
+
+        {/* Layer Ordering & Reset Action */}
+        <View style={styles.actionsFooterRow}>
+          <View style={styles.layerButtons}>
+            <TouchableOpacity
+              style={styles.actionPillBtn}
+              onPress={() => reorderElementLayer(selectedElementId, 'up')}
+              activeOpacity={0.7}
+            >
+              <ArrowUp size={14} color={Colors.textPrimary} />
+              <Text style={styles.actionPillText}>Bring Forward</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.actionPillBtn}
+              onPress={() => reorderElementLayer(selectedElementId, 'down')}
+              activeOpacity={0.7}
+            >
+              <ArrowDown size={14} color={Colors.textPrimary} />
+              <Text style={styles.actionPillText}>Send Backward</Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            style={styles.resetPillBtn}
+            onPress={() => resetElementToDefault(selectedElementId)}
+            activeOpacity={0.7}
+          >
+            <RotateCcw size={13} color={Colors.primary} />
+            <Text style={styles.resetPillText}>Reset</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
@@ -193,7 +290,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     borderTopWidth: 1,
     borderColor: Colors.border,
-    maxHeight: 280,
+    maxHeight: 340,
     elevation: 12,
     shadowColor: Colors.textPrimary,
     shadowOffset: { width: 0, height: -4 },
@@ -251,6 +348,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
   },
+  chipRow: {
+    flexDirection: 'row',
+    gap: 6,
+  },
   fontChip: {
     paddingVertical: 6,
     paddingHorizontal: 12,
@@ -270,6 +371,27 @@ const styles = StyleSheet.create({
   },
   activeFontChipText: {
     color: Colors.textLight,
+  },
+  smallChip: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    backgroundColor: Colors.cream,
+  },
+  activeSmallChip: {
+    backgroundColor: 'rgba(116, 30, 50, 0.12)',
+    borderColor: Colors.primary,
+  },
+  smallChipText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: Colors.textPrimary,
+  },
+  activeSmallChipText: {
+    color: Colors.primary,
+    fontWeight: '700',
   },
   controlsRow: {
     flexDirection: 'row',
@@ -345,6 +467,51 @@ const styles = StyleSheet.create({
   activeSwatch: {
     borderColor: Colors.champagneGold,
     transform: [{ scale: 1.15 }],
+  },
+  actionsFooterRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: 8,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: Colors.divider,
+    marginTop: 4,
+  },
+  layerButtons: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  actionPillBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 14,
+    backgroundColor: Colors.cream,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  actionPillText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: Colors.textPrimary,
+  },
+  resetPillBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 14,
+    backgroundColor: '#FFF4F2',
+    borderWidth: 1,
+    borderColor: 'rgba(116, 30, 50, 0.2)',
+  },
+  resetPillText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: Colors.primary,
   },
 });
 

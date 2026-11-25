@@ -14,7 +14,11 @@ export async function GET() {
       await (store as any).init();
     }
     // Perform a lightweight probe on the store
-    await store.getCoupons();
+    if (typeof (store as any).getCoupons === 'function') {
+      await (store as any).getCoupons();
+    } else if (typeof (store as any).getTemplates === 'function') {
+      await (store as any).getTemplates();
+    }
     dbLatencyMs = Date.now() - dbCheckStart;
   } catch (error: any) {
     dbStatus = 'degraded';
