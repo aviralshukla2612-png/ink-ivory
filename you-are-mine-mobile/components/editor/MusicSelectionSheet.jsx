@@ -249,6 +249,26 @@ export function MusicSelectionSheet() {
       {/* TAB 1: BROWSE TRACKS */}
       {activeTab === 'browse' && (
         <View style={styles.tabContent}>
+          {/* Search Input Bar */}
+          <View style={styles.searchContainer}>
+            <View style={styles.searchBar}>
+              <Search size={14} color={Colors.textSecondary} />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search wedding songs, artists, movies..."
+                placeholderTextColor={Colors.textSecondary}
+                value={search}
+                onChangeText={setSearch}
+                returnKeyType="search"
+              />
+              {search ? (
+                <TouchableOpacity onPress={() => setSearch('')} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+                  <X size={14} color={Colors.textSecondary} />
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          </View>
+
           {/* Category Filter Pills */}
           <View style={styles.categoryRow}>
             {categories.map((cat) => {
@@ -626,6 +646,28 @@ const styles = StyleSheet.create({
   },
   tabContent: {
     flex: 1,
+  },
+  searchContainer: {
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 4,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FAF5EE',
+    borderRadius: 18,
+    paddingHorizontal: 12,
+    height: 36,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    gap: 8,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 12,
+    color: Colors.textPrimary,
+    paddingVertical: 0,
   },
   categoryRow: {
     flexDirection: 'row',
