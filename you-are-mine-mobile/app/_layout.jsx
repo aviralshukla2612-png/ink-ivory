@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Platform, View, StyleSheet } from 'react-native';
+import { useFonts } from 'expo-font';
 import { Colors } from '../constants/colors';
 import { useAuthStore } from '../store/auth.store';
+import { RoyalLoadingScreen } from '../components/common/RoyalLoadingScreen';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,11 +19,33 @@ const queryClient = new QueryClient({
 });
 
 export default function RootLayout() {
+  const [appReady, setAppReady] = useState(false);
+  const [preloaderDone, setPreloaderDone] = useState(false);
   const initializeAuth = useAuthStore((state) => state.initializeAuth);
+
+  // Bundle and register all approved fonts locally
+  const [fontsLoaded] = useFonts({
+    'GreatVibes': require('../assets/fonts/GreatVibes-Regular.ttf'),
+    'Baloo2-Medium': require('../assets/fonts/Baloo2-Medium.ttf'),
+    'Baloo2-SemiBold': require('../assets/fonts/Baloo2-SemiBold.ttf'),
+    'Baloo2-Bold': require('../assets/fonts/Baloo2-Bold.ttf'),
+    'CormorantGaramond-Regular': require('../assets/fonts/CormorantGaramond-Regular.ttf'),
+    'CormorantGaramond-SemiBold': require('../assets/fonts/CormorantGaramond-SemiBold.ttf'),
+    'CormorantGaramond-Bold': require('../assets/fonts/CormorantGaramond-Bold.ttf'),
+    'CinzelDecorative-Bold': require('../assets/fonts/CinzelDecorative-Bold.ttf'),
+    'PlayfairDisplay-Regular': require('../assets/fonts/PlayfairDisplay-Regular.ttf'),
+    'PlayfairDisplay-Bold': require('../assets/fonts/PlayfairDisplay-Bold.ttf'),
+  });
 
   useEffect(() => {
     initializeAuth();
   }, [initializeAuth]);
+
+  useEffect(() => {
+    if (preloaderDone && (fontsLoaded || Platform.OS === 'web')) {
+      setAppReady(true);
+    }
+  }, [preloaderDone, fontsLoaded]);
 
   return (
     <SafeAreaProvider>
@@ -49,6 +73,19 @@ export default function RootLayout() {
               <Stack.Screen name="checkout/pending" options={{ headerShown: false }} />
               <Stack.Screen name="checkout/processing" options={{ headerShown: false }} />
             </Stack>
+
+            {/* Zarvion-Style Royal Preloader (0 → 100 Counting Screen) */}
+            {!appReady && Platform.OS !== 'web' && (
+              <View style={StyleSheet.absoluteFillObject}>
+                <RoyalLoadingScreen
+                  fullScreen={true}
+                  title="YOU ARE MINE"
+                  subtitle="DIGITAL INVITATIONS"
+                  message="Let's celebrate today and craft your bespoke royal invitation"
+                  onFinished={() => setPreloaderDone(true)}
+                />
+              </View>
+            )}
           </View>
         </View>
       </QueryClientProvider>

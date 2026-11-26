@@ -18,6 +18,7 @@ import { CategoryChip } from '../../components/templates/CategoryChip';
 import { TemplateCard } from '../../components/templates/TemplateCard';
 import { Button } from '../../components/common/Button';
 import { TemplatesService } from '../../services/templates.service';
+import { RoyalLoadingScreen } from '../../components/common/RoyalLoadingScreen';
 
 const { width } = Dimensions.get('window');
 
@@ -87,10 +88,12 @@ export default function ExploreScreen() {
 
       {/* 2-Column Template Grid */}
       {isLoading && !isRefetching ? (
-        <View style={styles.centerContainer}>
-          <ActivityIndicator size="small" color={Colors.primary} />
-          <Text style={styles.loadingText}>Loading templates...</Text>
-        </View>
+        <RoyalLoadingScreen
+          fullScreen={false}
+          title="ROYAL SUITES"
+          subtitle="EXPLORE DESIGNS"
+          message="Curating royal wedding collections..."
+        />
       ) : isError ? (
         <View style={styles.errorContainer}>
           <Text style={styles.errorTitle}>Could not load templates</Text>

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
+  Linking,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,11 +21,15 @@ import {
   Music2,
   Share2,
   ArrowRight,
+  Play,
 } from 'lucide-react-native';
 import { Colors } from '../../constants/colors';
+import { Config } from '../../constants/config';
 import { Button } from '../../components/common/Button';
 import { TemplatesService } from '../../services/templates.service';
 import { useFavoritesStore } from '../../store/favorites.store';
+import { RoyalLoadingScreen } from '../../components/common/RoyalLoadingScreen';
+import { getTemplateShowcaseImage } from '../../components/templates/TemplateCard';
 
 const { width } = Dimensions.get('window');
 
@@ -53,21 +58,23 @@ export default function TemplateDetailsScreen() {
   });
 
   const handleCustomize = () => {
-    // Navigate to native editor entry point
-    router.push({
-      pathname: '/editor/[id]',
-      params: { id: template?.id || id },
-    });
+    // Navigate directly to native editor for this exact template
+    const targetId = template?.id || id;
+    router.push(`/editor/${targetId}`);
+  };
+
+  const handleOpenDemo = () => {
+    // Navigate directly to the in-app interactive live demo preview
+    router.push(`/preview/${template?.id || id}?mode=demo`);
   };
 
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.safeArea}>
-        <View style={styles.centerContainer}>
-          <ActivityIndicator size="small" color={Colors.primary} />
-          <Text style={styles.loadingText}>Loading invitation details...</Text>
-        </View>
-      </SafeAreaView>
+      <RoyalLoadingScreen
+        title="ROYAL INVITATION"
+        subtitle="CURATED STATIONERY"
+        message="Loading celebration details, palette & soundtracks..."
+      />
     );
   }
 
@@ -113,13 +120,26 @@ export default function TemplateDetailsScreen() {
         <View style={styles.artworkContainer}>
           <View style={styles.archOuter}>
             <Image
-              source={{ uri: template.previewImageUrl }}
+              source={getTemplateShowcaseImage(template)}
               style={styles.artworkImage}
               contentFit={template.contentFit || "cover"}
               contentPosition={template.focalPoint || "top center"}
               transition={300}
             />
             <View style={styles.artworkOverlay} />
+
+            {/* Centered Floating [▶ Watch Live Demo] Pill Button */}
+            <TouchableOpacity
+              style={styles.floatingDemoPill}
+              onPress={handleOpenDemo}
+              activeOpacity={0.8}
+              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            >
+              <View style={styles.floatingDemoCircle}>
+                <Play size={10} color="#0F172A" fill="#0F172A" style={{ marginLeft: 1 }} />
+              </View>
+              <Text style={styles.floatingDemoText}>Watch Live Demo</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -169,15 +189,24 @@ export default function TemplateDetailsScreen() {
         </View>
       </ScrollView>
 
-      {/* Screen 5: Sticky Bottom CTA Button */}
+      {/* Screen 5: Sticky Bottom CTA Actions (Live Demo + Customize) */}
       <View style={styles.bottomBar}>
+        <TouchableOpacity
+          style={styles.demoButton}
+          onPress={handleOpenDemo}
+          activeOpacity={0.8}
+        >
+          <Play size={15} color={Colors.primary} fill={Colors.primary} style={{ marginRight: 6 }} />
+          <Text style={styles.demoButtonText}>Live Demo</Text>
+        </TouchableOpacity>
+
         <Button
-          title="Customize This Template"
+          title="Customize"
           onPress={handleCustomize}
           variant="primary"
           size="large"
           style={styles.customizeButton}
-          icon={<ArrowRight size={18} color={Colors.textLight} />}
+          icon={<ArrowRight size={17} color={Colors.textLight} />}
         />
       </View>
     </SafeAreaView>
@@ -343,8 +372,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: Colors.surface,
-    paddingHorizontal: 20,
-    paddingVertical: 14,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: Colors.divider,
     elevation: 8,
@@ -352,9 +381,28 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: -3 },
     shadowOpacity: 0.08,
     shadowRadius: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  demoButton: {
+    flex: 1,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 1.5,
+    borderColor: Colors.primary,
+    backgroundColor: Colors.cream,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  demoButtonText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: Colors.primary,
   },
   customizeButton: {
-    width: '100%',
+    flex: 1.3,
   },
   centerContainer: {
     flex: 1,

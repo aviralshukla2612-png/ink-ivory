@@ -1,7 +1,7 @@
 // YOU ARE MINE — Mobile Payment & Publication Orchestration Service
 // Coordinates server quotes, coupon application, order creation, native checkout, and verification.
 
-import * as SecureStore from 'expo-secure-store';
+import { Storage } from '../storage.service';
 import apiClient from '../api';
 import PaymentProviderFactory from './payment-provider.factory';
 
@@ -125,7 +125,7 @@ export class PaymentService {
    */
   static async savePendingCheckout(data) {
     try {
-      await SecureStore.setItemAsync(PENDING_ORDER_KEY, JSON.stringify(data));
+      await Storage.setItemAsync(PENDING_ORDER_KEY, JSON.stringify(data));
     } catch (e) {
       console.warn('[PaymentService] Failed to cache pending checkout:', e);
     }
@@ -136,7 +136,7 @@ export class PaymentService {
    */
   static async getPendingCheckout() {
     try {
-      const raw = await SecureStore.getItemAsync(PENDING_ORDER_KEY);
+      const raw = await Storage.getItemAsync(PENDING_ORDER_KEY);
       if (!raw) return null;
       return JSON.parse(raw);
     } catch {
@@ -149,7 +149,7 @@ export class PaymentService {
    */
   static async clearPendingCheckout() {
     try {
-      await SecureStore.deleteItemAsync(PENDING_ORDER_KEY);
+      await Storage.deleteItemAsync(PENDING_ORDER_KEY);
     } catch (e) {
       console.warn('[PaymentService] Failed to clear pending checkout:', e);
     }

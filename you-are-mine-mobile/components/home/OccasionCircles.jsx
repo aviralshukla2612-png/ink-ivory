@@ -38,7 +38,8 @@ export function OccasionCircles({ onSelectOccasion }) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
-    marginVertical: 10,
+    marginTop: 4,
+    marginBottom: 6,
   },
   row: {
     flexDirection: 'row',

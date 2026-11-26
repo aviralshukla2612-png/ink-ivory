@@ -49,7 +49,8 @@ export function HeroBanner({ onCtaPress }) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
-    marginVertical: 8,
+    marginTop: 4,
+    marginBottom: 6,
   },
   card: {
     backgroundColor: Colors.deepBurgundy,

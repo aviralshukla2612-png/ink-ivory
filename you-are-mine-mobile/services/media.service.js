@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import { Config } from '../constants/config';
-import * as SecureStore from 'expo-secure-store';
+import { Storage } from './storage.service';
 
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB limit
 const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
@@ -89,7 +89,7 @@ export const MediaService = {
    */
   async uploadImage(imageAsset, onProgress = null) {
     try {
-      const guestToken = await SecureStore.getItemAsync(Config.STORAGE_KEYS.GUEST_TOKEN);
+      const guestToken = await Storage.getItemAsync(Config.STORAGE_KEYS.GUEST_TOKEN);
 
       const formData = new FormData();
       const filename = imageAsset.fileName || `photo_${Date.now()}.jpg`;

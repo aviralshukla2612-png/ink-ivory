@@ -2500,6 +2500,807 @@
       "version": 1,
       "createdAt": "2026-11-24T13:49:26.472Z",
       "updatedAt": "2026-11-24T13:49:26.472Z"
+    },
+    {
+      "id": "drf_b6cbf90e2301",
+      "guestToken": "gst_mwvt31tqf84cog5c",
+      "templateId": "tpl-wedding-navy-01",
+      "title": "Aarav & Riya — Invitation",
+      "fields": {
+        "eyebrow": "TOGETHER WITH THEIR FAMILIES",
+        "headline": "The Wedding Of",
+        "names": "Aarav & Riya",
+        "date": "Friday, 18 December 2026",
+        "time": "5:00 PM Onwards",
+        "venue": "The Heritage Palace & Gardens",
+        "city": "Jaipur, Rajasthan",
+        "message": "Request the honour of your graceful presence and pious blessings to celebrate this eternal union.",
+        "rsvp": "",
+        "host": "Kapoor & Singhania Families",
+        "brideParents": "Mrs. Gayatri & Dr. Harshvardhan Kapoor",
+        "groomParents": "Mrs. Sunita & Mr. Vikramaditya Singhania",
+        "songTitle": "Aaj Sajeya — Goldie Sohel (Saregama Music)",
+        "audioSource": "/audio/aaj-sajeya.mp3",
+        "audioStartTime": 4,
+        "events": [
+          {
+            "name": "Haldi Ceremony",
+            "icon": "haldi",
+            "date": "Thursday, 17 December 2026",
+            "time": "10:00 AM",
+            "venue": "The Courtyard, Jaipur"
+          },
+          {
+            "name": "Mehendi & Sangeet",
+            "icon": "mehendi",
+            "date": "Thursday, 17 December 2026",
+            "time": "6:30 PM",
+            "venue": "The Royal Lawns, Jaipur"
+          },
+          {
+            "name": "Wedding Ceremony",
+            "icon": "wedding",
+            "date": "Friday, 18 December 2026",
+            "time": "5:00 PM",
+            "venue": "The Heritage Palace, Jaipur"
+          },
+          {
+            "name": "Grand Reception",
+            "icon": "reception",
+            "date": "Saturday, 19 December 2026",
+            "time": "8:00 PM",
+            "venue": "Palace Ballroom, Jaipur"
+          }
+        ],
+        "photoUrl": null,
+        "photoScale": 1,
+        "audioClipDuration": 0,
+        "audioEndTime": 0
+      },
+      "design": {
+        "themeColor": "#121E35",
+        "textColor": "#EDE2CF",
+        "accentColor": "#D7B875",
+        "secondaryColor": "#B88E4B",
+        "fontFamily": "serif",
+        "orientation": "square",
+        "borderStyle": "gold-floral",
+        "bgTexture": "navy-luxury",
+        "elementPositions": {
+          "photo": {
+            "x": 0,
+            "y": 65,
+            "scale": 1
+          },
+          "eyebrow": {
+            "x": -120,
+            "y": 222,
+            "fontSize": 11,
+            "fontFamily": "serif",
+            "color": "#8B7355",
+            "align": "center"
+          },
+          "names": {
+            "x": 0,
+            "y": 235,
+            "fontSize": 25,
+            "fontFamily": "serif",
+            "color": "#741E32",
+            "align": "center"
+          },
+          "headline": {
+            "x": 0,
+            "y": 280,
+            "fontSize": 16,
+            "fontFamily": "serif",
+            "color": "#45291F",
+            "align": "center"
+          },
+          "date": {
+            "x": 0,
+            "y": 325,
+            "fontSize": 14,
+            "fontFamily": "sans-serif",
+            "color": "#741E32",
+            "align": "center"
+          },
+          "venue": {
+            "x": 0,
+            "y": 365,
+            "fontSize": 13,
+            "fontFamily": "serif",
+            "color": "#45291F",
+            "align": "center"
+          },
+          "city": {
+            "x": 0,
+            "y": 390,
+            "fontSize": 12,
+            "fontFamily": "sans-serif",
+            "color": "#89756B",
+            "align": "center"
+          }
+        },
+        "audioStartTime": 4,
+        "audioClipDuration": 0,
+        "audioEndTime": 0,
+        "audioSource": "/audio/aaj-sajeya.mp3",
+        "songTitle": "Aaj Sajeya — Goldie Sohel (Saregama Music)"
+      },
+      "status": "DRAFT",
+      "version": 3,
+      "createdAt": "2026-11-25T07:36:08.053Z",
+      "updatedAt": "2026-11-25T07:36:26.140Z"
+    },
+    {
+      "id": "drf_2ad1562d3aab",
+      "guestToken": "gst_mwvt31tqf84cog5c",
+      "templateId": "tpl-wedding-navy-01",
+      "title": "Aarav & Riya — The Royal Navy Wedding — Invitation",
+      "fields": {
+        "eyebrow": "TOGETHER WITH THEIR FAMILIES",
+        "headline": "The Wedding Of",
+        "names": "Aarav & Riya",
+        "date": "Friday, 18 December 2026",
+        "time": "5:00 PM Onwards",
+        "venue": "The Heritage Palace & Gardens",
+        "city": "Jaipur, Rajasthan",
+        "message": "Request the honour of your graceful presence and pious blessings to celebrate this eternal union.",
+        "rsvp": "",
+        "host": "Kapoor & Singhania Families",
+        "brideParents": "Mrs. Gayatri & Dr. Harshvardhan Kapoor",
+        "groomParents": "Mrs. Sunita & Mr. Vikramaditya Singhania",
+        "songTitle": "Aaj Sajeya — Goldie Sohel (Saregama Music)",
+        "audioSource": "/audio/aaj-sajeya.mp3",
+        "audioStartTime": 4,
+        "events": [
+          {
+            "name": "Haldi Ceremony",
+            "icon": "haldi",
+            "date": "Thursday, 17 December 2026",
+            "time": "10:00 AM",
+            "venue": "The Courtyard, Jaipur"
+          },
+          {
+            "name": "Mehendi & Sangeet",
+            "icon": "mehendi",
+            "date": "Thursday, 17 December 2026",
+            "time": "6:30 PM",
+            "venue": "The Royal Lawns, Jaipur"
+          },
+          {
+            "name": "Wedding Ceremony",
+            "icon": "wedding",
+            "date": "Friday, 18 December 2026",
+            "time": "5:00 PM",
+            "venue": "The Heritage Palace, Jaipur"
+          },
+          {
+            "name": "Grand Reception",
+            "icon": "reception",
+            "date": "Saturday, 19 December 2026",
+            "time": "8:00 PM",
+            "venue": "Palace Ballroom, Jaipur"
+          }
+        ]
+      },
+      "design": {
+        "themeColor": "#121E35",
+        "textColor": "#EDE2CF",
+        "accentColor": "#D7B875",
+        "secondaryColor": "#B88E4B",
+        "fontFamily": "serif",
+        "orientation": "square",
+        "borderStyle": "gold-floral",
+        "bgTexture": "navy-luxury"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-25T07:38:04.339Z",
+      "updatedAt": "2026-11-25T07:38:04.339Z"
+    },
+    {
+      "id": "drf_36428f8a46f0",
+      "guestToken": "gst_mwvt31tqf84cog5c",
+      "templateId": "tpl-engagement-garden-03",
+      "title": "Karthik & Meenakshi — Thirumanam South Indian Temple Wedding — Invitation",
+      "fields": {
+        "eyebrow": "SRI GANESHAYA NAMAHA • WITH THE BLESSINGS OF ELDERS",
+        "headline": "Thirumanam Invitation",
+        "names": "Karthik & Meenakshi",
+        "date": "Sunday, 14 February 2027",
+        "time": "6:15 AM – 7:45 AM (Muhurtham)",
+        "venue": "Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai",
+        "city": "Madurai, Tamil Nadu",
+        "message": "Together with their families, cordially invite you to celebrate the sacred wedding muhurtham and bless the couple with good health and joy.",
+        "rsvp": "RSVP to Sundaram & Kalyani (+91 94440 12345)",
+        "host": "Sundaram & Kalyani / Ramanathan & Saraswathi Families",
+        "brideParents": "Smt. Saraswathi & Shri Ramanathan",
+        "groomParents": "Smt. Kalyani & Shri Sundaram",
+        "songTitle": "Mast Magan — Arijit Singh & Chinmayi Sripada (2 States)",
+        "audioSource": "/audio/mast-magan.mp3",
+        "audioStartTime": 0,
+        "events": [
+          {
+            "name": "Nalangu",
+            "icon": "nalangu",
+            "date": "Friday, 12 February 2027",
+            "time": "10:00 AM",
+            "venue": "Family ancestral home, Madurai"
+          },
+          {
+            "name": "Jaanavasam",
+            "icon": "jaanavasam",
+            "date": "Saturday, 13 February 2027",
+            "time": "5:30 PM",
+            "venue": "Sri Meenakshi Kalyana Mandapam, Madurai"
+          },
+          {
+            "name": "Muhurtham",
+            "icon": "muhurtham",
+            "date": "Sunday, 14 February 2027",
+            "time": "6:00 AM – 7:30 AM",
+            "venue": "Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai"
+          },
+          {
+            "name": "Reception",
+            "icon": "reception",
+            "date": "Sunday, 14 February 2027",
+            "time": "7:00 PM Onwards",
+            "venue": "Heritage Royal Hall, Madurai"
+          }
+        ]
+      },
+      "design": {
+        "themeColor": "#06201A",
+        "textColor": "#F8EFD6",
+        "accentColor": "#D9A521",
+        "secondaryColor": "#8A1020",
+        "fontFamily": "serif",
+        "orientation": "portrait",
+        "borderStyle": "ornate",
+        "bgTexture": "ivory-silk"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-25T07:43:27.735Z",
+      "updatedAt": "2026-11-25T07:43:27.735Z"
+    },
+    {
+      "id": "drf_7dc59ce6866d",
+      "guestToken": "gst_mwvuce89h7oai1wg",
+      "templateId": "tpl-wedding-navy-01",
+      "title": "Aarav & Riya — The Royal Navy Wedding — Invitation",
+      "fields": {
+        "eyebrow": "TOGETHER WITH THEIR FAMILIES",
+        "headline": "The Wedding Of",
+        "names": "Aarav & Riya",
+        "date": "Friday, 18 December 2026",
+        "time": "5:00 PM Onwards",
+        "venue": "The Heritage Palace & Gardens",
+        "city": "Jaipur, Rajasthan",
+        "message": "Request the honour of your graceful presence and pious blessings to celebrate this eternal union.",
+        "rsvp": "",
+        "host": "Kapoor & Singhania Families",
+        "brideParents": "Mrs. Gayatri & Dr. Harshvardhan Kapoor",
+        "groomParents": "Mrs. Sunita & Mr. Vikramaditya Singhania",
+        "songTitle": "Aaj Sajeya — Goldie Sohel (Saregama Music)",
+        "audioSource": "/audio/aaj-sajeya.mp3",
+        "audioStartTime": 4,
+        "events": [
+          {
+            "name": "Haldi Ceremony",
+            "icon": "haldi",
+            "date": "Thursday, 17 December 2026",
+            "time": "10:00 AM",
+            "venue": "The Courtyard, Jaipur"
+          },
+          {
+            "name": "Mehendi & Sangeet",
+            "icon": "mehendi",
+            "date": "Thursday, 17 December 2026",
+            "time": "6:30 PM",
+            "venue": "The Royal Lawns, Jaipur"
+          },
+          {
+            "name": "Wedding Ceremony",
+            "icon": "wedding",
+            "date": "Friday, 18 December 2026",
+            "time": "5:00 PM",
+            "venue": "The Heritage Palace, Jaipur"
+          },
+          {
+            "name": "Grand Reception",
+            "icon": "reception",
+            "date": "Saturday, 19 December 2026",
+            "time": "8:00 PM",
+            "venue": "Palace Ballroom, Jaipur"
+          }
+        ]
+      },
+      "design": {
+        "themeColor": "#121E35",
+        "textColor": "#EDE2CF",
+        "accentColor": "#D7B875",
+        "secondaryColor": "#B88E4B",
+        "fontFamily": "serif",
+        "orientation": "square",
+        "borderStyle": "gold-floral",
+        "bgTexture": "navy-luxury"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-25T09:08:48.230Z",
+      "updatedAt": "2026-11-25T09:08:48.230Z"
+    },
+    {
+      "id": "drf_91d67e374b38",
+      "guestToken": "gst_mwvuce89h7oai1wg",
+      "templateId": "tpl-wedding-navy-01",
+      "title": "Aarav & Riya — The Royal Navy Wedding — Invitation",
+      "fields": {
+        "eyebrow": "TOGETHER WITH THEIR FAMILIES",
+        "headline": "The Wedding Of",
+        "names": "Aarav & Riya",
+        "date": "Friday, 18 December 2026",
+        "time": "5:00 PM Onwards",
+        "venue": "The Heritage Palace & Gardens",
+        "city": "Jaipur, Rajasthan",
+        "message": "Request the honour of your graceful presence and pious blessings to celebrate this eternal union.",
+        "rsvp": "",
+        "host": "Kapoor & Singhania Families",
+        "brideParents": "Mrs. Gayatri & Dr. Harshvardhan Kapoor",
+        "groomParents": "Mrs. Sunita & Mr. Vikramaditya Singhania",
+        "songTitle": "Aaj Sajeya — Goldie Sohel (Saregama Music)",
+        "audioSource": "/audio/aaj-sajeya.mp3",
+        "audioStartTime": 4,
+        "events": [
+          {
+            "name": "Haldi Ceremony",
+            "icon": "haldi",
+            "date": "Thursday, 17 December 2026",
+            "time": "10:00 AM",
+            "venue": "The Courtyard, Jaipur"
+          },
+          {
+            "name": "Mehendi & Sangeet",
+            "icon": "mehendi",
+            "date": "Thursday, 17 December 2026",
+            "time": "6:30 PM",
+            "venue": "The Royal Lawns, Jaipur"
+          },
+          {
+            "name": "Wedding Ceremony",
+            "icon": "wedding",
+            "date": "Friday, 18 December 2026",
+            "time": "5:00 PM",
+            "venue": "The Heritage Palace, Jaipur"
+          },
+          {
+            "name": "Grand Reception",
+            "icon": "reception",
+            "date": "Saturday, 19 December 2026",
+            "time": "8:00 PM",
+            "venue": "Palace Ballroom, Jaipur"
+          }
+        ]
+      },
+      "design": {
+        "themeColor": "#121E35",
+        "textColor": "#EDE2CF",
+        "accentColor": "#D7B875",
+        "secondaryColor": "#B88E4B",
+        "fontFamily": "serif",
+        "orientation": "square",
+        "borderStyle": "gold-floral",
+        "bgTexture": "navy-luxury"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-26T09:11:12.054Z",
+      "updatedAt": "2026-11-26T09:11:12.054Z"
+    },
+    {
+      "id": "drf_1c7b69de5827",
+      "guestToken": "gst_mwvuce89h7oai1wg",
+      "templateId": "tpl-wedding-paper-palace-04",
+      "title": "Tara & Kabir — The Grand Udaipur Palace Wedding — Invitation",
+      "fields": {
+        "eyebrow": "TOGETHER WITH THEIR FAMILIES",
+        "headline": "The Wedding Of",
+        "names": "Tara & Kabir",
+        "date": "Saturday, 13 March 2027",
+        "time": "6:30 PM Onwards",
+        "venue": "The Grand Mahal, City Palace Road",
+        "city": "Udaipur, Rajasthan",
+        "message": "Join us as we step into forever surrounded by the people who mean the most to us.",
+        "rsvp": "919999999999",
+        "host": "With love, the Mehta & Kapoor Families",
+        "brideParents": "Daughter of Meera & Rohit Mehta",
+        "groomParents": "Son of Neha & Vikram Kapoor",
+        "songTitle": "Mangal Rang (Ramayana)",
+        "audioSource": "/audio/mangal-rang.mp3",
+        "audioStartTime": 0,
+        "events": [
+          {
+            "name": "Haldi",
+            "icon": "haldi",
+            "date": "Thursday, 11 March 2027",
+            "time": "11:00 AM",
+            "venue": "Mehta Residence, Fatehsagar Road"
+          },
+          {
+            "name": "Mehendi",
+            "icon": "mehendi",
+            "date": "Thursday, 11 March 2027",
+            "time": "4:00 PM",
+            "venue": "Mehta Residence, Fatehsagar Road"
+          },
+          {
+            "name": "Sangeet",
+            "icon": "sangeet",
+            "date": "Friday, 12 March 2027",
+            "time": "7:30 PM",
+            "venue": "The Garden Palace, Lake Pichola"
+          },
+          {
+            "name": "Wedding",
+            "icon": "wedding",
+            "date": "Saturday, 13 March 2027",
+            "time": "6:30 PM",
+            "venue": "The Grand Mahal, City Palace Road"
+          }
+        ],
+        "story": [],
+        "memories": []
+      },
+      "design": {
+        "themeColor": "#f4d6cc",
+        "textColor": "#5a3a3a",
+        "accentColor": "#a24a6a",
+        "fontFamily": "serif",
+        "orientation": "portrait",
+        "borderStyle": "ornate"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-26T09:32:47.346Z",
+      "updatedAt": "2026-11-26T09:32:47.346Z"
+    },
+    {
+      "id": "drf_6a93bf3e3f2f",
+      "guestToken": "gst_e4040d5d7db44f31931540e96b593b8c",
+      "templateId": "tpl-wedding-navy-01",
+      "title": "Aarav & Riya — The Royal Navy Wedding — Invitation",
+      "fields": {
+        "eyebrow": "TOGETHER WITH THEIR FAMILIES",
+        "headline": "The Wedding Of",
+        "names": "Aarav & Riya",
+        "date": "Friday, 18 December 2026",
+        "time": "5:00 PM Onwards",
+        "venue": "The Heritage Palace & Gardens",
+        "city": "Jaipur, Rajasthan",
+        "message": "Request the honour of your graceful presence and pious blessings to celebrate this eternal union.",
+        "rsvp": "",
+        "host": "Kapoor & Singhania Families",
+        "brideParents": "Mrs. Gayatri & Dr. Harshvardhan Kapoor",
+        "groomParents": "Mrs. Sunita & Mr. Vikramaditya Singhania",
+        "songTitle": "Aaj Sajeya — Goldie Sohel (Saregama Music)",
+        "audioSource": "/audio/aaj-sajeya.mp3",
+        "audioStartTime": 4,
+        "events": [
+          {
+            "name": "Haldi Ceremony",
+            "icon": "haldi",
+            "date": "Thursday, 17 December 2026",
+            "time": "10:00 AM",
+            "venue": "The Courtyard, Jaipur"
+          },
+          {
+            "name": "Mehendi & Sangeet",
+            "icon": "mehendi",
+            "date": "Thursday, 17 December 2026",
+            "time": "6:30 PM",
+            "venue": "The Royal Lawns, Jaipur"
+          },
+          {
+            "name": "Wedding Ceremony",
+            "icon": "wedding",
+            "date": "Friday, 18 December 2026",
+            "time": "5:00 PM",
+            "venue": "The Heritage Palace, Jaipur"
+          },
+          {
+            "name": "Grand Reception",
+            "icon": "reception",
+            "date": "Saturday, 19 December 2026",
+            "time": "8:00 PM",
+            "venue": "Palace Ballroom, Jaipur"
+          }
+        ]
+      },
+      "design": {
+        "themeColor": "#121E35",
+        "textColor": "#EDE2CF",
+        "accentColor": "#D7B875",
+        "secondaryColor": "#B88E4B",
+        "fontFamily": "serif",
+        "orientation": "square",
+        "borderStyle": "gold-floral",
+        "bgTexture": "navy-luxury"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-26T10:20:02.787Z",
+      "updatedAt": "2026-11-26T10:20:02.787Z"
+    },
+    {
+      "id": "drf_5dfffcc2ad26",
+      "guestToken": "gst_10846e6650a54a7f92108131b8360fe9",
+      "templateId": "tpl-wedding-navy-01",
+      "title": "Aarav & Riya — The Royal Navy Wedding — Invitation",
+      "fields": {
+        "eyebrow": "TOGETHER WITH THEIR FAMILIES",
+        "headline": "The Wedding Of",
+        "names": "Aarav & Riya",
+        "date": "Friday, 18 December 2026",
+        "time": "5:00 PM Onwards",
+        "venue": "The Heritage Palace & Gardens",
+        "city": "Jaipur, Rajasthan",
+        "message": "Request the honour of your graceful presence and pious blessings to celebrate this eternal union.",
+        "rsvp": "",
+        "host": "Kapoor & Singhania Families",
+        "brideParents": "Mrs. Gayatri & Dr. Harshvardhan Kapoor",
+        "groomParents": "Mrs. Sunita & Mr. Vikramaditya Singhania",
+        "songTitle": "Aaj Sajeya — Goldie Sohel (Saregama Music)",
+        "audioSource": "/audio/aaj-sajeya.mp3",
+        "audioStartTime": 4,
+        "events": [
+          {
+            "name": "Haldi Ceremony",
+            "icon": "haldi",
+            "date": "Thursday, 17 December 2026",
+            "time": "10:00 AM",
+            "venue": "The Courtyard, Jaipur"
+          },
+          {
+            "name": "Mehendi & Sangeet",
+            "icon": "mehendi",
+            "date": "Thursday, 17 December 2026",
+            "time": "6:30 PM",
+            "venue": "The Royal Lawns, Jaipur"
+          },
+          {
+            "name": "Wedding Ceremony",
+            "icon": "wedding",
+            "date": "Friday, 18 December 2026",
+            "time": "5:00 PM",
+            "venue": "The Heritage Palace, Jaipur"
+          },
+          {
+            "name": "Grand Reception",
+            "icon": "reception",
+            "date": "Saturday, 19 December 2026",
+            "time": "8:00 PM",
+            "venue": "Palace Ballroom, Jaipur"
+          }
+        ]
+      },
+      "design": {
+        "themeColor": "#121E35",
+        "textColor": "#EDE2CF",
+        "accentColor": "#D7B875",
+        "secondaryColor": "#B88E4B",
+        "fontFamily": "serif",
+        "orientation": "square",
+        "borderStyle": "gold-floral",
+        "bgTexture": "navy-luxury"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-26T10:37:00.844Z",
+      "updatedAt": "2026-11-26T10:37:00.844Z"
+    },
+    {
+      "id": "drf_1608901c2f47",
+      "guestToken": "gst_65bb738e4ba44696a2aa865782ce68ac",
+      "templateId": "tpl-wedding-navy-01",
+      "title": "Aarav & Riya — The Royal Navy Wedding — Invitation",
+      "fields": {
+        "eyebrow": "TOGETHER WITH THEIR FAMILIES",
+        "headline": "The Wedding Of",
+        "names": "Aarav & Riya",
+        "date": "Friday, 18 December 2026",
+        "time": "5:00 PM Onwards",
+        "venue": "The Heritage Palace & Gardens",
+        "city": "Jaipur, Rajasthan",
+        "message": "Request the honour of your graceful presence and pious blessings to celebrate this eternal union.",
+        "rsvp": "",
+        "host": "Kapoor & Singhania Families",
+        "brideParents": "Mrs. Gayatri & Dr. Harshvardhan Kapoor",
+        "groomParents": "Mrs. Sunita & Mr. Vikramaditya Singhania",
+        "songTitle": "Aaj Sajeya — Goldie Sohel (Saregama Music)",
+        "audioSource": "/audio/aaj-sajeya.mp3",
+        "audioStartTime": 4,
+        "events": [
+          {
+            "name": "Haldi Ceremony",
+            "icon": "haldi",
+            "date": "Thursday, 17 December 2026",
+            "time": "10:00 AM",
+            "venue": "The Courtyard, Jaipur"
+          },
+          {
+            "name": "Mehendi & Sangeet",
+            "icon": "mehendi",
+            "date": "Thursday, 17 December 2026",
+            "time": "6:30 PM",
+            "venue": "The Royal Lawns, Jaipur"
+          },
+          {
+            "name": "Wedding Ceremony",
+            "icon": "wedding",
+            "date": "Friday, 18 December 2026",
+            "time": "5:00 PM",
+            "venue": "The Heritage Palace, Jaipur"
+          },
+          {
+            "name": "Grand Reception",
+            "icon": "reception",
+            "date": "Saturday, 19 December 2026",
+            "time": "8:00 PM",
+            "venue": "Palace Ballroom, Jaipur"
+          }
+        ]
+      },
+      "design": {
+        "themeColor": "#121E35",
+        "textColor": "#EDE2CF",
+        "accentColor": "#D7B875",
+        "secondaryColor": "#B88E4B",
+        "fontFamily": "serif",
+        "orientation": "square",
+        "borderStyle": "gold-floral",
+        "bgTexture": "navy-luxury"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-26T10:42:58.790Z",
+      "updatedAt": "2026-11-26T10:42:58.790Z"
+    },
+    {
+      "id": "drf_b408368f500c",
+      "guestToken": "gst_7e064cd8ac5d41d0b0bc8031acea2a88",
+      "templateId": "tpl-wedding-paper-palace-04",
+      "title": "Tara & Kabir — The Grand Udaipur Palace Wedding — Invitation",
+      "fields": {
+        "eyebrow": "TOGETHER WITH THEIR FAMILIES",
+        "headline": "The Wedding Of",
+        "names": "Tara & Kabir",
+        "date": "Saturday, 13 March 2027",
+        "time": "6:30 PM Onwards",
+        "venue": "The Grand Mahal, City Palace Road",
+        "city": "Udaipur, Rajasthan",
+        "message": "Join us as we step into forever surrounded by the people who mean the most to us.",
+        "rsvp": "919999999999",
+        "host": "With love, the Mehta & Kapoor Families",
+        "brideParents": "Daughter of Meera & Rohit Mehta",
+        "groomParents": "Son of Neha & Vikram Kapoor",
+        "songTitle": "Mangal Rang (Ramayana)",
+        "audioSource": "/audio/mangal-rang.mp3",
+        "audioStartTime": 0,
+        "events": [
+          {
+            "name": "Haldi",
+            "icon": "haldi",
+            "date": "Thursday, 11 March 2027",
+            "time": "11:00 AM",
+            "venue": "Mehta Residence, Fatehsagar Road"
+          },
+          {
+            "name": "Mehendi",
+            "icon": "mehendi",
+            "date": "Thursday, 11 March 2027",
+            "time": "4:00 PM",
+            "venue": "Mehta Residence, Fatehsagar Road"
+          },
+          {
+            "name": "Sangeet",
+            "icon": "sangeet",
+            "date": "Friday, 12 March 2027",
+            "time": "7:30 PM",
+            "venue": "The Garden Palace, Lake Pichola"
+          },
+          {
+            "name": "Wedding",
+            "icon": "wedding",
+            "date": "Saturday, 13 March 2027",
+            "time": "6:30 PM",
+            "venue": "The Grand Mahal, City Palace Road"
+          }
+        ],
+        "story": [],
+        "memories": []
+      },
+      "design": {
+        "themeColor": "#f4d6cc",
+        "textColor": "#5a3a3a",
+        "accentColor": "#a24a6a",
+        "fontFamily": "serif",
+        "orientation": "portrait",
+        "borderStyle": "ornate"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-26T11:23:29.084Z",
+      "updatedAt": "2026-11-26T11:23:29.084Z"
+    },
+    {
+      "id": "drf_e4e8606a79cb",
+      "guestToken": "gst_523a9df40d7a46cbba4360ba85b16c3e",
+      "templateId": "tpl-wedding-paper-palace-04",
+      "title": "Tara & Kabir — The Grand Udaipur Palace Wedding — Invitation",
+      "fields": {
+        "eyebrow": "TOGETHER WITH THEIR FAMILIES",
+        "headline": "The Wedding Of",
+        "names": "Tara & Kabir",
+        "date": "Saturday, 13 March 2027",
+        "time": "6:30 PM Onwards",
+        "venue": "The Grand Mahal, City Palace Road",
+        "city": "Udaipur, Rajasthan",
+        "message": "Join us as we step into forever surrounded by the people who mean the most to us.",
+        "rsvp": "919999999999",
+        "host": "With love, the Mehta & Kapoor Families",
+        "brideParents": "Daughter of Meera & Rohit Mehta",
+        "groomParents": "Son of Neha & Vikram Kapoor",
+        "songTitle": "Mangal Rang (Ramayana)",
+        "audioSource": "/audio/mangal-rang.mp3",
+        "audioStartTime": 0,
+        "events": [
+          {
+            "name": "Haldi",
+            "icon": "haldi",
+            "date": "Thursday, 11 March 2027",
+            "time": "11:00 AM",
+            "venue": "Mehta Residence, Fatehsagar Road"
+          },
+          {
+            "name": "Mehendi",
+            "icon": "mehendi",
+            "date": "Thursday, 11 March 2027",
+            "time": "4:00 PM",
+            "venue": "Mehta Residence, Fatehsagar Road"
+          },
+          {
+            "name": "Sangeet",
+            "icon": "sangeet",
+            "date": "Friday, 12 March 2027",
+            "time": "7:30 PM",
+            "venue": "The Garden Palace, Lake Pichola"
+          },
+          {
+            "name": "Wedding",
+            "icon": "wedding",
+            "date": "Saturday, 13 March 2027",
+            "time": "6:30 PM",
+            "venue": "The Grand Mahal, City Palace Road"
+          }
+        ],
+        "story": [],
+        "memories": []
+      },
+      "design": {
+        "themeColor": "#f4d6cc",
+        "textColor": "#5a3a3a",
+        "accentColor": "#a24a6a",
+        "fontFamily": "serif",
+        "orientation": "portrait",
+        "borderStyle": "ornate"
+      },
+      "status": "DRAFT",
+      "version": 1,
+      "createdAt": "2026-11-26T11:28:02.191Z",
+      "updatedAt": "2026-11-26T11:28:02.191Z"
     }
   ],
   "orders": [
@@ -6337,6 +7138,162 @@
         "status": "DRAFT"
       },
       "createdAt": "2026-11-24T13:49:26.474Z"
+    },
+    {
+      "id": "log_85280aa2",
+      "guestToken": "gst_mwvt31tqf84cog5c",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_b6cbf90e2301",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-25T07:36:08.055Z"
+    },
+    {
+      "id": "log_2a818d09",
+      "guestToken": "gst_mwvt31tqf84cog5c",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_b6cbf90e2301",
+      "metadata": {
+        "version": 2,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-25T07:36:12.062Z"
+    },
+    {
+      "id": "log_09508c03",
+      "guestToken": "gst_mwvt31tqf84cog5c",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_b6cbf90e2301",
+      "metadata": {
+        "version": 3,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-25T07:36:26.142Z"
+    },
+    {
+      "id": "log_079fe0a6",
+      "guestToken": "gst_mwvt31tqf84cog5c",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_2ad1562d3aab",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-25T07:38:04.341Z"
+    },
+    {
+      "id": "log_5880fe6a",
+      "guestToken": "gst_mwvt31tqf84cog5c",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_36428f8a46f0",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-25T07:43:27.737Z"
+    },
+    {
+      "id": "log_036a920e",
+      "guestToken": "gst_mwvuce89h7oai1wg",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_7dc59ce6866d",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-25T09:08:48.232Z"
+    },
+    {
+      "id": "log_33dc4311",
+      "guestToken": "gst_mwvuce89h7oai1wg",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_91d67e374b38",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-26T09:11:12.056Z"
+    },
+    {
+      "id": "log_5a9f13af",
+      "guestToken": "gst_mwvuce89h7oai1wg",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_1c7b69de5827",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-26T09:32:47.348Z"
+    },
+    {
+      "id": "log_2854114a",
+      "guestToken": "gst_e4040d5d7db44f31931540e96b593b8c",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_6a93bf3e3f2f",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-26T10:20:02.788Z"
+    },
+    {
+      "id": "log_373af209",
+      "guestToken": "gst_10846e6650a54a7f92108131b8360fe9",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_5dfffcc2ad26",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-26T10:37:00.846Z"
+    },
+    {
+      "id": "log_6b18a67f",
+      "guestToken": "gst_65bb738e4ba44696a2aa865782ce68ac",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_1608901c2f47",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-26T10:42:58.792Z"
+    },
+    {
+      "id": "log_e0c3afad",
+      "guestToken": "gst_7e064cd8ac5d41d0b0bc8031acea2a88",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_b408368f500c",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-26T11:23:29.089Z"
+    },
+    {
+      "id": "log_fb0bf8f0",
+      "guestToken": "gst_523a9df40d7a46cbba4360ba85b16c3e",
+      "action": "DRAFT_SAVED",
+      "entityType": "Draft",
+      "entityId": "drf_e4e8606a79cb",
+      "metadata": {
+        "version": 1,
+        "status": "DRAFT"
+      },
+      "createdAt": "2026-11-26T11:28:02.195Z"
     }
   ],
   "categories": [

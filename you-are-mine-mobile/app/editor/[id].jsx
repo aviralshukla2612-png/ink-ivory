@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
@@ -13,44 +13,76 @@ import { MusicSelectionSheet } from '../../components/editor/MusicSelectionSheet
 import { SectionManagementSheet } from '../../components/editor/SectionManagementSheet';
 import { Button } from '../../components/common/Button';
 import { TemplatesService } from '../../services/templates.service';
+import { DraftsService } from '../../services/drafts.service';
 import { useEditorStore } from '../../store/editor.store';
+import { RoyalLoadingScreen } from '../../components/common/RoyalLoadingScreen';
+import { RoyalMultiSlidePresentation } from '../../components/preview/RoyalMultiSlidePresentation';
+import { TemplateRendererRouter } from '../../components/templates/TemplateRendererRouter';
 
 export default function NativeEditorScreen() {
   const { id } = useLocalSearchParams();
-  const templateId = String(id || 'tpl-wedding-navy-01');
-
-  const { initEditor, isInitializing, activeTool, template } = useEditorStore();
+  const targetId = String(id || 'tpl-wedding-navy-01');
+  const [viewMode, setViewMode] = useState('website'); // Default: website multi-slide template
 
   const {
-    data: templateData,
-    isLoading: isFetchingTemplate,
+    initEditor,
+    isInitializing,
+    activeTool,
+    template,
+    templateId: currentStoreTemplateId,
+  } = useEditorStore();
+
+  const isSwitchingTemplate = Boolean(
+    targetId &&
+    currentStoreTemplateId &&
+    targetId !== currentStoreTemplateId &&
+    !targetId.startsWith('drf_')
+  );
+
+  const {
+    data: editorData,
+    isLoading: isFetchingData,
     isError,
     error,
     refetch,
   } = useQuery({
-    queryKey: ['template-editor', templateId],
-    queryFn: () => TemplatesService.getTemplateById(templateId),
+    queryKey: ['editor-data', targetId],
+    queryFn: async () => {
+      if (targetId.startsWith('drf_')) {
+        let draft = null;
+        try {
+          draft = await DraftsService.getDraft(targetId);
+        } catch (e) {
+          console.warn('Could not fetch draft, falling back to local/default:', e.message);
+        }
+        const templateId = draft?.templateId || 'tpl-wedding-navy-01';
+        const tpl = await TemplatesService.getTemplateById(templateId);
+        return { template: tpl, draft };
+      } else {
+        const tpl = await TemplatesService.getTemplateById(targetId);
+        return { template: tpl, draft: null };
+      }
+    },
   });
 
-  // Hydrate editor state when template is loaded
+  // Hydrate editor state when template or draft is loaded
   useEffect(() => {
-    if (templateData) {
-      initEditor(templateData);
+    if (editorData?.template) {
+      initEditor(editorData.template, editorData.draft);
     }
-  }, [templateData, initEditor]);
+  }, [editorData, initEditor]);
 
-  if (isFetchingTemplate || isInitializing) {
+  if (isFetchingData || isInitializing || isSwitchingTemplate) {
     return (
-      <SafeAreaView style={styles.safeArea}>
-        <View style={styles.centerContainer}>
-          <ActivityIndicator size="small" color={Colors.primary} />
-          <Text style={styles.loadingText}>Initializing bespoke invitation canvas...</Text>
-        </View>
-      </SafeAreaView>
+      <RoyalLoadingScreen
+        title="BESPOKE ATELIER"
+        subtitle="INVITATION CANVAS"
+        message="Initializing luxury canvas, typography & royal palette..."
+      />
     );
   }
 
-  if (isError || !templateData) {
+  if (isError || !editorData?.template) {
     return (
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.centerContainer}>
@@ -68,29 +100,46 @@ export default function NativeEditorScreen() {
     );
   }
 
+  const activeTemplate = editorData.template;
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* 1. Header with Title, Undo, Redo and Save Action */}
-      <EditorHeader title={templateData?.title?.split('—')[0]?.trim() || 'Edit Invitation'} />
+      {/* 1. Header with Title, Mode Switcher, Undo, Redo and Save Action */}
+      <EditorHeader
+        title={activeTemplate?.title?.split('—')[0]?.trim() || 'Edit Invitation'}
+        viewMode={viewMode}
+        onToggleViewMode={() => setViewMode((prev) => (prev === 'website' ? 'canvas' : 'website'))}
+      />
 
-      {/* 2. Scalable Native Invitation Canvas with Pan Gesture Dragging */}
-      <View style={styles.canvasContainer}>
-        <InvitationCanvas />
-      </View>
+      {/* 2. Main Content: Website Template Presentation (Default) OR Canvas Layout */}
+      {viewMode === 'website' ? (
+        <TemplateRendererRouter
+          template={activeTemplate}
+          draftData={editorData.draft}
+          isEditable={true}
+        />
+      ) : (
+        <>
+          {/* Scalable Native Invitation Canvas with Pan Gesture Dragging */}
+          <View style={styles.canvasContainer}>
+            <InvitationCanvas />
+          </View>
 
-      {/* 3. Dynamic Bottom Sheets for Active Tool */}
-      {activeTool === 'text' || activeTool === 'style' ? (
-        <TextEditingSheet />
-      ) : activeTool === 'images' ? (
-        <ImageEditingSheet />
-      ) : activeTool === 'music' ? (
-        <MusicSelectionSheet />
-      ) : activeTool === 'sections' ? (
-        <SectionManagementSheet />
-      ) : null}
+          {/* Dynamic Bottom Sheets for Active Tool */}
+          {activeTool === 'text' || activeTool === 'style' ? (
+            <TextEditingSheet />
+          ) : activeTool === 'images' ? (
+            <ImageEditingSheet />
+          ) : activeTool === 'music' ? (
+            <MusicSelectionSheet />
+          ) : activeTool === 'sections' ? (
+            <SectionManagementSheet />
+          ) : null}
 
-      {/* 4. Bottom 5-Tool Toolbar */}
-      <EditorToolbar />
+          {/* Bottom 5-Tool Toolbar */}
+          <EditorToolbar />
+        </>
+      )}
     </SafeAreaView>
   );
 }

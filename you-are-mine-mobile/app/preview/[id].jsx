@@ -26,25 +26,34 @@ import {
   Sparkles,
 } from 'lucide-react-native';
 import { Colors } from '../../constants/colors';
+import { Config } from '../../constants/config';
 import { useEditorStore } from '../../store/editor.store';
 import { DraftsService } from '../../services/drafts.service';
 import { PublicationsService } from '../../services/publications.service';
+import { TemplatesService } from '../../services/templates.service';
 import { EnvelopeAnimation } from '../../components/preview/EnvelopeAnimation';
+import { GrandEntranceGate } from '../../components/preview/GrandEntranceGate';
 import { FloatingAudioPlayer } from '../../components/preview/FloatingAudioPlayer';
 import { RSVPPreviewSection } from '../../components/preview/RSVPPreviewSection';
 import { CeremonyTimelineSection } from '../../components/preview/CeremonyTimelineSection';
+import { RoyalLoadingScreen } from '../../components/common/RoyalLoadingScreen';
+import { RoyalMultiSlidePresentation } from '../../components/preview/RoyalMultiSlidePresentation';
+import { TemplateRendererRouter } from '../../components/templates/TemplateRendererRouter';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function InvitationPreviewScreen() {
-  const { id } = useLocalSearchParams();
+  const { id, slide, gate } = useLocalSearchParams();
   const router = useRouter();
 
   const store = useEditorStore();
   const [loading, setLoading] = useState(true);
-  const [envelopeOpened, setEnvelopeOpened] = useState(false);
+  const [envelopeOpened, setEnvelopeOpened] = useState(gate === 'open' || Boolean(slide));
   const [draftData, setDraftData] = useState(null);
   const [publicationData, setPublicationData] = useState(null);
+
+  const initialGateOpen = gate === 'open' || Boolean(slide);
+  const initialSlide = slide ? parseInt(slide, 10) : 0;
 
   useEffect(() => {
     loadInvitation();
@@ -71,7 +80,47 @@ export default function InvitationPreviewScreen() {
         return;
       }
 
-      // 2. Fetch from backend drafts
+      // 2. If ID is a template, load template directly (Live Demo mode)
+      if (typeof id === 'string' && (id.startsWith('tpl-') || id.startsWith('tpl_'))) {
+        try {
+          const tpl = await TemplatesService.getTemplateById(id);
+          if (tpl) {
+            const defaultFields = tpl.defaultFields || {};
+            const designConfig = tpl.designConfig || {};
+            setDraftData({
+              id: tpl.id,
+              title: tpl.title,
+              fields: defaultFields,
+              design: designConfig,
+              templateId: tpl.id,
+              previewImageUrl: tpl.previewImageUrl,
+              occasion: tpl.occasion,
+              occasionBadge: tpl.occasionBadge || tpl.occasion,
+              liveDemoUrl: tpl.liveDemoUrl,
+              customAudioUrl: defaultFields.audioSource,
+              customAudioTitle: defaultFields.songTitle,
+              sections: Array.isArray(defaultFields.events) && defaultFields.events.length > 0
+                ? defaultFields.events.map((ev, idx) => ({
+                    id: `ev-${idx}`,
+                    title: ev.name,
+                    date: ev.date,
+                    time: ev.time,
+                    venue: ev.venue,
+                  }))
+                : [],
+              couplePhoto: null,
+              couplePhotoScale: 1.0,
+              isDemo: true,
+            });
+            setLoading(false);
+            return;
+          }
+        } catch (tplErr) {
+          console.warn('Failed to load template as live demo:', tplErr.message);
+        }
+      }
+
+      // 3. Fetch from backend drafts
       try {
         const draft = await DraftsService.getDraft(id);
         if (draft) {
@@ -119,6 +168,44 @@ export default function InvitationPreviewScreen() {
           slug: pub.slug,
           liveUrl: pub.liveUrl,
         });
+        setLoading(false);
+        return;
+      }
+
+      // 4. Fallback: Check if it's a template ID (Live Demo mode)
+      try {
+        const tpl = await TemplatesService.getTemplateById(id);
+        if (tpl) {
+          const defaultFields = tpl.defaultFields || {};
+          const designConfig = tpl.designConfig || {};
+          setDraftData({
+            id: tpl.id,
+            title: tpl.title,
+            fields: defaultFields,
+            design: designConfig,
+            templateId: tpl.id,
+            previewImageUrl: tpl.previewImageUrl,
+            occasion: tpl.occasion,
+            occasionBadge: tpl.occasionBadge || tpl.occasion,
+            liveDemoUrl: tpl.liveDemoUrl,
+            customAudioUrl: defaultFields.audioSource,
+            customAudioTitle: defaultFields.songTitle,
+            sections: Array.isArray(defaultFields.events) && defaultFields.events.length > 0
+              ? defaultFields.events.map((ev, idx) => ({
+                  id: `ev-${idx}`,
+                  title: ev.name,
+                  date: ev.date,
+                  time: ev.time,
+                  venue: ev.venue,
+                }))
+              : [],
+            couplePhoto: null,
+            couplePhotoScale: 1.0,
+            isDemo: true,
+          });
+        }
+      } catch (tplErr) {
+        console.warn('Failed to load template as live demo:', tplErr.message);
       }
     } catch (error) {
       console.warn('Failed to load invitation for preview:', error.message);
@@ -159,20 +246,22 @@ export default function InvitationPreviewScreen() {
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={Colors.primary} />
-        <Text style={styles.loadingText}>Rendering bespoke preview...</Text>
-      </SafeAreaView>
+      <RoyalLoadingScreen
+        title="ROYAL SUITE"
+        subtitle="IMMERSIVE PREVIEW"
+        message="Assembling bespoke celebration and 4-screen interactive suite..."
+      />
     );
   }
 
   const fields = draftData?.fields || {};
-  const coupleNames = fields.names || 'Karthik & Meenakshi';
+  const coupleNames = fields.names ||
+    (draftData?.title?.includes('—') ? draftData.title.split('—')[0].trim() : 'Aarav & Riya');
   const tagline = fields.tagline || fields.headline || 'The Wedding Celebration of';
   const ceremonyTitle = fields.eventTitle || 'Wedding Ceremony';
   const eventDate = fields.weddingDate || fields.date || 'December 21, 2026';
   const eventTime = fields.time || '10:30 AM';
-  const venueName = fields.venueName || fields.venue || 'Tirumanam Mandapam, Chennai';
+  const venueName = fields.venueName || fields.venue || 'The Grand Heritage Palace';
   const couplePhoto = draftData?.couplePhoto || fields.couple_photo;
   const sections = draftData?.sections || [];
   const musicUrl = draftData?.customAudioUrl;
@@ -192,7 +281,7 @@ export default function InvitationPreviewScreen() {
           <ChevronLeft size={22} color={Colors.textPrimary} />
         </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Preview</Text>
+        <Text style={styles.headerTitle}>{draftData?.isDemo ? 'Live Demo' : 'Preview'}</Text>
 
         <TouchableOpacity
           style={styles.iconBtn}
@@ -204,122 +293,45 @@ export default function InvitationPreviewScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Optional Envelope Opening Animation Overlay */}
-      {!envelopeOpened && (
-        <EnvelopeAnimation
+      {/* Bespoke Entrance Gate Experience (Dynamic for Each Template) */}
+      {String(draftData?.templateId || id || '').toLowerCase().includes('palace-04') ||
+       String(draftData?.templateId || id || '').toLowerCase().includes('udaipur') ||
+       String(draftData?.templateId || id || '').toLowerCase().includes('paper-palace') ? (
+        <TemplateRendererRouter
+          template={draftData}
+          draftData={draftData}
+          onCustomize={handleEdit}
+          initialGateOpen={initialGateOpen}
+          initialSlide={initialSlide}
+        />
+      ) : !envelopeOpened ? (
+        <GrandEntranceGate
           coupleNames={coupleNames}
-          tagline={tagline}
-          onOpened={() => setEnvelopeOpened(true)}
+          tagline={fields.headline || tagline}
+          message={fields.message || 'Step through to immerse in sacred rituals, joyful festivities, and celebration.'}
+          audioUrl={musicUrl}
+          audioTitle={musicTitle}
+          audioStartTime={fields.audioStartTime || 0}
+          templateId={draftData?.templateId || id}
+          backgroundImageUrl={draftData?.previewImageUrl}
+          badgeText={draftData?.occasionBadge || draftData?.occasion || 'INVITATION'}
+          buttonText={
+            (draftData?.occasion || '').toLowerCase().includes('birthday')
+              ? 'ENTER BIRTHDAY PARTY'
+              : (draftData?.occasion || '').toLowerCase().includes('valentine')
+              ? 'OPEN VALENTINE CELEBRATION'
+              : 'ENTER ROYAL CELEBRATION'
+          }
+          onGateOpened={() => setEnvelopeOpened(true)}
+        />
+      ) : (
+        /* Full-Screen Multi-Slide Presentation (Exact match to Website template-01) */
+        <TemplateRendererRouter
+          template={draftData}
+          draftData={draftData}
+          onCustomize={handleEdit}
         />
       )}
-
-      {/* Main Full-Screen Invitation Scroll Surface */}
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Invitation Aesthetic Frame */}
-        <View style={styles.invitationSheet}>
-          {/* Gold Decorative Corner Borders */}
-          <View style={styles.goldCornerTL} />
-          <View style={styles.goldCornerTR} />
-          <View style={styles.goldCornerBL} />
-          <View style={styles.goldCornerBR} />
-
-          {/* Invitation Header Tagline */}
-          <View style={styles.headerTaglineBox}>
-            <Sparkles size={14} color={Colors.gold} />
-            <Text style={styles.headerTagline}>{tagline.toUpperCase()}</Text>
-            <Sparkles size={14} color={Colors.gold} />
-          </View>
-
-          {/* Couple Portrait (if provided) */}
-          {couplePhoto ? (
-            <View style={styles.photoFrameWrapper}>
-              <View style={styles.photoGoldArch}>
-                <Image
-                  source={{ uri: couplePhoto }}
-                  style={[
-                    styles.coupleImage,
-                    {
-                      transform: [{ scale: draftData?.couplePhotoScale || 1.0 }],
-                    },
-                  ]}
-                  contentFit="cover"
-                  transition={300}
-                />
-              </View>
-            </View>
-          ) : null}
-
-          {/* Couple Names */}
-          <Text style={styles.namesSerif}>{coupleNames}</Text>
-
-          {/* Golden Flourish Ornament */}
-          <View style={styles.flourishRow}>
-            <View style={styles.flourishLine} />
-            <Heart size={14} color={Colors.gold} fill={Colors.gold} />
-            <View style={styles.flourishLine} />
-          </View>
-
-          {/* Invitee Notice */}
-          <Text style={styles.invitationCallout}>
-            CORDIALLY INVITE YOU TO THEIR
-          </Text>
-
-          {/* Event Title */}
-          <Text style={styles.ceremonyTitleSerif}>{ceremonyTitle}</Text>
-
-          {/* Date & Time Badge */}
-          <View style={styles.dateTimeBadge}>
-            <View style={styles.dateCol}>
-              <Text style={styles.dateMonth}>
-                {eventDate.split(' ')[0] || 'DEC'}
-              </Text>
-              <Text style={styles.dateDay}>
-                {eventDate.split(' ')[1]?.replace(',', '') || '21'}
-              </Text>
-              <Text style={styles.dateYear}>
-                {eventDate.split(' ')[2] || '2026'}
-              </Text>
-            </View>
-
-            <View style={styles.badgeDivider} />
-
-            <View style={styles.timeVenueCol}>
-              <View style={styles.infoRow}>
-                <Clock size={13} color={Colors.primary} style={styles.infoIcon} />
-                <Text style={styles.infoText}>{eventTime}</Text>
-              </View>
-              <View style={styles.infoRow}>
-                <MapPin size={13} color={Colors.gold} style={styles.infoIcon} />
-                <Text style={styles.venueNameText} numberOfLines={2}>
-                  {venueName}
-                </Text>
-              </View>
-            </View>
-          </View>
-
-          {/* Love Note / Message Quote */}
-          {fields.message ? (
-            <View style={styles.quoteBox}>
-              <Text style={styles.quoteText}>"{fields.message}"</Text>
-            </View>
-          ) : null}
-
-          {/* Timeline Ceremony Sections */}
-          <CeremonyTimelineSection sections={sections} />
-
-          {/* RSVP Section */}
-          <RSVPPreviewSection
-            rsvpText={fields.rsvp || 'Kindly RSVP by 10th December 2026'}
-            hostText={fields.host || 'With blessings from our parents & families'}
-            contactNumber={fields.contactNumber || '+91 98765 43210'}
-            isPublished={isPublished}
-            slug={draftData?.slug}
-          />
-        </View>
-      </ScrollView>
 
       {/* Floating Audio Player */}
       {musicUrl ? (
@@ -333,23 +345,36 @@ export default function InvitationPreviewScreen() {
 
       {/* Bottom Sticky Action Bar */}
       <View style={styles.bottomBar}>
-        <TouchableOpacity
-          style={styles.editBtn}
-          onPress={handleEdit}
-          activeOpacity={0.8}
-        >
-          <Edit3 size={17} color={Colors.textPrimary} style={styles.btnIcon} />
-          <Text style={styles.editBtnText}>Edit</Text>
-        </TouchableOpacity>
+        {draftData?.isDemo ? (
+          <TouchableOpacity
+            style={styles.customizeDemoBtn}
+            onPress={() => router.push(`/editor/${draftData.templateId || id}`)}
+            activeOpacity={0.85}
+          >
+            <Sparkles size={17} color={Colors.champagne} style={styles.btnIcon} />
+            <Text style={styles.customizeDemoBtnText}>Customize This Template</Text>
+          </TouchableOpacity>
+        ) : (
+          <>
+            <TouchableOpacity
+              style={styles.editBtn}
+              onPress={handleEdit}
+              activeOpacity={0.8}
+            >
+              <Edit3 size={17} color={Colors.textPrimary} style={styles.btnIcon} />
+              <Text style={styles.editBtnText}>Edit</Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.publishBtn}
-          onPress={handlePublish}
-          activeOpacity={0.85}
-        >
-          <Send size={16} color={Colors.champagne} style={styles.btnIcon} />
-          <Text style={styles.publishBtnText}>Publish</Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.publishBtn}
+              onPress={handlePublish}
+              activeOpacity={0.85}
+            >
+              <Send size={16} color={Colors.champagne} style={styles.btnIcon} />
+              <Text style={styles.publishBtnText}>Publish</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -655,5 +680,22 @@ const styles = StyleSheet.create({
   },
   btnIcon: {
     marginRight: 8,
+  },
+  customizeDemoBtn: {
+    flex: 1,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: Colors.primary,
+    borderWidth: 1,
+    borderColor: Colors.deepBurgundy,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  customizeDemoBtnText: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: Colors.champagne,
+    letterSpacing: 0.4,
   },
 });

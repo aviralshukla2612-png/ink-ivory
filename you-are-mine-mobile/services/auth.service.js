@@ -1,17 +1,17 @@
-import * as SecureStore from 'expo-secure-store';
+import { Storage } from './storage.service';
 import { apiClient } from './api';
 import { Config } from '../constants/config';
 
 export const AuthService = {
   /**
-   * Retrieves or initializes customer guest token from SecureStore.
+   * Retrieves or initializes customer guest token from Storage.
    */
   async getOrCreateGuestToken() {
     try {
-      let token = await SecureStore.getItemAsync(Config.STORAGE_KEYS.GUEST_TOKEN);
+      let token = await Storage.getItemAsync(Config.STORAGE_KEYS.GUEST_TOKEN);
       if (!token) {
         token = 'gst_' + Date.now().toString(36) + Math.random().toString(36).substring(2, 10);
-        await SecureStore.setItemAsync(Config.STORAGE_KEYS.GUEST_TOKEN, token);
+        await Storage.setItemAsync(Config.STORAGE_KEYS.GUEST_TOKEN, token);
       }
       return token;
     } catch (e) {
@@ -24,7 +24,7 @@ export const AuthService = {
    */
   async isOnboardingCompleted() {
     try {
-      const val = await SecureStore.getItemAsync(Config.STORAGE_KEYS.ONBOARDING_COMPLETED);
+      const val = await Storage.getItemAsync(Config.STORAGE_KEYS.ONBOARDING_COMPLETED);
       return val === 'true';
     } catch (e) {
       return false;
@@ -36,7 +36,7 @@ export const AuthService = {
    */
   async setOnboardingCompleted() {
     try {
-      await SecureStore.setItemAsync(Config.STORAGE_KEYS.ONBOARDING_COMPLETED, 'true');
+      await Storage.setItemAsync(Config.STORAGE_KEYS.ONBOARDING_COMPLETED, 'true');
     } catch (e) {
       console.warn('Failed to persist onboarding status:', e);
     }
@@ -68,7 +68,7 @@ export const AuthService = {
         phone: '+91 ' + cleanedPhone,
         verifiedAt: new Date().toISOString(),
       };
-      await SecureStore.setItemAsync(
+      await Storage.setItemAsync(
         Config.STORAGE_KEYS.CUSTOMER_SESSION,
         JSON.stringify(sessionData)
       );
@@ -88,7 +88,7 @@ export const AuthService = {
    */
   async logout() {
     try {
-      await SecureStore.deleteItemAsync(Config.STORAGE_KEYS.CUSTOMER_SESSION);
+      await Storage.deleteItemAsync(Config.STORAGE_KEYS.CUSTOMER_SESSION);
     } catch (e) {
       console.warn('Logout cleanup notice:', e);
     }

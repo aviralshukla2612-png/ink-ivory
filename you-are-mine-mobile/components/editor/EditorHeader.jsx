@@ -5,7 +5,11 @@ import { ChevronLeft, Undo2, Redo2, Check, AlertCircle, Eye } from 'lucide-react
 import { Colors } from '../../constants/colors';
 import { useEditorStore } from '../../store/editor.store';
 
-export function EditorHeader({ title = 'Edit Invitation' }) {
+export function EditorHeader({
+  title = 'Edit Invitation',
+  viewMode = 'website',
+  onToggleViewMode,
+}) {
   const router = useRouter();
   const {
     draftId,
@@ -48,6 +52,19 @@ export function EditorHeader({ title = 'Edit Invitation' }) {
       <Text style={styles.title} numberOfLines={1}>
         {title}
       </Text>
+
+      {/* Mode Switcher: Website Template vs Canvas */}
+      {onToggleViewMode && (
+        <TouchableOpacity
+          style={styles.modeTogglePill}
+          onPress={onToggleViewMode}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.modeToggleText}>
+            {viewMode === 'website' ? '✨ Website' : '🎨 Canvas'}
+          </Text>
+        </TouchableOpacity>
+      )}
 
       {/* Action Controls: Undo, Redo, Preview & Save */}
       <View style={styles.rightCluster}>
@@ -138,7 +155,21 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: Colors.textPrimary,
     letterSpacing: 0.3,
-    maxWidth: 150,
+    maxWidth: 130,
+  },
+  modeTogglePill: {
+    backgroundColor: 'rgba(215, 184, 117, 0.18)',
+    borderWidth: 1,
+    borderColor: '#D7B875',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 14,
+    marginRight: 6,
+  },
+  modeToggleText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#8A5D18',
   },
   rightCluster: {
     flexDirection: 'row',

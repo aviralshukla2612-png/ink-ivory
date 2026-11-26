@@ -1,6 +1,34 @@
-import { Audio } from 'expo-av';
+import { requireOptionalNativeModule } from 'expo-modules-core';
 import { apiClient } from './api';
 import { Config } from '../constants/config';
+
+// Safe lazy loading of expo-av to prevent top-level module crash when ExponentAV is absent in client
+let cachedAudio = null;
+let hasCheckedAudio = false;
+
+function getAudio() {
+  if (hasCheckedAudio) return cachedAudio;
+  hasCheckedAudio = true;
+
+  try {
+    const hasNativeAV = typeof requireOptionalNativeModule === 'function'
+      ? requireOptionalNativeModule('ExponentAV')
+      : (globalThis.expo?.modules?.ExponentAV || null);
+
+    if (!hasNativeAV) {
+      console.warn('[MusicService] ExponentAV native audio module not available in this environment. Audio playback gracefully disabled.');
+      cachedAudio = null;
+      return null;
+    }
+
+    const expoAv = require('expo-av');
+    cachedAudio = expoAv?.Audio || null;
+  } catch (err) {
+    console.warn('[MusicService] ExponentAV native audio module not available in this environment:', err?.message);
+    cachedAudio = null;
+  }
+  return cachedAudio;
+}
 
 let activeSound = null;
 let currentPlayingSource = null;
@@ -47,6 +75,12 @@ export const MusicService = {
    */
   async playPreview(audioUrl, onStatusUpdate = null, startSeconds = 0) {
     try {
+      const Audio = getAudio();
+      if (!Audio) {
+        console.warn('[MusicService] Playback skipped: ExponentAV native audio module is not available.');
+        return { isPlaying: false, isLoaded: false };
+      }
+
       // If already playing this track, pause/toggle
       if (activeSound && currentPlayingSource === audioUrl) {
         const status = await activeSound.getStatusAsync();
@@ -76,8 +110,16 @@ export const MusicService = {
 
       const initialPositionMillis = Math.max(0, Math.floor((Number(startSeconds) || 0) * 1000));
 
+      let resolvedUri = audioUrl;
+      if (typeof audioUrl === 'string') {
+        if (!audioUrl.startsWith('http://') && !audioUrl.startsWith('https://') && !audioUrl.startsWith('file://')) {
+          const cleanPath = audioUrl.startsWith('/') ? audioUrl : `/${audioUrl}`;
+          resolvedUri = `${Config.API_BASE_URL}${cleanPath}`;
+        }
+      }
+
       const { sound } = await Audio.Sound.createAsync(
-        { uri: audioUrl },
+        { uri: resolvedUri },
         { shouldPlay: true, isLooping: true, positionMillis: initialPositionMillis },
         onStatusUpdate
       );
@@ -89,7 +131,7 @@ export const MusicService = {
     } catch (error) {
       console.warn('Audio playback error:', error.message);
       await this.stopPreview();
-      throw error;
+      return { isPlaying: false, isLoaded: false };
     }
   },
 
@@ -119,10 +161,24 @@ export const MusicService = {
   },
 
   /**
-   * Alias for playPreview to support floating audio player.
+   * Resilient alias for playPreview supporting both callback functions and options objects.
    */
-  async playSound(audioUrl, onStatusUpdate, startSeconds = 0) {
-    return this.playPreview(audioUrl, onStatusUpdate, startSeconds);
+  async playSound(audioUrl, optionsOrStatusUpdate = null, startSeconds = 0) {
+    let onStatusUpdate = null;
+    let actualStartSec = startSeconds;
+
+    if (typeof optionsOrStatusUpdate === 'function') {
+      onStatusUpdate = optionsOrStatusUpdate;
+    } else if (optionsOrStatusUpdate && typeof optionsOrStatusUpdate === 'object') {
+      if (typeof optionsOrStatusUpdate.onStatusUpdate === 'function') {
+        onStatusUpdate = optionsOrStatusUpdate.onStatusUpdate;
+      }
+      if (typeof optionsOrStatusUpdate.startTime === 'number') {
+        actualStartSec = optionsOrStatusUpdate.startTime;
+      }
+    }
+
+    return this.playPreview(audioUrl, onStatusUpdate, actualStartSec);
   },
 
   /**
@@ -130,6 +186,34 @@ export const MusicService = {
    */
   async stopSound() {
     return this.stopPreview();
+  },
+
+  /**
+   * Standard audio playback aliases for modern templates
+   */
+  async stop() {
+    return this.stopPreview();
+  },
+
+  async pause() {
+    return this.pauseSound();
+  },
+
+  async play(audioUrl = null, optionsOrStatusUpdate = null, startSeconds = 0) {
+    if (audioUrl) {
+      return this.playSound(audioUrl, optionsOrStatusUpdate, startSeconds);
+    }
+    try {
+      if (activeSound) {
+        await activeSound.playAsync();
+        return { isPlaying: true, isLoaded: true };
+      }
+    } catch (e) {}
+    return { isPlaying: false, isLoaded: false };
+  },
+
+  async loadTrack(audioUrl, options = null) {
+    return this.playSound(audioUrl, options);
   },
 
   /**

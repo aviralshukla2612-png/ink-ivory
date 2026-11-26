@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import * as SecureStore from 'expo-secure-store';
+import { Storage } from '../services/storage.service';
 
 const FAVORITES_STORAGE_KEY = 'yam_customer_favorites';
 
@@ -12,7 +12,7 @@ export const useFavoritesStore = create((set, get) => ({
    */
   loadFavorites: async () => {
     try {
-      const stored = await SecureStore.getItemAsync(FAVORITES_STORAGE_KEY);
+      const stored = await Storage.getItemAsync(FAVORITES_STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed)) {
@@ -38,7 +38,7 @@ export const useFavoritesStore = create((set, get) => ({
 
     set({ favorites: updated });
     try {
-      await SecureStore.setItemAsync(FAVORITES_STORAGE_KEY, JSON.stringify(updated));
+      await Storage.setItemAsync(FAVORITES_STORAGE_KEY, JSON.stringify(updated));
     } catch (e) {
       console.warn('Failed to persist favorites:', e);
     }

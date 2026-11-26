@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as SecureStore from 'expo-secure-store';
+import { Storage } from './storage.service';
 import { Config } from '../constants/config';
 
 // Create Centralized Axios instance
@@ -16,16 +16,16 @@ export const apiClient = axios.create({
 apiClient.interceptors.request.use(
   async (config) => {
     try {
-      let guestToken = await SecureStore.getItemAsync(Config.STORAGE_KEYS.GUEST_TOKEN);
+      let guestToken = await Storage.getItemAsync(Config.STORAGE_KEYS.GUEST_TOKEN);
       if (!guestToken) {
         // Generate cryptographic-style guest token
         guestToken = 'gst_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-        await SecureStore.setItemAsync(Config.STORAGE_KEYS.GUEST_TOKEN, guestToken);
+        await Storage.setItemAsync(Config.STORAGE_KEYS.GUEST_TOKEN, guestToken);
       }
       config.headers['x-guest-token'] = guestToken;
       config.headers['x-platform'] = 'mobile-expo';
     } catch (e) {
-      console.warn('SecureStore error in request interceptor:', e);
+      console.warn('Storage error in request interceptor:', e);
     }
     return config;
   },

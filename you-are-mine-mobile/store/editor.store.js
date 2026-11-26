@@ -14,88 +14,155 @@ export const CANVAS_LOGICAL_HEIGHT = 560;
  * Builds default element dictionary from template fields & design configuration.
  */
 function createDefaultElements(template, draftFields = {}, draftDesign = {}) {
-  const fields = { ...(template.defaultFields || {}), ...draftFields };
-  const design = { ...(template.designConfig || {}), ...draftDesign };
+  const fields = { ...(template?.defaultFields || {}), ...draftFields };
+  const design = { ...(template?.designConfig || {}), ...draftDesign };
   const savedPositions = draftDesign.elementPositions || {};
+
+  const themeHex = String(design.themeColor || '').toLowerCase();
+  const isDarkTheme = themeHex.startsWith('#1') || themeHex.startsWith('#0') || themeHex.startsWith('#2');
+
+  const defaultTextColor = design.textColor || (isDarkTheme ? '#EDE2CF' : '#2C1810');
+  const defaultAccentColor = design.accentColor || (isDarkTheme ? '#D7B875' : Colors.primary);
+  const defaultSecondaryColor = design.secondaryColor || (isDarkTheme ? '#B88E4B' : '#7C6758');
+  const defaultFontFamily = design.fontFamily || 'serif';
+
+  // Determine couple names or celebration title dynamically from template
+  const defaultNames = fields.names ||
+    (template?.title?.includes('—') ? template.title.split('—')[0].trim() : 'Aarav & Riya');
+
+  const defaultHeadline = fields.headline ||
+    (template?.occasion === 'Birthday'
+      ? 'Birthday Celebration'
+      : template?.occasion === 'Valentine'
+      ? 'A Story of True Love'
+      : 'The Wedding Celebration Of');
+
+  const defaultVenue = fields.venue ||
+    (template?.occasion === 'Birthday'
+      ? 'The Celebration Lounge'
+      : 'The Grand Palace & Gardens');
+
+  const defaultCity = fields.city || (template?.defaultFields?.city || 'Jaipur, Rajasthan');
+
+  const photoOptionStr = String(template?.photoOption || '').toLowerCase();
+  const isNoPhotoTemplate = photoOptionStr.includes('no photo');
+  const hasPhotoUrl = Boolean(fields.photoUrl || fields.couple_photo);
+  const showPhoto = !isNoPhotoTemplate && hasPhotoUrl;
+
+  const resolvedPhotoUrl = fields.photoUrl
+    ? (fields.photoUrl.startsWith('http') ? fields.photoUrl : `${Config.API_BASE_URL}${fields.photoUrl}`)
+    : (fields.couple_photo
+        ? (fields.couple_photo.startsWith('http') ? fields.couple_photo : `${Config.API_BASE_URL}${fields.couple_photo}`)
+        : null);
+
+  // Clear vertical flow without overlap:
+  // If photo is present, elements stack below it.
+  // If no photo (traditional/royal), elements spread elegantly across the full arch.
+  const defaultEyebrowY = showPhoto ? 185 : 85;
+  const defaultHeadlineY = showPhoto ? 212 : 125;
+  const defaultNamesY = showPhoto ? 245 : 175;
+  const defaultDateY = showPhoto ? 298 : 248;
+  const defaultVenueY = showPhoto ? 342 : 305;
+  const defaultCityY = showPhoto ? 382 : 350;
+
+  // Stale-cache healing: prevent text collisions caused by legacy draft coordinates saved in AsyncStorage
+  let resolvedEyebrowY = savedPositions.eyebrow?.y ?? defaultEyebrowY;
+  let resolvedHeadlineY = savedPositions.headline?.y ?? defaultHeadlineY;
+  let resolvedNamesY = savedPositions.names?.y ?? defaultNamesY;
+  let resolvedDateY = savedPositions.date?.y ?? defaultDateY;
+  let resolvedVenueY = savedPositions.venue?.y ?? defaultVenueY;
+  let resolvedCityY = savedPositions.city?.y ?? defaultCityY;
+
+  // If headline was saved below names or on top of date/venue (legacy bug), heal back to pristine default
+  if (resolvedHeadlineY >= resolvedNamesY || resolvedHeadlineY >= resolvedDateY - 20) {
+    resolvedHeadlineY = defaultHeadlineY;
+  }
+  if (resolvedNamesY >= resolvedDateY - 15) {
+    resolvedNamesY = defaultNamesY;
+  }
+  if (resolvedDateY >= resolvedVenueY - 15) {
+    resolvedDateY = defaultDateY;
+  }
+  if (resolvedVenueY >= resolvedCityY - 15) {
+    resolvedVenueY = defaultVenueY;
+  }
 
   return {
     photo: {
       id: 'photo',
       type: 'image',
-      label: 'Couple Photograph',
-      url: fields.photoUrl
-        ? (fields.photoUrl.startsWith('http') ? fields.photoUrl : `${Config.API_BASE_URL}${fields.photoUrl}`)
-        : null,
+      label: 'Celebration Photograph',
+      url: showPhoto ? resolvedPhotoUrl : null,
       x: savedPositions.photo?.x ?? 0,
-      y: savedPositions.photo?.y ?? 65,
-      width: 130,
-      height: 130,
+      y: savedPositions.photo?.y ?? 50,
+      width: 120,
+      height: 120,
       scale: savedPositions.photo?.scale ?? 1.0,
       fit: fields.photoFit || 'cover',
-      hasPhoto: !!fields.photoUrl,
+      hasPhoto: showPhoto,
     },
     eyebrow: {
       id: 'eyebrow',
       type: 'text',
       label: 'Blessing / Eyebrow',
-      text: fields.eyebrow || 'CORDIALLY INVITE YOU TO THEIR',
+      text: fields.eyebrow || (template?.occasion === 'Birthday' ? 'CELEBRATING WITH JOY' : 'TOGETHER WITH THEIR FAMILIES'),
       x: savedPositions.eyebrow?.x ?? 0,
-      y: savedPositions.eyebrow?.y ?? 205,
-      fontSize: savedPositions.eyebrow?.fontSize ?? 11,
-      fontFamily: savedPositions.eyebrow?.fontFamily ?? 'serif',
-      color: savedPositions.eyebrow?.color ?? '#8B7355',
+      y: resolvedEyebrowY,
+      fontSize: savedPositions.eyebrow?.fontSize ?? (showPhoto ? 10.5 : 11),
+      fontFamily: savedPositions.eyebrow?.fontFamily ?? defaultFontFamily,
+      color: savedPositions.eyebrow?.color ?? defaultSecondaryColor,
       align: savedPositions.eyebrow?.align ?? 'center',
       letterSpacing: 2,
-    },
-    names: {
-      id: 'names',
-      type: 'text',
-      label: "Couple's Names",
-      text: fields.names || 'Karthik & Meenakshi',
-      x: savedPositions.names?.x ?? 0,
-      y: savedPositions.names?.y ?? 235,
-      fontSize: savedPositions.names?.fontSize ?? 25,
-      fontFamily: savedPositions.names?.fontFamily ?? 'serif',
-      color: savedPositions.names?.color ?? Colors.primary,
-      align: savedPositions.names?.align ?? 'center',
-      letterSpacing: 0.5,
     },
     headline: {
       id: 'headline',
       type: 'text',
       label: 'Celebration Headline',
-      text: fields.headline || 'Wedding Ceremony',
+      text: defaultHeadline,
       x: savedPositions.headline?.x ?? 0,
-      y: savedPositions.headline?.y ?? 280,
-      fontSize: savedPositions.headline?.fontSize ?? 16,
-      fontFamily: savedPositions.headline?.fontFamily ?? 'serif',
-      color: savedPositions.headline?.color ?? '#45291F',
+      y: resolvedHeadlineY,
+      fontSize: savedPositions.headline?.fontSize ?? (showPhoto ? 13 : 13.5),
+      fontFamily: savedPositions.headline?.fontFamily ?? defaultFontFamily,
+      color: savedPositions.headline?.color ?? defaultTextColor,
       align: savedPositions.headline?.align ?? 'center',
       letterSpacing: 1,
+    },
+    names: {
+      id: 'names',
+      type: 'text',
+      label: "Names / Title",
+      text: defaultNames,
+      x: savedPositions.names?.x ?? 0,
+      y: resolvedNamesY,
+      fontSize: savedPositions.names?.fontSize ?? (showPhoto ? 22 : 26),
+      fontFamily: savedPositions.names?.fontFamily ?? defaultFontFamily,
+      color: savedPositions.names?.color ?? defaultAccentColor,
+      align: savedPositions.names?.align ?? 'center',
+      letterSpacing: 0.5,
     },
     date: {
       id: 'date',
       type: 'text',
-      label: 'Wedding Date',
+      label: 'Celebration Date',
       text: fields.date || 'DEC 21 2026',
       x: savedPositions.date?.x ?? 0,
-      y: savedPositions.date?.y ?? 325,
-      fontSize: savedPositions.date?.fontSize ?? 14,
+      y: resolvedDateY,
+      fontSize: savedPositions.date?.fontSize ?? (showPhoto ? 13 : 14),
       fontFamily: savedPositions.date?.fontFamily ?? 'sans-serif',
-      color: savedPositions.date?.color ?? Colors.primary,
+      color: savedPositions.date?.color ?? defaultAccentColor,
       align: savedPositions.date?.align ?? 'center',
       letterSpacing: 2,
     },
     venue: {
       id: 'venue',
       type: 'text',
-      label: 'Sacred Venue',
-      text: fields.venue || 'TIRUMANAM TEMPLE',
+      label: 'Celebration Venue',
+      text: defaultVenue,
       x: savedPositions.venue?.x ?? 0,
-      y: savedPositions.venue?.y ?? 365,
-      fontSize: savedPositions.venue?.fontSize ?? 13,
-      fontFamily: savedPositions.venue?.fontFamily ?? 'serif',
-      color: savedPositions.venue?.color ?? '#45291F',
+      y: resolvedVenueY,
+      fontSize: savedPositions.venue?.fontSize ?? (showPhoto ? 12.5 : 13.5),
+      fontFamily: savedPositions.venue?.fontFamily ?? defaultFontFamily,
+      color: savedPositions.venue?.color ?? defaultTextColor,
       align: savedPositions.venue?.align ?? 'center',
       letterSpacing: 1.5,
     },
@@ -103,12 +170,12 @@ function createDefaultElements(template, draftFields = {}, draftDesign = {}) {
       id: 'city',
       type: 'text',
       label: 'City & State',
-      text: fields.city || 'Chennai, Tamil Nadu',
+      text: defaultCity,
       x: savedPositions.city?.x ?? 0,
-      y: savedPositions.city?.y ?? 390,
-      fontSize: savedPositions.city?.fontSize ?? 12,
+      y: resolvedCityY,
+      fontSize: savedPositions.city?.fontSize ?? (showPhoto ? 11 : 12),
       fontFamily: savedPositions.city?.fontFamily ?? 'sans-serif',
-      color: savedPositions.city?.color ?? '#89756B',
+      color: savedPositions.city?.color ?? defaultSecondaryColor,
       align: savedPositions.city?.align ?? 'center',
       letterSpacing: 0.5,
     },
@@ -121,16 +188,12 @@ export const useEditorStore = create((set, get) => ({
   template: null,
   elements: {},
   music: {
-    songTitle: 'Kesariya (Soulful Flute Cover)',
-    audioSource: '/audio/kesariya-flute.mp3',
+    songTitle: 'Royal Celebration Theme',
+    audioSource: '/audio/aaj-sajeya.mp3',
     audioStartTime: 0,
     audioClipDuration: 0,
   },
-  events: [
-    { name: 'Haldi Ceremony', date: 'Thursday, Dec 17 2026', time: '10:00 AM', venue: 'The Courtyard' },
-    { name: 'Wedding Ceremony', date: 'Friday, Dec 18 2026', time: '5:00 PM', venue: 'Tirumanam Temple' },
-    { name: 'Grand Reception', date: 'Saturday, Dec 19 2026', time: '8:00 PM', venue: 'Palace Grounds' },
-  ],
+  events: [],
   selectedElementId: null,
   activeTool: null, // 'text' | 'images' | 'music' | 'sections' | 'style'
   saveStatus: 'saved', // 'saved' | 'saving' | 'unsaved' | 'offline' | 'error'
@@ -148,13 +211,24 @@ export const useEditorStore = create((set, get) => ({
 
       let draft = existingDraft;
       if (!draft) {
-        // Attempt to create a real draft on the backend
-        draft = await DraftsService.createDraft({
-          templateId: template.id,
-          title: `${template.title} — Invitation`,
-          fields: template.defaultFields || {},
-          design: template.designConfig || {},
-        });
+        // Attempt to create a real draft on the backend, falling back gracefully to local draft
+        try {
+          draft = await DraftsService.createDraft({
+            templateId: template.id,
+            title: `${template.title} — Invitation`,
+            fields: template.defaultFields || {},
+            design: template.designConfig || {},
+          });
+        } catch (createErr) {
+          console.warn('Could not create draft on server, using resilient local draft:', createErr.message);
+          draft = {
+            id: `drf_local_${template.id}_${Date.now()}`,
+            templateId: template.id,
+            title: `${template.title} — Invitation`,
+            fields: template.defaultFields || {},
+            design: template.designConfig || {},
+          };
+        }
       }
 
       // Check if there is recoverable offline data for this draft
@@ -169,18 +243,28 @@ export const useEditorStore = create((set, get) => ({
       const clipDur = Number(activeFields.audioClipDuration ?? activeDesign.audioClipDuration) ||
         (endSec > startSec ? endSec - startSec : 0);
 
+      const defaultSong = template.defaultFields?.songTitle || 'Royal Celebration Theme';
+      const defaultAudio = template.defaultFields?.audioSource || '/audio/aaj-sajeya.mp3';
+
       const music = {
-        songTitle: activeFields.songTitle || activeDesign.songTitle || 'Kesariya (Soulful Flute Cover)',
-        audioSource: activeFields.audioSource || activeDesign.audioSource || '/audio/kesariya-flute.mp3',
+        songTitle: activeFields.songTitle || activeDesign.songTitle || defaultSong,
+        audioSource: activeFields.audioSource || activeDesign.audioSource || defaultAudio,
         audioStartTime: startSec,
         audioClipDuration: clipDur,
       };
 
       const events = activeFields.events && activeFields.events.length > 0
         ? activeFields.events
-        : (template.defaultFields?.events || [
-            { name: 'Wedding Ceremony', date: activeFields.date || 'Dec 21, 2026', time: '7:30 PM', venue: activeFields.venue || 'Temple Mandapam' },
-          ]);
+        : (template.defaultFields?.events && template.defaultFields.events.length > 0
+            ? template.defaultFields.events
+            : [
+                {
+                  name: template.occasion === 'Birthday' ? 'Birthday Party Celebration' : 'Celebration Ceremony',
+                  date: activeFields.date || template.defaultFields?.date || 'Dec 21, 2026',
+                  time: activeFields.time || template.defaultFields?.time || '5:00 PM',
+                  venue: activeFields.venue || template.defaultFields?.venue || 'The Grand Venue',
+                },
+              ]);
 
       set({
         draftId: draft?.id,

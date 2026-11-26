@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import * as SecureStore from 'expo-secure-store';
+import { Storage } from '../services/storage.service';
 import { AuthService } from '../services/auth.service';
 import { Config } from '../constants/config';
 
@@ -7,7 +7,7 @@ export const useAuthStore = create((set, get) => ({
   guestToken: null,
   isAuthenticated: false,
   customer: Config.DEFAULT_CUSTOMER,
-  isOnboardingDone: false,
+  isOnboardingDone: true,
   isLoading: true,
   error: null,
 
@@ -19,7 +19,7 @@ export const useAuthStore = create((set, get) => ({
       set({ isLoading: true, error: null });
       const guestToken = await AuthService.getOrCreateGuestToken();
       const isOnboardingDone = await AuthService.isOnboardingCompleted();
-      const sessionJson = await SecureStore.getItemAsync(Config.STORAGE_KEYS.CUSTOMER_SESSION);
+      const sessionJson = await Storage.getItemAsync(Config.STORAGE_KEYS.CUSTOMER_SESSION);
 
       let isAuthenticated = false;
       let customer = Config.DEFAULT_CUSTOMER;
@@ -49,7 +49,7 @@ export const useAuthStore = create((set, get) => ({
 
       set({
         guestToken,
-        isOnboardingDone,
+        isOnboardingDone: true,
         isAuthenticated,
         customer,
         isLoading: false,
@@ -60,7 +60,7 @@ export const useAuthStore = create((set, get) => ({
   },
 
   /**
-   * Mark onboarding completed and persist to SecureStore.
+   * Mark onboarding completed and persist to Storage.
    */
   completeOnboarding: async () => {
     await AuthService.setOnboardingCompleted();

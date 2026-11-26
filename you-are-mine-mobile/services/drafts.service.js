@@ -18,6 +18,9 @@ export const DraftsService = {
    * Retrieves a specific draft by ID.
    */
   async getDraft(draftId) {
+    if (!draftId || typeof draftId !== 'string' || draftId.startsWith('tpl-') || draftId.startsWith('tpl_')) {
+      return null;
+    }
     try {
       const response = await apiClient.get(`/api/drafts/${draftId}`);
       return response.draft;

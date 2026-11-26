@@ -10,7 +10,7 @@ import {
   RefreshControl,
   Image,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   Music2,
   Play,
@@ -32,6 +32,7 @@ import { MusicService } from '../../services/music.service';
 const PAGE_SIZE = 8; // Royal melody tracks per page for clean browsing
 
 export default function MusicScreen() {
+  const insets = useSafeAreaInsets();
   const flatListRef = useRef(null);
   const [category, setCategory] = useState('All');
   const [search, setSearch] = useState('');
@@ -294,7 +295,10 @@ export default function MusicScreen() {
           data={paginatedTracks}
           keyExtractor={(item) => String(item.id || item.number || item.title)}
           renderItem={renderTrackItem}
-          contentContainerStyle={[styles.listContent, playingSource && { paddingBottom: 110 }]}
+          contentContainerStyle={[
+            styles.listContent,
+            { paddingBottom: Math.max(80, (insets?.bottom || 0) + (playingSource ? 140 : 75)) },
+          ]}
           showsVerticalScrollIndicator={false}
           ListFooterComponent={renderPaginationFooter}
           refreshControl={
@@ -448,7 +452,7 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingHorizontal: 16,
-    paddingBottom: 40,
+    paddingBottom: 80,
     paddingTop: 4,
   },
   trackCard: {

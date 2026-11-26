@@ -49,8 +49,12 @@ export function DraggableImageElement({ element, canvasScale = 1 }) {
     })
   ).current;
 
-  const photoWidth = (element.width || 130) * (element.scale || 1.0);
-  const photoHeight = (element.height || 130) * (element.scale || 1.0);
+  if (!element?.hasPhoto && !element?.url) {
+    return null;
+  }
+
+  const photoWidth = (element.width || 120) * (element.scale || 1.0);
+  const photoHeight = (element.height || 120) * (element.scale || 1.0);
 
   const defaultPlaceholder =
     'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80';
